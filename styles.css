@@ -1,0 +1,122 @@
+/*Estilos Para Menú Desplegable Navbar*/
+.popover-region-fliplearning .popover-region-container {
+    width: 250px;
+    height: auto;
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+.popover-region-fliplearning:not(.collapsed) .count-container {
+    display: none;
+}
+
+.popover-region-fliplearning .popover-region-header-container {
+    box-sizing: border-box;
+    padding: 0.5em 0.5em 0.5em 1em;
+    line-height: 1;
+    height: 2em;
+}
+.popover-region-fliplearning .popover-region-header-text {
+    font-size: inherit;
+    line-height: 1em;
+    font-weight: bold;
+}
+
+
+
+
+a.fliplearning-navbar-menu-compose-link {
+    margin-right: 0.5em;
+}
+
+a.fliplearning-navbar-menu-item {
+    display: block;
+    box-sizing: border-box;
+    width: 100%;
+    line-height: 1.5;
+    padding: 0.5em 1em;
+    border-bottom: 1px solid #e2e2e2;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: #2b2d2f;
+}
+
+a.fliplearning-navbar-menu-item > .icon {
+    margin-right: 0.2em;
+    color: inherit;
+}
+
+a.fliplearning-navbar-menu-item:first-of-type > .icon {
+    margin-left: 0;
+}
+
+a.fliplearning-navbar-menu-item:focus,
+a.fliplearning-navbar-menu-item:hover {
+    color: #2b2d2f;
+    text-decoration: none;
+    background-color: #f5f5f5;
+}
+
+a.fliplearning-navbar-menu-item:last-child {
+    border-bottom: 0;
+}
+
+a.fliplearning-navbar-menu-item .badge {
+    float: right;
+    font-size: 0.75em;
+    margin-left: 0.25em;
+    margin-top: 0.25em;
+    line-height: 1;
+    padding: .25em .4em;
+}
+
+.fliplearning-navbar-menu-item-active {
+    font-weight: bold;
+}
+
+a.fliplearning-navbar-menu-item {
+    display: block;
+    box-sizing: border-box;
+    width: 100%;
+    line-height: 1.5;
+    padding: 0.5em 1em;
+    border-bottom: 1px solid #e2e2e2;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: #2b2d2f;
+}
+
+a.fliplearning-navbar-menu-item > .icon {
+    margin-right: 0.2em;
+    color: inherit;
+}
+
+a.fliplearning-navbar-menu-item:first-of-type > .icon {
+    margin-left: 0;
+}
+
+a.fliplearning-navbar-menu-item:focus,
+a.fliplearning-navbar-menu-item:hover {
+    color: #2b2d2f;
+    text-decoration: none;
+    background-color: #f5f5f5;
+}
+
+a.fliplearning-navbar-menu-item:last-child {
+    border-bottom: 0;
+}
+
+a.fliplearning-navbar-menu-item .badge {
+    float: right;
+    font-size: 0.75em;
+    margin-left: 0.25em;
+    margin-top: 0.25em;
+    line-height: 1;
+    padding: .25em .4em;
+}
+
+.fliplearning-navbar-menu-item-active {
+    font-weight: bold;
+}

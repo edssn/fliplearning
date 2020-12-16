@@ -25,6 +25,16 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$string['mycustomstring'] = 'You can add \'extra\' strings via the recipe file.';
-$string['mycustomstring2'] = 'Another string with {$a->some} placeholder.';
 $string['pluginname'] = 'Flip My Learning';
+
+/* Menú */
+$string['menu_main_title'] = "Dashboard Progreso";
+$string['menu_setweek'] = "Configurar semanas";
+$string['menu_logs'] = "Descargar registros";
+$string['menu_time_worked_session_report'] = 'Sesiones de estudio por semana';
+$string['menu_time_visualization'] = 'Tiempo invertido (Horas por semana)';
+$string['menu_activities_performed'] = 'Actividades realizadas';
+$string['menu_notes'] = 'Anotaciones';
+
+/* Nav Bar Menu */
+$string['togglemenu'] = 'Mostrar/Ocultar menú de FML';
