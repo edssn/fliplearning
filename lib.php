@@ -23,7 +23,7 @@
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-require_once(dirname(__FILE__).'/../../config.php');
+require_once($CFG->dirroot . '/local/fliplearning/locallib.php');
 
 function local_fliplearning_render_navbar_output(\renderer_base $renderer) {
 
@@ -35,22 +35,36 @@ function local_fliplearning_render_navbar_output(\renderer_base $renderer) {
         return null;
     }
 
-    //$configweeks = new local_progress_dashboard_configweeks($COURSE, $USER);
+    $context = context_course::instance($COURSE->id);
+    if(!has_capability('local/fliplearning:usepluggin', $context)){
+        return null;
+    }
 
-    $url = new moodle_url('/local/fliplearning/graph1.php?courseid='.$COURSE->id);
-    //die($url);
+    $configweeks = new local_fliplearning_configweeks($COURSE, $USER);
+    $configuration_is_set = $configweeks->is_set();
+
+    $hidden_for_student = !$configuration_is_set && !is_siteadmin();
+    if(has_capability('local/fliplearning:view_as_student', $context) && $hidden_for_student){
+        return null;
+    }
+
+    if(has_capability('local/fliplearning:setweeks', $context)){
+        $text = get_string('menu_setweek', 'local_fliplearning');
+        $url = new moodle_url('/local/fliplearning/setweeks.php?courseid='.$COURSE->id);
+        array_push($items, local_fliplearning_new_menu_item(s($text), $url));
+    }
+
+
+
+
+
+//    $url = new moodle_url('/local/fliplearning/graph1.php?courseid='.$COURSE->id);
 
     // semanas
-    $item = new stdClass();
-    $item->name = 'Configurar Semanas';
-    $item->url = $url;
-    array_push($items, $item);
-
-    // grafico 1
-    $item = new stdClass();
-    $item->name = 'PD.1.';
-    $item->url = $url;
-    array_push($items, $item);
+//    $item = new stdClass();
+//    $item->name = 'Gráfico 1';
+//    $item->url = $url;
+//    array_push($items, $item);
 
     $params = [
         "title" => get_string('menu_main_title', 'local_fliplearning'),
