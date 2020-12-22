@@ -58,7 +58,7 @@ function local_fliplearning_render_navbar_output(\renderer_base $renderer) {
 
 
 
-//    $url = new moodle_url('/local/fliplearning/graph1.php?courseid='.$COURSE->id);
+//    $url = new moodle_url('/local/fliplearning/graph.php?courseid='.$COURSE->id);
 
     // semanas
 //    $item = new stdClass();

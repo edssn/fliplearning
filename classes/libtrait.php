@@ -84,6 +84,14 @@ trait lib_trait{
         return $now;
     }
 
+    public function to_timestamp($date){
+        $tz = self::get_timezone();
+        date_default_timezone_set($tz);
+        $fecha = new DateTime($date);
+        $date = $fecha->format('U');
+        return $date;
+    }
+
     public function get_timezone(){
         $timezone = usertimezone($this->user->timezone);
         $timezone = self::accent_remover($timezone);

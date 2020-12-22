@@ -1,0 +1,159 @@
+<div id="setweeks-loader">
+    <div class="progressbar-fliplearning">
+        <div class="indeterminate"></div>
+    </div>
+</div>
+
+<v-app id="setweeks" class="pa-2" class="fliplearning">
+
+    <v-main>
+
+        <pageheader :pagetitle="strings.title"
+                    :helptitle="strings.helplabel"
+                    :exitbutton="strings.exitbutton"
+                    :helpcontents="get_help_content()">
+        </pageheader>
+
+        <v-container pa-8>
+
+            <v-layout v-if="course_finished()" column class="new-group-container pa-4 mb-8 justify-center text-center">
+                <span v-text="strings.new_group_title" class="fliplearning-sub-title mb-2"></span>
+                <span v-text="strings.new_group_text"></span>
+                <v-flex d-flex justify-center>
+                    <v-switch :label="strings.new_group_button_label" v-model="new_group"></v-switch>
+                </v-flex>
+            </v-layout>
+
+            <v-layout column justify-center>
+                <span v-text="strings.title_conditions" class="fliplearning-sub-title text-center"></span>
+                <ul class="ul-setting d-flex justify-center">
+                    <li class="li-setting">
+                        <span :class="['setting-icon',{'setting-valid' : settings.has_students}]"></span>
+                        <span v-text="strings.requirements_has_users"></span>
+                    </li>
+                    <li class="li-setting mr-2 ml-2">
+                        <span :class="['setting-icon',{'setting-valid' : settings.course_start}]"></span>
+                        <span v-text="strings.requirements_course_start"></span>
+                    </li>
+                    <li class="li-setting">
+                        <span :class="['setting-icon',{'setting-valid' : settings.weeks}]"></span>
+                        <span v-text="strings.requirements_has_sections"></span>
+                    </li>
+                </ul>
+            </v-layout>
+
+            <v-divider></v-divider>
+
+            <v-row>
+                <v-col cols="12" md="6" >
+                    <v-layout class="justify-space-between align-center mb-4">
+                        <span class="fliplearning-sub-title" v-text="strings.weeks_of_course"></span>
+                        <v-btn class="fml-btn-secondary ma-0" small @click="add_week()" v-text="strings.add_new_week"></v-btn>
+                    </v-layout>
+
+                    <v-container :class="[{scroll_box : scroll_mode}, 'weeks-container', 'pa-2']">
+
+                        <v-layout column class="week-container pa-2" v-for="(week, index, key) in weeks" :key="key">
+
+                            <v-layout justify-space-between>
+                                <span @click="change_collapsabled(index)" class="single-button">
+                                    <v-icon v-if="week.collapsabled">keyboard_arrow_down</v-icon>
+                                    <v-icon v-else>keyboard_arrow_up</v-icon>
+                                </span>
+                                <span class="subtitle-1" v-text="format_name(week.name, index)"></span>
+                                <span :class="['align-self-center', 'single-button', {'hidden-button' : index == 0}]" @click="remove_week(week, index)">
+                                    <i class="material-icons">delete</i>
+                                </span>
+                            </v-layout>
+
+                            <v-layout justify-space-between>
+                                <v-flex>
+                                    <template v-if="!week.collapsabled">
+
+                                        <v-layout  mb-3 mt-3>
+
+                                            <v-flex row justify-space-around align-center>
+                                                <strong v-text="strings.start"></strong>
+                                                <datepicker v-if="!week.removable"
+                                                            v-model="weeks_started_at"
+                                                            :use-utc="false"
+                                                            :disabled-dates="disabled_dates"
+                                                            :format="customFormatter"
+                                                            :monday-first="true">
+                                                </datepicker>
+                                                <span v-else v-text="week.weekstart"></span>
+                                            </v-flex>
+
+                                            <v-flex row justify-space-around align-center>
+                                                <strong v-text="strings.end"></strong>
+                                                <span v-text="week.weekend"></span>
+                                            </v-flex>
+                                        </v-layout>
+
+                                        <v-layout justify-space-between align-center class="hours-expected-selector">
+                                            <span v-text="strings.time_dedication" class="pr-5"></span>
+                                            <v-text-field type="number" min="0" max="99" outlined v-model="raw_weeks[index].hours_dedications"></v-text-field>
+                                        </v-layout>
+                                    </template>
+                                </v-flex>
+                            </v-layout>
+
+                            <draggable
+                                    v-if="!week.collapsabled"
+                                    class="set-weeks-list"
+                                    tag="ul"
+                                    v-model="week.sections"
+                                    group="sections">
+
+                                <li class="set-weeks-list-item" v-for="(section, index, key) in week.sections" :key="key">
+                                    <strong v-text="position(index)"></strong>
+                                    <span v-if="section_exist(section)">
+                                        <v-icon left v-if="section.visible == 1" class="visibility">visibility</v-icon>
+                                        <v-icon left v-else class="visibility">visibility_off</v-icon>
+                                    </span>
+                                    <span v-else>
+                                        <v-chip small class="ma-1" color="red" text-color="white" v-text="strings.label_section_removed"></v-chip>
+                                    </span>
+                                    <span v-text="section_name(section)"></span>
+                                </li>
+                            </draggable>
+
+                        </v-layout>
+                    </v-container>
+                </v-col>
+
+                <v-col cols="12" md="6">
+                    <v-switch :label="strings.enable_scroll" v-model="scroll_mode" class="d-flex justify-center ma-0 enabled-scroll-containers"></v-switch>
+                    <span class="student-report-sub-title" v-text="strings.sections"></span>
+                    <v-layout :class="['mt-5', {scroll_box : scroll_mode}]">
+                        <draggable class="set-weeks-list" tag="ul" v-model="sections" group="sections">
+                            <li class="set-weeks-list-item" v-for="section in sections" :key="section.section">
+                            <span v-if="section_exist(section)">
+                                <v-icon left v-if="section.visible == 1" class="visibility">visibility</v-icon>
+                                <v-icon left v-else class="visibility">visibility_off</v-icon>
+                            </span>
+                            <span v-else>
+                                <v-chip small class="ma-1" color="red" text-color="white" v-text="strings.label_section_removed"></v-chip>
+                            </span>
+                            <span v-text="section_name(section)"></span>
+                            </li>
+                        </draggable>
+                    </v-layout>
+                </v-col>
+            </v-row>
+
+            <v-row v-if="exists_mistakes">
+                <v-alert v-for="(message, index, key) in error_messages" :key="key" dense outlined type="error" v-text="message" class="mb-2"></v-alert>
+            </v-row>
+
+            <v-row class="justify-center">
+                <v-btn @click="save_changes()" v-text="strings.save" class="mt-5 mb-5 fml-btn-primary"></v-btn>
+                <v-progress-linear v-if="saving_loader" indeterminate color="cyan" ></v-progress-linear>
+            </v-row>
+
+            <v-alert v-if="save_successful" dense text type="success" v-text="strings.save_successful"></v-alert>
+
+        </v-container>
+
+    </v-main>
+</v-app>

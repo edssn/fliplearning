@@ -7,7 +7,7 @@ $course = $DB->get_record('course', array('id' => $courseid), '*', MUST_EXIST);
 
 $context = context_course::instance($course->id);
 
-$url = new moodle_url('/local/fliplearning/graph1.php?courseid='.$COURSE->id);
+$url = new moodle_url('/local/fliplearning/graph.php?courseid='.$COURSE->id);
 $PAGE->set_url($url);
 require_login($course, false);
 $PAGE->set_title('Gráfico 1');
@@ -78,8 +78,8 @@ $content = array(
     "options" => [],
 );
 
-$PAGE->requires->js_call_amd('local_fliplearning/graph1','init', ['content' => $content]);
+$PAGE->requires->js_call_amd('local_fliplearning/graph','init', ['content' => $content]);
 
 echo $OUTPUT->header();
-echo $OUTPUT->render_from_template('local_fliplearning/graph1', ['content' => $content]);
+echo $OUTPUT->render_from_template('local_fliplearning/graph', ['content' => $content]);
 echo $OUTPUT->footer();

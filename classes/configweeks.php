@@ -63,7 +63,7 @@ class local_fliplearning_configweeks {
                 $week->removable = false;
             }
             $week->sections = array();
-            $week->name = get_string('setweeks_week', 'local_student_reports');
+            $week->name = get_string('setweeks_week', 'local_fliplearning');
             if(!isset($week->date_format)){ // Evita que la fecha vuelva a convertirse, no estoy feliz con esto, pero es funcional :)
                 $week->date_format = "Y-m-d";
                 $week->weekstart = self::to_format("Y-m-d", $week->weekstart);
@@ -183,5 +183,91 @@ class local_fliplearning_configweeks {
             $settings['has_students'] = true;
         }
         return $settings;
+    }
+
+    public function get_sections_without_week(){
+        $course_sections = self::get_course_sections();
+        $weeks = self::get_weeks_with_sections();
+        foreach($weeks as $key => $week){
+            foreach($week->sections as $section){
+                foreach($course_sections as $index => $course_section){
+                    if($course_section['sectionid'] == $section->sectionid){
+                        unset($course_sections[$index]);
+                    }
+                }
+            }
+        }
+        $course_sections = array_values($course_sections);
+        return $course_sections;
+    }
+
+    public function save_weeks($weeks){
+        global $DB;
+        self::delete_weeks();
+        foreach($weeks as $key => $week){
+            $week = self::save_week($week, $key);
+            self::save_week_sections($week->weekcode, $week->sections);
+        }
+    }
+
+    public function delete_weeks(){
+        global $DB;
+        $weeks = $this->weeks;
+        foreach($weeks as $week){
+            self::delete_week_sections($week->weekcode);
+            $sql = "update {fliplearning_weeks} set timedeleted = ? where id = ?";
+            $DB->execute($sql, array(self::now_timestamp() , $week->id));
+        }
+    }
+
+    public function delete_week_sections($weekcode){
+        global $DB;
+        $sql = "update {fliplearning_sections} set timedeleted = ? where weekcode = ?";
+        $DB->execute($sql, array(self::now_timestamp() , $weekcode));
+    }
+
+    private function save_week($week, $position){
+        global $DB;
+        $week->weekcode = self::generate_week_code($position);
+        $week->position = $position;
+        $week->weekstart = self::to_timestamp($week->s);
+        $week->weekend = self::to_timestamp($week->e);
+        $week->hours_dedications = $week->h;
+        $week->courseid = $this->course->id;
+        $week->created_by = $this->user->id;
+        $week->modified_by = $this->user->id;
+        $week->timecreated = self::now_timestamp();
+        $week->timemodified = self::now_timestamp();
+        $week->groupid = $this->group->id;
+        $id = $DB->insert_record("fliplearning_weeks", $week, true);
+        $week->id = $id;
+        return $week;
+    }
+
+    public function save_week_sections($weekcode, $sections){
+        self::delete_week_sections($weekcode);
+        foreach ($sections as $position => $section){
+            self::save_week_section($section, $weekcode, $position);
+        }
+    }
+
+    private function save_week_section($section, $weekcode, $position){
+        global $DB;
+        $section->sectionid = $section->sid;
+        $section->section_name = self::get_section_name_from_id($section->sectionid, $position);
+        $section->weekcode = $weekcode;
+        $section->position = $position;
+        $section->timecreated = self::now_timestamp();
+        $section->timemodified = self::now_timestamp();
+        $id = $DB->insert_record("fliplearning_sections", $section, true);
+        $section->id = $id;
+        return $section;
+    }
+
+    private function get_section_name_from_id($sectionid, $position){
+        global $DB;
+        $result = $DB->get_record("course_sections", ["id" => $sectionid]);
+        $name = self::get_section_name($result, $position);
+        return $name;
     }
 }
