@@ -6,7 +6,7 @@ class local_fliplearning_configweeks {
     public $course;
     public $user;
     public $weeks;
-    public $group;
+    public $instance;
     public $current_sections;
     public $startin;
 
@@ -14,38 +14,38 @@ class local_fliplearning_configweeks {
         global $DB;
         $this->course = self::get_course($course);
         $this->user = self::get_user($userid);
-        $this->group = self::last_group();
+        $this->instance = self::last_instance();
         $this->weeks = self::get_weeks();
         $this->current_sections = self::get_course_sections();
         $this->startin = isset($this->weeks[0]) ? $this->weeks[0]->weekstart : 999999999999;
         self::get_weeks_with_sections();
     }
 
-    public function last_group(){
+    public function last_instance(){
         global $DB;
-        $sql = "select * from {fliplearning_group} where courseid = ? order by id desc LIMIT 1";
-        $group = $DB->get_record_sql($sql, array($this->course->id));
-        if(!isset($group) || empty($group)){
-            $group = self::create_group($this->course->id);
+        $sql = "select * from {fliplearning_instances} where courseid = ? order by id desc LIMIT 1";
+        $instance = $DB->get_record_sql($sql, array($this->course->id));
+        if(!isset($instance) || empty($instance)){
+            $instance = self::create_instance($this->course->id);
         }
-        return $group;
+        return $instance;
     }
 
-    public function create_group(){
+    public function create_instance(){
         global $DB;
-        $group = new stdClass();
-        $group->courseid = $this->course->id;
-        $group->year = date("Y");
-        $id = $DB->insert_record("fliplearning_group", $group, true);
-        $group->id = $id;
-        $this->group = $group;
-        return $group;
+        $instance = new stdClass();
+        $instance->courseid = $this->course->id;
+        $instance->year = date("Y");
+        $id = $DB->insert_record("fliplearning_instances", $instance, true);
+        $instance->id = $id;
+        $this->instance = $instance;
+        return $instance;
     }
 
     public function get_weeks($format = null){
         global $DB;
-        $sql = "select * from {fliplearning_weeks} where courseid = ? and groupid = ? and timedeleted IS NULL order by position asc";
-        $weeks = $DB->get_records_sql($sql, array($this->course->id, $this->group->id));
+        $sql = "select * from {fliplearning_weeks} where courseid = ? and instanceid = ? and timedeleted IS NULL order by position asc";
+        $weeks = $DB->get_records_sql($sql, array($this->course->id, $this->instance->id));
         $weeks = array_values($weeks);
         return $weeks;
     }
@@ -97,14 +97,14 @@ class local_fliplearning_configweeks {
         $week->timecreated = self::now_timestamp();
         $week->timemodified = self::now_timestamp();
         $week->weekcode = self::generate_week_code(0);
-        $week->groupid = $this->group->id;
+        $week->instanceid = $this->instance->id;
         $id = $DB->insert_record("fliplearning_weeks", $week, true);
         $week->id = $id;
         return $week;
     }
 
     private function generate_week_code($weekposition){
-        $code = $this->group->year . $this->group->id . $this->course->id . $weekposition;
+        $code = $this->instance->year . $this->instance->id . $this->course->id . $weekposition;
         $code = (int) $code;
         return $code;
     }
@@ -238,7 +238,7 @@ class local_fliplearning_configweeks {
         $week->modified_by = $this->user->id;
         $week->timecreated = self::now_timestamp();
         $week->timemodified = self::now_timestamp();
-        $week->groupid = $this->group->id;
+        $week->instanceid = $this->instance->id;
         $id = $DB->insert_record("fliplearning_weeks", $week, true);
         $week->id = $id;
         return $week;

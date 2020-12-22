@@ -182,7 +182,7 @@ define(["local_fliplearning/vue",
                                     action: "saveconfigweek",
                                     userid: this.userid,
                                     courseid: this.courseid,
-                                    newgroup: this.new_group,
+                                    newinstance: this.new_group,
                                     weeks: this.minify_query(weeks) // Stringify is a hack to clone object :D
                                 };
 

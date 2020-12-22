@@ -10,9 +10,7 @@
     $courseid = optional_param('courseid', false, PARAM_INT);
     $userid = optional_param('userid', false, PARAM_INT);
 
-    $newgroup = optional_param('newgroup', false, PARAM_BOOL);
-
-    $groupid = optional_param('groupid',  null,  PARAM_INT);
+    $newinstance = optional_param('newinstance', false, PARAM_BOOL);
 
     $params = array();
     $func = null;
@@ -31,7 +29,7 @@
         array_push($params, $weeks);
         array_push($params, $courseid);
         array_push($params, $userid);
-        array_push($params, $newgroup);
+        array_push($params, $newinstance);
         if($weeks && $courseid && $userid){
             $func = "local_fliplearning_save_weeks_config";
         }
@@ -44,14 +42,14 @@
         local_fliplearning_ajax_response(array(), $message, false, 400);
     }
 
-    function local_fliplearning_save_weeks_config($weeks, $courseid, $userid, $newgroup){
+    function local_fliplearning_save_weeks_config($weeks, $courseid, $userid, $newinstance){
         local_fliplearning_log::create("setweeks", "change_config", $userid, $courseid);
         $weeks = json_decode($weeks);
         $configweeks = new local_fliplearning_configweeks($courseid, $userid);
-        if($newgroup){
-            $configweeks->create_group();
+        if($newinstance){
+            $configweeks->create_instance();
         }
-        $configweeks->last_group();
+        $configweeks->last_instance();
         $configweeks->save_weeks($weeks);
         $configweeks = new local_fliplearning_configweeks($courseid, $userid);
         local_fliplearning_ajax_response(["settings" => $configweeks->get_settings()]);
