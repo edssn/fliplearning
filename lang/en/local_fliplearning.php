@@ -112,3 +112,6 @@ $string['api_cancel_action'] = 'Has cancelado la acción';
 //$string['student_reports:activities_performed'] = 'Ver el reporte "Actividades realizadas"';
 //$string['student_reports:metareflexion'] = 'Ver el reporte "Metareflexión"';
 //$string['student_reports:notes'] = 'Utilizar las notas';
+
+/* Admin Task Screen*/
+$string['generate_data_task'] = 'Proceso para generar datos para Flip my Learning Plugin';
