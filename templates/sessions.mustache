@@ -1,0 +1,52 @@
+<div id="sessions-loader">
+    <div class="progressbar-fliplearning">
+        <div class="indeterminate"></div>
+    </div>
+</div>
+
+<v-app id="work_sessions" class="student_reports">
+    <v-main>
+        <pageheader :pagetitle="strings.title" :helptitle="strings.helplabel" :exitbutton="strings.exitbutton"
+                    :helpcontents="get_help_content()" :groups="groups" :courseid="courseid" :userid="userid"></pageheader>
+        <v-container pa-8>
+            <v-layout column v-if="loading">
+                <span class="mb-1 mt-5 body-1" v-text="strings.graph_generating"></span>
+                <v-progress-linear indeterminate color="cyan"></v-progress-linear>
+            </v-layout>
+            <template v-else>
+                <v-alert v-if="errors.length > 0" dense outlined type="error" v-text="strings.api_error_network"></v-alert>
+
+                <pagination :pages="pages" :name="strings.pagination_name" :nameseparator="strings.pagination_separator"
+                            @changepage="update_interactions" :title="strings.pagination_title"></pagination>
+
+<!--                <v-layout class="justify-center mb-2">-->
+<!--                    <span v-if="render_has == 'teacher'" class="student-report-sub-title text-center" v-text="strings.time_inside_plataform_teacher"></span>-->
+<!--                    <span v-else class="student-report-sub-title" v-text="strings.time_inside_plataform_student"></span>-->
+<!--                </v-layout>-->
+
+<!--                <v-layout class="student-report-chart-xs pr-2 pl-2">-->
+<!--                    <chart type="horizontalBar" :data="inverted_time_chart_datasets()" :options="inverted_time_chart_options"></chart>-->
+<!--                </v-layout>-->
+                <v-layout class="justify-center mb-2">
+                    <span v-if="render_has == 'teacher'" class="student-report-sub-title" v-text="strings.activity_inside_plataform_teacher"></span>
+                    <span v-else class="student-report-sub-title" v-text="strings.activity_inside_plataform_student"></span>
+                </v-layout>
+<!--                <v-layout justify-center>-->
+<!--                    <template v-for="(interaction, index, key) in interactions">-->
+<!--                        <v-checkbox v-model="interaction.show" :label="translate_name(interaction.resource_name, 'tv_')" :color="get_color(index)" dense-->
+<!--                                    :hide-details="true" :ripple="false" class="mr-2 checkbox-filter"></v-checkbox>-->
+<!--                    </template>-->
+<!--                </v-layout>-->
+                <v-layout class="student-report-chart-lg-activyty-platform" column>
+                    <v-flex>
+                        <chart :chart="build_chart()"></chart>
+                    </v-flex>
+                    <v-flex class="d-flex justify-center">
+                        <span class="overline" v-text="get_timezone()"></span>
+                    </v-flex>
+                </v-layout>
+            </template>
+
+        </v-container>
+    </v-main>
+</v-app>

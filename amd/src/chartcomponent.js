@@ -2,6 +2,7 @@ define([
         'highcharts',
         'highcharts/highcharts-3d',
         'highcharts/highcharts-more',
+        'highcharts/modules/heatmap',
         'highcharts/modules/exporting',
         'highcharts/modules/export-data',
         'highcharts/modules/accessibility'],

@@ -25,9 +25,27 @@
 
 namespace local_fliplearning;
 
-class sessiongroup{
-    public $courseid;
-    public $groupid;
-    public $groupname;
-    public $groupmode;
+class teacher extends report {
+
+    function __construct($courseid, $userid){
+        parent::__construct($courseid, $userid);
+        self::set_profile();
+        self::set_users();
+    }
+
+    /**
+     * Almacena el perfil de visualización de la clase en la variable $profile de clase
+     */
+    public function set_profile(){
+        $this->profile = "teacher";
+    }
+
+    /**
+     * Almacena los ids de los estudiantes en la variable $users de la clase
+     */
+    public function set_users(){
+        $this->users = self::get_student_ids();
+        return $this->users;
+    }
+
 }

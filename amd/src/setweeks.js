@@ -12,7 +12,6 @@ define(["local_fliplearning/vue",
         "use strict";
 
         function init(content) {
-            console.log(content);
             content = add_collapsabled_property_to_weeks(content);
             Vue.use(Vuetify);
             Vue.component('draggable', Draggable);
@@ -27,7 +26,7 @@ define(["local_fliplearning/vue",
                     settings: content.settings,
                     new_group: false,
                     scroll_mode: false,
-                    weeks_started_at: new Date(Moment(content.weeks[0].weekstart)),
+                    weeks_started_at: new Date(Moment(Number(content.weeks[0].weekstart)*1000)),
                     strings: content.strings,
                     sections: content.sections,
                     courseid: content.courseid,
@@ -49,8 +48,7 @@ define(["local_fliplearning/vue",
                         for (let i = 0; i < this.raw_weeks.length; i++) {
                             let week = this.raw_weeks[i];
                             if (i == 0) {
-                                var start_weeks = Moment(new Date(this.weeks_started_at)).format('YYYY-MM-DD');
-                                var start_weeks = this.weeks_started_at;
+                                let start_weeks = this.weeks_started_at;
                                 week.weekstart = start_weeks;
                                 week.weekend = this.get_end_week(this.weeks_started_at);
                             } else {
@@ -93,8 +91,8 @@ define(["local_fliplearning/vue",
                         this.raw_weeks.push({
                             name: this.strings.week,
                             position: (this.weeks.length + 1),
-                            start: null,
-                            end: null,
+                            weekstart: null,
+                            weekend: null,
                             collapsabled: false,
                             hours_dedications: 0,
                             removable: true,
@@ -127,7 +125,7 @@ define(["local_fliplearning/vue",
                     },
 
                     get_start_week(pass_week) {
-                        var start_date = Moment(Moment(pass_week).add(1, 'days')).format('YYYY-MM-DD');
+                        let start_date = Moment(Moment(pass_week).add(1, 'days')).format('YYYY-MM-DD');
                         return start_date;
                     },
 
@@ -191,14 +189,9 @@ define(["local_fliplearning/vue",
                                     url: M.cfg.wwwroot + "/local/fliplearning/ajax.php",
                                     params: data,
                                 }).then((response) => {
-                                    if (response.status == 200 && response.data.valid) {
-                                        this.settings = response.data.data.settings;
-                                        Alertify.success(this.strings.save_successful);
-                                        this.save_successful = true;
-                                    } else {
-                                        Alertify.error(this.strings.error_network);
-                                        this.error_messages.push(this.strings.error_network);
-                                    }
+                                    this.settings = response.data.settings;
+                                    Alertify.success(this.strings.save_successful);
+                                    this.save_successful = true;
                                     this.saving_loader = false;
 
                                 }).catch((e) => {
@@ -301,8 +294,8 @@ define(["local_fliplearning/vue",
         }
 
         function add_collapsabled_property_to_weeks(content) {
-            for (var i = 0; i < content.weeks.length; i++) {
-                var week = content.weeks[i];
+            for (let i = 0; i < content.weeks.length; i++) {
+                let week = content.weeks[i];
                 if (typeof (week.collapsabled) == "undefined") {
                     week.collapsabled = false;
                 }

@@ -1,5 +1,31 @@
 <?php
-class local_fliplearning_group_manager{
+// This file is part of Moodle - http://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+
+/**
+ * local_fliplearning
+ *
+ * @package     local_fliplearning
+ * @autor       Edisson Sigua, Bryan Aguilar
+ * @copyright   2020 Edisson Sigua <edissonf.sigua@gmail.com>, Bryan Aguilar <bryan.aguilar6174@gmail.com>
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+
+namespace local_fliplearning;
+
+class group_manager {
     public $course;
     public $user;
     public $groupid;
@@ -21,7 +47,7 @@ class local_fliplearning_group_manager{
             $_SESSION[self::SELECTED_COURSE_GROUPS] = array();
         }
         if(!self::course_session_was_created()){
-            $_SESSION[self::SELECTED_COURSE_GROUPS][$this->course->id] = new local_fliplearning_sessiongroup();
+            $_SESSION[self::SELECTED_COURSE_GROUPS][$this->course->id] = new \local_fliplearning\sessiongroup();
         }
     }
 
@@ -39,7 +65,7 @@ class local_fliplearning_group_manager{
         if(self::is_valid_group()){
             return true;
         }
-        $participants = new local_fliplearning_course_participant($this->user->id, $this->course->id);
+        $participants = new \local_fliplearning\course_participant($this->user->id, $this->course->id);
         $groups = $participants->current_user_groups_with_all_group($this->groupmode);
         $groups = array_values($groups);
         if($this->course->groupmode == SEPARATEGROUPS && isset($groups[0])){ // use the first group, if user have the capacity the first group will be all students
@@ -82,7 +108,7 @@ class local_fliplearning_group_manager{
             }
         }
 
-        $participant = new local_fliplearning_course_participant($this->user->id, $this->course->id);
+        $participant = new \local_fliplearning\course_participant($this->user->id, $this->course->id);
         if($participant->is_student() && self::different_group_mode() || self::group_selection_not_allowed()){
             $valid = false;
         }
@@ -109,7 +135,7 @@ class local_fliplearning_group_manager{
         $not_allowed = false;
         if(self::session_was_created() && self::course_session_was_created()){
             $session = $_SESSION[self::SELECTED_COURSE_GROUPS][$this->course->id];
-            $participant = new local_fliplearning_course_participant($this->user->id, $this->course->id);
+            $participant = new \local_fliplearning\course_participant($this->user->id, $this->course->id);
             if($participant->is_student() && $session->groupmode != SEPARATEGROUPS && $session->groupid > self::ALL_STUDENT){
                 $not_allowed = true;
             }

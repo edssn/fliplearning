@@ -4,7 +4,7 @@ define(["local_fliplearning/vue",
     ],
     function(Vue, Vuetify, Chart) {
         "use strict";
-        var wwwroot = M.cfg.wwwroot;
+        let wwwroot = M.cfg.wwwroot;
 
         function init(content) {
             console.log({chart: content.chart});

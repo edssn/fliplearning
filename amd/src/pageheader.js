@@ -7,11 +7,20 @@ define(['local_fliplearning/axios'], function (Axios){
                 </v-flex>
             
                 <v-flex id="fml-group-selector">
-                    <v-select v-model="selectedgroup" v-if="usegroupselector()" prepend-icon="group" @change="update_group()"
-                              :items="groups" item-text="name" item-value="id"></v-select>
+                    <v-select 
+                            v-model="selectedgroup" 
+                            v-if="usegroupselector()" 
+                            prepend-icon="group" 
+                            @change="update_group()"
+                            :items="groups" 
+                            item-text="name" 
+                            item-value="id">
+                    </v-select>
                 </v-flex>
             
-                <v-flex class="d-flex justify-end align-center flex-grow-0 fliplearning-help-button pa-4 ml-8" @click="dialog = !dialog">
+                <v-flex 
+                            class="d-flex justify-end align-center flex-grow-0 fliplearning-help-button pa-4 ml-8" 
+                            @click="dialog = !dialog">
                     <span class="mr-2 caption" v-text="helptitle"></span>
                     <v-icon :color="'#ffffff'">help_outline</v-icon>
                 </v-flex>
@@ -50,7 +59,7 @@ define(['local_fliplearning/axios'], function (Axios){
         },
         methods : {
             update_group(){
-                var data = {
+                let data = {
                     action : "changegroup",
                     courseid : this.courseid,
                     userid : this.userid,
@@ -61,7 +70,7 @@ define(['local_fliplearning/axios'], function (Axios){
                     url: M.cfg.wwwroot + "/local/fliplearning/ajax.php",
                     params : data,
                 }).then((response) => {
-                    location.reload()
+                    location.reload();
                 }).catch((e) => {
                     if(confirm("Error al cambiar de grupo. Necesitamos actualizar para evitar errores.")){
                         location.reload()
@@ -70,22 +79,24 @@ define(['local_fliplearning/axios'], function (Axios){
                     }
                 });
             },
+
             usegroupselector(){
-                let use = this.groups && this.groups.length > 0
-                return use
+                let use = this.groups && this.groups.length > 0;
+                return use;
             },
+
             set_selected_group(){
-                if(!this.usegroupselector()){
-                    return null
+                if(!this.usegroupselector()) {
+                    return null;
                 }
                 this.groups.forEach(group => {
                     if(group.selected){
-                        this.selectedgroup = group
+                        this.selectedgroup = group;
                     }
                 })
                 if(!this.selectedgroup && typeof(this.groups[0]) != 'undefined'){
-                    this.groups[0].selected = true
-                    this.selectedgroup = this.groups[0]
+                    this.groups[0].selected = true;
+                    this.selectedgroup = this.groups[0];
                 }
             }
         }

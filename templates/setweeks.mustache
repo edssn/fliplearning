@@ -74,7 +74,8 @@
 
                                             <v-flex row justify-space-around align-center>
                                                 <strong v-text="strings.start"></strong>
-                                                <datepicker v-if="!week.removable"
+                                                <datepicker
+                                                            v-if="!week.removable"
                                                             v-model="weeks_started_at"
                                                             :use-utc="false"
                                                             :disabled-dates="disabled_dates"

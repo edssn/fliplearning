@@ -15,13 +15,15 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Plugin administration pages are defined here.
+ * local fliplearning
  *
  * @package     local_fliplearning
- * @category    admin
+ * @autor       Edisson Sigua, Bryan Aguilar
  * @copyright   2020 Edisson Sigua <edissonf.sigua@gmail.com>, Bryan Aguilar <bryan.aguilar6174@gmail.com>
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
+defined('MOODLE_INTERNAL') || die;
 
 require_once($CFG->dirroot . '/local/fliplearning/locallib.php');
 
@@ -36,12 +38,13 @@ function local_fliplearning_render_navbar_output(\renderer_base $renderer) {
     }
 
     $context = context_course::instance($COURSE->id);
+
+    $configweeks = new \local_fliplearning\configweeks($COURSE, $USER);
+    $configuration_is_set = $configweeks->is_set();
+
     if(!has_capability('local/fliplearning:usepluggin', $context)){
         return null;
     }
-
-    $configweeks = new local_fliplearning_configweeks($COURSE, $USER);
-    $configuration_is_set = $configweeks->is_set();
 
     $hidden_for_student = !$configuration_is_set && !is_siteadmin();
     if(has_capability('local/fliplearning:view_as_student', $context) && $hidden_for_student){
@@ -51,6 +54,12 @@ function local_fliplearning_render_navbar_output(\renderer_base $renderer) {
     if(has_capability('local/fliplearning:setweeks', $context)){
         $text = get_string('menu_setweek', 'local_fliplearning');
         $url = new moodle_url('/local/fliplearning/setweeks.php?courseid='.$COURSE->id);
+        array_push($items, local_fliplearning_new_menu_item(s($text), $url));
+    }
+
+    if(has_capability('local/fliplearning:sessions', $context) && $configuration_is_set){
+        $text = get_string('menu_sessions', 'local_fliplearning');
+        $url = new moodle_url('/local/fliplearning/sessions.php?courseid='.$COURSE->id);
         array_push($items, local_fliplearning_new_menu_item(s($text), $url));
     }
 

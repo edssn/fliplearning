@@ -243,6 +243,39 @@ a.fliplearning-navbar-menu-item .badge {
         right: -8%; }
 }
 
+#fliplearning-display-weeks{
+    border: 1px solid #c6c6c6;
+    overflow: hidden;
+    border-radius: 4px;
+    background: white;
+}
+
+#fliplearning-display-weeks .page{
+    background: white;
+    color: #444444;
+    cursor: pointer;
+    font-size: 1rem;
+    border-left: 1px solid #c6c6c6;
+    transition: all .5 ease !important;
+}
+
+#fliplearning-display-weeks .selected-page{
+    background: #0085C3 !important;
+    color: white;
+}
+
+#fliplearning-display-weeks .page:hover{
+    background: #eeeeee;
+}
+
+#fliplearning-display-weeks .selected-page:hover{
+    opacity: .85;
+}
+
+.flex-grow-0{
+    flex-grow: 0 !important;
+}
+
 .ajs-primary .ajs-buttons{
     display: flex !important;
     justify-content: flex-end !important;
