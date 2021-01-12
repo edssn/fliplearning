@@ -10,6 +10,7 @@ define(["local_fliplearning/vue",
         "use strict";
 
         function init(content) {
+            console.log(content);
             Vue.use(Vuetify)
             Vue.component('pagination', Pagination);
             Vue.component('chart', Chart);
@@ -112,7 +113,7 @@ define(["local_fliplearning/vue",
                                     [0.4, '#D6E7F9'],
                                     [0.6, '#9AC4EF'],
                                     [0.8, '#5C9FE2'],
-                                    [1, '#327FCE']
+                                    [1, '#327FCE'],
                             ],
                         };
                         chart.legend = {
@@ -135,7 +136,6 @@ define(["local_fliplearning/vue",
                             }
                         };
                         chart.series = [{
-                            name: 'Sales per employee',
                             borderWidth: 2,
                             borderColor: '#FAFAFA',
                             data: this.data,
@@ -146,7 +146,9 @@ define(["local_fliplearning/vue",
                         chart.credits = {
                             enabled: false
                         };
-
+                        chart.lang = {
+                            noData: this.strings.no_data,
+                        };
                         chart.responsive = {
                             rules: [{
                                 condition: {

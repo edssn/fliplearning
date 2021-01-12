@@ -79,7 +79,7 @@ if($action == 'saveconfigweek') {
 
 if(isset($params) && isset($func)){
     call_user_func_array($func, $params);
-} else {
+}else{
     $message = get_string('api_invalid_data', 'local_fliplearning');
     local_fliplearning_ajax_response(array(), $message, false, 400);
 }

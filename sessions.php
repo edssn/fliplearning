@@ -86,6 +86,7 @@ $content = [
             get_string("fml_22", "local_fliplearning"),
             get_string("fml_23", "local_fliplearning"),
         ),
+        "no_data" => get_string("no_data", "local_fliplearning"),
         "axis_x" => get_string("ss_axis_x", "local_fliplearning"),
         "axis_y" => get_string("ss_axis_y", "local_fliplearning"),
         "ss_url" => get_string("ss_url", "local_fliplearning"),

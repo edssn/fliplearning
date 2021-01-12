@@ -47,6 +47,7 @@ $string['pagination_title'] = 'Selección semana';
 $string['helplabel'] = 'Ayuda';
 $string['exitbutton'] = '¡Entendido!';
 $string['hours_unit_time_label'] = 'Número de Horas';
+$string['no_data'] = 'No hay datos que mostrar';
 
 /* Menú */
 $string['menu_main_title'] = "Dashboard Progreso";

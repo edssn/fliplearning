@@ -359,28 +359,29 @@ abstract class report {
                 }
             }
         }
-
         $summary = array();
-        for ($x = 0; $x <= 6; $x++) {
-            $day_code = self::get_day_code($x);
-            if (isset($schedules[$day_code])) {
-                $hours = $schedules[$day_code];
-            }
-            for ($y = 0; $y <= 23; $y++) {
-                $value = 0;
-                if(isset($hours)) {
-                    if (isset($hours[$y])) {
-                        $value=$hours[$y];
-                    }
+        if (!empty($schedules)) {
+            for ($x = 0; $x <= 6; $x++) {
+                $day_code = self::get_day_code($x);
+                if (isset($schedules[$day_code])) {
+                    $hours = $schedules[$day_code];
                 }
-                $element = array(
-                    "x" => $x,
-                    "y" => $y,
-                    "value" => $value,
-                );
-                array_push($summary, $element);
+                for ($y = 0; $y <= 23; $y++) {
+                    $value = 0;
+                    if(isset($hours)) {
+                        if (isset($hours[$y])) {
+                            $value=$hours[$y];
+                        }
+                    }
+                    $element = array(
+                        "x" => $x,
+                        "y" => $y,
+                        "value" => $value,
+                    );
+                    array_push($summary, $element);
+                }
+                $hours = null;
             }
-            $hours = null;
         }
         return $summary;
     }
