@@ -101,14 +101,14 @@ $string['plugin_hidden'] = 'Reportes ocultos.';
 $string['title_conditions'] = 'Condiciones de uso';
 
 /* Sessions */
-$string['ss_title'] = 'Sesiones de Trabajo';
-$string['ss_monday'] = 'Lunes';
-$string['ss_tuesday'] = 'Martes';
-$string['ss_wednesday'] = 'Miércoles';
-$string['ss_thursday'] = 'Jueves';
-$string['ss_friday'] = 'Viernes';
-$string['ss_saturday'] = 'Sábado';
-$string['ss_sunday'] = 'Domingo';
+$string['fml_title'] = 'Sesiones de Trabajo';
+$string['fml_mon'] = 'Lunes';
+$string['fml_tue'] = 'Martes';
+$string['fml_wed'] = 'Miércoles';
+$string['fml_thu'] = 'Jueves';
+$string['fml_fri'] = 'Viernes';
+$string['fml_sat'] = 'Sábado';
+$string['fml_sun'] = 'Domingo';
 
 $string['fml_00'] = '12am';
 $string['fml_01'] = '1am';
@@ -134,6 +134,26 @@ $string['fml_20'] = '8pm';
 $string['fml_21'] = '9pm';
 $string['fml_22'] = '10pm';
 $string['fml_23'] = '11pm';
+
+$string['fml_jan'] = 'Enero';
+$string['fml_feb'] = 'Febrero';
+$string['fml_mar'] = 'Marzo';
+$string['fml_apr'] = 'Abril';
+$string['fml_may'] = 'Mayo';
+$string['fml_jun'] = 'Junio';
+$string['fml_jul'] = 'Julio';
+$string['fml_aug'] = 'Agosto';
+$string['fml_sep'] = 'Septiembre';
+$string['fml_oct'] = 'Octubre';
+$string['fml_nov'] = 'Noviembre';
+$string['fml_dec'] = 'Diciembre';
+
+$string['fml_week1'] = 'Semana 1';
+$string['fml_week2'] = 'Semana 2';
+$string['fml_week3'] = 'Semana 3';
+$string['fml_week4'] = 'Semana 4';
+$string['fml_week5'] = 'Semana 5';
+$string['fml_week6'] = 'Semana 6';
 
 $string['ss_axis_x'] = 'Días de la semana';
 $string['ss_axis_y'] = 'Horas del día';

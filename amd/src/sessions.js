@@ -30,7 +30,8 @@ define(["local_fliplearning/vue",
                         loading : false,
                         errors : [],
                         pages : content.pages,
-                        data: content.data,
+                        hours_sessions: content.sessions_by_hours,
+                        weeks_sessions: content.sessions_by_weeks,
                     }
                 },
                 mounted(){
@@ -77,7 +78,7 @@ define(["local_fliplearning/vue",
                             params : data,
                         }).then((response) => {
                             validresponse = true;
-                            this.data = response.data.sessions;
+                            this.hours_sessions = response.data.sessions_by_hours;
                         }).catch((e) => {
                             this.errors.push(this.strings.api_error_network);
                         }).finally(() => {
@@ -86,7 +87,7 @@ define(["local_fliplearning/vue",
                         return this.data;
                     },
 
-                    build_chart() {
+                    build_chart_session_by_hours() {
                         let chart = new Object();
                         chart.chart = {
                             type: 'heatmap',
@@ -109,11 +110,11 @@ define(["local_fliplearning/vue",
                         chart.colorAxis = {
                             min: 0,
                                 stops: [
-                                    [0.2, '#DBDDE0'],
-                                    [0.4, '#D6E7F9'],
-                                    [0.6, '#9AC4EF'],
-                                    [0.8, '#5C9FE2'],
-                                    [1, '#327FCE'],
+                                    [0.0, '#E0E0E0'],
+                                    [0.25, '#D6E7F9'],
+                                    [0.50, '#9AC4EF'],
+                                    [0.75, '#5DA1E5'],
+                                    [1, '#3384D6'],
                             ],
                         };
                         chart.legend = {
@@ -138,7 +139,7 @@ define(["local_fliplearning/vue",
                         chart.series = [{
                             borderWidth: 2,
                             borderColor: '#FAFAFA',
-                            data: this.data,
+                            data: this.hours_sessions,
                             dataLabels: {
                                 enabled: false,
                             }
@@ -149,21 +150,71 @@ define(["local_fliplearning/vue",
                         chart.lang = {
                             noData: this.strings.no_data,
                         };
-                        chart.responsive = {
-                            rules: [{
-                                condition: {
-                                    maxWidth: 500
-                                },
-                                chartOptions: {
-                                    yAxis: {
-                                        labels: {
-                                            formatter: function () {
-                                                return this.value.charAt(0);
-                                            }
-                                        }
-                                    }
+                        return chart;
+                    },
+
+                    build_chart_session_by_weeks() {
+                        let chart = new Object();
+                        chart.chart = {
+                            type: 'heatmap',
+                            marginTop: 40,
+                            marginBottom: 80,
+                            plotBorderWidth: 0,
+                            backgroundColor: '#FAFAFA',
+                        };
+                        chart.title = {
+                            text: null
+                        };
+                        chart.xAxis = {
+                            categories: this.strings.weeks,
+                        };
+                        chart.yAxis = {
+                            categories: this.strings.months,
+                            title: null,
+                            reversed: true,
+                        };
+                        chart.colorAxis = {
+                            min: 0,
+                            stops: [
+                                [0.0, '#E0E0E0'],
+                                [0.25, '#D6E7F9'],
+                                [0.50, '#9AC4EF'],
+                                [0.75, '#5DA1E5'],
+                                [1, '#3384D6'],
+                            ],
+                        };
+                        chart.legend = {
+                            layout: 'horizontal',
+                            margin: 30,
+                            verticalAlign: 'bottom',
+                        };
+                        chart.tooltip = {
+                            formatter: function () {
+                                let x = this.point.x;
+                                let y = this.point.y;
+                                let xCategoryName = this.point.series.xAxis.categories[x];
+                                let yCategoryName = this.point.series.yAxis.categories[y];
+                                let label = ' sesiones';
+                                if (this.point.value == 1) {
+                                    label = ' sesión';
                                 }
-                            }]
+                                return '<b>' + yCategoryName + ' ' + xCategoryName + '</b>: '
+                                    + this.point.value +' ' + label;
+                            }
+                        };
+                        chart.series = [{
+                            borderWidth: 2,
+                            borderColor: '#FAFAFA',
+                            data: this.weeks_sessions,
+                            dataLabels: {
+                                enabled: false,
+                            }
+                        }];
+                        chart.credits = {
+                            enabled: false
+                        };
+                        chart.lang = {
+                            noData: this.strings.no_data,
                         };
                         return chart;
                     },

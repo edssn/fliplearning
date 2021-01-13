@@ -9,10 +9,15 @@ define([
         'highcharts/modules/no-data-to-display'],
     function(Highcharts) {
     return {
-        template: `<div id="container"></div>`,
-        props: ['chart'],
+        template: `<div v-bind:id="container"></div>`,
+        props: ['container', 'chart'],
+        data() {
+            return {
+
+            }
+        },
         mounted() {
-            this._highchart = Highcharts.chart(this.$el, this.chart);
+            this._highchart = Highcharts.chart(this.container, this.chart);
         },
     };
 });

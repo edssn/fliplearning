@@ -78,7 +78,7 @@ abstract class report {
      *
      * @return object objeto con los datos para la visualizacion
      */
-    public function get_week_sessions($weekcode = null){
+    public function get_sessions_by_hours($weekcode = null){
         if(!self::course_in_transit()){
             return null;
         }
@@ -90,9 +90,30 @@ abstract class report {
             $week = self::find_week($weekcode);
         }
 
-        $work_sessions = self::work_sessions($week->weekcode);
+        $work_sessions = self::get_work_sessions($week->weekstart, $week->weekend);
         $work_sessions = array_map(function($user_sessions){ return $user_sessions->sessions;}, $work_sessions);
-        $response = self::get_sessions_schedules_summary($work_sessions);
+        $response = self::get_sessions_by_hours_summary($work_sessions);
+        return $response;
+    }
+
+    public function get_sessions_by_weeks(){
+        if(!self::course_in_transit()){
+            return null;
+        }
+        if(!self::course_has_users()){
+            return null;
+        }
+        $start = null;
+        if(isset($this->course->startdate) && ((int)$this->course->startdate) > 0) {
+            $start = $this->course->startdate;
+        }
+        $end = null;
+        if(isset($this->course->enddate) && ((int)$this->course->enddate) > 0) {
+            $end = $this->course->enddate;
+        }
+        $work_sessions = self::get_work_sessions($start, $end);
+        $work_sessions = array_map(function($user_sessions){ return $user_sessions->sessions;}, $work_sessions);
+        $response = self::get_sessions_by_weeks_summary($work_sessions);
         return $response;
     }
 
@@ -122,7 +143,7 @@ abstract class report {
     }
 
     /**
-     * Busca la semana con codigo igal al parametro $weekcode y lo retorna. En caso de no encontrar
+     * Busca la semana con codigo igual al parametro $weekcode y lo retorna. En caso de no encontrar
      * la semana con el codigo de paramtero, se imprime un error
      *
      * @param string $weekcode identificador de la semana que se desea obtener
@@ -138,18 +159,8 @@ abstract class report {
         print_error("Weekcode not found");
     }
 
-    protected function work_sessions($weekcode = null){
-        if(!self::course_in_transit()){
-            return null;
-        }
-        if(!self::course_has_users()){
-            return null;
-        }
-        $week = $this->current_week;
-        if(!empty($weekcode)){
-            $week = self::find_week($weekcode);
-        }
-        $conditions = self::conditions_for_work_sessions($week->weekstart, $week->weekend);
+    protected function get_work_sessions($start, $end){
+        $conditions = self::conditions_for_work_sessions($start, $end);
         $sessions_users = self::get_session_from_logs($conditions);
         return $sessions_users;
     }
@@ -165,17 +176,20 @@ abstract class report {
      */
     private function conditions_for_work_sessions($start, $end){
         $conditions = array();
-        $condition = new stdClass();
-        $condition->field = "timecreated";
-        $condition->value = $start;
-        $condition->operator = ">=";
-        $conditions[] = $condition;
-
-        $condition = new stdClass();
-        $condition->field = "timecreated";
-        $condition->value = $end;
-        $condition->operator = "<=";
-        $conditions[] = $condition;
+        if (isset($start)) {
+            $condition = new stdClass();
+            $condition->field = "timecreated";
+            $condition->value = $start;
+            $condition->operator = ">=";
+            $conditions[] = $condition;
+        }
+        if (isset($start) && isset($end)) {
+            $condition = new stdClass();
+            $condition->field = "timecreated";
+            $condition->value = $end;
+            $condition->operator = "<=";
+            $conditions[] = $condition;
+        }
         return $conditions;
     }
 
@@ -342,12 +356,12 @@ abstract class report {
         return $result;
     }
 
-    private function get_sessions_schedules_summary($user_sessions) {
+    private function get_sessions_by_hours_summary($user_sessions) {
         $schedules = array();
         foreach($user_sessions as $sessions){
             foreach($sessions as $session){
                 $day = strtolower(date("D", (int) $session->start));
-                $hour = (int) date("H", (int) $session->end);
+                $hour = date("G", (int) $session->end);
 
                 if(!isset($schedules[$day])){
                     $schedules[$day] = array();
@@ -359,6 +373,8 @@ abstract class report {
                 }
             }
         }
+//        var_dump($schedules);
+//        var_dump($schedules);
         $summary = array();
         if (!empty($schedules)) {
             for ($x = 0; $x <= 6; $x++) {
@@ -386,10 +402,71 @@ abstract class report {
         return $summary;
     }
 
+    private function get_sessions_by_weeks_summary($user_sessions) {
+        $months = array();
+        foreach($user_sessions as $sessions){
+            foreach($sessions as $session){
+                $month = strtolower(date("M", (int) $session->start));
+                $week = self::get_week_number($session->end);
+
+                if(!isset($months[$month])){
+                    $months[$month] = array();
+                }
+                if(!isset($months[$month][$week])){
+                    $months[$month][$week] = 1;
+                } else {
+                    $months[$month][$week]++;
+                }
+            }
+        }
+//        var_dump($months);
+//        var_dump($months);
+        $summary = array();
+        if (!empty($months)) {
+            for ($y = 0; $y <= 11; $y++) {
+                $month_code = self::get_month_code($y);
+                if (isset($months[$month_code])) {
+                    $weeks = $months[$month_code];
+                }
+                for ($x = 0; $x <= 5; $x++) {
+                    $value = 0;
+                    if(isset($weeks)) {
+                        if (isset($weeks[$x])) {
+                            $value=$weeks[$x];
+                        }
+                    }
+                    $element = array(
+                        "x" => $x,
+                        "y" => $y,
+                        "value" => $value,
+                    );
+                    array_push($summary, $element);
+                }
+                $weeks = null;
+            }
+        }
+        return $summary;
+    }
+
     private function get_day_code($key) {
         $days = array("mon", "tue", "wed", "thu", "fri", "dat", "sun");
         return $days[$key];
-
     }
 
+    private function get_month_code($key) {
+        $months = array("jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec");
+        return $months[$key];
+    }
+
+    private function get_week_number($date) {
+        $day = date('j', $date);
+        $time = date("c", $date);
+        $first_sunday = date('j', strtotime("first sunday of this month", $date));
+        $week_number = 0;
+        while ($first_sunday < $day) {
+            $first_sunday+=7;
+            $week_number++;
+        }
+        return $week_number;
+    }
 }

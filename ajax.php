@@ -120,6 +120,6 @@ function local_fliplearning_get_work_sessions($weekcode, $courseid, $userid, $pr
     }else{
         $reports = new \local_fliplearning\student($courseid, $userid);
     }
-    $sessions = $reports->get_week_sessions($weekcode);
-    local_fliplearning_ajax_response(array("sessions" => $sessions));
+    $sessions = $reports->get_sessions_by_hours($weekcode);
+    local_fliplearning_ajax_response(array("sessions_by_hours" => $sessions));
 }
