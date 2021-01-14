@@ -618,3 +618,13 @@ a.fliplearning-navbar-menu-item .badge {
 .text-justify{
     text-align: justify !important;
 }
+
+
+/* Work Session */
+#work_sessions .round-avatar{
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    border: 1px solid #e0e0e0;
+    margin: 2px;
+}

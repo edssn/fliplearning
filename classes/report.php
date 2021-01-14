@@ -69,6 +69,10 @@ abstract class report {
 
     abstract public function set_profile();
 
+    public function render_has(){
+        return $this->profile;
+    }
+
     /**
      * Obtiene un objeto con los datos para la visualizacion del gráfico
      * sesiones de estudiantes
@@ -78,7 +82,7 @@ abstract class report {
      *
      * @return object objeto con los datos para la visualizacion
      */
-    public function get_sessions_by_hours($weekcode = null){
+    public function hours_sessions($weekcode = null){
         if(!self::course_in_transit()){
             return null;
         }
@@ -92,11 +96,65 @@ abstract class report {
 
         $work_sessions = self::get_work_sessions($week->weekstart, $week->weekend);
         $work_sessions = array_map(function($user_sessions){ return $user_sessions->sessions;}, $work_sessions);
-        $response = self::get_sessions_by_hours_summary($work_sessions);
+        $sessions = self::get_sessions_by_hours($work_sessions);
+        $response = self::get_sessions_by_hours_summary($sessions);
         return $response;
     }
 
-    public function get_sessions_by_weeks(){
+    private function get_sessions_by_hours($user_sessions) {
+        $schedules = array();
+        foreach($user_sessions as $sessions){
+            foreach($sessions as $session){
+                $day = strtolower(date("D", (int) $session->start));
+                $hour = date("G", (int) $session->end);
+
+                if(!isset($schedules[$day])){
+                    $schedules[$day] = array();
+                }
+                if(!isset($schedules[$day][$hour])){
+                    $schedules[$day][$hour] = 1;
+                } else {
+                    $schedules[$day][$hour]++;
+                }
+            }
+        }
+        return $schedules;
+    }
+
+    private function get_sessions_by_hours_summary($schedules) {
+        $summary = array();
+        if (!empty($schedules)) {
+            for ($x = 0; $x <= 6; $x++) {
+                $day_code = self::get_day_code($x);
+                if (isset($schedules[$day_code])) {
+                    $hours = $schedules[$day_code];
+                }
+                for ($y = 0; $y <= 23; $y++) {
+                    $value = 0;
+                    if(isset($hours)) {
+                        if (isset($hours[$y])) {
+                            $value=$hours[$y];
+                        }
+                    }
+                    $element = array(
+                        "x" => $x,
+                        "y" => $y,
+                        "value" => $value,
+                    );
+                    array_push($summary, $element);
+                }
+                $hours = null;
+            }
+        }
+        return $summary;
+    }
+
+    private function get_day_code($key) {
+        $days = array("mon", "tue", "wed", "thu", "fri", "dat", "sun");
+        return $days[$key];
+    }
+
+    public function weeks_sessions(){
         if(!self::course_in_transit()){
             return null;
         }
@@ -113,12 +171,70 @@ abstract class report {
         }
         $work_sessions = self::get_work_sessions($start, $end);
         $work_sessions = array_map(function($user_sessions){ return $user_sessions->sessions;}, $work_sessions);
-        $response = self::get_sessions_by_weeks_summary($work_sessions);
+        $months = self::get_sessions_by_weeks($work_sessions);
+        $response = self::get_sessions_by_weeks_summary($months);
         return $response;
     }
 
-    public function render_has(){
-        return $this->profile;
+    private function get_sessions_by_weeks($user_sessions) {
+        $months = array();
+        foreach($user_sessions as $sessions){
+            foreach($sessions as $session){
+                $month = strtolower(date("M", (int) $session->start));
+                $week = self::get_week_number($session->end);
+
+                if(!isset($months[$month])){
+                    $months[$month] = array();
+                }
+                if(!isset($months[$month][$week])){
+                    $months[$month][$week] = 1;
+                } else {
+                    $months[$month][$week]++;
+                }
+            }
+        }
+        return $months;
+    }
+
+    private function get_sessions_by_weeks_summary($months) {
+        $summary = array();
+        if (!empty($months)) {
+            for ($y = 0; $y <= 11; $y++) {
+                $month_code = self::get_month_code($y);
+                if (isset($months[$month_code])) {
+                    $weeks = $months[$month_code];
+                }
+                for ($x = 0; $x <= 5; $x++) {
+                    $value = 0;
+                    if(isset($weeks)) {
+                        if (isset($weeks[$x])) {
+                            $value=$weeks[$x];
+                        }
+                    }
+                    $element = array("x" => $x, "y" => $y, "value" => $value);
+                    array_push($summary, $element);
+                }
+                $weeks = null;
+            }
+        }
+        return $summary;
+    }
+
+    private function get_month_code($key) {
+        $months = array("jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec");
+        return $months[$key];
+    }
+
+    private function get_week_number($date) {
+        $day = date('j', $date);
+        $time = date("c", $date);
+        $first_sunday = date('j', strtotime("first sunday of this month", $date));
+        $week_number = 0;
+        while ($first_sunday < $day) {
+            $first_sunday+=7;
+            $week_number++;
+        }
+        return $week_number;
     }
 
     /**
@@ -202,7 +318,7 @@ abstract class report {
             $user = new stdClass();
             $user->userid = $userid;
             $user->count_logs = count($logs);
-            $user->time_format = "minuts";
+            $user->time_format = "minutes";
             $user->summary = $summary;
             $user->sessions = $sessions;
             $users[] = $user;
@@ -310,21 +426,6 @@ abstract class report {
         return $interval;
     }
 
-    protected function get_end_by_time_limit($startsession){
-        $tz = self::get_timezone();
-        date_default_timezone_set($tz);
-        $end = 0;
-        $now = time();
-        $time_difference = self::diff_in_minutes($now, $startsession);
-        if($time_difference >= self::MINUTES_TO_NEW_SESSION){
-            $time_to_add = "+" . self::MINUTES_TO_NEW_SESSION . "minutes";
-            $end = strtotime($time_to_add, (int) $startsession);
-        }else{
-            $end = $now;
-        }
-        return $end;
-    }
-
     protected function calculate_average($field , $values, $consider_zero_elements = true){
         $counter = 0;
         $total = 0;
@@ -356,117 +457,74 @@ abstract class report {
         return $result;
     }
 
-    private function get_sessions_by_hours_summary($user_sessions) {
-        $schedules = array();
-        foreach($user_sessions as $sessions){
-            foreach($sessions as $session){
-                $day = strtolower(date("D", (int) $session->start));
-                $hour = date("G", (int) $session->end);
-
-                if(!isset($schedules[$day])){
-                    $schedules[$day] = array();
-                }
-                if(!isset($schedules[$day][$hour])){
-                    $schedules[$day][$hour] = 1;
-                } else {
-                    $schedules[$day][$hour]++;
-                }
-            }
+    public function progress_table(){
+        if(!self::course_in_transit()){
+            return null;
         }
-//        var_dump($schedules);
-//        var_dump($schedules);
-        $summary = array();
-        if (!empty($schedules)) {
-            for ($x = 0; $x <= 6; $x++) {
-                $day_code = self::get_day_code($x);
-                if (isset($schedules[$day_code])) {
-                    $hours = $schedules[$day_code];
-                }
-                for ($y = 0; $y <= 23; $y++) {
-                    $value = 0;
-                    if(isset($hours)) {
-                        if (isset($hours[$y])) {
-                            $value=$hours[$y];
-                        }
+        if(!self::course_has_users()){
+            return null;
+        }
+        $start = null;
+        if(isset($this->course->startdate) && ((int)$this->course->startdate) > 0) {
+            $start = $this->course->startdate;
+        }
+        $end = null;
+        if(isset($this->course->enddate) && ((int)$this->course->enddate) > 0) {
+            $end = $this->course->enddate;
+        }
+        $work_sessions = self::get_work_sessions($start, $end);
+        $all_course_modules = self::get_course_modules();
+        $visible_modules = array_filter($all_course_modules, function($module){ return $module['visible'] == 1;});
+        $visible_modules_ids = self::extract_ids($visible_modules);
+        $table = self::get_course_modules_completion($work_sessions, $visible_modules_ids);
+        return $table;
+    }
+
+    private function get_course_modules_completion($users_sessions, $course_modules_ids) {
+        $table = array();
+        $total_cms = count($course_modules_ids);
+        if ($total_cms > 0) {
+            foreach ($users_sessions as $index => $user) {
+                $complete_cms = 0;
+                foreach ($course_modules_ids as $moduleid) {
+                    $finished = self::get_finished_course_module($user->userid, $moduleid);
+                    if ($finished) {
+                        $complete_cms++;
                     }
-                    $element = array(
-                        "x" => $x,
-                        "y" => $y,
-                        "value" => $value,
-                    );
-                    array_push($summary, $element);
                 }
-                $hours = null;
+                $progress_percentage = (int)(($complete_cms * 100)/$total_cms);
+                $inverted_time_label = self::convert_time($user->time_format, $user->summary->added);
+                $user_record = self::get_user($user->userid);
+
+                $record = new stdClass();
+                $record->id = $user_record->id;
+                $record->firstname = $user_record->firstname;
+                $record->lastname = $user_record->lastname;
+                $record->email = $user_record->email;
+                $record->progress_percentage = $progress_percentage;
+                $record->total_cms = $total_cms;
+                $record->complete_cms = $complete_cms;
+                $record->sessions = $user->summary->count;
+                $record->inverted_time = $user->summary->added;
+                $record->inverted_time_label = $inverted_time_label;
+
+                array_push($table, $record);
             }
         }
-        return $summary;
+        return $table;
+
     }
 
-    private function get_sessions_by_weeks_summary($user_sessions) {
-        $months = array();
-        foreach($user_sessions as $sessions){
-            foreach($sessions as $session){
-                $month = strtolower(date("M", (int) $session->start));
-                $week = self::get_week_number($session->end);
-
-                if(!isset($months[$month])){
-                    $months[$month] = array();
-                }
-                if(!isset($months[$month][$week])){
-                    $months[$month][$week] = 1;
-                } else {
-                    $months[$month][$week]++;
-                }
-            }
+    private function get_finished_course_module($userid, $cm_id){
+        global $DB;
+        $complete = false;
+        $sql = "select id from {logstore_standard_log} where courseid = {$this->course->id} AND userid = {$userid} AND contextinstanceid = {$cm_id}";
+        $logs = $DB->get_records_sql($sql);
+        if (isset($logs) && count($logs)>0) {
+            $complete = true;
         }
-//        var_dump($months);
-//        var_dump($months);
-        $summary = array();
-        if (!empty($months)) {
-            for ($y = 0; $y <= 11; $y++) {
-                $month_code = self::get_month_code($y);
-                if (isset($months[$month_code])) {
-                    $weeks = $months[$month_code];
-                }
-                for ($x = 0; $x <= 5; $x++) {
-                    $value = 0;
-                    if(isset($weeks)) {
-                        if (isset($weeks[$x])) {
-                            $value=$weeks[$x];
-                        }
-                    }
-                    $element = array(
-                        "x" => $x,
-                        "y" => $y,
-                        "value" => $value,
-                    );
-                    array_push($summary, $element);
-                }
-                $weeks = null;
-            }
-        }
-        return $summary;
+        return $complete;
     }
 
-    private function get_day_code($key) {
-        $days = array("mon", "tue", "wed", "thu", "fri", "dat", "sun");
-        return $days[$key];
-    }
 
-    private function get_month_code($key) {
-        $months = array("jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec");
-        return $months[$key];
-    }
-
-    private function get_week_number($date) {
-        $day = date('j', $date);
-        $time = date("c", $date);
-        $first_sunday = date('j', strtotime("first sunday of this month", $date));
-        $week_number = 0;
-        while ($first_sunday < $day) {
-            $first_sunday+=7;
-            $week_number++;
-        }
-        return $week_number;
-    }
 }

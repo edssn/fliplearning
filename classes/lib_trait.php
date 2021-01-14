@@ -148,6 +148,32 @@ trait lib_trait {
         return $name;
     }
 
+    public function get_course_modules(){
+        $modinfo  = get_fast_modinfo($this->course->id);
+        $modules = $modinfo->get_cms();
+        $modules = self::format_course_module($modules);
+        return $modules;
+    }
+
+    private function format_course_module($modules){
+        $full_modules = array();
+        foreach ($modules as $index => $module){
+            $full_module = [
+                'id' => $module->id,
+                'module' => $module->module,
+                'instance' => $module->instance,
+                'section' => $module->section,
+                'visible' => $module->visible,
+                'modname' =>  $module->modname,
+                'module' =>  $module->module,
+                'name' =>  $module->name,
+                'sectionnum' =>  $module->sectionnum,
+            ];
+            $full_modules[] = $full_module;
+        }
+        return $full_modules;
+    }
+
     /**
      * Retorna un string que representa la fecha ($timestamp) Unix formateada usando el parámetro $format
      * y tomando como referencia la zona horaria obtenida con la función 'get_timezone'
@@ -312,5 +338,81 @@ trait lib_trait {
             }
         }
         return $extracted;
+    }
+
+    public function extract_ids ($elements){
+        $ids = array();
+        if(gettype($elements) == 'array'){
+            foreach($elements as $key => $element){
+                if(gettype($element) == "array"){
+                    if(isset($element['id'])){
+                        $ids[] = $element['id'];
+                    }
+                }elseif(gettype($element) == "object"){
+                    if(isset($element->id)){
+                        $ids[] = $element->id;
+                    }
+                }
+            }
+        }
+        return $ids;
+    }
+
+    public function convert_time($measure, $time){
+        $response = false;
+        $valid_params = true;
+        if ($measure == 'minutes') {
+            $time = $time * 60 / 1;
+        } elseif ($measure == 'hours') {
+            $time = $time * 3600 / 1;
+        } else {
+            $valid_params = false;
+        }
+        if($valid_params){
+            $horas = floor($time / 3600);
+            $minutos = floor(($time % 3600) / 60);
+            $segundos = $time % 60;
+            $response = self::convert_time_as_time_string($horas, $minutos, $segundos);
+        }
+        return $response;
+    }
+
+    protected function convert_time_as_string($hours, $minutes, $seconds = null){
+        $text = [
+            'minute' => get_string("fml_minute", "local_fliplearning"),
+            'minutes' => get_string("fml_minutes", "local_fliplearning"),
+            'hour' => get_string("fml_hour", "local_fliplearning"),
+            'hours' => get_string("fml_hours", "local_fliplearning"),
+            'second' => get_string("fml_second", "local_fliplearning"),
+            'seconds' => get_string("fml_seconds", "local_fliplearning")
+        ];
+        $hour = new stdClass();
+        $hour->text = $hours == 1 ? $text['hour'] : $text['hours'];
+        $hour->stringify_value = $hours <= 9 ? "0$hours" : $hours ;
+        $hour->output = $hours == 0 ? "" : "$hour->stringify_value $hour->text";
+
+        $minute = new stdClass();
+        $minute->text = $minutes == 1 ? $text['minute'] : $text['minutes'];
+        $minute->stringify_value = $minutes <= 9 ? "0$minutes" : $minutes;
+        $minute->output = $minutes == 0 ? "" : "$minute->stringify_value $minute->text";
+        $response = "$hour->output $minute->output";
+
+        $hidde_seconds = ($minutes > 0 && $seconds == 0) || ($hours > 0);
+
+        $second = new stdClass();
+        $second->text = $seconds == 1 ? $text['second'] : $text['seconds'];
+        $second->stringify_value = $seconds <= 9 ? "0$seconds" : $seconds;
+        $second->output = $hidde_seconds ? "" : "$second->stringify_value $second->text";
+
+        $response = "$hour->output $minute->output $second->output";
+        return $response;
+    }
+
+    protected function convert_time_as_time_string($hours, $minutes, $seconds = null){
+        $hour = $hours <= 9 ? "0$hours" : $hours ;
+        $minute = $minutes <= 9 ? "0$minutes" : $minutes;
+        $second = $seconds <= 9 ? "0$seconds" : $seconds;
+        $response = "$hour:$minute:$second";
+        return $response;
     }
 }

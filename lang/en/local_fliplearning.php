@@ -30,23 +30,10 @@ $string['pluginname'] = 'Flip My Learning';
 /* Global */
 $string['pagination'] = 'Semana:';
 $string['graph_generating'] = 'Estamos construyendo el reporte, por favor espere un momento.';
-//$string['txt_hour'] = 'Hora';
-//$string['txt_hours'] = 'Horas';
-//$string['txt_minut'] = 'Minuto';
-//$string['txt_minuts'] = 'Minutos';
-//$string['pagination_week'] = 'Semana';
-//$string['only_student'] = 'Este reporte es solo para estudiantes';
-//$string['sr_hour'] = 'hora';
-//$string['sr_hours'] = 'horas';
-//$string['sr_minute'] = 'minuto';
-//$string['sr_minutes'] = 'minutos';
-//$string['sr_second'] = 'segundo';
-//$string['sr_seconds'] = 'segundos';
 $string['weeks_not_config'] = 'El curso no ha sido configurado por el profesor, por lo que no hay visualizaciones que mostrar.';
 $string['pagination_title'] = 'Selección semana';
 $string['helplabel'] = 'Ayuda';
 $string['exitbutton'] = '¡Entendido!';
-$string['hours_unit_time_label'] = 'Número de Horas';
 $string['no_data'] = 'No hay datos que mostrar';
 
 /* Menú */
@@ -155,39 +142,14 @@ $string['fml_week4'] = 'Semana 4';
 $string['fml_week5'] = 'Semana 5';
 $string['fml_week6'] = 'Semana 6';
 
-$string['ss_axis_x'] = 'Días de la semana';
-$string['ss_axis_y'] = 'Horas del día';
-$string['ss_url'] = 'URL';
-$string['ss_resource_document'] = 'Documento';
-$string['ss_resource_image'] = 'Imagen';
-$string['ss_resource_audio'] = 'Audio';
-$string['ss_resource_video'] = 'Video';
-$string['ss_resource_file'] = 'Archivo';
-$string['ss_resource_script'] = 'Script/Código';
-$string['ss_resource_text'] = 'Texto';
-$string['ss_resource_download'] = 'Descargas';
-$string['ss_assign'] = 'Tarea';
-$string['ss_assignment'] = 'Tarea';
-$string['ss_book'] = 'Libro';
-$string['ss_choice'] = 'Elección';
-$string['ss_feedback'] = 'Retroalimentación';
-$string['ss_folder'] = 'Carpeta';
-$string['ss_forum'] = 'Foro';
-$string['ss_glossary'] = 'Glosario';
-$string['ss_label'] = 'Etiqueta';
-$string['ss_lesson'] = 'Lección';
-$string['ss_page'] = 'Página';
-$string['ss_quiz'] = 'Examen';
-$string['ss_survey'] = 'Encuesta';
-$string['ss_lti'] = 'Herramienta externa';
-$string['ss_other'] = 'Otro';
-$string['ss_interaction'] = 'Interacción por';
-$string['ss_interactions'] = 'Interacciones por';
-$string['ss_course_module'] = 'Módulo';
-$string['ss_course_modules'] = 'Módulos';
-$string['ss_student'] = 'Estudiante.';
-$string['ss_students'] = 'Estudiantes.';
-$string['ss_average'] = 'Promedio interacciones';
+$string['table_title'] = 'Progeso del Curso';
+$string['thead_name'] = 'Nombre';
+$string['thead_lastname'] = 'Apellidos';
+$string['thead_email'] = 'Correo';
+$string['thead_progress'] = 'Progreso (%)';
+$string['thead_sessions'] = 'Sesiones';
+$string['thead_time'] = 'Tiempo Invertido';
+
 $string['ss_change_timezone'] = 'Zona horaria:';
 $string['ss_activity_inside_plataform_student'] = 'Mi actividad en la plataforma';
 $string['ss_activity_inside_plataform_teacher'] = 'Actividad de los estudiantes en la plataforma';
@@ -197,11 +159,6 @@ $string['ss_time_inside_plataform_description_teacher'] = 'Tiempo que el estudia
 $string['ss_time_inside_plataform_description_student'] = 'Tiempo que ha invertido esta semana en relación al tiempo que el profesor planificó que se debería invertir.';
 $string['ss_activity_inside_plataform_description_teacher'] = 'En el eje Y se indican las las horas del día y en el eje X los días de la semana. Dentro del gráfico podrá encontrar múltiples puntos, los cuales, al pasar el cursor sobre estos, ofrecen información detallada sobre las interacciones de los estudiantes, agrupadas por tipo de recurso (número de interacciones, número de estudiantes que interactuaron con el recurso y promedio de interacciones). <br/><br/><b>Al hacer click en las etiquetas, podrá filtrar por tipo de recurso, dejando visible sólo aquellos que no se encuentren tachados.</b>';
 $string['ss_activity_inside_plataform_description_student'] = 'Presenta las interacciones por tipo de recurso y horario. Al pasar el cursor sobre un punto visible en el gráfico, verá el número de interacciones agrupadas por tipo de recurso. Al hacer click en las etiquetas, podrá filtrar por tipo de recurso.';
-$string['ss_to'] = 'al';
-$string['ss_time_spend'] = 'Tiempo invertido';
-$string['ss_time_spend_teacher'] = 'Tiempo promedio invertido';
-$string['ss_time_should_spend'] = 'Tiempo que deberías invertir';
-$string['ss_time_should_spend_teacher'] = 'Tiempo promedio que se debería invertir';
 
 /* Goups */
 $string['group_allstudent'] = 'Todos los estudiantes';
@@ -211,15 +168,14 @@ $string['api_error_network'] = "Ha ocurrido un error en la comunicación con el 
 $string['api_invalid_data'] = 'Datos incorrectos';
 $string['api_save_successful'] = 'Se han guardado los datos correctamente en el servidor';
 $string['api_cancel_action'] = 'Has cancelado la acción';
-//$string['pluginname'] = 'Note My Progress';
-//$string['previous_days_to_create_report'] = 'Días considerados para la construcción del reporte';
-//$string['previous_days_to_create_report_description'] = 'Días anteriores a la fecha actual que se tendrán en cuenta para generar el reporte.';
-//$string['student_reports:usepluggin'] = 'Utilizar el pluggin';
-//$string['student_reports:downloadreport'] = 'Descargar actividad de los estudiantes';
-//$string['student_reports:setweeks'] = 'Configurar semanas del curso';
-//$string['student_reports:activities_performed'] = 'Ver el reporte "Actividades realizadas"';
-//$string['student_reports:metareflexion'] = 'Ver el reporte "Metareflexión"';
-//$string['student_reports:notes'] = 'Utilizar las notas';
 
 /* Admin Task Screen*/
 $string['generate_data_task'] = 'Proceso para generar datos para Flip my Learning Plugin';
+
+/* Time */
+$string['fml_hour'] = 'hora';
+$string['fml_hours'] = 'horas';
+$string['fml_minute'] = 'minuto';
+$string['fml_minutes'] = 'minutos';
+$string['fml_second'] = 'segundo';
+$string['fml_seconds'] = 'segundos';

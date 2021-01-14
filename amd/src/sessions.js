@@ -15,7 +15,7 @@ define(["local_fliplearning/vue",
             Vue.component('pagination', Pagination);
             Vue.component('chart', Chart);
             Vue.component('pageheader', Pageheader);
-            new Vue({
+            let vue = new Vue({
                 delimiters: ["[[", "]]"],
                 el: "#work_sessions",
                 vuetify: new Vuetify(),
@@ -32,6 +32,8 @@ define(["local_fliplearning/vue",
                         pages : content.pages,
                         hours_sessions: content.sessions_by_hours,
                         weeks_sessions: content.sessions_by_weeks,
+                        progress_table: content.progress_table,
+                        search : null,
                     }
                 },
                 mounted(){
@@ -87,6 +89,13 @@ define(["local_fliplearning/vue",
                         return this.data;
                     },
 
+                    get_point_category_name(point, dimension) {
+                        let series = point.series,
+                            isY = dimension === 'y',
+                            axis = series[isY ? 'yAxis' : 'xAxis'];
+                        return axis.categories[point[isY ? 'y' : 'x']];
+                    },
+
                     build_chart_session_by_hours() {
                         let chart = new Object();
                         chart.chart = {
@@ -124,10 +133,8 @@ define(["local_fliplearning/vue",
                         };
                         chart.tooltip = {
                             formatter: function () {
-                                let x = this.point.x;
-                                let y = this.point.y;
-                                let xCategoryName = this.point.series.xAxis.categories[x];
-                                let yCategoryName = this.point.series.yAxis.categories[y];
+                                let xCategoryName = vue.get_point_category_name(this.point, 'x');
+                                let yCategoryName = vue.get_point_category_name(this.point, 'y');
                                 let label = ' sesiones';
                                 if (this.point.value == 1) {
                                     label = ' sesión';
@@ -190,10 +197,8 @@ define(["local_fliplearning/vue",
                         };
                         chart.tooltip = {
                             formatter: function () {
-                                let x = this.point.x;
-                                let y = this.point.y;
-                                let xCategoryName = this.point.series.xAxis.categories[x];
-                                let yCategoryName = this.point.series.yAxis.categories[y];
+                                let xCategoryName = vue.get_point_category_name(this.point, 'x');
+                                let yCategoryName = vue.get_point_category_name(this.point, 'y');
                                 let label = ' sesiones';
                                 if (this.point.value == 1) {
                                     label = ' sesión';
@@ -222,6 +227,28 @@ define(["local_fliplearning/vue",
                     get_timezone(){
                         let information = `${this.strings.ss_change_timezone} ${this.timezone}`
                         return information;
+                    },
+
+                    table_headers(){
+                        let headers = [
+                            { text: '', value : 'id', align : 'center', sortable : false},
+                            { text: this.strings.thead_name , value : 'firstname'},
+                            { text: this.strings.thead_lastname , value : 'lastname'},
+                            { text: this.strings.thead_email , value : 'email'},
+                            { text: this.strings.thead_progress , value : 'progress_percentage',  align : 'center'},
+                            { text: this.strings.thead_sessions , value : 'sessions',  align : 'center'},
+                            { text: this.strings.thead_time , value : 'inverted_time', align : 'center'},
+                        ];
+                        return headers;
+                    },
+
+                    get_picture_url(userid){
+                        let url = `${M.cfg.wwwroot}/user/pix.php?file=/${userid}/f1.jpg`;
+                        return url;
+                    },
+
+                    get_percentage_progress(value){
+                        return `${value} %`;
                     },
                 }
             })
