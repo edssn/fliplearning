@@ -250,6 +250,16 @@ define(["local_fliplearning/vue",
                     get_percentage_progress(value){
                         return `${value} %`;
                     },
+
+                    get_progress_tooltip(item){
+                        let module_label = this.strings.modules_label;
+                        let finished_label = this.strings.finisheds_label;
+                        if (item.complete_cms == 1) {
+                            module_label = this.strings.module_label;
+                            finished_label = this.strings.finished_label;
+                        }
+                        return `${item.complete_cms} ${module_label} ${finished_label} ${this.strings.of_conector} ${item.total_cms}`;
+                    },
                 }
             })
         }

@@ -116,6 +116,12 @@ $content = [
         "thead_sessions" => get_string("thead_sessions", "local_fliplearning"),
         "thead_time" => get_string("thead_time", "local_fliplearning"),
 
+        "module_label" => get_string("fml_module_label", "local_fliplearning"),
+        "modules_label" => get_string("fml_modules_label", "local_fliplearning"),
+        "of_conector" => get_string("fml_of_conector", "local_fliplearning"),
+        "finished_label" => get_string("fml_finished_label", "local_fliplearning"),
+        "finisheds_label" => get_string("fml_finisheds_label", "local_fliplearning"),
+
         "no_data" => get_string("no_data", "local_fliplearning"),
         "pagination" => get_string("pagination", "local_fliplearning"),
         "ss_change_timezone" => get_string("ss_change_timezone", "local_fliplearning"),

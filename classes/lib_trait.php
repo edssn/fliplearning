@@ -162,12 +162,11 @@ trait lib_trait {
                 'id' => $module->id,
                 'module' => $module->module,
                 'instance' => $module->instance,
-                'section' => $module->section,
                 'visible' => $module->visible,
                 'modname' =>  $module->modname,
                 'module' =>  $module->module,
                 'name' =>  $module->name,
-                'sectionnum' =>  $module->sectionnum,
+                'completion' =>  $module->completion,
             ];
             $full_modules[] = $full_module;
         }
@@ -372,12 +371,12 @@ trait lib_trait {
             $horas = floor($time / 3600);
             $minutos = floor(($time % 3600) / 60);
             $segundos = $time % 60;
-            $response = self::convert_time_as_time_string($horas, $minutos, $segundos);
+            $response = self::convert_time_as_hour_string($horas, $minutos, $segundos);
         }
         return $response;
     }
 
-    protected function convert_time_as_string($hours, $minutes, $seconds = null){
+    protected function convert_time_as_label_string($hours, $minutes, $seconds = null){
         $text = [
             'minute' => get_string("fml_minute", "local_fliplearning"),
             'minutes' => get_string("fml_minutes", "local_fliplearning"),
@@ -408,7 +407,7 @@ trait lib_trait {
         return $response;
     }
 
-    protected function convert_time_as_time_string($hours, $minutes, $seconds = null){
+    protected function convert_time_as_hour_string($hours, $minutes, $seconds = null){
         $hour = $hours <= 9 ? "0$hours" : $hours ;
         $minute = $minutes <= 9 ? "0$minutes" : $minutes;
         $second = $seconds <= 9 ? "0$seconds" : $seconds;

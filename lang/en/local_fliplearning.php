@@ -150,6 +150,12 @@ $string['thead_progress'] = 'Progreso (%)';
 $string['thead_sessions'] = 'Sesiones';
 $string['thead_time'] = 'Tiempo Invertido';
 
+$string['fml_module_label'] = 'módulo';
+$string['fml_modules_label'] = 'módulos';
+$string['fml_of_conector'] = 'de';
+$string['fml_finished_label'] = 'finalizado';
+$string['fml_finisheds_label'] = 'finalizados';
+
 $string['ss_change_timezone'] = 'Zona horaria:';
 $string['ss_activity_inside_plataform_student'] = 'Mi actividad en la plataforma';
 $string['ss_activity_inside_plataform_teacher'] = 'Actividad de los estudiantes en la plataforma';
