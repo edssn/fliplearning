@@ -156,6 +156,16 @@ $string['fml_of_conector'] = 'de';
 $string['fml_finished_label'] = 'finalizado';
 $string['fml_finisheds_label'] = 'finalizados';
 
+$string['fml_smaller30'] = 'Menores que 30 minutos';
+$string['fml_greater30'] = 'Mayores que 30 minutos';
+$string['fml_greater60'] = 'Mayores que 60 minutos';
+
+$string['fml_session_count_title'] = 'Sesiones de la Semana';
+$string['fml_session_count_yaxis_title'] = 'Cantidad de Sesiones';
+
+$string['fml_hours_sessions_title'] = 'Sesiones por Día y Hora';
+$string['fml_weeks_sessions_title'] = 'Sesiones por Semana';
+
 $string['ss_change_timezone'] = 'Zona horaria:';
 $string['ss_activity_inside_plataform_student'] = 'Mi actividad en la plataforma';
 $string['ss_activity_inside_plataform_teacher'] = 'Actividad de los estudiantes en la plataforma';

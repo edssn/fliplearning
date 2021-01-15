@@ -63,7 +63,6 @@
                                     <span v-text="item.inverted_time_label"></span>
                                 </template>
                                 <template v-slot:item.progress_percentage="{ item }">
-
                                     <v-tooltip bottom>
                                         <template v-slot:activator="{ on, attrs }">
                                             <span
@@ -83,12 +82,16 @@
                                         </template>
                                         <span v-text="get_progress_tooltip(item)"></span>
                                     </v-tooltip>
-
-
                                 </template>
 
                             </v-data-table>
                         </v-card>
+                    </v-col>
+                </v-row>
+
+                <v-row>
+                    <v-col sm="12">
+                        <chart :container="'session_count'" :chart="build_chart_session_count()"></chart>
                     </v-col>
                 </v-row>
 

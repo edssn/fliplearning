@@ -33,6 +33,7 @@ define(["local_fliplearning/vue",
                         hours_sessions: content.sessions_by_hours,
                         weeks_sessions: content.sessions_by_weeks,
                         progress_table: content.progress_table,
+                        session_count: content.session_count,
                         search : null,
                     }
                 },
@@ -81,6 +82,7 @@ define(["local_fliplearning/vue",
                         }).then((response) => {
                             validresponse = true;
                             this.hours_sessions = response.data.sessions_by_hours;
+                            this.session_count = response.data.session_count;
                         }).catch((e) => {
                             this.errors.push(this.strings.api_error_network);
                         }).finally(() => {
@@ -98,6 +100,9 @@ define(["local_fliplearning/vue",
 
                     build_chart_session_by_hours() {
                         let chart = new Object();
+                        chart.title = {
+                            text: this.strings.hours_sessions_title,
+                        };
                         chart.chart = {
                             type: 'heatmap',
                             marginTop: 40,
@@ -128,8 +133,8 @@ define(["local_fliplearning/vue",
                         };
                         chart.legend = {
                             layout: 'horizontal',
-                                margin: 30,
-                                verticalAlign: 'bottom',
+                            margin: 30,
+                            verticalAlign: 'bottom',
                         };
                         chart.tooltip = {
                             formatter: function () {
@@ -162,6 +167,9 @@ define(["local_fliplearning/vue",
 
                     build_chart_session_by_weeks() {
                         let chart = new Object();
+                        chart.title = {
+                            text: this.strings.weeks_sessions_title,
+                        };
                         chart.chart = {
                             type: 'heatmap',
                             marginTop: 40,
@@ -215,6 +223,37 @@ define(["local_fliplearning/vue",
                                 enabled: false,
                             }
                         }];
+                        chart.credits = {
+                            enabled: false
+                        };
+                        chart.lang = {
+                            noData: this.strings.no_data,
+                        };
+                        return chart;
+                    },
+
+                    build_chart_session_count() {
+                        let chart = new Object();
+                        chart.chart = {
+                            backgroundColor: '#FAFAFA',
+                        };
+                        chart.title = {
+                            text: this.strings.session_count_title,
+                        };
+                        chart.yAxis = {
+                            title: {
+                                text: this.strings.session_count_yaxis_title,
+                            }
+                        };
+                        chart.xAxis = {
+                            categories: this.session_count.categories
+                        };
+                        chart.legend = {
+                            layout: 'horizontal',
+                            margin: 10,
+                            verticalAlign: 'bottom',
+                        };
+                        chart.series = this.session_count.data,
                         chart.credits = {
                             enabled: false
                         };

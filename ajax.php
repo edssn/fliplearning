@@ -121,5 +121,10 @@ function local_fliplearning_get_work_sessions($weekcode, $courseid, $userid, $pr
         $reports = new \local_fliplearning\student($courseid, $userid);
     }
     $sessions = $reports->hours_sessions($weekcode);
-    local_fliplearning_ajax_response(array("sessions_by_hours" => $sessions));
+    $count = $reports->count_sessions($weekcode);
+    $body = array(
+        "sessions_by_hours" => $sessions,
+        "session_count" => $count
+    );
+    local_fliplearning_ajax_response($body);
 }

@@ -83,7 +83,7 @@ class teacher extends report {
         foreach($user_sessions as $sessions){
             foreach($sessions as $session){
                 $day = strtolower(date("D", (int) $session->start));
-                $hour = date("G", (int) $session->end);
+                $hour = date("G", (int) $session->start);
 
                 if(!isset($schedules[$day])){
                     $schedules[$day] = array();
@@ -158,7 +158,7 @@ class teacher extends report {
         foreach($user_sessions as $sessions){
             foreach($sessions as $session){
                 $month = strtolower(date("M", (int) $session->start));
-                $week = self::get_week_number($session->end);
+                $week = self::get_week_number($session->start);
 
                 if(!isset($months[$month])){
                     $months[$month] = array();
@@ -459,7 +459,6 @@ class teacher extends report {
         $work_sessions = self::get_work_sessions($start, $end);
         $all_course_modules = self::get_course_modules();
         $visible_modules = array_filter($all_course_modules, function($module){ return $module['visible'] == 1;});
-//        $visible_modules_ids = self::extract_ids($visible_modules);
         $table = self::get_course_modules_completion($work_sessions, $visible_modules, $enable_completion);
         return $table;
     }
@@ -541,4 +540,124 @@ class teacher extends report {
         return $complete;
     }
 
+    public function count_sessions($weekcode = null){
+        if(!self::course_in_transit()){
+            return null;
+        }
+        if(!self::course_has_users()){
+            return null;
+        }
+        $week = $this->current_week;
+        if(!empty($weekcode)){
+            $week = self::find_week($weekcode);
+        }
+
+        $work_sessions = self::get_work_sessions($week->weekstart, $week->weekend);
+        $work_sessions = array_map(function($user_sessions){ return $user_sessions->sessions;}, $work_sessions);
+        $sessions_count = self::count_sessions_by_duration($work_sessions);
+        $response = self::count_sessions_by_duration_summary($sessions_count, $week->weekstart, $week->weekend);
+        return $response;
+    }
+
+    private function count_sessions_by_duration($user_sessions) {
+        $summary = array();
+        foreach($user_sessions as $sessions){
+            foreach($sessions as $session){
+                $month = strtolower(date("M", (int) $session->start));
+                $day = strtolower(date("j", (int) $session->start));
+                $day = "$month $day";
+
+                $session_label = "greater60";
+                if ($session->duration < 30) {
+                    $session_label='smaller30';
+                } elseif ($session->duration < 60) {
+                    $session_label='greater60';
+                }
+
+                if(!isset($summary[$day])){
+                    $summary[$day] = array();
+                }
+                if (!isset($summary[$day][$session_label])) {
+                    $summary[$day][$session_label] = 1;
+                } else {
+                    $summary[$day][$session_label]++;
+                }
+            }
+        }
+        return $summary;
+    }
+
+    private function count_sessions_by_duration_summary($sessions_count, $start) {
+        $categories = array();
+
+        $data = new stdClass();
+        $data->smaller30 = array();
+        $data->greater30 = array();
+        $data->greater60 = array();
+
+        $names = new stdClass;
+        $names->smaller30 = get_string("fml_smaller30", "local_fliplearning");
+        $names->greater30 = get_string("fml_greater30", "local_fliplearning");
+        $names->greater60 = get_string("fml_greater60", "local_fliplearning");
+
+        for ($i = 0; $i < 7; $i++ ) {
+            $month = strtolower(date("M", $start));
+            $day = strtolower(date("j", $start));
+            $label = "$month $day";
+
+            if (isset($sessions_count[$label])) {
+                $count = $sessions_count[$label];
+                $value = 0;
+                if(isset($count['smaller30'])){
+                    $value = $count['smaller30'];
+                }
+                $data->smaller30[] = $value;
+
+                $value = 0;
+                if(isset($count['greater30'])){
+                    $value = $count['greater30'];
+                }
+                $data->greater30[] = $value;
+
+                $value = 0;
+                if(isset($count['greater60'])){
+                    $value = $count['greater60'];
+                }
+                $data->greater60[] = $value;
+            } else {
+                $data->smaller30[] = 0;
+                $data->greater30[] = 0;
+                $data->greater60[] = 0;
+            }
+
+            $month_name = self::get_month_name($month);
+            $categories[] = "$month_name $day";
+            $start += 86400;
+        }
+
+        $data_object[] = array(
+            "name" => $names->smaller30,
+            "data" => $data->smaller30
+        );
+        $data_object[] = array(
+            "name" => $names->greater30,
+            "data" => $data->greater30
+        );
+        $data_object[] = array(
+            "name" => $names->greater60,
+            "data" => $data->greater60
+        );
+
+        $summary = new stdClass();
+        $summary->categories = $categories;
+        $summary->data = $data_object;
+
+        return $summary;
+    }
+
+    private function get_month_name ($month_code) {
+        $text = "fml_$month_code";
+        $month_name = get_string($text, "local_fliplearning");
+        return $month_name;
+    }
 }

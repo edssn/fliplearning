@@ -122,6 +122,12 @@ $content = [
         "finished_label" => get_string("fml_finished_label", "local_fliplearning"),
         "finisheds_label" => get_string("fml_finisheds_label", "local_fliplearning"),
 
+        "session_count_title" => get_string("fml_session_count_title", "local_fliplearning"),
+        "session_count_yaxis_title" => get_string("fml_session_count_yaxis_title", "local_fliplearning"),
+
+        "hours_sessions_title" => get_string("fml_hours_sessions_title", "local_fliplearning"),
+        "weeks_sessions_title" => get_string("fml_weeks_sessions_title", "local_fliplearning"),
+
         "no_data" => get_string("no_data", "local_fliplearning"),
         "pagination" => get_string("pagination", "local_fliplearning"),
         "ss_change_timezone" => get_string("ss_change_timezone", "local_fliplearning"),
@@ -146,6 +152,7 @@ $content = [
     'sessions_by_hours' => $reports->hours_sessions(),
     'sessions_by_weeks' => $reports->weeks_sessions(),
     'progress_table' => $reports->progress_table(),
+    'session_count' => $reports->count_sessions(),
     'pages' => $configweeks->get_weeks_paginator(),
     'profile_render' => $reports->render_has(),
     'groups' => local_fliplearning_get_groups($course, $USER),
