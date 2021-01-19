@@ -6,7 +6,7 @@ define([], function (){
                         <span v-text="title" class="fliplearning-sub-title"></span>
                     </v-layout>
                     <v-layout justify-center>
-                        <v-flex d-flex justify-end align-center no-wrap id="student-report-display-weeks" class="flex-grow-0 pl-4">
+                        <v-flex d-flex justify-end align-center no-wrap id="fliplearning-display-weeks" class="flex-grow-0 pl-4">
                             <span class="subtitle-1 pr-3" v-text="name"></span>
                             <v-layout v-for="(page, index, key) in pages" :key="key" class="flex-grow-0">
                                 <v-tooltip top attach>
@@ -23,7 +23,7 @@ define([], function (){
                         </v-flex>
                     </v-layout>
                     <v-divider></v-divider>
-                </v-main>
+               </v-main>
                 `,
         props:['pages','name','nameseparator','title'],
         data(){

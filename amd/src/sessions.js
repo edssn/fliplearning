@@ -110,9 +110,6 @@ define(["local_fliplearning/vue",
                             plotBorderWidth: 0,
                             backgroundColor: '#FAFAFA',
                         };
-                        chart.title = {
-                            text: null
-                        };
                         chart.xAxis = {
                             categories: this.strings.days,
                         };
@@ -177,14 +174,11 @@ define(["local_fliplearning/vue",
                             plotBorderWidth: 0,
                             backgroundColor: '#FAFAFA',
                         };
-                        chart.title = {
-                            text: null
-                        };
                         chart.xAxis = {
                             categories: this.strings.weeks,
                         };
                         chart.yAxis = {
-                            categories: this.strings.months,
+                            categories: this.weeks_sessions.categories,
                             title: null,
                             reversed: true,
                         };
@@ -205,6 +199,7 @@ define(["local_fliplearning/vue",
                         };
                         chart.tooltip = {
                             formatter: function () {
+                                let days = vue.weeks_sessions.weeks[this.point.y][this.point.x] || '';
                                 let xCategoryName = vue.get_point_category_name(this.point, 'x');
                                 let yCategoryName = vue.get_point_category_name(this.point, 'y');
                                 let label = ' sesiones';
@@ -212,13 +207,13 @@ define(["local_fliplearning/vue",
                                     label = ' sesión';
                                 }
                                 return '<b>' + yCategoryName + ' ' + xCategoryName + '</b>: '
-                                    + this.point.value +' ' + label;
+                                    + this.point.value +' ' + label + '<br/>' + days;
                             }
                         };
                         chart.series = [{
                             borderWidth: 2,
                             borderColor: '#FAFAFA',
-                            data: this.weeks_sessions,
+                            data: this.weeks_sessions.data,
                             dataLabels: {
                                 enabled: false,
                             }

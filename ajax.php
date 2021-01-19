@@ -73,6 +73,14 @@ if($action == 'saveconfigweek') {
     if($weekcode && $courseid && $userid && $profile){
         $func = "local_fliplearning_get_work_sessions";
     }
+} elseif($action == 'time') {
+    array_push($params, $weekcode);
+    array_push($params, $courseid);
+    array_push($params, $userid);
+    array_push($params, $profile);
+    if($weekcode && $courseid && $userid && $profile){
+        $func = "local_fliplearning_get_inverted_time";
+    }
 }
 
 
@@ -125,6 +133,19 @@ function local_fliplearning_get_work_sessions($weekcode, $courseid, $userid, $pr
     $body = array(
         "sessions_by_hours" => $sessions,
         "session_count" => $count
+    );
+    local_fliplearning_ajax_response($body);
+}
+
+function local_fliplearning_get_inverted_time($weekcode, $courseid, $userid, $profile){
+    if($profile == "teacher"){
+        $reports = new \local_fliplearning\teacher($courseid, $userid);
+    }else{
+        $reports = new \local_fliplearning\student($courseid, $userid);
+    }
+    $inverted_time = $reports->inverted_time($weekcode);
+    $body = array(
+        "inverted_time" => $inverted_time,
     );
     local_fliplearning_ajax_response($body);
 }

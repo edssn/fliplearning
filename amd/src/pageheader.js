@@ -7,7 +7,8 @@ define(['local_fliplearning/axios'], function (Axios){
                 </v-flex>
             
                 <v-flex id="fml-group-selector">
-                    <v-select 
+                    <v-select
+                            attach 
                             v-model="selectedgroup" 
                             v-if="usegroupselector()" 
                             prepend-icon="group" 

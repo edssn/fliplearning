@@ -30,11 +30,11 @@ $courseid = required_param('courseid', PARAM_INT);
 $course = $DB->get_record('course', array('id' => $courseid), '*', MUST_EXIST);
 $context = context_course::instance($course->id);
 
-require_capability('local/fliplearning:usepluggin', $context);
-require_capability('local/fliplearning:setweeks', $context);
-
 $url = '/local/fliplearning/setweeks.php';
 local_fliplearning_set_page($course, $url);
+
+require_capability('local/fliplearning:usepluggin', $context);
+require_capability('local/fliplearning:setweeks', $context);
 
 \local_fliplearning\log::create("setweeks","view", $USER->id, $COURSE->id);
 $configweeks = new \local_fliplearning\configweeks($COURSE, $USER);

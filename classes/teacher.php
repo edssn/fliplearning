@@ -149,7 +149,7 @@ class teacher extends report {
         $work_sessions = self::get_work_sessions($start, $end);
         $work_sessions = array_map(function($user_sessions){ return $user_sessions->sessions;}, $work_sessions);
         $months = self::get_sessions_by_weeks($work_sessions);
-        $response = self::get_sessions_by_weeks_summary($months);
+        $response = self::get_sessions_by_weeks_summary($months, (int) $this->course->startdate);
         return $response;
     }
 
@@ -157,8 +157,9 @@ class teacher extends report {
         $months = array();
         foreach($user_sessions as $sessions){
             foreach($sessions as $session){
-                $month = strtolower(date("M", (int) $session->start));
-                $week = self::get_week_number($session->start);
+                $resp = self::get_month_and_week_number((int) $session->start);
+                $month = $resp->month;
+                $week = $resp->week;
 
                 if(!isset($months[$month])){
                     $months[$month] = array();
@@ -173,15 +174,20 @@ class teacher extends report {
         return $months;
     }
 
-    private function get_sessions_by_weeks_summary($months) {
+    private function get_sessions_by_weeks_summary($months, $startdate) {
+        $startdate = strtotime('first day of this month', $startdate);
+        $month_number = ((int) date("n", $startdate)) - 1;
+
         $summary = array();
+        $categories = array();
+        $week_dates = array();
         if (!empty($months)) {
             for ($y = 0; $y <= 11; $y++) {
-                $month_code = self::get_month_code($y);
+                $month_code = self::get_month_code($month_number);
                 if (isset($months[$month_code])) {
                     $weeks = $months[$month_code];
                 }
-                for ($x = 0; $x <= 5; $x++) {
+                for ($x = 0; $x <= 4; $x++) {
                     $value = 0;
                     if(isset($weeks)) {
                         if (isset($weeks[$x])) {
@@ -192,9 +198,28 @@ class teacher extends report {
                     array_push($summary, $element);
                 }
                 $weeks = null;
+
+                $dates = self::get_weeks_of_month($startdate);
+                array_push($week_dates, $dates);
+
+                $month_number++;
+                if ($month_number > 11) {
+                    $month_number = 0;
+                }
+
+                $month_name = get_string("fml_$month_code", "local_fliplearning");
+                $year = date("Y", $startdate);
+                $category_name = "$month_name $year";
+                array_push($categories, $category_name);
+
+                $startdate = strtotime('first day of +1 month',$startdate);
             }
         }
-        return $summary;
+        $response = new stdClass();
+        $response->data = $summary;
+        $response->categories = $categories;
+        $response->weeks = $week_dates;
+        return $response;
     }
 
     private function get_month_code($key) {
@@ -202,16 +227,42 @@ class teacher extends report {
         return $months[$key];
     }
 
-    private function get_week_number($date) {
-        $day = date('j', $date);
-        $time = date("c", $date);
-        $first_sunday = date('j', strtotime("first sunday of this month", $date));
+    private function get_weeks_of_month($date) {
+        $weeks = array();
+        $month_code = strtolower(date("M", $date));
+        $date = strtotime("first monday of this month", $date);
+        while (strtolower(date("M", $date)) == $month_code) {
+
+            $day_code = strtolower(date("D", $date));
+            $start_day_name = get_string("fml_$day_code", "local_fliplearning");
+            $start_day_number = strtolower(date("d", $date));
+
+            $end = strtotime("+ 7 days", $date) - 1;
+            $day_code = strtolower(date("D", $end));
+            $end_day_name = get_string("fml_$day_code", "local_fliplearning");
+            $end_day_number = strtolower(date("d", $end));
+
+            $label = "$start_day_name $start_day_number - $end_day_name $end_day_number";
+            array_push($weeks, $label);
+            $month_code = strtolower(date("M", $date));
+            $date = strtotime("+ 7 days", $date);
+        }
+        return $weeks;
+    }
+
+    private function get_month_and_week_number($date) {
+        $monday_of_week = strtotime( 'monday this week', $date);
+        $first_monday_month = strtotime("first monday of this month", $monday_of_week);
+        $first_sunday_month = strtotime("+ 7 days", $first_monday_month) - 1;
         $week_number = 0;
-        while ($first_sunday < $day) {
-            $first_sunday+=7;
+        while ($first_sunday_month < $date) {
+            $first_sunday_month = strtotime("+ 7 days", $first_sunday_month);
             $week_number++;
         }
-        return $week_number;
+        $resp = new stdClass();
+        $resp->month = strtolower(date("M", $first_monday_month));
+        $resp->week = $week_number;
+        return $resp;
     }
 
     /**
@@ -470,7 +521,7 @@ class teacher extends report {
             foreach ($users_sessions as $index => $user) {
                 $complete_cms = self::count_complete_course_module($course_modules, $user->userid, $enable_completion);
                 $progress_percentage = (int)(($complete_cms * 100)/$total_cms);
-                $inverted_time_label = self::convert_time($user->time_format, $user->summary->added);
+                $inverted_time_label = self::convert_time($user->time_format, $user->summary->added, "hour");
                 $user_record = self::get_user($user->userid);
 
                 $record = new stdClass();
@@ -659,5 +710,45 @@ class teacher extends report {
         $text = "fml_$month_code";
         $month_name = get_string($text, "local_fliplearning");
         return $month_name;
+    }
+
+    public function inverted_time($weekcode = null){
+        if(!self::course_in_transit()){
+            return null;
+        }
+        if(!self::course_has_users()){
+            return null;
+        }
+        $week = $this->current_week;
+        if(!empty($weekcode)){
+            $week = self::find_week($weekcode);
+        }
+
+        $work_sessions = self::get_work_sessions($week->weekstart, $week->weekend);
+        $inverted_time = array_map(function($user_sessions){ return $user_sessions->summary;}, $work_sessions);
+        $inverted_time = self::calculate_average("added", $inverted_time);
+
+        $response = self::get_inverted_time_summary($inverted_time, (int) $week->hours_dedications);
+        return $response;
+    }
+
+    public function get_inverted_time_summary($inverted_time, $expected_time){
+        $response = new stdClass();
+        $response->expected_time = $expected_time;
+        $response->expected_time_converted = self::convert_time("hours", $expected_time, "string");
+        $response->inverted_time = self::minutes_to_hours($inverted_time->average, -1);
+        $response->inverted_time_converted = self::convert_time("hours", $response->inverted_time, "string");
+
+        $inverted_time = new stdClass();
+        $inverted_time->name = get_string("fml_inverted_time","local_fliplearning");
+        $inverted_time->y = $response->inverted_time;
+        $data[] = $inverted_time;
+        $expected_time = new stdClass();
+        $expected_time->name = get_string("fml_expected_time","local_fliplearning");
+        $expected_time->y = $response->expected_time;
+        $data[] = $expected_time;
+
+        $response->data = $data;
+        return $response;
     }
 }

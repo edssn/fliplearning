@@ -357,7 +357,7 @@ trait lib_trait {
         return $ids;
     }
 
-    public function convert_time($measure, $time){
+    public function convert_time($measure, $time, $type = "hour"){
         $response = false;
         $valid_params = true;
         if ($measure == 'minutes') {
@@ -371,12 +371,16 @@ trait lib_trait {
             $horas = floor($time / 3600);
             $minutos = floor(($time % 3600) / 60);
             $segundos = $time % 60;
-            $response = self::convert_time_as_hour_string($horas, $minutos, $segundos);
+            if ($type == "hour") {
+                $response = self::convert_time_as_hour($horas, $minutos, $segundos);
+            } else {
+                $response = self::convert_time_as_string($horas, $minutos, $segundos);
+            }
         }
         return $response;
     }
 
-    protected function convert_time_as_label_string($hours, $minutes, $seconds = null){
+    protected function convert_time_as_string($hours, $minutes, $seconds = null){
         $text = [
             'minute' => get_string("fml_minute", "local_fliplearning"),
             'minutes' => get_string("fml_minutes", "local_fliplearning"),
@@ -404,14 +408,30 @@ trait lib_trait {
         $second->output = $hidde_seconds ? "" : "$second->stringify_value $second->text";
 
         $response = "$hour->output $minute->output $second->output";
+        $response = trim($response);
         return $response;
     }
 
-    protected function convert_time_as_hour_string($hours, $minutes, $seconds = null){
+    protected function convert_time_as_hour($hours, $minutes, $seconds = null){
         $hour = $hours <= 9 ? "0$hours" : $hours ;
         $minute = $minutes <= 9 ? "0$minutes" : $minutes;
         $second = $seconds <= 9 ? "0$seconds" : $seconds;
         $response = "$hour:$minute:$second";
+        $response = trim($response);
         return $response;
+    }
+
+    public function minutes_to_hours($minutes, $decimals = 2){
+        $hours = 0;
+        if($minutes <= 0){
+            return $hours;
+        }else{
+            if($decimals > 0){
+                $hours = number_format($minutes / 60, 2);
+            }else{
+                $hours = $minutes / 60;
+            }
+        }
+        return $hours;
     }
 }

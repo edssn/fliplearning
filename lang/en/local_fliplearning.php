@@ -40,6 +40,7 @@ $string['no_data'] = 'No hay datos que mostrar';
 $string['menu_main_title'] = "Dashboard Progreso";
 $string['menu_sessions'] = 'Sesiones de Estudio';
 $string['menu_setweek'] = "Configurar semanas";
+$string['menu_time'] = 'Seguimiento de Tiempo';
 $string['menu_logs'] = "Descargar registros";
 $string['menu_time_worked_session_report'] = 'Sesiones de estudio por semana';
 $string['menu_activities_performed'] = 'Actividades realizadas';
@@ -175,6 +176,12 @@ $string['ss_time_inside_plataform_description_teacher'] = 'Tiempo que el estudia
 $string['ss_time_inside_plataform_description_student'] = 'Tiempo que ha invertido esta semana en relación al tiempo que el profesor planificó que se debería invertir.';
 $string['ss_activity_inside_plataform_description_teacher'] = 'En el eje Y se indican las las horas del día y en el eje X los días de la semana. Dentro del gráfico podrá encontrar múltiples puntos, los cuales, al pasar el cursor sobre estos, ofrecen información detallada sobre las interacciones de los estudiantes, agrupadas por tipo de recurso (número de interacciones, número de estudiantes que interactuaron con el recurso y promedio de interacciones). <br/><br/><b>Al hacer click en las etiquetas, podrá filtrar por tipo de recurso, dejando visible sólo aquellos que no se encuentren tachados.</b>';
 $string['ss_activity_inside_plataform_description_student'] = 'Presenta las interacciones por tipo de recurso y horario. Al pasar el cursor sobre un punto visible en el gráfico, verá el número de interacciones agrupadas por tipo de recurso. Al hacer click en las etiquetas, podrá filtrar por tipo de recurso.';
+
+/* Time */
+$string['fml_time_inverted_title'] = 'Tiempo invertido de los Estudiantes';
+$string['fml_time_inverted_x_axis'] = 'Número de Horas';
+$string['fml_inverted_time'] = 'Tiempo Promedio Invertido';
+$string['fml_expected_time'] = 'Tiempo Promedio que se debería Invertir';
 
 /* Goups */
 $string['group_allstudent'] = 'Todos los estudiantes';

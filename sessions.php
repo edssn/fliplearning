@@ -28,11 +28,11 @@ $courseid = required_param('courseid', PARAM_INT);
 $course = $DB->get_record('course', array('id' => $courseid), '*', MUST_EXIST);
 $context = context_course::instance($course->id);
 
-require_capability('local/fliplearning:usepluggin', $context);
-require_capability('local/fliplearning:sessions', $context);
-
 $url = '/local/fliplearning/sessions.php';
 local_fliplearning_set_page($course, $url);
+
+require_capability('local/fliplearning:usepluggin', $context);
+require_capability('local/fliplearning:sessions', $context);
 
 \local_fliplearning\log::create("sessions","view", $USER->id, $COURSE->id);
 
@@ -85,20 +85,6 @@ $content = [
             get_string("fml_21", "local_fliplearning"),
             get_string("fml_22", "local_fliplearning"),
             get_string("fml_23", "local_fliplearning"),
-        ),
-        "months" => array(
-            get_string("fml_jan", "local_fliplearning"),
-            get_string("fml_feb", "local_fliplearning"),
-            get_string("fml_mar", "local_fliplearning"),
-            get_string("fml_apr", "local_fliplearning"),
-            get_string("fml_may", "local_fliplearning"),
-            get_string("fml_jun", "local_fliplearning"),
-            get_string("fml_jul", "local_fliplearning"),
-            get_string("fml_aug", "local_fliplearning"),
-            get_string("fml_sep", "local_fliplearning"),
-            get_string("fml_oct", "local_fliplearning"),
-            get_string("fml_nov", "local_fliplearning"),
-            get_string("fml_dec", "local_fliplearning"),
         ),
         "weeks" => array(
             get_string("fml_week1", "local_fliplearning"),
