@@ -41,6 +41,7 @@ $string['menu_main_title'] = "Dashboard Progreso";
 $string['menu_sessions'] = 'Sesiones de Estudio';
 $string['menu_setweek'] = "Configurar semanas";
 $string['menu_time'] = 'Seguimiento de Tiempo';
+$string['menu_assignments'] = 'Seguimiento de Tareas';
 $string['menu_logs'] = "Descargar registros";
 $string['menu_time_worked_session_report'] = 'Sesiones de estudio por semana';
 $string['menu_activities_performed'] = 'Actividades realizadas';
@@ -202,3 +203,30 @@ $string['fml_minute'] = 'minuto';
 $string['fml_minutes'] = 'minutos';
 $string['fml_second'] = 'segundo';
 $string['fml_seconds'] = 'segundos';
+
+/* Assign Submissions */
+$string['fml_intime_sub'] = 'Envío a tiempo';
+$string['fml_late_sub'] = 'Envío tardío';
+$string['fml_no_sub'] = 'Sin envío';
+$string['fml_assign_nodue'] = 'Sin fecha de envío';
+
+$string['fml_jan_dim'] = 'Ene.';
+$string['fml_feb_dim'] = 'Feb.';
+$string['fml_mar_dim'] = 'Mar.';
+$string['fml_apr_dim'] = 'Abr.';
+$string['fml_may_dim'] = 'May.';
+$string['fml_jun_dim'] = 'Jun.';
+$string['fml_jul_dim'] = 'Jul.';
+$string['fml_aug_dim'] = 'Ago.';
+$string['fml_sep_dim'] = 'Sep.';
+$string['fml_oct_dim'] = 'Oct.';
+$string['fml_nov_dim'] = 'Nov.';
+$string['fml_dec_dim'] = 'Dic.';
+
+$string['fml_mon_dim'] = 'Lun.';
+$string['fml_tue_dim'] = 'Mar.';
+$string['fml_wed_dim'] = 'Mié.';
+$string['fml_thu_dim'] = 'Jue.';
+$string['fml_fri_dim'] = 'Vie.';
+$string['fml_sat_dim'] = 'Sáb.';
+$string['fml_sun_dim'] = 'Dom.';

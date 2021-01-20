@@ -173,6 +173,37 @@ trait lib_trait {
         return $full_modules;
     }
 
+    protected function get_course_modules_from_sections($sections){
+        $course_modules = array();
+        foreach($sections as $key => $section){
+            if($section->visible != 1){
+                continue;
+            }
+            $modules = self::get_sequence_section($section->sectionid);
+            $modules = array_filter($modules, function($module){ return $module->visible == 1;});
+            $course_modules = array_merge($course_modules, $modules);
+        }
+        return $course_modules;
+    }
+
+    public function get_sequence_section($sectionid) {
+        global $DB;
+        $sql =  "select sequence from {course_sections} where id = ?";
+        $sequence = $DB->get_record_sql($sql, array($sectionid));
+        $course_modules = self::get_course_module_section($sequence->sequence);
+        return $course_modules;
+    }
+
+    public function get_course_module_section($sequence) {
+        $sequence = explode(',', $sequence);
+        $course_modules = array();
+        foreach ($sequence as $key => $course_module_id) {
+            $module = get_coursemodule_from_id( '', $course_module_id, $this->course->id, MUST_EXIST);
+            array_push($course_modules, $module);
+        }
+        return $course_modules;
+    }
+
     /**
      * Retorna un string que representa la fecha ($timestamp) Unix formateada usando el parámetro $format
      * y tomando como referencia la zona horaria obtenida con la función 'get_timezone'
@@ -339,6 +370,16 @@ trait lib_trait {
         return $extracted;
     }
 
+    protected function get_users_from_ids($ids){
+        global $DB;
+        list($in, $invalues) = $DB->get_in_or_equal($ids);
+        $fields = self::USER_FIELDS;
+        $sql = "select $fields from {user} where id $in order by lastname asc";
+        $rows = $DB->get_records_sql($sql, $invalues);
+        $users = array_values($rows);
+        return $users;
+    }
+
     public function extract_ids ($elements){
         $ids = array();
         if(gettype($elements) == 'array'){
@@ -355,6 +396,24 @@ trait lib_trait {
             }
         }
         return $ids;
+    }
+
+    public function extract_elements_field($elements, $field){
+        $list = array();
+        if(gettype($elements) == 'array'){
+            foreach($elements as $key => $element){
+                if(gettype($element) == "array"){
+                    if(isset($element[$field])){
+                        $list[] = $element[$field];
+                    }
+                }elseif(gettype($element) == "object"){
+                    if(isset($element->$field)){
+                        $list[] = $element->$field;
+                    }
+                }
+            }
+        }
+        return $list;
     }
 
     public function convert_time($measure, $time, $type = "hour"){
@@ -433,5 +492,23 @@ trait lib_trait {
             }
         }
         return $hours;
+    }
+
+    protected function get_date_label($date) {
+        $date = (int) $date;
+        $tz = self::get_timezone();
+        date_default_timezone_set($tz);
+        $day_number = date('d', $date);
+        $day_code = strtolower(date('D',$date));
+        $day_name = get_string("fml_{$day_code}_dim", 'local_fliplearning');
+        $month_code = strtolower(date('M',$date));
+        $month_name = get_string("fml_{$month_code}_dim", 'local_fliplearning');
+        $year = date('Y', $date);
+        $hour = date('g', $date);
+        $min = date('i', $date);
+        $format = date('A', $date);
+        $label = "$day_name, $day_number $month_name $year, $hour:$min $format";
+        return $label;
+
     }
 }

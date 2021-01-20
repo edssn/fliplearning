@@ -751,4 +751,155 @@ class teacher extends report {
         $response->data = $data;
         return $response;
     }
+
+    public function assignments_submissions($weekcode = null){
+        if(!self::course_in_transit()){
+            return null;
+        }
+        if(!self::course_has_users()){
+            return null;
+        }
+        $week = $this->current_week;
+        if(!empty($weekcode)){
+            $week = self::find_week($weekcode);
+        }
+
+        $week_modules = self::get_course_modules_from_sections($week->sections);
+        $assign_modules = array_filter($week_modules, function($module){ return $module->modname == 'assign';});
+        $assign_ids = self::extract_elements_field($assign_modules, "instance");
+        $valid_assigns = self::get_valid_assigns($assign_ids);
+        $assign_ids = self::extract_ids($valid_assigns);
+        $submissions = self::get_assigns_submissions($assign_ids, $this->users);
+        $response = self::get_submissions($valid_assigns, $submissions, $this->users);
+        return $response;
+    }
+
+    private function get_valid_assigns($assign_ids){
+        global $DB;
+        list($in, $invalues) = $DB->get_in_or_equal($assign_ids);
+        $sql = "SELECT * FROM {assign} WHERE course = {$this->course->id} AND id $in AND nosubmissions <> 1";
+        $result = $DB->get_records_sql($sql, $invalues);
+        $assigns = array_values($result);
+        return $assigns;
+    }
+
+    private function get_assigns_submissions($assign_ids, $user_ids){
+        global $DB;
+        list($in_assigns, $invalues_assigns) = $DB->get_in_or_equal($assign_ids);
+        list($in_users, $invalues_users) = $DB->get_in_or_equal($user_ids);
+        $params = array_merge($invalues_assigns, $invalues_users);
+        $sql = "
+            SELECT s.id, a.id as assign, a.course, a.name, a.duedate, s.userid, s.timemodified as timecreated, s.status 
+            FROM {assign} a
+            INNER JOIN mdl_assign_submission s ON a.id = s.assignment
+            WHERE a.course = {$this->course->id} AND a.id $in_assigns AND a.nosubmissions <> 1 
+            AND s.userid $in_users AND s.status = 'submitted'
+            ORDER BY a.id;
+        ";
+        $result = $DB->get_records_sql($sql, $params);
+        $submissions = array();
+        foreach ($result as $submission) {
+            if (!isset($submissions[$submission->assign])) {
+                $submissions[$submission->assign] = array();
+            }
+            array_push($submissions[$submission->assign], $submission);
+        }
+        return $submissions;
+    }
+
+    private function get_submissions($assigns, $assign_submissions, $users){
+        $categories = array();
+        $submissions_users = array();
+
+        $data = new stdClass();
+        $data->intime_sub = array();
+        $data->late_sub = array();
+        $data->no_sub = array();
+
+        $names = new stdClass;
+        $names->intime_sub = get_string("fml_intime_sub", "local_fliplearning");
+        $names->late_sub = get_string("fml_late_sub", "local_fliplearning");
+        $names->no_sub = get_string("fml_no_sub", "local_fliplearning");
+
+        foreach ($assigns as $assign) {
+            if (isset($assign_submissions[$assign->id])) {
+                $submissions = self::count_submissions($assign_submissions[$assign->id], $users);
+            } else {
+                $submissions = array();
+                $submissions['intime_sub'] = array();
+                $submissions['late_sub'] = array();
+                $submissions['no_sub'] = $users;
+            }
+
+            array_push($data->intime_sub, count($submissions['intime_sub']));
+            array_push($data->late_sub, count($submissions['late_sub']));
+            array_push($data->no_sub, count($submissions['no_sub']));
+
+            $submissions = self::get_submissions_with_users($submissions);
+            array_push($submissions_users, $submissions);
+
+            $date_label = get_string("fml_assign_nodue", 'local_fliplearning');
+            if ($assign->duedate != "0") {
+                $date_label = self::get_date_label($assign->duedate);
+            }
+            $category_name = "<b>$assign->name</b><br>$date_label";
+            array_push($categories, $category_name);
+        }
+
+        $series = array();
+
+        $obj = new stdClass();
+        $obj->name = $names->intime_sub;
+        $obj->data = $data->intime_sub;
+        array_push($series, $obj);
+
+        $obj = new stdClass();
+        $obj->name = $names->late_sub;
+        $obj->data = $data->late_sub;
+        array_push($series, $obj);
+
+        $obj = new stdClass();
+        $obj->name = $names->no_sub;
+        $obj->data = $data->no_sub;
+        array_push($series, $obj);
+
+        $response = new stdClass();
+        $response->data = $series;
+        $response->categories = $categories;
+        $response->users = $submissions_users;
+
+        return $response;
+    }
+
+    private function count_submissions($submissions, $users_ids) {
+        $submitted_users = array();
+        $data = array();
+        $data['intime_sub'] = array();
+        $data['late_sub'] = array();
+        $data['no_sub'] = array();
+
+        foreach ($submissions as $submission) {
+            if ( ($submission->duedate == "0") || ( ((int) $submission->timecreated) <= ((int) $submission->duedate) ) ) {
+                array_push($data['intime_sub'], $submission->userid);
+            } else {
+                array_push($data['late_sub'], $submission->userid);
+            }
+            array_push($submitted_users, $submission->userid);
+        }
+        $data['no_sub'] = array_diff($users_ids, $submitted_users);
+        return $data;
+    }
+
+    private function get_submissions_with_users($submissions) {
+        $data = array();
+        foreach ($submissions as $index => $users) {
+            $values = array();
+            if (count($users) > 0) {
+                $values = self::get_users_from_ids($users);
+            }
+            $data[$index]=$values;
+        }
+        $data = array_values($data);
+        return $data;
+    }
 }
