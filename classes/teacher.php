@@ -785,24 +785,26 @@ class teacher extends report {
 
     private function get_assigns_submissions($assign_ids, $user_ids){
         global $DB;
-        list($in_assigns, $invalues_assigns) = $DB->get_in_or_equal($assign_ids);
-        list($in_users, $invalues_users) = $DB->get_in_or_equal($user_ids);
-        $params = array_merge($invalues_assigns, $invalues_users);
-        $sql = "
-            SELECT s.id, a.id as assign, a.course, a.name, a.duedate, s.userid, s.timemodified as timecreated, s.status 
-            FROM {assign} a
-            INNER JOIN mdl_assign_submission s ON a.id = s.assignment
-            WHERE a.course = {$this->course->id} AND a.id $in_assigns AND a.nosubmissions <> 1 
-            AND s.userid $in_users AND s.status = 'submitted'
-            ORDER BY a.id;
-        ";
-        $result = $DB->get_records_sql($sql, $params);
         $submissions = array();
-        foreach ($result as $submission) {
-            if (!isset($submissions[$submission->assign])) {
-                $submissions[$submission->assign] = array();
+        if (!empty($assign_ids)) {
+            list($in_assigns, $invalues_assigns) = $DB->get_in_or_equal($assign_ids);
+            list($in_users, $invalues_users) = $DB->get_in_or_equal($user_ids);
+            $params = array_merge($invalues_assigns, $invalues_users);
+            $sql = "
+                SELECT s.id, a.id as assign, a.course, a.name, a.duedate, s.userid, s.timemodified as timecreated, s.status 
+                FROM {assign} a
+                INNER JOIN mdl_assign_submission s ON a.id = s.assignment
+                WHERE a.course = {$this->course->id} AND a.id $in_assigns AND a.nosubmissions <> 1 
+                AND s.userid $in_users AND s.status = 'submitted'
+                ORDER BY a.id;
+            ";
+            $result = $DB->get_records_sql($sql, $params);
+            foreach ($result as $submission) {
+                if (!isset($submissions[$submission->assign])) {
+                    $submissions[$submission->assign] = array();
+                }
+                array_push($submissions[$submission->assign], $submission);
             }
-            array_push($submissions[$submission->assign], $submission);
         }
         return $submissions;
     }

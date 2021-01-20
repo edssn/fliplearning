@@ -56,7 +56,7 @@ define(['local_fliplearning/axios'], function (Axios){
             }
         },
         mounted(){
-            this.set_selected_group()
+            this.set_selected_group();
         },
         methods : {
             update_group(){

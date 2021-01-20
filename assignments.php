@@ -51,18 +51,31 @@ if (!$configweeks->is_set()) {
 
 $content = [
     'strings' => [
+        "title" => get_string("menu_assignments","local_fliplearning"),
+        "pagination" => get_string("pagination", "local_fliplearning"),
+        "ss_change_timezone" => get_string("ss_change_timezone", "local_fliplearning"),
+        "graph_generating" => get_string("graph_generating", "local_fliplearning"),
+        "api_error_network" => get_string("api_error_network", "local_fliplearning"),
+        "pagination_name" => get_string("pagination_component_name","local_fliplearning"),
+        "pagination_separator" => get_string("pagination_component_to","local_fliplearning"),
+        "pagination_title" => get_string("pagination_title","local_fliplearning"),
+        "helplabel" => get_string("helplabel","local_fliplearning"),
+        "exitbutton" => get_string("exitbutton","local_fliplearning"),
 
+        "no_data" => get_string("no_data", "local_fliplearning"),
+        "assignsubs_chart_title" => get_string("fml_assignsubs_title", "local_fliplearning"),
+        "assignsubs_chart_yaxis" => get_string("fml_assignsubs_yaxis", "local_fliplearning"),
     ],
     'courseid' => $COURSE->id,
     'userid' => $USER->id,
-    'assignments_submissions' => $reports->assignments_submissions(),
+    'submissions' => $reports->assignments_submissions(),
     'pages' => $configweeks->get_weeks_paginator(),
     'profile_render' => $reports->render_has(),
     'groups' => local_fliplearning_get_groups($course, $USER),
     'timezone' => $reports->timezone,
 ];
 
-//$PAGE->requires->js_call_amd('local_fliplearning/assignments', 'init', ['content' => $content]);
+$PAGE->requires->js_call_amd('local_fliplearning/assignments', 'init', ['content' => $content]);
 echo $OUTPUT->header();
 echo $OUTPUT->render_from_template('local_fliplearning/assignments', ['content' => $content]);
 echo $OUTPUT->footer();

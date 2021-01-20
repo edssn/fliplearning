@@ -208,7 +208,9 @@ $string['fml_seconds'] = 'segundos';
 $string['fml_intime_sub'] = 'Envío a tiempo';
 $string['fml_late_sub'] = 'Envío tardío';
 $string['fml_no_sub'] = 'Sin envío';
-$string['fml_assign_nodue'] = 'Sin fecha de envío';
+$string['fml_assign_nodue'] = 'Sin fecha límite';
+$string['fml_assignsubs_title'] = 'Envíos de Tareas';
+$string['fml_assignsubs_yaxis'] = 'Número de Estudiantes';
 
 $string['fml_jan_dim'] = 'Ene.';
 $string['fml_feb_dim'] = 'Feb.';
