@@ -28,25 +28,27 @@ define(["local_fliplearning/vue",
                         selected_users : [],
                         moduleid : false,
                         valid_form: true,
-                        subject: 'Envío de Tarea 1',
+                        subject: '',
+                        subject_label: content.strings.email_strings.subject_label,
                         subject_rules: [
-                            v => !!v || 'Asunto es requerido',
+                            v => !!v || content.strings.email_strings.validation_subject_text,
                         ],
                         message: '',
+                        message_label: content.strings.email_strings.message_label,
                         message_rules: [
-                            v => !!v || 'Mensage es requerido',
+                            v => !!v || content.strings.email_strings.validation_message_text,
                         ],
-                        submit_button: 'Enviar',
-                        cancel_button: 'Cancelar',
-                        emailform_title: 'Enviar Correo',
-                        sending_text: 'Enviando Correo',
-                        cc: 'Para',
+                        submit_button: content.strings.email_strings.submit_button,
+                        cancel_button: content.strings.email_strings.cancel_button,
+                        emailform_title: content.strings.email_strings.emailform_title,
+                        sending_text: content.strings.email_strings.sending_text,
+                        recipients: content.strings.email_strings.recipients_label,
 
                         loader_dialog: false,
 
                         snackbar: false,
-                        snackbar_text: `Correo Enviado`,
-                        snackbar_close_text: `Cerrar`,
+                        snackbar_text: content.strings.email_strings.snackbar_text,
+                        snackbar_close_text: content.strings.email_strings.snackbar_close,
                         snackbar_timeout: 3000,
 
                         strings : content.strings,
@@ -59,6 +61,7 @@ define(["local_fliplearning/vue",
                         errors : [],
                         pages : content.pages,
                         submissions: content.submissions,
+                        email_strings: content.strings.email_strings,
                     }
                 },
 
@@ -137,10 +140,15 @@ define(["local_fliplearning/vue",
                                     point: {
                                     events: {
                                         click: function () {
+                                            let serie_name = this.category.split('</b>');
+                                            serie_name = serie_name[0] || '';
+                                            serie_name = serie_name.split('<b>');
+                                            serie_name = serie_name[1] || '';
+                                            vue.subject = vue.email_strings.subject_prefix + " - " + serie_name;
+                                            console.log(vue.subject);
+
                                             let x = this.x;
                                             let column = this.series.colorIndex;
-                                            console.log({ x, column });
-                                            console.log(vue.submissions.users[x][column]);
                                             vue.dialog = true;
                                             vue.selected_users = vue.submissions.users[x][column];
                                             vue.moduleid = vue.submissions.modules[x];

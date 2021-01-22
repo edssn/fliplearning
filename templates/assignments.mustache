@@ -39,7 +39,7 @@
 
 
                             <v-chip class="ma-2" color="primary" label>
-                                <span v-text="cc"></span>
+                                <span v-text="recipients"></span>
                             </v-chip>
                             <template v-for="(user, index, key) in selected_users">
 
@@ -54,16 +54,18 @@
                             <v-form ref="form" v-model="valid_form">
                                 <v-text-field
                                         v-model="subject"
-                                        label="Agrega un Asunto"
+                                        :label="subject_label"
                                         :rules="subject_rules"
                                         required
+                                        solo
                                 ></v-text-field>
 
                                 <v-textarea
                                         v-model="message"
-                                        label="Escribe un mensaje"
+                                        :label="message_label"
                                         :rules="message_rules"
                                         required
+                                        solo
                                 ></v-textarea>
 
                                 <v-btn @click="submit" color="primary" :disabled="!valid_form">

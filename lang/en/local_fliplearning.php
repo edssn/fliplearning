@@ -232,3 +232,19 @@ $string['fml_thu_dim'] = 'Jue.';
 $string['fml_fri_dim'] = 'Vie.';
 $string['fml_sat_dim'] = 'Sáb.';
 $string['fml_sun_dim'] = 'Dom.';
+
+/* Email */
+$string['fml_validation_subject_text'] = 'Asunto es requerido';
+$string['fml_validation_message_text'] = 'Mensaje es requerido';
+$string['fml_subject_prefix'] = 'Curso: ';
+$string['fml_subject_label'] = 'Agrega un asunto';
+$string['fml_message_label'] = 'Agrega un mensaje';
+
+$string['fml_submit_button'] = 'Enviar';
+$string['fml_cancel_button'] = 'Cancelar';
+$string['fml_emailform_title'] = 'Enviar Correo';
+$string['fml_sending_text'] = 'Enviando Correos';
+
+$string['fml_recipients_label'] = 'Para';
+$string['fml_snackbar_text'] = 'Correo Enviado';
+$string['fml_snackbar_close'] = 'Cerrar';
