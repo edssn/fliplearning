@@ -8,7 +8,7 @@ define(["local_fliplearning/vue",
         "local_fliplearning/emailform",
         "local_fliplearning/alertify",
     ],
-    function(Vue, Vuetify, Axios, Moment, Pagination, Chart, Pageheader, Emailform,Alertify) {
+    function(Vue, Vuetify, Axios, Moment, Pagination, Chart, Pageheader, Emailform, Alertify) {
         "use strict";
 
         function init(content) {
@@ -24,6 +24,7 @@ define(["local_fliplearning/vue",
                 vuetify: new Vuetify(),
                 data() {
                     return {
+                        close_icon: 'mdi-minus',
                         dialog : false,
                         selected_users : [],
                         moduleid : false,
@@ -63,14 +64,6 @@ define(["local_fliplearning/vue",
                         email_strings: content.strings.email_strings,
                     }
                 },
-
-                // watch: {
-                //     loader_dialog (val) {
-                //         if (!val) return
-                //
-                //         setTimeout(() => (this.loader_dialog = false, this.dialog = false, this.snackbar = true, this.$refs.form.reset()), 4000)
-                //     },
-                // },
 
                 mounted(){
                     document.querySelector("#sessions-loader").style.display = "none";
@@ -179,7 +172,7 @@ define(["local_fliplearning/vue",
                         this.errors = [];
                         let data = {
                             action : "sendmail",
-                            subject : this.subject,
+                            subject : this.email_strings.subject,
                             recipients : recipients,
                             text : this.message,
                             userid : this.userid,
@@ -200,17 +193,16 @@ define(["local_fliplearning/vue",
                             Alertify.success(this.snackbar_text);
                         }).catch((e) => {
                             console.log(e);
-                            // this.errors.push(this.strings.api_error_network);
                             Alertify.error('Error en la comunicacion con el servidor');
                             this.loader_dialog = false;
-                            // this.dialog = false;
-                            // this.$refs.form.reset();
                         });
                     },
 
 
                     reset () {
+                        console.log('reset');
                         this.dialog = false;
+                        this.$refs.form.resetValidation();
                     },
 
                     update_dialog (value) {

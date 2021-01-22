@@ -65,7 +65,7 @@ $content = [
             "validation_subject_text" => get_string("fml_validation_subject_text","local_fliplearning"),
             "validation_message_text" => get_string("fml_validation_message_text","local_fliplearning"),
             "subject" => "",
-            "subject_prefix" => get_string("fml_subject_prefix","local_fliplearning").$COURSE->fullname,
+            "subject_prefix" => $COURSE->fullname,
             "subject_label" => get_string("fml_subject_label","local_fliplearning"),
             "message_label" => get_string("fml_message_label","local_fliplearning"),
 
@@ -74,8 +74,8 @@ $content = [
             "emailform_title" => get_string("fml_emailform_title","local_fliplearning"),
             "sending_text" => get_string("fml_sending_text","local_fliplearning"),
             "recipients_label" => get_string("fml_recipients_label","local_fliplearning"),
-            "snackbar_text" => get_string("fml_snackbar_text","local_fliplearning"),
-            "snackbar_close" => get_string("fml_snackbar_close","local_fliplearning"),
+            "mailsended_text" => get_string("fml_mailsended_text","local_fliplearning"),
+            "api_error_network" => get_string("api_error_network", "local_fliplearning"),
         ),
 
         "no_data" => get_string("no_data", "local_fliplearning"),

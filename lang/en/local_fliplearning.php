@@ -236,7 +236,6 @@ $string['fml_sun_dim'] = 'Dom.';
 /* Email */
 $string['fml_validation_subject_text'] = 'Asunto es requerido';
 $string['fml_validation_message_text'] = 'Mensaje es requerido';
-$string['fml_subject_prefix'] = 'Curso: ';
 $string['fml_subject_label'] = 'Agrega un asunto';
 $string['fml_message_label'] = 'Agrega un mensaje';
 
@@ -246,5 +245,4 @@ $string['fml_emailform_title'] = 'Enviar Correo';
 $string['fml_sending_text'] = 'Enviando Correos';
 
 $string['fml_recipients_label'] = 'Para';
-$string['fml_snackbar_text'] = 'Correo Enviado';
-$string['fml_snackbar_close'] = 'Cerrar';
+$string['fml_mailsended_text'] = 'Correos Enviados';
