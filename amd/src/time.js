@@ -47,7 +47,6 @@ define(["local_fliplearning/vue",
                     },
 
                     update_interactions(week){
-                        console.log(week);
                         this.loading = true;
                         let validresponse = false;
                         this.errors = [];

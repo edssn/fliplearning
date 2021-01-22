@@ -27,28 +27,34 @@ define('AJAX_SCRIPT', true);
 require_once(dirname(__FILE__) . '/../../config.php');
 require_once(dirname(__FILE__) . '/locallib.php');
 
+global $USER, $COURSE, $DB;
+
+$userid = required_param('userid', PARAM_INT);
+$courseid = required_param('courseid', PARAM_INT);
+
+$COURSE = $DB->get_record('course', array('id' => $courseid), '*', MUST_EXIST);
+$USER = $DB->get_record('user', array('id' => $userid), '*', MUST_EXIST);
+
+require_login($COURSE, false);
+$context = context_course::instance($courseid);
+require_capability('local/fliplearning:ajax', $context);
+
+
 $action = optional_param('action', false ,PARAM_ALPHA);
 $weeks = optional_param('weeks', false, PARAM_RAW);
-$courseid = optional_param('courseid', false, PARAM_INT);
-$userid = optional_param('userid', false, PARAM_INT);
 $profile = optional_param('profile', false, PARAM_RAW);
 $weekcode = optional_param('weekcode', false, PARAM_INT);
 $groupid = optional_param('groupid',  null,  PARAM_INT);
+
+$subject = optional_param('subject', false ,PARAM_TEXT);
+$recipients = optional_param('recipients', false ,PARAM_TEXT);
+$text = optional_param('text', false ,PARAM_TEXT);
+$moduleid = optional_param('moduleid', false ,PARAM_INT);
 
 $newinstance = optional_param('newinstance', false, PARAM_BOOL);
 
 $params = array();
 $func = null;
-
-if($courseid){
-    global $COURSE;
-    $COURSE = $DB->get_record('course', array('id' => $courseid), '*', MUST_EXIST);
-}
-
-if($userid){
-    global $USER;
-    $USER = $DB->get_record('user', array('id' => $userid), '*', MUST_EXIST);
-}
 
 if($action == 'saveconfigweek') {
     array_push($params, $weeks);
@@ -89,6 +95,16 @@ if($action == 'saveconfigweek') {
     if($weekcode && $courseid && $userid && $profile){
         $func = "local_fliplearning_get_assignments_submissions";
     }
+} elseif($action == 'sendmail') {
+    array_push($params, $COURSE);
+    array_push($params, $USER);
+    array_push($params, $subject);
+    array_push($params, $recipients);
+    array_push($params, $text);
+    array_push($params, $moduleid);
+    if($subject && $recipients && $text){
+        $func = "local_fliplearning_send_email";
+    }
 }
 
 
@@ -97,7 +113,7 @@ if(isset($params) && isset($func)){
     call_user_func_array($func, $params);
 }else{
     $message = get_string('api_invalid_data', 'local_fliplearning');
-    local_fliplearning_ajax_response(array(), $message, false, 400);
+    local_fliplearning_ajax_response(array($message), 400);
 }
 
 function local_fliplearning_save_weeks_config($weeks, $courseid, $userid, $newinstance){
@@ -169,4 +185,14 @@ function local_fliplearning_get_assignments_submissions($weekcode, $courseid, $u
         "submissions" => $submissions,
     );
     local_fliplearning_ajax_response($body);
+}
+
+function local_fliplearning_send_email($course, $user, $subject, $recipients, $text, $moduleid){
+    $email = new \local_fliplearning\email($course, $user);
+    $email->sendmail($subject, $recipients, $text, $moduleid);
+
+    $body = array(
+        "data" => [$subject, $recipients, $text, $moduleid],
+    );
+    local_fliplearning_ajax_response($body, 200);
 }

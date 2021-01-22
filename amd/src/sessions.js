@@ -238,7 +238,8 @@ define(["local_fliplearning/vue",
                         chart.yAxis = {
                             title: {
                                 text: this.strings.session_count_yaxis_title,
-                            }
+                            },
+                            allowDecimals: false
                         };
                         chart.xAxis = {
                             categories: this.session_count.categories

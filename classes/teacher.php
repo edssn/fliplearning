@@ -810,8 +810,12 @@ class teacher extends report {
     }
 
     private function get_submissions($assigns, $assign_submissions, $users){
+        global $DB;
+
         $categories = array();
+        $modules = array();
         $submissions_users = array();
+        $assignmoduleid=1;
 
         $data = new stdClass();
         $data->intime_sub = array();
@@ -846,6 +850,10 @@ class teacher extends report {
             }
             $category_name = "<b>$assign->name</b><br>$date_label";
             array_push($categories, $category_name);
+
+            $module = $DB->get_field('course_modules', 'id',
+                array('course' => $assign->course, 'module' => $assignmoduleid, 'instance' => $assign->id));
+            array_push($modules, $module);
         }
 
         $series = array();
@@ -868,6 +876,7 @@ class teacher extends report {
         $response = new stdClass();
         $response->data = $series;
         $response->categories = $categories;
+        $response->modules = $modules;
         $response->users = $submissions_users;
 
         return $response;

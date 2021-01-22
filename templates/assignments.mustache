@@ -26,8 +26,92 @@
                     </v-col>
                 </v-row>
 
-            </div>
+                <v-row justify="center">
+<!--                    <emailform :dialog="dialog" @update_dialog="update_dialog" :selected_users="selected_users"></emailform>-->
+                    <v-dialog
+                            v-model="dialog"
+                            width="1000"
+                    >
+                        <v-card>
+                            <v-card-title class="headline grey lighten-2">
+                                <span v-text="emailform_title"></span>
+                            </v-card-title>
 
+
+                            <v-chip class="ma-2" color="primary" label>
+                                <span v-text="cc"></span>
+                            </v-chip>
+                            <template v-for="(user, index, key) in selected_users">
+
+                                <v-chip class="ma-2">
+                                    <v-avatar left>
+                                        <img :src="get_picture_url(user.id)">
+                                    </v-avatar>
+                                    <span>[[user.firstname]] [[user.lastname]]</span>
+                                </v-chip>
+                            </template>
+
+                            <v-form ref="form" v-model="valid_form">
+                                <v-text-field
+                                        v-model="subject"
+                                        label="Agrega un Asunto"
+                                        :rules="subject_rules"
+                                        required
+                                ></v-text-field>
+
+                                <v-textarea
+                                        v-model="message"
+                                        label="Escribe un mensaje"
+                                        :rules="message_rules"
+                                        required
+                                ></v-textarea>
+
+                                <v-btn @click="submit" color="primary" :disabled="!valid_form">
+                                    <span v-text="submit_button"></span>
+                                </v-btn>
+                                <v-btn @click="reset" color="error">
+                                    <span v-text="cancel_button"></span>
+                                </v-btn>
+
+                            </v-form>
+
+                        </v-card>
+                    </v-dialog>
+                </v-row>
+
+                <div class="text-center">
+                    <v-dialog
+                            v-model="loader_dialog"
+                            persistent
+                            width="300"
+                    >
+                        <v-card color="primary" dark>
+                            <v-card-text>
+                                <span v-text="sending_text"></span>
+                                <v-progress-linear
+                                        indeterminate
+                                        color="white"
+                                        class="mb-0"
+                                ></v-progress-linear>
+                            </v-card-text>
+                        </v-card>
+                    </v-dialog>
+                </div>
+
+                <v-snackbar v-model="snackbar" :timeout="snackbar_timeout">
+                    <span v-text="snackbar_text"></span>
+                    <template>
+                        <v-btn
+                                color="pink"
+                                text
+                                @click="snackbar = false"
+                        >
+                            <span v-text="snackbar_close_text"></span>
+                        </v-btn>
+                    </template>
+                </v-snackbar>
+
+            </div>
         </v-container>
     </v-main>
 </v-app>
