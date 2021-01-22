@@ -64,6 +64,7 @@ $content = [
         "email_strings" => array(
             "validation_subject_text" => get_string("fml_validation_subject_text","local_fliplearning"),
             "validation_message_text" => get_string("fml_validation_message_text","local_fliplearning"),
+            "subject" => "",
             "subject_prefix" => get_string("fml_subject_prefix","local_fliplearning").$COURSE->fullname,
             "subject_label" => get_string("fml_subject_label","local_fliplearning"),
             "message_label" => get_string("fml_message_label","local_fliplearning"),

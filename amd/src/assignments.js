@@ -28,7 +28,6 @@ define(["local_fliplearning/vue",
                         selected_users : [],
                         moduleid : false,
                         valid_form: true,
-                        subject: '',
                         subject_label: content.strings.email_strings.subject_label,
                         subject_rules: [
                             v => !!v || content.strings.email_strings.validation_subject_text,
@@ -144,8 +143,7 @@ define(["local_fliplearning/vue",
                                             serie_name = serie_name[0] || '';
                                             serie_name = serie_name.split('<b>');
                                             serie_name = serie_name[1] || '';
-                                            vue.subject = vue.email_strings.subject_prefix + " - " + serie_name;
-                                            console.log(vue.subject);
+                                            vue.email_strings.subject = vue.email_strings.subject_prefix+" - "+serie_name;
 
                                             let x = this.x;
                                             let column = this.series.colorIndex;
