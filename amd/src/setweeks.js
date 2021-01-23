@@ -189,14 +189,18 @@ define(["local_fliplearning/vue",
                                     url: M.cfg.wwwroot + "/local/fliplearning/ajax.php",
                                     params: data,
                                 }).then((response) => {
-                                    this.settings = response.data.settings;
-                                    Alertify.success(this.strings.save_successful);
-                                    this.save_successful = true;
-                                    this.saving_loader = false;
-
+                                    if (response.status == 200 && response.data.ok) {
+                                        this.settings = response.data.data.settings;
+                                        Alertify.success(this.strings.save_successful);
+                                        this.save_successful = true;
+                                    } else {
+                                        Alertify.error(this.strings.error_network);
+                                        this.error_messages.push(this.strings.error_network);
+                                    }
                                 }).catch((e) => {
                                     Alertify.error(this.strings.error_network);
                                     this.error_messages.push(this.strings.error_network);
+                                }).finally(() => {
                                     this.saving_loader = false;
                                 });
                             },

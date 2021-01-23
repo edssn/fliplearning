@@ -24,33 +24,9 @@ define(["local_fliplearning/vue",
                 vuetify: new Vuetify(),
                 data() {
                     return {
-                        close_icon: 'mdi-minus',
                         dialog : false,
                         selected_users : [],
                         moduleid : false,
-                        valid_form: true,
-                        subject_label: content.strings.email_strings.subject_label,
-                        subject_rules: [
-                            v => !!v || content.strings.email_strings.validation_subject_text,
-                        ],
-                        message: '',
-                        message_label: content.strings.email_strings.message_label,
-                        message_rules: [
-                            v => !!v || content.strings.email_strings.validation_message_text,
-                        ],
-                        submit_button: content.strings.email_strings.submit_button,
-                        cancel_button: content.strings.email_strings.cancel_button,
-                        emailform_title: content.strings.email_strings.emailform_title,
-                        sending_text: content.strings.email_strings.sending_text,
-                        recipients: content.strings.email_strings.recipients_label,
-
-                        loader_dialog: false,
-
-                        snackbar: false,
-                        snackbar_text: content.strings.email_strings.snackbar_text,
-                        snackbar_close_text: content.strings.email_strings.snackbar_close,
-                        snackbar_timeout: 3000,
-
                         strings : content.strings,
                         groups : content.groups,
                         userid : content.userid,
@@ -80,7 +56,6 @@ define(["local_fliplearning/vue",
 
                     update_interactions(week){
                         this.loading = true;
-                        let validresponse = false;
                         this.errors = [];
                         let data = {
                             action : "assignments",
@@ -94,8 +69,11 @@ define(["local_fliplearning/vue",
                             url: M.cfg.wwwroot + "/local/fliplearning/ajax.php",
                             params : data,
                         }).then((response) => {
-                            validresponse = true;
-                            this.submissions = response.data.submissions;
+                            if (response.status == 200 && response.data.ok) {
+                                this.submissions = response.data.data.submissions;
+                            } else {
+                                this.error_messages.push(this.strings.error_network);
+                            }
                         }).catch((e) => {
                             this.errors.push(this.strings.api_error_network);
                         }).finally(() => {
@@ -156,53 +134,6 @@ define(["local_fliplearning/vue",
                             noData: this.strings.no_data,
                         };
                         return chart;
-                    },
-
-                    get_picture_url(userid){
-                        let url = `${M.cfg.wwwroot}/user/pix.php?file=/${userid}/f1.jpg`;
-                        return url;
-                    },
-
-                    submit () {
-                        let recipients = "";
-                        this.selected_users.forEach(item => {
-                            recipients=recipients.concat(item.id,",");
-                        });
-                        this.loader_dialog = true;
-                        this.errors = [];
-                        let data = {
-                            action : "sendmail",
-                            subject : this.email_strings.subject,
-                            recipients : recipients,
-                            text : this.message,
-                            userid : this.userid,
-                            courseid : this.courseid,
-                            moduleid : this.moduleid,
-                        };
-                        console.log(data);
-                        Axios({
-                            method:'get',
-                            url: M.cfg.wwwroot + "/local/fliplearning/ajax.php",
-                            params : data,
-                        }).then((response) => {
-                            console.log(response);
-                            this.loader_dialog = false;
-                            this.dialog = false;
-                            this.snackbar = true;
-                            this.$refs.form.reset();
-                            Alertify.success(this.snackbar_text);
-                        }).catch((e) => {
-                            console.log(e);
-                            Alertify.error('Error en la comunicacion con el servidor');
-                            this.loader_dialog = false;
-                        });
-                    },
-
-
-                    reset () {
-                        console.log('reset');
-                        this.dialog = false;
-                        this.$refs.form.resetValidation();
                     },
 
                     update_dialog (value) {

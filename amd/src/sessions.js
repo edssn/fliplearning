@@ -66,7 +66,6 @@ define(["local_fliplearning/vue",
 
                     update_interactions(week){
                         this.loading = true;
-                        let validresponse = false;
                         this.errors = [];
                         let data = {
                             action : "worksessions",
@@ -80,9 +79,12 @@ define(["local_fliplearning/vue",
                             url: M.cfg.wwwroot + "/local/fliplearning/ajax.php",
                             params : data,
                         }).then((response) => {
-                            validresponse = true;
-                            this.hours_sessions = response.data.sessions_by_hours;
-                            this.session_count = response.data.session_count;
+                            if (response.status == 200 && response.data.ok) {
+                                this.hours_sessions = response.data.data.sessions_by_hours;
+                                this.session_count = response.data.data.session_count;
+                            } else {
+                                this.error_messages.push(this.strings.error_network);
+                            }
                         }).catch((e) => {
                             this.errors.push(this.strings.api_error_network);
                         }).finally(() => {

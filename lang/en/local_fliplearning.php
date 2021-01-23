@@ -246,3 +246,8 @@ $string['fml_sending_text'] = 'Enviando Correos';
 
 $string['fml_recipients_label'] = 'Para';
 $string['fml_mailsended_text'] = 'Correos Enviados';
+
+$string['fml_email_footer'] = 'Este es un correo electrónico enviado con Fliplearning.';
+$string['fml_email_footer_prefix'] = 'Ve a';
+$string['fml_email_footer_suffix'] = 'para más información.';
+$string['fml_mailsended_text'] = 'Correos Enviados';

@@ -188,11 +188,12 @@ function local_fliplearning_get_assignments_submissions($weekcode, $courseid, $u
 }
 
 function local_fliplearning_send_email($course, $user, $subject, $recipients, $text, $moduleid){
+    set_time_limit(300);
     $email = new \local_fliplearning\email($course, $user);
     $email->sendmail($subject, $recipients, $text, $moduleid);
 
     $body = array(
         "data" => [$subject, $recipients, $text, $moduleid],
     );
-    local_fliplearning_ajax_response($body, 200);
+    local_fliplearning_ajax_response($body);
 }

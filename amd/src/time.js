@@ -48,7 +48,6 @@ define(["local_fliplearning/vue",
 
                     update_interactions(week){
                         this.loading = true;
-                        let validresponse = false;
                         this.errors = [];
                         let data = {
                             action : "time",
@@ -62,8 +61,11 @@ define(["local_fliplearning/vue",
                             url: M.cfg.wwwroot + "/local/fliplearning/ajax.php",
                             params : data,
                         }).then((response) => {
-                            validresponse = true;
-                            this.inverted_time = response.data.inverted_time;
+                            if (response.status == 200 && response.data.ok) {
+                                this.inverted_time = response.data.data.inverted_time;
+                            } else {
+                                this.error_messages.push(this.strings.error_network);
+                            }
                         }).catch((e) => {
                             this.errors.push(this.strings.api_error_network);
                         }).finally(() => {

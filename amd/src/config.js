@@ -8,12 +8,12 @@ define([],function() {
         paths: {
             "vue" : M.cfg.wwwroot + '/local/fliplearning/js/vue',
             "vuetify" : M.cfg.wwwroot + '/local/fliplearning/js/vuetify',
-            "axios": M.cfg.wwwroot + '/local/student_reports/js/axios',
-            "sortablejs": M.cfg.wwwroot + '/local/student_reports/js/sortablejs',
-            "draggable": M.cfg.wwwroot + '/local/student_reports/js/draggable',
-            "datepicker": M.cfg.wwwroot + '/local/student_reports/js/datepicker',
-            "moment": M.cfg.wwwroot + '/local/student_reports/js/moment',
-            "alertify": M.cfg.wwwroot + '/local/student_reports/js/alertify',
+            "axios": M.cfg.wwwroot + '/local/fliplearning/js/axios',
+            "sortablejs": M.cfg.wwwroot + '/local/fliplearning/js/sortablejs',
+            "draggable": M.cfg.wwwroot + '/local/fliplearning/js/draggable',
+            "datepicker": M.cfg.wwwroot + '/local/fliplearning/js/datepicker',
+            "moment": M.cfg.wwwroot + '/local/fliplearning/js/moment',
+            "alertify": M.cfg.wwwroot + '/local/fliplearning/js/alertify',
             "highcharts": M.cfg.wwwroot + '/local/fliplearning/js/highcharts/'
         },
         shim: {

@@ -61,17 +61,22 @@ class email {
         $sender->lastname = $this->user->lastname;
         $sender->email = $this->user->email;
 
+        $footer_label = get_string("fml_email_footer","local_fliplearning");
+
         if (isset($moduleid) && $moduleid>0) {
+            $footer_prefix = get_string("fml_email_footer_prefix","local_fliplearning");
+            $footer_suffix = get_string("fml_email_footer_suffix","local_fliplearning");
+
             $footer = "
             
             ---------------------------------------------------------------------------------
-            Por favor, ve a {$CFG->wwwroot}/mod/assign/view.php?id={$moduleid} para más información.
-            Este es un correo electrónico enviado con Fliplearning.";
+            {$footer_prefix} {$CFG->wwwroot}/mod/assign/view.php?id={$moduleid} {$footer_suffix}.
+            {$footer_label}";
         } else {
             $footer = "
             
             ---------------------------------------------------------------------------------
-            Este es un correo electrónico enviado con Fliplearning.";
+            {$footer_label}";
         }
         $text = $text.$footer;
 

@@ -85,10 +85,15 @@ function local_fliplearning_render_styles(){
  * @param boolean $valid campo opcional para especificar si la respuesta es correcta válida
  * @param string $code campo opcionar para especificar la respuesta http
  */
-function local_fliplearning_ajax_response($data = array(), $code = 200){
+function local_fliplearning_ajax_response($data = array(), $message=null, $ok=true, $code = 200){
     local_fliplearning_set_api_headers();
+    $response = [
+        'ok' => $ok,
+        'message' => $message,
+        'data' => $data
+    ];
     http_response_code($code);
-    echo json_encode($data);
+    echo json_encode($response);
 }
 
 /**

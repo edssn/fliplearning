@@ -129,11 +129,6 @@ define([
                 mailsended_text: this.strings.mailsended_text,
             }
         },
-        mounted(){
-            console.log(this.dialog);
-            console.log(this.selected_users);
-            console.log(this.strings);
-        },
         methods : {
             get_picture_url(userid){
                 let url = `${M.cfg.wwwroot}/user/pix.php?file=/${userid}/f1.jpg`;
@@ -156,19 +151,22 @@ define([
                     courseid : this.courseid,
                     moduleid : this.moduleid,
                 };
-                console.log(data);
                 Axios({
                     method:'get',
                     url: M.cfg.wwwroot + "/local/fliplearning/ajax.php",
                     params : data,
                 }).then((response) => {
-                    console.log(response);
-                    this.loader_dialog = false;
-                    this.$emit('update_dialog', false);
-                    this.$refs.form.reset();
-                    Alertify.success(this.mailsended_text);
+                    if (response.status == 200 && response.data.ok) {
+                        this.$emit('update_dialog', false);
+                        this.$refs.form.reset();
+                        Alertify.success(this.mailsended_text);
+                    } else {
+                        Alertify.error(this.strings.api_error_network);
+                        this.loader_dialog = false;
+                    }
                 }).catch((e) => {
                     Alertify.error(this.strings.api_error_network);
+                }).finally(() => {
                     this.loader_dialog = false;
                 });
             },
