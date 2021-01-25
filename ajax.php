@@ -181,8 +181,10 @@ function local_fliplearning_get_assignments_submissions($weekcode, $courseid, $u
         $reports = new \local_fliplearning\student($courseid, $userid);
     }
     $submissions = $reports->assignments_submissions($weekcode);
+    $access = $reports->resources_access($weekcode);
     $body = array(
         "submissions" => $submissions,
+        "access" => $access,
     );
     local_fliplearning_ajax_response($body);
 }

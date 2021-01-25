@@ -38,15 +38,19 @@ define(["local_fliplearning/vue",
                         pages : content.pages,
                         submissions: content.submissions,
                         email_strings: content.strings.email_strings,
+
+                        access: content.access,
+                        access_chart_categories: [],
+                        access_chart_series: [],
+                        access_chart_users: [],
                     }
                 },
-
+                beforeMount(){
+                    this.generateAccessContentData();
+                },
                 mounted(){
                     document.querySelector("#sessions-loader").style.display = "none";
                     document.querySelector("#submissions").style.display = "block";
-                },
-                computed :{
-
                 },
                 methods : {
                     get_help_content(){
@@ -71,6 +75,8 @@ define(["local_fliplearning/vue",
                         }).then((response) => {
                             if (response.status == 200 && response.data.ok) {
                                 this.submissions = response.data.data.submissions;
+                                this.access = response.data.data.access;
+                                this.generateAccessContentData();
                             } else {
                                 this.error_messages.push(this.strings.error_network);
                             }
@@ -99,7 +105,8 @@ define(["local_fliplearning/vue",
                             min: 0,
                             title: {
                                 text: this.strings.assignsubs_chart_yaxis
-                            }
+                            },
+                            allowDecimals: false,
                         };
                         chart.tooltip = {
                             valueSuffix: " estudiantes",
@@ -136,8 +143,114 @@ define(["local_fliplearning/vue",
                         return chart;
                     },
 
+                    build_chart_access_content() {
+                        let chart = new Object();
+                        chart.chart = {
+                            type: 'bar',
+                            backgroundColor: '#FAFAFA',
+                            scrollablePlotArea: {
+                                minHeight: 500,
+                                scrollPositionX: 1
+                            }
+                        };
+                        chart.title = {
+                            text: this.strings.access_chart_title,
+                        };
+                        chart.xAxis = {
+                            categories: this.access_chart_categories,
+                            title: {
+                                text: null
+                            },
+                            crosshair: true,
+                        };
+                        chart.yAxis = {
+                            min: 0,
+                            title: {
+                                text: this.strings.access_chart_yaxis_label,
+                            },
+                            labels: {
+                                overflow: 'justify'
+                            },
+                            allowDecimals: false,
+                        };
+                        chart.tooltip = {
+                            valueSuffix: this.strings.access_chart_suffix,
+                        };
+                        chart.plotOptions = {
+                            bar: {
+                                dataLabels: {
+                                    enabled: false
+                                }
+                            },
+                            series: {
+                                cursor: 'pointer',
+                                    point: {
+                                    events: {
+                                        click: function () {
+                                            console.log('Category: ' + this.category + ', value: ' + this.x);
+                                            console.log({
+                                                x: this.x,
+                                                column: this.series.colorIndex
+                                            });
+                                            let x = this.x;
+                                            let column = this.series.colorIndex;
+                                            console.log(vue.access_chart_users[x][column]);
+                                        }
+                                    }
+                                }
+                            }
+                        };
+                        chart.credits = {
+                            enabled: false
+                        };
+                        chart.series = this.access_chart_series;
+                        return chart;
+                    },
+
                     update_dialog (value) {
                         this.dialog = value;
+                    },
+
+                    // checkboxUpdated(){
+                    //     this.generateAccessContentData();
+                    // },
+
+                    generateAccessContentData () {
+                        let usersIds = [];
+                        this.access.users.forEach(user => {
+                            usersIds.push(Number(user.id));
+                        });
+                        let selected_types_labels = [];
+                        this.access.types.forEach(item => {
+                            if (item.show) {
+                                selected_types_labels.push(item.type);
+                            }
+                        });
+                        let selected_modules = [];
+                        this.access.modules.forEach(module => {
+                            if (selected_types_labels.includes(module.type)) {
+                                selected_modules.push(module);
+                            }
+                        });
+                        let categories = [];
+                        let modules_users = [];
+                        let access_users_data = [];
+                        let no_access_users_data = [];
+                        selected_modules.forEach(module => {
+                            categories.push(module.name);
+                            let access_users = module.users;
+                            let no_access_users = usersIds.filter(x => !access_users.includes(x));
+                            access_users_data.push(access_users.length);
+                            no_access_users_data.push(no_access_users.length);
+                            modules_users.push([access_users, no_access_users]);
+                        });
+                        let series = [
+                            { name: this.strings.access, data: access_users_data },
+                            { name: this.strings.no_access, data: no_access_users_data },
+                        ];
+                        this.access_chart_categories = categories;
+                        this.access_chart_series = series;
+                        this.access_chart_users = modules_users;
                     }
                 }
             })

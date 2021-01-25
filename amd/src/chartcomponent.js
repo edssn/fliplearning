@@ -12,12 +12,19 @@ define([
         template: `<div v-bind:id="container"></div>`,
         props: ['container', 'chart'],
         data() {
-            return {
-
-            }
+            return { }
         },
         mounted() {
             this._highchart = Highcharts.chart(this.container, this.chart);
         },
+        watch: {
+            chart: {
+                deep: true,
+                handler(chart) {
+                    this._highchart.update(chart);
+                },
+            }
+        }
+
     };
 });

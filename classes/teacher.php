@@ -913,4 +913,82 @@ class teacher extends report {
         $data = array_values($data);
         return $data;
     }
+
+    public function resources_access($weekcode = null){
+        if(!self::course_in_transit()){
+            return null;
+        }
+        if(!self::course_has_users()){
+            return null;
+        }
+        $week = $this->current_week;
+        if(!empty($weekcode)){
+            $week = self::find_week($weekcode);
+        }
+
+        $week_modules = self::get_course_modules_from_sections($week->sections);
+        $week_modules = array_filter($week_modules, function($module){ return $module->modname != 'label';});
+        $week_modules = self::set_resources_access_users($week_modules, $this->users, $this->course->id);
+        $response = self::get_access_modules_summary($week_modules);
+        $users = self::get_users_from_ids($this->users);
+        $response->users = $users;
+        return $response;
+    }
+
+    private function set_resources_access_users($modules, $user_ids, $course_id){
+        foreach ($modules as $module) {
+            $access_users = self::get_access_modules($course_id, $module->id, $user_ids);
+            $module->users = $access_users;
+        }
+        return $modules;
+    }
+
+    private function get_access_modules($course_id, $module_id, $user_ids){
+        global $DB;
+        $contextlevel = 70;
+        list($in_users, $invalues_users) = $DB->get_in_or_equal($user_ids);
+        $sql = "
+            SELECT DISTINCT(userid) FROM {logstore_standard_log} a
+            WHERE courseid = {$course_id} AND contextlevel = {$contextlevel} 
+            AND contextinstanceid = {$module_id} AND userid $in_users
+            ORDER BY userid;
+        ";
+        $result = $DB->get_records_sql($sql, $invalues_users);
+        $ids = array();
+        foreach ($result as $record) {
+            array_push($ids, (int) $record->userid);
+        }
+        return $ids;
+    }
+
+    private function get_access_modules_summary($modules){
+        $summary = array();
+        $types = array();
+        foreach ($modules as $module) {
+            $item = new stdClass();
+            $item->id = $module->id;
+            $item->name = $module->name;
+            $item->type = $module->modname;
+            $item->users = $module->users;
+            array_push($summary, $item);
+
+            if (!isset($types[$module->modname])) {
+                $type_name = $module->modname;
+                $identifier = "fml_{$module->modname}";
+                if (get_string_manager()->string_exists($identifier,"local_fliplearning")) {
+                    $type_name = get_string($identifier,"local_fliplearning");
+                }
+                $element = new stdClass();
+                $element->type = $module->modname;
+                $element->name = $type_name;
+                $element->show = true;
+                $types[$module->modname] = $element;
+            }
+        }
+        $types = array_values($types);
+        $response = new stdClass();
+        $response->types = $types;
+        $response->modules = $summary;
+        return $response;
+    }
 }

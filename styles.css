@@ -629,10 +629,9 @@ a.fliplearning-navbar-menu-item .badge {
     margin: 2px;
 }
 
-#sessions1, #sessions2 {
+#sessions1, #sessions2, #access_content {
     height: 600px;
 }
-
 
 
 
@@ -699,4 +698,9 @@ a.fliplearning-navbar-menu-item .badge {
 
 .dropdown:hover .dropdown-content {
     display: block;
+}
+
+.checkbox-filter label{
+    margin-bottom: 0 !important;
+    font-size: .85rem;
 }

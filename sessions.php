@@ -110,6 +110,7 @@ $content = [
 
         "session_count_title" => get_string("fml_session_count_title", "local_fliplearning"),
         "session_count_yaxis_title" => get_string("fml_session_count_yaxis_title", "local_fliplearning"),
+        "session_count_tooltip_suffix" => get_string("fml_session_count_tooltip_suffix", "local_fliplearning"),
 
         "hours_sessions_title" => get_string("fml_hours_sessions_title", "local_fliplearning"),
         "weeks_sessions_title" => get_string("fml_weeks_sessions_title", "local_fliplearning"),

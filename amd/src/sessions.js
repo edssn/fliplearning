@@ -246,6 +246,9 @@ define(["local_fliplearning/vue",
                         chart.xAxis = {
                             categories: this.session_count.categories
                         };
+                        chart.tooltip = {
+                            valueSuffix: this.strings.session_count_tooltip_suffix,
+                        };
                         chart.legend = {
                             layout: 'horizontal',
                             margin: 10,

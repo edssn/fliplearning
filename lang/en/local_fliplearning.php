@@ -164,6 +164,7 @@ $string['fml_greater60'] = 'Mayores que 60 minutos';
 
 $string['fml_session_count_title'] = 'Sesiones de la Semana';
 $string['fml_session_count_yaxis_title'] = 'Cantidad de Sesiones';
+$string['fml_session_count_tooltip_suffix'] = ' sesiones';
 
 $string['fml_hours_sessions_title'] = 'Sesiones por Día y Hora';
 $string['fml_weeks_sessions_title'] = 'Sesiones por Semana';
@@ -232,6 +233,38 @@ $string['fml_thu_dim'] = 'Jue.';
 $string['fml_fri_dim'] = 'Vie.';
 $string['fml_sat_dim'] = 'Sáb.';
 $string['fml_sun_dim'] = 'Dom.';
+
+/* Content Access */
+$string['fml_assign'] = 'Tarea';
+$string['fml_assignment'] = 'Tarea';
+$string['fml_book'] = 'Libro';
+$string['fml_chat'] = 'Chat';
+$string['fml_choice'] = 'Elección';
+$string['fml_data'] = 'Base de Datos';
+$string['fml_feedback'] = 'Retroalimentación';
+$string['fml_folder'] = 'Carpeta';
+$string['fml_forum'] = 'Foro';
+$string['fml_glossary'] = 'Glosario';
+$string['fml_h5pactivity'] = 'H5P';
+$string['fml_imscp'] = 'Contenido IMS';
+$string['fml_label'] = 'Etiqueta';
+$string['fml_lesson'] = 'Lección';
+$string['fml_lti'] = 'Contenido IMS';
+$string['fml_page'] = 'Página';
+$string['fml_quiz'] = 'Examen';
+$string['fml_resource'] = 'Recurso';
+$string['fml_scorm'] = 'Paquete SCORM';
+$string['fml_survey'] = 'Encuesta';
+$string['fml_url'] = 'Url';
+$string['fml_wiki'] = 'Wiki';
+$string['fml_workshop'] = 'Taller';
+
+$string['fml_access'] = 'Accedido';
+$string['fml_no_access'] = 'Sin Acceso';
+$string['fml_access_chart_title'] = 'Acceso a los Contenidos Curso';
+$string['fml_access_chart_yaxis_label'] = 'Cantidad de Estudiantes';
+$string['fml_access_chart_suffix'] = ' estudiantes';
+
 
 /* Email */
 $string['fml_validation_subject_text'] = 'Asunto es requerido';
