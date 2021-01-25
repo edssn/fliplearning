@@ -11,7 +11,7 @@ define([
                             <v-dialog
                             v-model="dialog"
                             width="800"
-                            persistent
+                            @click:outside="closeDialog()"
                             >
                                 <v-card>
                                     <v-toolbar color="primary" dark >
@@ -176,6 +176,10 @@ define([
                 this.$emit('update_dialog', false);
                 this.$refs.form.resetValidation();
             },
+
+            closeDialog() {
+                this.$emit('update_dialog', false);
+            }
         },
     }
     return emailform;
