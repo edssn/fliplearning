@@ -105,7 +105,7 @@ define([
                     </v-row>
                </v-main>
                 `,
-        props:['dialog', 'selected_users', 'strings', 'moduleid', 'courseid', 'userid'],
+        props:['dialog', 'selected_users', 'strings', 'moduleid', 'modulename', 'courseid', 'userid'],
         data(){
             return {
                 close_icon: 'mdi-minus',
@@ -150,6 +150,7 @@ define([
                     userid : this.userid,
                     courseid : this.courseid,
                     moduleid : this.moduleid,
+                    modulename : this.modulename,
                 };
                 Axios({
                     method:'get',

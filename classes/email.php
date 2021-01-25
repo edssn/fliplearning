@@ -50,8 +50,7 @@ class email {
         $this->course = $course;
     }
 
-    public function sendmail($subject, $recipients, $text, $moduleid) {
-
+    public function sendmail($subject, $recipients, $text, $moduleid, $modulename) {
         global $DB, $CFG;
         $recipients = explode(',', $recipients);
 
@@ -61,23 +60,22 @@ class email {
         $sender->lastname = $this->user->lastname;
         $sender->email = $this->user->email;
 
-        $footer_label = get_string("fml_email_footer","local_fliplearning");
-
-        if (isset($moduleid) && $moduleid>0) {
-            $footer_prefix = get_string("fml_email_footer_prefix","local_fliplearning");
-            $footer_suffix = get_string("fml_email_footer_suffix","local_fliplearning");
-
-            $footer = "
-            
-            ---------------------------------------------------------------------------------
-            {$footer_prefix} {$CFG->wwwroot}/mod/assign/view.php?id={$moduleid} {$footer_suffix}.
-            {$footer_label}";
-        } else {
-            $footer = "
-            
-            ---------------------------------------------------------------------------------
-            {$footer_label}";
+        $footer_prefix = get_string("fml_email_footer_prefix","local_fliplearning");
+        $footer_suffix = get_string("fml_email_footer_suffix","local_fliplearning");
+        $footer_text = get_string("fml_email_footer_text","local_fliplearning");
+        $url="";
+        if (isset($modulename) && strlen(trim($modulename))>0) {
+            $identifier = "fml_{$modulename}_url";
+            if (get_string_manager()->string_exists($identifier, "local_fliplearning")) {
+                $module_url = get_string($identifier, "local_fliplearning");
+                $url = "{$CFG->wwwroot}{$module_url}{$moduleid}";
+            }
         }
+        $footer = "\n\n---------------------------------------------------------------------------------\n";
+        if (strlen($url)){
+            $footer = $footer."{$footer_prefix} {$CFG->wwwroot}{$module_url}{$moduleid} {$footer_suffix}.\n";
+        }
+        $footer = $footer."{$footer_text}";
         $text = $text.$footer;
 
         foreach ($recipients as $id) {
@@ -89,8 +87,6 @@ class email {
 
             }
         }
-
-
     }
 
 }

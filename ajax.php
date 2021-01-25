@@ -50,6 +50,7 @@ $subject = optional_param('subject', false ,PARAM_TEXT);
 $recipients = optional_param('recipients', false ,PARAM_TEXT);
 $text = optional_param('text', false ,PARAM_TEXT);
 $moduleid = optional_param('moduleid', false ,PARAM_INT);
+$modulename = optional_param('modulename', false ,PARAM_TEXT);
 
 $newinstance = optional_param('newinstance', false, PARAM_BOOL);
 
@@ -102,6 +103,7 @@ if($action == 'saveconfigweek') {
     array_push($params, $recipients);
     array_push($params, $text);
     array_push($params, $moduleid);
+    array_push($params, $modulename);
     if($subject && $recipients && $text){
         $func = "local_fliplearning_send_email";
     }
@@ -189,10 +191,10 @@ function local_fliplearning_get_assignments_submissions($weekcode, $courseid, $u
     local_fliplearning_ajax_response($body);
 }
 
-function local_fliplearning_send_email($course, $user, $subject, $recipients, $text, $moduleid){
+function local_fliplearning_send_email($course, $user, $subject, $recipients, $text, $moduleid, $modulename){
     set_time_limit(300);
     $email = new \local_fliplearning\email($course, $user);
-    $email->sendmail($subject, $recipients, $text, $moduleid);
+    $email->sendmail($subject, $recipients, $text, $moduleid, $modulename);
 
     $body = array(
         "data" => [$subject, $recipients, $text, $moduleid],

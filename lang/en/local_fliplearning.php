@@ -280,7 +280,32 @@ $string['fml_sending_text'] = 'Enviando Correos';
 $string['fml_recipients_label'] = 'Para';
 $string['fml_mailsended_text'] = 'Correos Enviados';
 
-$string['fml_email_footer'] = 'Este es un correo electrónico enviado con Fliplearning.';
+$string['fml_email_footer_text'] = 'Este es un correo electrónico enviado con Fliplearning.';
 $string['fml_email_footer_prefix'] = 'Ve a';
 $string['fml_email_footer_suffix'] = 'para más información.';
 $string['fml_mailsended_text'] = 'Correos Enviados';
+
+$string['fml_assign_url'] = '/mod/assign/view.php?id=';
+$string['fml_assignment_url'] = '/mod/assignment/view.php?id=';
+$string['fml_book_url'] = '/mod/book/view.php?id=';
+$string['fml_chat_url'] = '/mod/chat/view.php?id=';
+$string['fml_choice_url'] = '/mod/choice/view.php?id=';
+$string['fml_data_url'] = '/mod/data/view.php?id=';
+$string['fml_feedback_url'] = '/mod/feedback/view.php?id=';
+$string['fml_folder_url'] = '/mod/folder/view.php?id=';
+$string['fml_forum_url'] = '/mod/forum/view.php?id=';
+$string['fml_glossary_url'] = '/mod/glossary/view.php?id=';
+$string['fml_h5pactivity_url'] = '/mod/h5pactivity/view.php?id=';
+$string['fml_imscp_url'] = '/mod/imscp/view.php?id=';
+$string['fml_label_url'] = '/mod/label/view.php?id=';
+$string['fml_lesson_url'] = '/mod/lesson/view.php?id=';
+$string['fml_lti_url'] = '/mod/lti/view.php?id=';
+$string['fml_page_url'] = '/mod/page/view.php?id=';
+$string['fml_quiz_url'] = '/mod/quiz/view.php?id=';
+$string['fml_resource_url'] = '/mod/resource/view.php?id=';
+$string['fml_scorm_url'] = '/mod/scorm/view.php?id=';
+$string['fml_survey_url'] = '/mod/survey/view.php?id=';
+$string['fml_url_url'] = '/mod/url/view.php?id=';
+$string['fml_wiki_url'] = '/mod/wiki/view.php?id=';
+$string['fml_workshop_url'] = '/mod/workshop/view.php?id=';
+

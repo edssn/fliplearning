@@ -32,7 +32,7 @@
                                 v-model="item.show"
                                 :label="item.name"
                                 class="mr-2 checkbox-filter"
-                                @change="generateAccessContentData"
+                                @change="generate_access_content_data"
                         ></v-checkbox>
                     </template>
                 </v-row>
@@ -54,6 +54,7 @@
                                 :selected_users="selected_users"
                                 :strings="email_strings"
                                 :moduleid="moduleid"
+                                :modulename="modulename"
                                 :courseid="courseid"
                                 :userid="userid"
                                 @update_dialog="update_dialog"
@@ -61,10 +62,6 @@
                     </v-col>
 
                 </v-row>
-
-
-
-
 
             </div>
         </v-container>

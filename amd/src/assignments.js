@@ -26,6 +26,7 @@ define(["local_fliplearning/vue",
                     return {
                         dialog : false,
                         selected_users : [],
+                        modulename : "",
                         moduleid : false,
                         strings : content.strings,
                         groups : content.groups,
@@ -46,7 +47,7 @@ define(["local_fliplearning/vue",
                     }
                 },
                 beforeMount(){
-                    this.generateAccessContentData();
+                    this.generate_access_content_data();
                 },
                 mounted(){
                     document.querySelector("#sessions-loader").style.display = "none";
@@ -76,7 +77,7 @@ define(["local_fliplearning/vue",
                             if (response.status == 200 && response.data.ok) {
                                 this.submissions = response.data.data.submissions;
                                 this.access = response.data.data.access;
-                                this.generateAccessContentData();
+                                this.generate_access_content_data();
                             } else {
                                 this.error_messages.push(this.strings.error_network);
                             }
@@ -128,6 +129,7 @@ define(["local_fliplearning/vue",
                                             vue.dialog = true;
                                             vue.selected_users = vue.submissions.users[x][column];
                                             vue.moduleid = vue.submissions.modules[x];
+                                            vue.modulename = "assign";
                                         }
                                     }
                                 }
@@ -187,14 +189,24 @@ define(["local_fliplearning/vue",
                                     point: {
                                     events: {
                                         click: function () {
-                                            console.log('Category: ' + this.category + ', value: ' + this.x);
-                                            console.log({
-                                                x: this.x,
-                                                column: this.series.colorIndex
-                                            });
+                                            let serie_name = this.category;
+                                            vue.email_strings.subject = vue.email_strings.subject_prefix+" - "+serie_name;
+
+                                            // console.log('Category: ' + this.category + ', value: ' + this.x);
+                                            // console.log({
+                                            //     x: this.x,
+                                            //     column: this.series.colorIndex
+                                            // });
                                             let x = this.x;
                                             let column = this.series.colorIndex;
-                                            console.log(vue.access_chart_users[x][column]);
+                                            let users = vue.get_users(vue.access_chart_users[x][column]);
+
+                                            vue.selected_users = users;
+                                            let module = vue.get_moduletype(this.category);
+                                            // console.log(module);
+                                            vue.modulename = module.type;
+                                            vue.moduleid = module.id;
+                                            vue.dialog = true;
                                         }
                                     }
                                 }
@@ -211,11 +223,7 @@ define(["local_fliplearning/vue",
                         this.dialog = value;
                     },
 
-                    // checkboxUpdated(){
-                    //     this.generateAccessContentData();
-                    // },
-
-                    generateAccessContentData () {
+                    generate_access_content_data () {
                         let usersIds = [];
                         this.access.users.forEach(user => {
                             usersIds.push(Number(user.id));
@@ -251,6 +259,27 @@ define(["local_fliplearning/vue",
                         this.access_chart_categories = categories;
                         this.access_chart_series = series;
                         this.access_chart_users = modules_users;
+                    },
+
+                    get_users(ids) {
+                        let users = [];
+                        this.access.users.forEach(user => {
+                            let userid = Number(user.id);
+                            if (ids.includes(userid)) {
+                                users.push(user);
+                            }
+                        });
+                        return users;
+                    },
+
+                    get_moduletype(modulename) {
+                        let mod;
+                        this.access.modules.forEach(module => {
+                            if (module.name === modulename) {
+                                mod = module;
+                            }
+                        });
+                        return mod;
                     }
                 }
             })
