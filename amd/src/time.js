@@ -31,6 +31,8 @@ define(["local_fliplearning/vue",
                         errors : [],
                         pages : content.pages,
                         inverted_time: content.inverted_time,
+
+                        items: ['Foo', 'Bar', 'Fizz', 'Buzz'],
                     }
                 },
                 mounted(){
@@ -110,6 +112,9 @@ define(["local_fliplearning/vue",
                         }];
                         chart.credits = {
                             enabled: false
+                        };
+                        chart.lang = {
+                            noData: this.strings.no_data,
                         };
                         return chart;
                     },

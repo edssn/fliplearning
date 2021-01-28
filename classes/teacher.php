@@ -991,4 +991,135 @@ class teacher extends report {
         $response->modules = $summary;
         return $response;
     }
+
+    public function grade_items() {
+
+        $categories = $this->get_grade_categories();
+        $items = $this->get_grade_items();
+        $items = $this->format_items($items);
+        $items = $this->set_average_max_min_grade($items);
+        $categories = $this->get_grade_categories_with_items($categories, $items);
+
+        $response = new stdClass();
+        $response->categories = $categories;
+        $response->student_count = count($this->users);
+        return $response;
+    }
+
+    private function get_grade_categories () {
+        global $DB;
+        $sql = "SELECT * FROM {grade_categories} WHERE courseid = {$this->course->id} ORDER BY path";
+        $result = $DB->get_records_sql($sql);
+        $result = array_values($result);
+        return $result;
+    }
+
+    private function get_grade_items () {
+        global $DB;
+        $sql = "SELECT * FROM {grade_items} WHERE courseid = {$this->course->id} AND itemtype = 'mod' and gradetype = 1";
+        $result = $DB->get_records_sql($sql);
+        $result = array_values($result);
+        return $result;
+    }
+
+    private function format_items ($items) {
+        $response = array();
+        foreach ($items as $item) {
+            $format_item = new stdClass();
+            $format_item->id = (int) $item->id;
+            $format_item->categoryid = (int) $item->categoryid;
+            $format_item->itemname = $item->itemname;
+            $format_item->itemmodule = $item->itemmodule;
+            $format_item->iteminstance = (int) $item->iteminstance;
+            $format_item->grademax = (int) $item->grademax;
+            $format_item->grademin = (int) $item->grademin;
+            array_push($response, $format_item);
+        }
+        return $response;
+    }
+
+    private function get_grade_categories_with_items ($categories, $items) {
+        $categories_items = array();
+        foreach ($categories as $category) {
+            $category_items = $this->get_grade_items_from_category($categories, $items, $category->id);
+
+            $name = $category->fullname;
+            if (!isset($category->parent)) {
+                $name = $this->course->fullname;
+            }
+            $element = new stdClass();
+            $element->name = $name;
+            $element->items = $category_items;
+            array_push($categories_items, $element);
+        }
+        return $categories_items;
+    }
+
+    private function get_grade_items_from_category($categories, $items, $categoryid) {
+        $selected_items = $this->filter_items_by_category($items, $categoryid);
+        $child_categories = $this->get_child_categories($categories, $categoryid);
+        foreach ($child_categories as $categoryid) {
+            $child_items = $this->get_grade_items_from_category($categories, $items, $categoryid);
+            $selected_items = array_merge($selected_items, $child_items);
+        }
+        return $selected_items;
+    }
+
+    private function filter_items_by_category ($items, $categoryid) {
+        $selected_items = [];
+        foreach ($items as $item) {
+            if ($item->categoryid == $categoryid) {
+                array_push($selected_items, $item);
+            }
+        }
+        return $selected_items;
+    }
+
+    private function get_child_categories($categories, $categoryid) {
+        $child_categories = array();
+        foreach ($categories as $category) {
+            if ($category->parent == $categoryid) {
+                array_push($child_categories, $category->id);
+            }
+        }
+        return $child_categories;
+    }
+
+    private function set_average_max_min_grade ($items) {
+        foreach ($items as $item) {
+            $result = $this->get_average_max_min_grade($item->id);
+            $item->average = (int) $result->avg;
+            $item->average_percentage = $this->convert_value_to_percentage($result->avg, $item->grademax);
+            $item->maxrating = (int) $result->max;
+            $item->minrating = (int) $result->min;
+            $item->gradecount = (int) $result->count;
+        }
+        return $items;
+    }
+
+    private function get_item_grades($itemid) {
+        global $DB;
+        $sql = "SELECT rawgrade, rawgrademax, rawgrademin FROM {grade_grades} 
+                WHERE itemid = {$itemid} AND rawgrade IS NOT NULL";
+        $result = $DB->get_records_sql($sql);
+        $result = array_values($result);
+        return $result;
+    }
+
+    private function convert_value_to_percentage($value, $maxvalue) {
+        $percentage = 0;
+        if ($maxvalue > 0) {
+            $percentage = ($value * 100)/$maxvalue;
+        }
+        return $percentage;
+    }
+
+    private function get_average_max_min_grade($itemid) {
+        global $DB;
+        $sql = "SELECT COUNT(*) as count, MAX(rawgrade) as max, MIN(rawgrade) as min, AVG(rawgrade) as avg
+                FROM {grade_grades} WHERE itemid = {$itemid} AND rawgrade IS NOT NULL";
+        $result = $DB->get_records_sql($sql);
+        $result = array_values($result);
+        return $result[0];
+    }
 }

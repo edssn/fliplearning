@@ -42,10 +42,8 @@ $string['menu_sessions'] = 'Sesiones de Estudio';
 $string['menu_setweek'] = "Configurar semanas";
 $string['menu_time'] = 'Seguimiento de Tiempo';
 $string['menu_assignments'] = 'Seguimiento de Tareas';
+$string['menu_grades'] = 'Seguimiento de Calificaciones';
 $string['menu_logs'] = "Descargar registros";
-$string['menu_time_worked_session_report'] = 'Sesiones de estudio por semana';
-$string['menu_activities_performed'] = 'Actividades realizadas';
-$string['menu_notes'] = 'Anotaciones';
 
 /* Nav Bar Menu */
 $string['togglemenu'] = 'Mostrar/Ocultar menú de FML';
@@ -308,4 +306,16 @@ $string['fml_survey_url'] = '/mod/survey/view.php?id=';
 $string['fml_url_url'] = '/mod/url/view.php?id=';
 $string['fml_wiki_url'] = '/mod/wiki/view.php?id=';
 $string['fml_workshop_url'] = '/mod/workshop/view.php?id=';
+
+/* Grades */
+$string['fml_grades_chart_title'] = 'Promedios de Actividades Evaluables';
+$string['fml_grades_yaxis_title'] = 'Promedio de Calificaciones (%)';
+$string['fml_grades_tooltip_average'] = 'Calificación Promedio';
+$string['fml_grades_tooltip_grade'] = 'Calificación Máxima';
+$string['fml_grades_tooltip_students'] = 'estudiantes calificados de';
+
+$string['fml_grades_best_grade'] = 'Mejor Calificación';
+$string['fml_grades_average_grade'] = 'Calificación Promedio';
+$string['fml_grades_worst_grade'] = 'Peor Calificación';
+
 

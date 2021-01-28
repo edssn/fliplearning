@@ -191,19 +191,11 @@ define(["local_fliplearning/vue",
                                         click: function () {
                                             let serie_name = this.category;
                                             vue.email_strings.subject = vue.email_strings.subject_prefix+" - "+serie_name;
-
-                                            // console.log('Category: ' + this.category + ', value: ' + this.x);
-                                            // console.log({
-                                            //     x: this.x,
-                                            //     column: this.series.colorIndex
-                                            // });
                                             let x = this.x;
                                             let column = this.series.colorIndex;
                                             let users = vue.get_users(vue.access_chart_users[x][column]);
-
                                             vue.selected_users = users;
                                             let module = vue.get_moduletype(this.category);
-                                            // console.log(module);
                                             vue.modulename = module.type;
                                             vue.moduleid = module.id;
                                             vue.dialog = true;
@@ -214,6 +206,9 @@ define(["local_fliplearning/vue",
                         };
                         chart.credits = {
                             enabled: false
+                        };
+                        chart.lang = {
+                            noData: this.strings.no_data,
                         };
                         chart.series = this.access_chart_series;
                         return chart;
