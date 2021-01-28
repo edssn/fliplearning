@@ -94,6 +94,21 @@ trait lib_trait {
         return $user;
     }
 
+    protected function get_full_users(){
+        global $DB;
+        $users = [];
+        list($in, $invalues) = $DB->get_in_or_equal($this->users);
+        $fields = self::USER_FIELDS;
+        $sql = "select $fields from {user} where id $in order by lastname asc";
+        $rows = $DB->get_recordset_sql($sql, $invalues);
+        foreach($rows as $key => $row){
+//            array_push($users, $row);
+            $users[$row->id] = $row;
+        }
+        $rows->close();
+        return $users;
+    }
+
     /**
      * Obtiene un conjunto de campos (sectionid, section, name, visibility, availability) de las secciones del
      * curso almacenado en la variable $course de esta clase

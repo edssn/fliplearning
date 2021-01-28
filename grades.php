@@ -62,6 +62,14 @@ $content = [
         "grades_tooltip_average" => get_string("fml_grades_tooltip_average", 'local_fliplearning'),
         "grades_tooltip_grade" => get_string("fml_grades_tooltip_grade", 'local_fliplearning'),
         "grades_tooltip_students" => get_string("fml_grades_tooltip_students", 'local_fliplearning'),
+        "grades_greater_than" => get_string("fml_grades_distribution_greater_than", 'local_fliplearning'),
+        "grades_smaller_than" => get_string("fml_grades_distribution_smaller_than", 'local_fliplearning'),
+        "grades_details_subtitle" => get_string("fml_grades_details_subtitle", 'local_fliplearning'),
+        "grades_distribution_subtitle" => get_string("fml_grades_distribution_subtitle", 'local_fliplearning'),
+        "grades_distribution_yaxis_title" => get_string("fml_grades_distribution_yaxis_title", 'local_fliplearning'),
+        "grades_distribution_tooltip_prefix" => get_string("fml_grades_distribution_tooltip_prefix", 'local_fliplearning'),
+        "grades_distribution_tooltip_suffix" => get_string("fml_grades_distribution_tooltip_suffix", 'local_fliplearning'),
+
         "grade_item_details_categories" => array(
             get_string("fml_grades_best_grade","local_fliplearning"),
             get_string("fml_grades_average_grade","local_fliplearning"),

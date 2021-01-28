@@ -997,7 +997,8 @@ class teacher extends report {
         $categories = $this->get_grade_categories();
         $items = $this->get_grade_items();
         $items = $this->format_items($items);
-        $items = $this->set_average_max_min_grade($items);
+        $users = $this->get_full_users();
+        $items = $this->set_average_max_min_grade($items, $users);
         $categories = $this->get_grade_categories_with_items($categories, $items);
 
         $response = new stdClass();
@@ -1085,25 +1086,37 @@ class teacher extends report {
         return $child_categories;
     }
 
-    private function set_average_max_min_grade ($items) {
+    private function set_average_max_min_grade ($items, $users) {
         foreach ($items as $item) {
             $result = $this->get_average_max_min_grade($item->id);
-            $item->average = (int) $result->avg;
+            $grades = $this->get_item_grades($item->id, $users);
             $item->average_percentage = $this->convert_value_to_percentage($result->avg, $item->grademax);
-            $item->maxrating = (int) $result->max;
-            $item->minrating = (int) $result->min;
+            $item->average = $result->avg;
+            $item->maxrating = $result->max;
+            $item->minrating = $result->min;
             $item->gradecount = (int) $result->count;
+            $item->grades = $grades;
         }
         return $items;
     }
 
-    private function get_item_grades($itemid) {
+    private function get_item_grades($itemid, $users) {
         global $DB;
-        $sql = "SELECT rawgrade, rawgrademax, rawgrademin FROM {grade_grades} 
-                WHERE itemid = {$itemid} AND rawgrade IS NOT NULL";
-        $result = $DB->get_records_sql($sql);
-        $result = array_values($result);
-        return $result;
+        list($in, $invalues) = $DB->get_in_or_equal($this->users);
+        $sql = "SELECT rawgrade, rawgrademax, rawgrademin, userid FROM {grade_grades} 
+                WHERE itemid = {$itemid} AND rawgrade IS NOT NULL AND userid {$in}";
+        $grades = $DB->get_records_sql($sql, $invalues);
+        $grades = array_values($grades);
+        foreach ($grades as $grade) {
+            $grade->rawgrade = (int) $grade->rawgrade;
+            $grade->rawgrademax = (int) $grade->rawgrademax;
+            $grade->rawgrademin = (int) $grade->rawgrademin;
+            $grade->userid = (int) $grade->userid;
+            if (isset($users[$grade->userid])) {
+                $grade->user = $users[$grade->userid];
+            }
+        }
+        return $grades;
     }
 
     private function convert_value_to_percentage($value, $maxvalue) {
@@ -1114,11 +1127,24 @@ class teacher extends report {
         return $percentage;
     }
 
+    private function get_grade_item_users($grades, $users) {
+        $grade_users = array();
+        foreach ($grades as $grade) {
+            $userid = $grade->userid;
+            if (isset($users[$userid])) {
+                array_push($grade_users, $users[$userid]);
+            }
+
+        }
+        return $grade_users;
+    }
+
     private function get_average_max_min_grade($itemid) {
         global $DB;
+        list($in, $invalues) = $DB->get_in_or_equal($this->users);
         $sql = "SELECT COUNT(*) as count, MAX(rawgrade) as max, MIN(rawgrade) as min, AVG(rawgrade) as avg
-                FROM {grade_grades} WHERE itemid = {$itemid} AND rawgrade IS NOT NULL";
-        $result = $DB->get_records_sql($sql);
+                FROM {grade_grades} WHERE itemid = {$itemid} AND rawgrade IS NOT NULL AND userid {$in}";
+        $result = $DB->get_records_sql($sql, $invalues);
         $result = array_values($result);
         return $result[0];
     }

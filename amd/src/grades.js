@@ -38,10 +38,15 @@ define(["local_fliplearning/vue",
                         selected_items: [],
                         item_details: [],
 
-                        grade_item_details_title: "",
+                        grade_item_title: "",
                         grade_item_details_categories: [],
                         grade_item_details_data: [],
+
+                        grade_item_distribution_categories: [],
+                        grade_item_distribution_data: [],
+
                         selected_item: null,
+                        selected_users: null,
                     }
                 },
                 beforeMount(){
@@ -49,7 +54,9 @@ define(["local_fliplearning/vue",
                         this.default_category = this.grades.categories[0];
                         this.calculate_chart_items_average(this.default_category.items);
                         let item = this.find_first_grade_item(this.default_category.items);
-                        this.calculate_chart_item_grade_detail(item);
+                        this.update_detail_charts(item);
+                        // this.calculate_chart_item_grade_detail(item);
+                        // this.calculate_chart_item_grades_distribution(item);
                     };
                 },
                 mounted(){
@@ -68,7 +75,9 @@ define(["local_fliplearning/vue",
                     changeCategory(items) {
                         this.calculate_chart_items_average(items);
                         let item = this.find_first_grade_item(items);
-                        this.calculate_chart_item_grade_detail(item);
+                        this.update_detail_charts(item);
+                        // this.calculate_chart_item_grade_detail(item);
+                        // this.calculate_chart_item_grades_distribution(item);
                     },
 
                     build_chart_items_average() {
@@ -94,7 +103,9 @@ define(["local_fliplearning/vue",
                                         click: function () {
                                             let position = this.x;
                                             let item = vue.selected_items[position];
-                                            vue.calculate_chart_item_grade_detail(item);
+                                            vue.update_detail_charts(item);
+                                            // vue.calculate_chart_item_grade_detail(item);
+                                            // vue.calculate_chart_item_grades_distribution(item);
                                         }
                                     }
                                 }
@@ -105,7 +116,7 @@ define(["local_fliplearning/vue",
                                 let position = this.point.x;
                                 let item = vue.selected_items[position];
                                 let name = this.x;
-                                let average = item.average.toFixed(2);
+                                let average = Number(item.average).toFixed(2);
                                 let grademax = item.grademax;
                                 let count = item.gradecount;
                                 let text = '<b>' + name + '<b> <br/>' +
@@ -145,7 +156,10 @@ define(["local_fliplearning/vue",
                             backgroundColor: '#FAFAFA',
                         };
                         chart.title = {
-                            text: this.grade_item_details_title,
+                            text: this.grade_item_title,
+                        };
+                        chart.subtitle = {
+                            text: this.strings.grades_details_subtitle,
                         };
                         chart.xAxis = {
                             categories: this.strings.grade_item_details_categories,
@@ -166,7 +180,8 @@ define(["local_fliplearning/vue",
                                 } else {
                                     grade = vue.selected_item.minrating;
                                 }
-
+                                grade = Number(grade);
+                                grade = vue.isInt(grade) ? grade : grade.toFixed(2);
                                 let text = '<b>' + name + '<b> <br/>' +
                                     category + ': ' + grade + '/' + maxgrade + '<br/>';
                                 return text;
@@ -189,6 +204,78 @@ define(["local_fliplearning/vue",
                         return chart;
                     },
 
+                    build_chart_item_grades_distribution() {
+                        let chart = new Object();
+                        chart.chart = {
+                            backgroundColor: '#FAFAFA',
+                        };
+                        chart.title = {
+                            text: this.grade_item_title,
+                        };
+                        chart.subtitle = {
+                            text: this.strings.grades_distribution_subtitle,
+                        };
+                        chart.xAxis = {
+                            categories: this.grade_item_distribution_categories
+                        };
+                        chart.yAxis = [{
+                            title: {
+                                text: this.strings.grades_distribution_yaxis_title,
+                            }
+                        }];
+                        chart.legend = {
+                            enabled: false
+                        };
+                        chart.tooltip = {
+                            formatter: function() {
+                                let prefix = vue.strings.grades_distribution_tooltip_prefix;
+                                let suffix = vue.strings.grades_distribution_tooltip_suffix;
+                                let name = this.x;
+                                let value = this.y;
+                                let text = '<b>' + prefix + '</b> '+ name + ' <br/>'
+                                    + value + ' ' + suffix;
+                                return text;
+                            }
+                        };
+                        chart.plotOptions = {
+                            series: {
+                                stacking: 'normal',
+                                borderWidth: 1,
+                                pointPadding: 0,
+                                groupPadding: 0,
+                                point: {
+                                    events: {
+                                        click: function () {
+                                            let position = this.x;
+                                            console.log(vue.selected_users[position]);
+                                            console.log(vue.selected_users);
+                                            console.log(this);
+                                        }
+                                    }
+                                }
+                            }
+                        };
+                        chart.series = [{
+                            type: 'column',
+                            name: 'Jane',
+                            data: this.grade_item_distribution_data
+                        }, {
+                            type: 'spline',
+                            name: 'Average',
+                            data: this.grade_item_distribution_data,
+                            marker: {
+                                lineWidth: 1,
+                            }
+                        }];
+                        chart.credits = {
+                            enabled: false
+                        };
+                        chart.lang = {
+                            noData: this.strings.no_data,
+                        };
+                        return chart;
+                    },
+
                     calculate_chart_items_average(items) {
                         let values = [];
                         let categories = [];
@@ -201,19 +288,75 @@ define(["local_fliplearning/vue",
                         this.selected_items = items;
                     },
 
+                    update_detail_charts (item) {
+                        this.grade_item_title = item.itemname;
+                        this.calculate_chart_item_grade_detail(item);
+                        this.calculate_chart_item_grades_distribution(item);
+                    },
+
                     calculate_chart_item_grade_detail(item) {
                         this.selected_item = item;
                         let item_data = [0, 0, 0];
                         if (item) {
                             item_data = [
-                                Number(item.maxrating.toFixed(2)),
-                                Number(item.average.toFixed(2)),
-                                Number(item.minrating.toFixed(2)),
+                                Number(item.maxrating),
+                                Number(item.average),
+                                Number(item.minrating),
                             ];
                         }
-                        this.grade_item_details_title = item.itemname;
                         this.grade_item_details_data = item_data;
                     },
+
+                    calculate_chart_item_grades_distribution(item) {
+                        let greater = this.strings.grades_greater_than;
+                        let smaller = this.strings.grades_smaller_than;
+                        let categories = [
+                            `${greater} 90%`,
+                            `${greater} 80%`,
+                            `${greater} 70%`,
+                            `${greater} 60%`,
+                            `${greater} 50%`,
+                            `${smaller} 50%`];
+                        let values = [0, 0, 0, 0, 0, 0];
+                        let users = [[], [], [], [], [], []];
+                        if (item) {
+                            let weights = [0.9, 0.8, 0.7, 0.6, 0.5, 0];
+                            let ranges = [];
+                            let grademax = item.grademax;
+                            let limit = grademax;
+                            weights.forEach(weight => {
+                                let grade = grademax * weight;
+                                ranges.push({ max: limit, min: grade, count: 0});
+                                limit = grade - 0.1;
+                            });
+
+                            item.grades.forEach(grade => {
+                                ranges.forEach((range, index) => {
+                                    if (grade.rawgrade >= range.min && grade.rawgrade <= range.max) {
+                                        range.count++;
+                                        users[index].push(grade.user);
+                                    }
+                                });
+                            });
+
+                            values = [];
+                            ranges.forEach((range, index) => {
+                                let max = this.isInt(range.max) ? range.max : range.max.toFixed(1);
+                                let min = this.isInt(range.min) ? range.min : range.min.toFixed(1);
+                                let label = `${max} - ${min}<br/>${categories[index]}`;
+                                categories[index] = label;
+                                values.push(range.count);
+                            });
+                        }
+                        this.selected_users = users;
+                        this.grade_item_distribution_categories = categories,
+                        this.grade_item_distribution_data = values;
+                    },
+
+                    isInt(n) {
+                        return n % 1 === 0;
+                    },
+
 
                     find_first_grade_item(items) {
                         let item;
