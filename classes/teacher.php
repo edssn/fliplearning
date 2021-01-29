@@ -1034,9 +1034,31 @@ class teacher extends report {
             $format_item->iteminstance = (int) $item->iteminstance;
             $format_item->grademax = (int) $item->grademax;
             $format_item->grademin = (int) $item->grademin;
+            $coursemoduleid = $this->get_course_module_id($item);
+            $format_item->coursemoduleid = $coursemoduleid;
             array_push($response, $format_item);
         }
         return $response;
+    }
+
+    private function get_course_module_id($item) {
+        global $DB;
+        $coursemoduleid = false;
+        if (isset($item->itemmodule)) {
+            $sql = "SELECT id FROM {modules} WHERE name = '{$item->itemmodule}'";
+            $result = $DB->get_record_sql($sql);
+            $moduleid =  $result->id;
+            if (isset($moduleid)) {
+                $sql = "SELECT id FROM {course_modules} 
+                        WHERE course = {$this->course->id} AND module = {$moduleid} 
+                        AND instance = {$item->iteminstance} and visible = 1";
+                $result = $DB->get_record_sql($sql);
+                if (isset($result->id)) {
+                    $coursemoduleid = (int) $result->id;
+                }
+            }
+        }
+        return $coursemoduleid;
     }
 
     private function get_grade_categories_with_items ($categories, $items) {

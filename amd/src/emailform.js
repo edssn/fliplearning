@@ -12,6 +12,7 @@ define([
                             v-model="dialog"
                             width="800"
                             @click:outside="closeDialog()"
+                            @keydown.esc="closeDialog()"
                             >
                                 <v-card>
                                     <v-toolbar color="primary" dark >

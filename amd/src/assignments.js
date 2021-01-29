@@ -6,9 +6,8 @@ define(["local_fliplearning/vue",
         "local_fliplearning/chartcomponent",
         "local_fliplearning/pageheader",
         "local_fliplearning/emailform",
-        "local_fliplearning/alertify",
     ],
-    function(Vue, Vuetify, Axios, Moment, Pagination, Chart, Pageheader, Emailform, Alertify) {
+    function(Vue, Vuetify, Axios, Moment, Pagination, Chart, Pageheader, Emailform) {
         "use strict";
 
         function init(content) {

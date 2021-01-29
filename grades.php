@@ -70,6 +70,23 @@ $content = [
         "grades_distribution_tooltip_prefix" => get_string("fml_grades_distribution_tooltip_prefix", 'local_fliplearning'),
         "grades_distribution_tooltip_suffix" => get_string("fml_grades_distribution_tooltip_suffix", 'local_fliplearning'),
 
+        "email_strings" => array(
+            "validation_subject_text" => get_string("fml_validation_subject_text","local_fliplearning"),
+            "validation_message_text" => get_string("fml_validation_message_text","local_fliplearning"),
+            "subject" => "",
+            "subject_prefix" => $COURSE->fullname,
+            "subject_label" => get_string("fml_subject_label","local_fliplearning"),
+            "message_label" => get_string("fml_message_label","local_fliplearning"),
+
+            "submit_button" => get_string("fml_submit_button","local_fliplearning"),
+            "cancel_button" => get_string("fml_cancel_button","local_fliplearning"),
+            "emailform_title" => get_string("fml_emailform_title","local_fliplearning"),
+            "sending_text" => get_string("fml_sending_text","local_fliplearning"),
+            "recipients_label" => get_string("fml_recipients_label","local_fliplearning"),
+            "mailsended_text" => get_string("fml_mailsended_text","local_fliplearning"),
+            "api_error_network" => get_string("api_error_network", "local_fliplearning"),
+        ),
+
         "grade_item_details_categories" => array(
             get_string("fml_grades_best_grade","local_fliplearning"),
             get_string("fml_grades_average_grade","local_fliplearning"),

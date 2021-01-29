@@ -47,9 +47,22 @@
                     </v-col>
                 </v-row>
 
+                <v-row justify="center">
+                    <v-col sm="12">
+                        <emailform
+                                :dialog="dialog"
+                                :selected_users="selected_users"
+                                :strings="email_strings"
+                                :moduleid="moduleid"
+                                :modulename="modulename"
+                                :courseid="courseid"
+                                :userid="userid"
+                                @update_dialog="update_dialog"
+                        ></emailform>
+                    </v-col>
+
+                </v-row>
             </div>
-
-
         </v-container>
     </v-main>
 </v-app>
