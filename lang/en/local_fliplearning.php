@@ -43,6 +43,7 @@ $string['menu_setweek'] = "Configurar semanas";
 $string['menu_time'] = 'Seguimiento de Tiempo';
 $string['menu_assignments'] = 'Seguimiento de Tareas';
 $string['menu_grades'] = 'Seguimiento de Calificaciones';
+$string['menu_quiz'] = 'Seguimiento de Evaluaciones';
 $string['menu_logs'] = "Descargar registros";
 
 /* Nav Bar Menu */
@@ -325,6 +326,9 @@ $string['fml_grades_distribution_smaller_than'] = 'menor al';
 $string['fml_grades_distribution_yaxis_title'] = 'Número de Estudiantes';
 $string['fml_grades_distribution_tooltip_prefix'] = 'Rango';
 $string['fml_grades_distribution_tooltip_suffix'] = 'estudiantes en este rango';
+
+
+/* Quiz */
 
 
 

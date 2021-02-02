@@ -4,7 +4,7 @@
     </div>
 </div>
 
-<v-app id="grades" class="fliplearning">
+<v-app id="quiz" class="fliplearning">
     <v-main>
         <pageheader :pagetitle="strings.title" :helptitle="strings.helplabel" :exitbutton="strings.exitbutton"
                     :helpcontents="get_help_content()" :groups="groups" :courseid="courseid" :userid="userid"></pageheader>
@@ -16,53 +16,48 @@
             <div v-else>
                 <v-alert v-if="errors.length > 0" dense outlined type="error" v-text="strings.api_error_network"></v-alert>
 
+                <pagination
+                        :pages="pages" :name="strings.pagination_name" :nameseparator="strings.pagination_separator"
+                        @changepage="update_interactions" :title="strings.pagination_title"></pagination>
+
                 <v-row>
                     <v-col sm="12">
                         <v-select
                                 attach
-                                :items="grades.categories"
+                                :items="quiz.data"
                                 item-text="name"
-                                item-value="items"
-                                label="Categoría"
-                                v-model="default_category"
-                                v-on:change="change_category"
+                                item-value="attempts"
+                                label="Evaluaciones"
+                                v-model="default_quiz"
+                                v-on:change="calculate_questions_attempts"
                                 solo
                         ></v-select>
                     </v-col>
                 </v-row>
 
-                <v-row>
-                    <v-col sm="12">
-                        <chart :container="'items_average'" :chart="build_chart_items_average()"></chart>
-                    </v-col>
-                </v-row>
+                <i v-text="get_quiz_info_text1()"></i>
+                <br/>
+                <i v-text="get_quiz_info_text2()"></i>
 
                 <v-row>
-                    <v-col sm="12" md="6">
-                        <chart :container="'item_detail'" :chart="build_chart_item_grade_detail()"></chart>
-                    </v-col>
-
-                    <v-col sm="12" md="6">
-                        <chart :container="'item_grades_distribution'" :chart="build_chart_item_grades_distribution()"></chart>
-                    </v-col>
-                </v-row>
-
-                <v-row justify="center">
                     <v-col sm="12">
-                        <emailform
-                                :dialog="dialog"
-                                :selected_users="selected_users"
-                                :strings="email_strings"
-                                :moduleid="moduleid"
-                                :modulename="modulename"
-                                :courseid="courseid"
-                                :userid="userid"
-                                @update_dialog="update_dialog"
-                        ></emailform>
+                        <chart :container="'questions_attempts'" :chart="build_chart_questions_attempts()"></chart>
                     </v-col>
-
                 </v-row>
+
+                <v-row>
+                    <v-col sm="12">
+                        <chart :container="'hardest_questions'" :chart="build_chart_hardest_questions()"></chart>
+                    </v-col>
+                </v-row>
+
             </div>
+
+
+
+
+
+
         </v-container>
     </v-main>
 </v-app>

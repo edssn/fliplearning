@@ -78,7 +78,7 @@ define(["local_fliplearning/vue",
                         return helpcontents;
                     },
 
-                    changeCategory(items) {
+                    change_category(items) {
                         this.calculate_chart_items_average(items);
                         let item = this.find_first_grade_item(items);
                         this.update_detail_charts(item);
@@ -116,13 +116,16 @@ define(["local_fliplearning/vue",
                         chart.tooltip = {
                             formatter: function() {
                                 let position = this.point.x;
+                                let value = this.point.y;
                                 let item = vue.selected_items[position];
                                 let name = this.x;
-                                let average = Number(item.average).toFixed(2);
+                                let average = Number(item.average);
+                                value = vue.isInt(value) ? value : value.toFixed(2);
+                                average = vue.isInt(average) ? average : average.toFixed(2);
                                 let grademax = item.grademax;
                                 let count = item.gradecount;
                                 let text = '<b>' + name + '<b> <br/>' +
-                                    vue.strings.grades_tooltip_average + ': ' + average + '<br/>' +
+                                    vue.strings.grades_tooltip_average + ': ' + average + ' (' + value + ' %)<br/>' +
                                     vue.strings.grades_tooltip_grade + ': ' + grademax + '<br/>' +
                                     count + ' ' + vue.strings.grades_tooltip_students + ' ' +
                                     vue.grades.student_count
@@ -234,7 +237,7 @@ define(["local_fliplearning/vue",
                                 let suffix = vue.strings.grades_distribution_tooltip_suffix;
                                 let name = this.x;
                                 let value = this.y;
-                                let text = '<b>' + prefix + '</b> '+ name + ' <br/>'
+                                let text = '<b>' + prefix + ': </b> '+ name + ' <br/>'
                                     + value + ' ' + suffix;
                                 return text;
                             }

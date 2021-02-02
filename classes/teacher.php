@@ -127,7 +127,7 @@ class teacher extends report {
     }
 
     private function get_day_code($key) {
-        $days = array("mon", "tue", "wed", "thu", "fri", "dat", "sun");
+        $days = array("mon", "tue", "wed", "thu", "fri", "sat", "sun");
         return $days[$key];
     }
 
@@ -776,10 +776,13 @@ class teacher extends report {
 
     private function get_valid_assigns($assign_ids){
         global $DB;
-        list($in, $invalues) = $DB->get_in_or_equal($assign_ids);
-        $sql = "SELECT * FROM {assign} WHERE course = {$this->course->id} AND id $in AND nosubmissions <> 1";
-        $result = $DB->get_records_sql($sql, $invalues);
-        $assigns = array_values($result);
+        $assigns = array();
+        if (count($assign_ids) > 0) {
+            list($in, $invalues) = $DB->get_in_or_equal($assign_ids);
+            $sql = "SELECT * FROM {assign} WHERE course = {$this->course->id} AND id $in AND nosubmissions <> 1";
+            $result = $DB->get_records_sql($sql, $invalues);
+            $assigns = array_values($result);
+        }
         return $assigns;
     }
 
@@ -1125,7 +1128,7 @@ class teacher extends report {
     private function get_item_grades($itemid, $users) {
         global $DB;
         list($in, $invalues) = $DB->get_in_or_equal($this->users);
-        $sql = "SELECT rawgrade, rawgrademax, rawgrademin, userid FROM {grade_grades} 
+        $sql = "SELECT id, rawgrade, rawgrademax, rawgrademin, userid FROM {grade_grades} 
                 WHERE itemid = {$itemid} AND rawgrade IS NOT NULL AND userid {$in}";
         $grades = $DB->get_records_sql($sql, $invalues);
         $grades = array_values($grades);
@@ -1149,17 +1152,17 @@ class teacher extends report {
         return $percentage;
     }
 
-    private function get_grade_item_users($grades, $users) {
-        $grade_users = array();
-        foreach ($grades as $grade) {
-            $userid = $grade->userid;
-            if (isset($users[$userid])) {
-                array_push($grade_users, $users[$userid]);
-            }
-
-        }
-        return $grade_users;
-    }
+//    private function get_grade_item_users($grades, $users) {
+//        $grade_users = array();
+//        foreach ($grades as $grade) {
+//            $userid = $grade->userid;
+//            if (isset($users[$userid])) {
+//                array_push($grade_users, $users[$userid]);
+//            }
+//
+//        }
+//        return $grade_users;
+//    }
 
     private function get_average_max_min_grade($itemid) {
         global $DB;
@@ -1169,5 +1172,189 @@ class teacher extends report {
         $result = $DB->get_records_sql($sql, $invalues);
         $result = array_values($result);
         return $result[0];
+    }
+
+    public function quiz_attempts($weekcode = null){
+        if(!self::course_in_transit()){
+            return null;
+        }
+        if(!self::course_has_users()){
+            return null;
+        }
+        $week = $this->current_week;
+        if(!empty($weekcode)){
+            $week = self::find_week($weekcode);
+        }
+
+        $week_modules = self::get_course_modules_from_sections($week->sections);
+        $quiz_modules = array_filter($week_modules, function($module){ return $module->modname == 'quiz';});
+        $response = new stdClass();
+        $response->data = $this->get_quiz_attempts_summary($quiz_modules);
+        return $response;
+    }
+
+    private function get_quiz_attempts_summary($quiz_modules) {
+        $quizzes = array();
+        foreach ($quiz_modules as $module) {
+            $quiz = new stdClass();
+            $quiz->id = $module->instance;
+            $quiz->moduleid = $module->id;
+            $quiz->name = $module->name;
+            $quiz->modname = $module->modname;
+
+            $attempts = new stdClass();
+//            $details = $this->get_quiz_attempts($module->instance);
+//            $questionattemps = $this->get_questions_attempts($module->instance);
+            $attempts->details = $this->get_quiz_attempts($module->instance);
+            $attempts->questions = $this->get_questions_attempts($module->instance);
+
+            $quiz->attempts = $attempts;
+            array_push($quizzes, $quiz);
+        }
+        return $quizzes;
+    }
+
+    private function get_quiz_attempts($quizid) {
+        global $DB;
+        list($in, $invalues) = $DB->get_in_or_equal($this->users);
+        $sql = "SELECT id, quiz, userid, attempt, uniqueid, currentpage, state, sumgrades FROM {quiz_attempts} 
+                WHERE state = 'finished' AND sumgrades IS NOT NULL AND quiz = {$quizid} AND userid {$in}
+                ORDER BY userid, attempt";
+        $rows = $DB->get_records_sql($sql, $invalues);
+        $rows = array_values($rows);
+
+        $sql = "SELECT count(*) as count FROM {quiz_slots} WHERE quizid = ?";
+        $result = $DB->get_record_sql($sql, array($quizid));
+
+        $attempt = new stdClass();
+        $attempt->questions = (int) $result->count;
+        $attempt->users = 0;
+        $attempt->attempts = 0;
+        if (count($rows) > 0) {
+            $previoususerid = $rows[0]->userid;
+            $previousattempt = $rows[0]->attempt;
+            $totalusers = 1;
+            $totalattemps = 1;
+            foreach ($rows as $row) {
+                if ($row->userid != $previoususerid) {
+                    $totalusers++;
+                    $totalattemps++;
+                } else {
+                    if ($row->attempt != $previousattempt) {
+                        $totalattemps++;
+                    }
+                }
+                $previousattempt = $row->attempt;
+                $previoususerid = $row->userid;
+            }
+            $attempt->users = $totalusers;
+            $attempt->attempts = $totalattemps;
+        }
+        return $attempt;
+    }
+
+    private function get_questions_attempts($quizid) {
+        global $DB;
+        list($in, $invalues) = $DB->get_in_or_equal($this->users);
+        $sql = "SELECT qattstep.id as id, quizatt.id as quizattid, quizatt.quiz, quizatt.userid, quizatt.attempt, 
+                quizatt.uniqueid, qatt.id as qattid, qatt.questionid, q.name, qattstep.sequencenumber, qattstep.state  
+                FROM {quiz_attempts} quizatt
+                JOIN {question_attempts} qatt ON quizatt.uniqueid = qatt.questionusageid
+                JOIN {question} q ON qatt.questionid= q.id
+                JOIN {question_attempt_steps} qattstep ON qatt.id = qattstep.questionattemptid
+                WHERE quizatt.quiz = {$quizid} AND quizatt.state = 'finished' AND quizatt.sumgrades IS NOT NULL 
+                AND q.qtype != 'description' AND quizatt.userid {$in}
+                ORDER BY quizatt.userid, qatt.id, qattstep.sequencenumber DESC";
+        $rows = $DB->get_records_sql($sql, $invalues);
+        $rows = array_values($rows);
+
+        $questions = array();
+        if (count($rows) > 0) {
+            $qattempts = array();
+            $previousqattid = $rows[0]->qattid;
+            $qasteps = array();
+            foreach ($rows as $row) {
+                if ($row->qattid != $previousqattid) {
+                    $qattempts[$previousqattid] = $qasteps[0];
+                    $qasteps = array();
+                }
+                $qasteps[] = $row;
+                $previousqattid = $row->qattid;
+            }
+            $qattempts[$previousqattid] = $qasteps[0];
+
+
+            foreach ($qattempts as $attempt) {
+                if (!isset($questions[$attempt->questionid])) {
+                    $question = array();
+                    $question["id"] = $attempt->questionid;
+                    $question["name"] = $attempt->name;
+                    $question["total_attempts"] = 1;
+                    $question[$attempt->state] = 1;
+                    $questions[$attempt->questionid] = $question;
+                } else {
+                    if (!isset($questions[$attempt->questionid][$attempt->state])) {
+                        $questions[$attempt->questionid][$attempt->state] = 1;
+                    } else {
+                        $questions[$attempt->questionid][$attempt->state]++;
+                    }
+                    $questions[$attempt->questionid]["total_attempts"]++;
+                }
+            }
+            $questions = array_values($questions);
+        }
+        return $questions;
+    }
+
+    private function get_questions_attempts2($quizid) {
+        global $DB;
+        list($in, $invalues) = $DB->get_in_or_equal($this->users);
+        $sql = "SELECT qattstep.id as id, quizatt.id as quizattid, quizatt.quiz, quizatt.userid, quizatt.attempt, 
+                quizatt.uniqueid, qatt.id as qattid, qatt.questionid, q.name, qattstep.sequencenumber, qattstep.state  
+                FROM {quiz_attempts} quizatt
+                JOIN {question_attempts} qatt ON quizatt.uniqueid = qatt.questionusageid
+                JOIN {question} q ON qatt.questionid= q.id
+                JOIN {question_attempt_steps} qattstep ON qatt.id = qattstep.questionattemptid
+                WHERE quizatt.quiz = {$quizid} AND quizatt.state = 'finished' AND quizatt.sumgrades IS NOT NULL 
+                AND q.qtype != 'description' AND quizatt.userid {$in}
+                ORDER BY quizatt.userid, qatt.id, qattstep.sequencenumber DESC";
+        $rows = $DB->get_records_sql($sql, $invalues);
+        $rows = array_values($rows);
+
+        $questions = array();
+        if (count($rows) > 0) {
+            $qattempts = array();
+            $previousqattid = $rows[0]->qattid;
+            $qasteps = array();
+            foreach ($rows as $row) {
+                if ($row->qattid != $previousqattid) {
+                    $qattempts[$previousqattid] = $qasteps[0];
+                    $qasteps = array();
+                }
+                $qasteps[] = $row;
+                $previousqattid = $row->qattid;
+            }
+            $qattempts[$previousqattid] = $qasteps[0];
+
+            foreach ($qattempts as $attempt) {
+                if (!isset($questions[$attempt->questionid])) {
+                    $question = array();
+                    $question["id"] = $attempt->questionid;
+                    $question["name"] = $attempt->name;
+                    $question["total_attempts"] = 1;
+                    $question[$attempt->state] = array($attempt);
+                    $questions[$attempt->questionid] = $question;
+                } else {
+                    if (!isset($questions[$attempt->questionid][$attempt->state])) {
+                        $questions[$attempt->questionid][$attempt->state] = array($attempt);
+                    } else {
+                        array_push($questions[$attempt->questionid][$attempt->state], $attempt);
+                    }
+                    $questions[$attempt->questionid]["total_attempts"]++;
+                }
+            }
+            $questions = array_values($questions);
+        }
+        return $questions;
     }
 }
