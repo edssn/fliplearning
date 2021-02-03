@@ -1188,8 +1188,7 @@ class teacher extends report {
 
         $week_modules = self::get_course_modules_from_sections($week->sections);
         $quiz_modules = array_filter($week_modules, function($module){ return $module->modname == 'quiz';});
-        $response = new stdClass();
-        $response->data = $this->get_quiz_attempts_summary($quiz_modules);
+        $response = $this->get_quiz_attempts_summary($quiz_modules);
         return $response;
     }
 

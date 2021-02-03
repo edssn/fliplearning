@@ -24,10 +24,10 @@
                     <v-col sm="12">
                         <v-select
                                 attach
-                                :items="quiz.data"
+                                :items="quiz"
                                 item-text="name"
                                 item-value="attempts"
-                                label="Evaluaciones"
+                                label="strings.quiz"
                                 v-model="default_quiz"
                                 v-on:change="calculate_questions_attempts"
                                 solo
@@ -40,17 +40,13 @@
                 <i v-text="get_quiz_info_text2()"></i>
 
                 <v-row>
-                    <v-col sm="12">
+                    <v-col sm="12" md="6">
                         <chart :container="'questions_attempts'" :chart="build_chart_questions_attempts()"></chart>
                     </v-col>
-                </v-row>
-
-                <v-row>
-                    <v-col sm="12">
+                    <v-col sm="12" md="6">
                         <chart :container="'hardest_questions'" :chart="build_chart_hardest_questions()"></chart>
                     </v-col>
                 </v-row>
-
             </div>
 
 

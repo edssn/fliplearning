@@ -35,13 +35,15 @@ define(["local_fliplearning/vue",
                         default_quiz: null,
                         attempts_categories: [],
                         attempts_series: [],
+                        attempts_questions: [],
                         hardest_categories: [],
                         hardest_series: [],
+                        hardest_questions: [],
                     }
                 },
                 beforeMount(){
-                    if (this.quiz.data.length) {
-                        this.default_quiz = this.quiz.data[0].attempts;
+                    if (this.quiz.length) {
+                        this.default_quiz = this.quiz[0].attempts;
                         this.calculate_questions_attempts(this.default_quiz);
                     };
                 },
@@ -59,27 +61,33 @@ define(["local_fliplearning/vue",
                     },
 
                     get_quiz_info_text1() {
-                        let questions_number = this.default_quiz.details.questions;
-                        let questions_label = this.strings.questions_text;
-                        if (questions_number == 1) {
-                            questions_label = this.strings.question_text;
+                        let text = '';
+                        if (this.default_quiz) {
+                            let questions_number = this.default_quiz.details.questions;
+                            let questions_label = this.strings.questions_text;
+                            if (questions_number == 1) {
+                                questions_label = this.strings.question_text;
+                            }
+                            text = `* ${this.strings.quiz_info_text} ${questions_number} ${questions_label}`;
                         }
-                        let text = `* ${this.strings.quiz_info_text} ${questions_number} ${questions_label}`;
                         return text;
                     },
 
                     get_quiz_info_text2() {
-                        let attempts_number = this.default_quiz.details.attempts;
-                        let attempts_label = this.strings.attempts_text;
-                        if (attempts_number == 1) {
-                            attempts_label = this.strings.attempt_text;
+                        let text = '';
+                        if (this.default_quiz) {
+                            let attempts_number = this.default_quiz.details.attempts;
+                            let doing_text = this.strings.doing_text_plural;
+                            if (attempts_number == 1) {
+                                doing_text = this.strings.doing_text_singular;
+                            }
+                            let students_number = this.default_quiz.details.users;
+                            let students_label = this.strings.students_text;
+                            if (students_number == 1) {
+                                students_label = this.strings.student_text;
+                            }
+                            text = `* ${attempts_number} ${doing_text} ${students_number} ${students_label}`;
                         }
-                        let students_number = this.default_quiz.details.users;
-                        let students_label = this.strings.students_text;
-                        if (students_number == 1) {
-                            students_label = this.strings.student_text;
-                        }
-                        let text = `* ${attempts_number} ${attempts_label} ${students_number} ${students_label}`;
                         return text;
                     },
 
@@ -90,10 +98,7 @@ define(["local_fliplearning/vue",
                             backgroundColor: '#FAFAFA',
                         };
                         chart.title = {
-                            text: 'Intentos de Preguntas'
-                        };
-                        chart.subtitle = {
-                            text: 'Subtitulo',
+                            text: this.strings.questions_attempts_chart_title
                         };
                         chart.xAxis = {
                             categories: this.attempts_categories
@@ -102,12 +107,45 @@ define(["local_fliplearning/vue",
                             min: 0,
                             allowDecimals: false,
                             title: {
-                                text: 'Número de Intentos'
+                                text: this.strings.questions_attempts_yaxis_title
                             }
                         }];
+                        chart.tooltip = {
+                            formatter: function() {
+                                let question_name = this.x;
+                                let attemps = this.y;
+                                let total_attemps = this.total;
+                                let percentage = Math.round(Number(this.percentage));
+                                let series_name = this.series.name;
+                                let attempt_preffix = vue.strings.attempts_text;
+                                attempt_preffix = attempt_preffix.charAt(0).toUpperCase() + attempt_preffix.slice(1);
+                                let attempt_label = vue.strings.attempts_text;
+                                let of_conector = vue.strings.of_conector;
+                                if (attemps == 1) {
+                                    attempt_label = vue.strings.attempt_text;
+                                }
+                                let text = '<b>' + question_name + ': </b>' + attempt_preffix + ' ' + series_name + '<br/>' +
+                                           attemps + ' ' + attempt_label + ' ' + of_conector + ' ' + total_attemps + ' (' + percentage + '%)'
+                                return text;
+                            }
+                        };
                         chart.plotOptions = {
                             column: {
                                 stacking: 'normal'
+                            },
+                            series: {
+                                cursor: 'pointer',
+                                point: {
+                                    events: {
+                                        click: function () {
+                                            let question = vue.attempts_questions[this.x];
+                                            let id = question.id;
+                                            let url = M.cfg.wwwroot + '/question/preview.php?id='+id+'&courseid='+vue.courseid;
+                                            console.log(url);
+                                            window.open(url, '_blank', 'top=50,left=50,width=900,height=600');
+                                        }
+                                    }
+                                }
                             }
                         };
                         chart.series = this.attempts_series;
@@ -127,10 +165,7 @@ define(["local_fliplearning/vue",
                             backgroundColor: '#FAFAFA',
                         };
                         chart.title = {
-                            text: 'Preguntas mas dificiles',
-                        };
-                        chart.subtitle = {
-                            text: 'subtitulo',
+                            text: this.strings.hardest_questions_chart_title,
                         };
                         chart.xAxis = {
                             categories: this.hardest_categories,
@@ -138,13 +173,49 @@ define(["local_fliplearning/vue",
                         chart.legend = {
                             enabled: false
                         };
+                        chart.tooltip = {
+                            formatter: function() {
+                                let position = this.point.x;
+                                let question_info = vue.hardest_questions[position];
+                                let question_name = this.x;
+                                let serie_name = this.series.name;
+                                let value = this.y;
+                                let attempt_label = vue.strings.attempts_text;
+                                let of_conector = vue.strings.of_conector;
+                                if (question_info.ha == 1) {
+                                    attempt_label = vue.strings.attempt_text;
+                                }
+                                let text = '<b>' + question_name + ': </b>' + serie_name + '<br/>' +
+                                            question_info.ha + ' ' + attempt_label + ' ' + of_conector + ' '
+                                            + question_info.to + ' (' + value + '%)';
+                                return text;
+                            }
+                        };
                         chart.yAxis = [{
                             min: 0,
                             allowDecimals: false,
                             title: {
-                                text: 'Intentos incorrectos'
-                            }
+                                text: this.strings.hardest_questions_yaxis_title
+                            },
+                            labels: {
+                                format: '{value} %',
+                            },
                         }];
+                        chart.plotOptions = {
+                            series: {
+                                cursor: 'pointer',
+                                    point: {
+                                    events: {
+                                        click: function () {
+                                            let question = vue.hardest_questions[this.x];
+                                            let id = question.id;
+                                            let url = M.cfg.wwwroot + '/question/preview.php?id='+id+'&courseid='+vue.courseid;
+                                            window.open( url, '_blank', 'top=50,left=50,width=900,height=600');
+                                        }
+                                    }
+                                }
+                            }
+                        };
                         chart.series = this.hardest_series;
                         chart.credits = {
                             enabled: false
@@ -156,21 +227,16 @@ define(["local_fliplearning/vue",
                     },
 
                     calculate_questions_attempts(quiz) {
-                        console.log(quiz);
                         let questions = quiz.questions;
                         let attempts_categories = [];
-                        let cont = 1;
+                        let cont = 1, ql = "";
 
-                        let correct = [],
-                            partcorrect = [],
-                            incorr = [],
-                            gaveup = [],
-                            needgrade = [],
-                            hardest = [];
-                        let co, pc, ic, ga, ng, ha = 0;
+                        let correct = [], partcorrect = [], incorr = [], gaveup = [], needgrade = [], hardest = [],
+                            attempts_questions = [];
+                        let co, pc, ic, ga, ng, to, ha = 0;
 
                         questions.forEach(question => {
-                            co, pc, ic, ga, ng = 0;
+                            co, pc, ic, ga, ng, to = 0;
                             co = (question.gradedright || 0) + (question.mangrright || 0);
                             pc = (question.gradedpartial || 0) + (question.mangrpartial || 0);
                             ic = (question.gradedwrong || 0) + (question.mangrwrong || 0);
@@ -178,90 +244,71 @@ define(["local_fliplearning/vue",
                             ng = (question.needsgrading || 0) + (question.mangaveup || 0) +
                                 (question.finished || 0) + (question.manfinished || 0);
 
-                            // console.log({ co, pc, ic, ga, ng });
                             correct.push(co);
                             partcorrect.push(pc);
                             incorr.push(ic);
                             gaveup.push(ga);
                             needgrade.push(ng);
 
+                            ql = 'P' + cont;
                             ha = pc + ic + ga;
-                            hardest.push({
-                                qu: `P${cont}`,
-                                in: ha
-                            });
-
-                            // console.log(question);
-                            attempts_categories.push(`P${cont++}`);
+                            to = co + pc + ic + ga + ng;
+                            hardest.push({ id: question.id, qu: ql, ha: ha, to: to, pe: Math.round((ha * 100) / to), });
+                            attempts_categories.push(ql);
+                            attempts_questions.push(question);
+                            cont++;
                         });
 
                         let attempts_series = [];
                         attempts_series.push({
-                            name: 'Correctas',
+                            name: this.strings.correct_attempt,
                             data: correct
                         });
                         attempts_series.push({
-                            name: 'Parcialmente Correctas',
+                            name: this.strings.partcorrect_attempt,
                             data: partcorrect
                         });
                         attempts_series.push({
-                            name: 'Incorrectas',
+                            name: this.strings.incorrect_attempt,
                             data: incorr
                         });
                         attempts_series.push({
-                            name: 'No intentadas',
+                            name: this.strings.blank_attempt,
                             data: gaveup
                         });
                         attempts_series.push({
-                            name: 'Sin calificar',
+                            name: this.strings.needgraded_attempt,
                             data: needgrade
                         });
 
-                        // console.log(attempts_categories);
-                        // console.log(attempts_series);
+                        let hardest_categories = [], hardest_data = [], hardest_questions = [];
                         hardest.sort(this.compare_hardest);
-                        // console.log(hardest);
-
-
-                        let hardest_categories = [],
-                            hardest_data = [];
                         hardest.forEach(element => {
-                            if (element.in) {
+                            if (element.pe) {
                                 hardest_categories.push(element.qu);
-                                hardest_data.push(element.in);
+                                hardest_data.push(element.pe);
+                                hardest_questions.push(element);
                             }
                         });
 
                         let hardest_series = [{
-                            name: "Intentos Incorrectos",
+                            name: this.strings.hardest_questions_yaxis_title,
                             data: hardest_data
                         }];
 
                         this.attempts_categories = attempts_categories;
                         this.attempts_series = attempts_series;
+                        this.attempts_questions = attempts_questions;
                         this.hardest_categories = hardest_categories;
                         this.hardest_series = hardest_series;
-                    },
-
-                    compare_hardest(a, b) {
-                        if (a.in > b.in) {
-                            return -1;
-                        }
-                        if (a.in < b.in) {
-                            return 1;
-                        }
-                        return 0;
-                    },
-
-                    change_quiz(value) {
-                        console.log(value);
+                        this.hardest_questions = hardest_questions;
                     },
 
                     update_interactions(week){
                         this.loading = true;
                         this.errors = [];
                         let data = {
-                            action : "time",
+                            action : "quiz",
                             userid : this.userid,
                             courseid : this.courseid,
                             weekcode : week.weekcode,
@@ -273,7 +320,13 @@ define(["local_fliplearning/vue",
                             params : data,
                         }).then((response) => {
                             if (response.status == 200 && response.data.ok) {
-                                // this.inverted_time = response.data.data.inverted_time;
+                                this.quiz = response.data.data.quiz;
+                                if (this.quiz.length) {
+                                    this.default_quiz = this.quiz[0].attempts;
+                                    this.calculate_questions_attempts(this.default_quiz);
+                                } else {
+                                    this.reset_graphs();
+                                };
                             } else {
                                 this.error_messages.push(this.strings.error_network);
                             }
@@ -285,6 +338,25 @@ define(["local_fliplearning/vue",
                         return this.data;
                     },
 
+                    reset_graphs () {
+                        this.default_quiz = null;
+                        this.attempts_categories = [];
+                        this.attempts_series = [];
+                        this.attempts_questions = [];
+                        this.hardest_categories = [];
+                        this.hardest_series = [];
+                        this.hardest_questions = [];
+                    },
+
+                    compare_hardest(a, b) {
+                        if (a.pe > b.pe) {
+                            return -1;
+                        }
+                        if (a.pe < b.pe) {
+                            return 1;
+                        }
+                        return 0;
+                    },
                 }
             })
         }

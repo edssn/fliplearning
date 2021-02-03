@@ -107,6 +107,14 @@ if($action == 'saveconfigweek') {
     if($subject && $recipients && $text){
         $func = "local_fliplearning_send_email";
     }
+} elseif($action == 'quiz') {
+    array_push($params, $weekcode);
+    array_push($params, $courseid);
+    array_push($params, $userid);
+    array_push($params, $profile);
+    if($weekcode && $courseid && $userid && $profile){
+        $func = "local_fliplearning_get_quiz_attempts";
+    }
 }
 
 
@@ -132,6 +140,7 @@ function local_fliplearning_save_weeks_config($weeks, $courseid, $userid, $newin
 }
 
 function local_fliplearning_change_group($courseid, $userid, $groupid){
+    set_time_limit(300);
     global $DB;
     if(is_null($groupid)){
         $groupid = 0;
@@ -149,6 +158,7 @@ function local_fliplearning_change_group($courseid, $userid, $groupid){
 }
 
 function local_fliplearning_get_work_sessions($weekcode, $courseid, $userid, $profile){
+    set_time_limit(300);
     if($profile == "teacher"){
         $reports = new \local_fliplearning\teacher($courseid, $userid);
     }else{
@@ -164,6 +174,7 @@ function local_fliplearning_get_work_sessions($weekcode, $courseid, $userid, $pr
 }
 
 function local_fliplearning_get_inverted_time($weekcode, $courseid, $userid, $profile){
+    set_time_limit(300);
     if($profile == "teacher"){
         $reports = new \local_fliplearning\teacher($courseid, $userid);
     }else{
@@ -177,6 +188,7 @@ function local_fliplearning_get_inverted_time($weekcode, $courseid, $userid, $pr
 }
 
 function local_fliplearning_get_assignments_submissions($weekcode, $courseid, $userid, $profile){
+    set_time_limit(300);
     if($profile == "teacher"){
         $reports = new \local_fliplearning\teacher($courseid, $userid);
     }else{
@@ -198,6 +210,20 @@ function local_fliplearning_send_email($course, $user, $subject, $recipients, $t
 
     $body = array(
         "data" => [$subject, $recipients, $text, $moduleid],
+    );
+    local_fliplearning_ajax_response($body);
+}
+
+function local_fliplearning_get_quiz_attempts($weekcode, $courseid, $userid, $profile){
+    set_time_limit(300);
+    if($profile == "teacher"){
+        $reports = new \local_fliplearning\teacher($courseid, $userid);
+    }else{
+        $reports = new \local_fliplearning\student($courseid, $userid);
+    }
+    $quiz = $reports->quiz_attempts($weekcode);
+    $body = array(
+        "quiz" => $quiz,
     );
     local_fliplearning_ajax_response($body);
 }

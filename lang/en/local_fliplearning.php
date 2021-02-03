@@ -329,7 +329,26 @@ $string['fml_grades_distribution_tooltip_suffix'] = 'estudiantes en este rango';
 
 
 /* Quiz */
-
+$string["fml_quiz_info_text"] = "Esta Evaluación tiene";
+$string["fml_question_text"] = "pregunta";
+$string["fml_questions_text"] = "preguntas";
+$string["fml_doing_text_singular"] = "intento realizado por";
+$string["fml_doing_text_plural"] = "intentos realizados por";
+$string["fml_attempt_text"] = "intento";
+$string["fml_attempts_text"] = "intentos";
+$string["fml_student_text"] = "estudiante";
+$string["fml_students_text"] = "estudiantes";
+$string["fml_of_conector"] = "de";
+$string["fml_quiz"] = "Evaluaciones";
+$string["fml_questions_attempts_chart_title"] = "Intentos de Preguntas";
+$string["fml_questions_attempts_yaxis_title"] = "Número de Intentos";
+$string["fml_hardest_questions_chart_title"] = "Preguntas mas Difíciles";
+$string["fml_hardest_questions_yaxis_title"] = "Intentos Incorrectos";
+$string["fml_correct_attempt"] = "Correctos";
+$string["fml_partcorrect_attempt"] = "Parcialmente Correctos";
+$string["fml_incorrect_attempt"] = "Incorrectos";
+$string["fml_blank_attempt"] = "En Blanco";
+$string["fml_needgraded_attempt"] = "Sin Calificar";
 
 
 
