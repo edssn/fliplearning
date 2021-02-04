@@ -3,17 +3,17 @@ define(["local_fliplearning/vue",
         "local_fliplearning/axios",
         "local_fliplearning/moment",
         "local_fliplearning/pagination",
-        "local_fliplearning/chartcomponent",
+        "local_fliplearning/chartstatic",
         "local_fliplearning/pageheader",
     ],
-    function(Vue, Vuetify, Axios, Moment, Pagination, Chart, Pageheader) {
+    function(Vue, Vuetify, Axios, Moment, Pagination, ChartStatic, Pageheader) {
         "use strict";
 
         function init(content) {
             console.log(content);
             Vue.use(Vuetify)
             Vue.component('pagination', Pagination);
-            Vue.component('chart', Chart);
+            Vue.component('chart', ChartStatic);
             Vue.component('pageheader', Pageheader);
             let vue = new Vue({
                 delimiters: ["[[", "]]"],
@@ -34,15 +34,12 @@ define(["local_fliplearning/vue",
                         weeks_sessions: content.sessions_by_weeks,
                         progress_table: content.progress_table,
                         session_count: content.session_count,
-                        search : null,
+                        search: null,
                     }
                 },
                 mounted(){
                     document.querySelector("#sessions-loader").style.display = "none";
                     document.querySelector("#work_sessions").style.display = "block";
-                },
-                computed :{
-
                 },
                 methods : {
                     get_help_content(){
@@ -139,9 +136,9 @@ define(["local_fliplearning/vue",
                             formatter: function () {
                                 let xCategoryName = vue.get_point_category_name(this.point, 'x');
                                 let yCategoryName = vue.get_point_category_name(this.point, 'y');
-                                let label = ' sesiones';
+                                let label = vue.strings.sessions_text;
                                 if (this.point.value == 1) {
-                                    label = ' sesión';
+                                    label = vue.strings.session_text;
                                 }
                                 return '<b>' + xCategoryName + ' ' + yCategoryName + '</b>: '
                                     + this.point.value +' ' + label;
@@ -204,9 +201,9 @@ define(["local_fliplearning/vue",
                                 let days = vue.weeks_sessions.weeks[this.point.y][this.point.x] || '';
                                 let xCategoryName = vue.get_point_category_name(this.point, 'x');
                                 let yCategoryName = vue.get_point_category_name(this.point, 'y');
-                                let label = ' sesiones';
+                                let label = vue.strings.sessions_text;;
                                 if (this.point.value == 1) {
-                                    label = ' sesión';
+                                    label = vue.strings.session_text;;
                                 }
                                 return '<b>' + yCategoryName + ' ' + xCategoryName + '</b>: '
                                     + this.point.value +' ' + label + '<br/>' + days;
@@ -244,7 +241,7 @@ define(["local_fliplearning/vue",
                             allowDecimals: false
                         };
                         chart.xAxis = {
-                            categories: this.session_count.categories
+                            categories: this.session_count.categories,
                         };
                         chart.tooltip = {
                             valueSuffix: this.strings.session_count_tooltip_suffix,

@@ -35,7 +35,7 @@
             </KEYS>
             <INDEXES>
                 <INDEX NAME="weekcode" UNIQUE="false" FIELDS="weekcode" HINTS="weekcode" COMMENT="weekcode index"/>
-                <INDEX NAME="groupid" UNIQUE="false" FIELDS="groupid" HINTS="groupid" COMMENT="groupid index"/>
+                <INDEX NAME="instanceid" UNIQUE="false" FIELDS="instanceid" HINTS="instanceid" COMMENT="instanceid index"/>
             </INDEXES>
         </TABLE>
         <TABLE NAME="fliplearning_sections" COMMENT="table fliplearning_sections">

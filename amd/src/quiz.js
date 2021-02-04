@@ -3,17 +3,17 @@ define(["local_fliplearning/vue",
         "local_fliplearning/axios",
         "local_fliplearning/moment",
         "local_fliplearning/pagination",
-        "local_fliplearning/chartcomponent",
+        "local_fliplearning/chartdynamic",
         "local_fliplearning/pageheader",
     ],
-    function(Vue, Vuetify, Axios, Moment, Pagination, Chart, Pageheader) {
+    function(Vue, Vuetify, Axios, Moment, Pagination, ChartDynamic, Pageheader) {
         "use strict";
 
         function init(content) {
             console.log(content);
             Vue.use(Vuetify)
             Vue.component('pagination', Pagination);
-            Vue.component('chart', Chart);
+            Vue.component('chart', ChartDynamic);
             Vue.component('pageheader', Pageheader);
             let vue = new Vue({
                 delimiters: ["[[", "]]"],
@@ -50,9 +50,6 @@ define(["local_fliplearning/vue",
                 mounted(){
                     document.querySelector("#sessions-loader").style.display = "none";
                     document.querySelector("#quiz").style.display = "block";
-                },
-                computed :{
-
                 },
                 methods : {
                     get_help_content(){
@@ -121,11 +118,14 @@ define(["local_fliplearning/vue",
                                 attempt_preffix = attempt_preffix.charAt(0).toUpperCase() + attempt_preffix.slice(1);
                                 let attempt_label = vue.strings.attempts_text;
                                 let of_conector = vue.strings.of_conector;
+                                let review_question = vue.strings.review_question;
                                 if (attemps == 1) {
                                     attempt_label = vue.strings.attempt_text;
                                 }
                                 let text = '<b>' + question_name + ': </b>' + attempt_preffix + ' ' + series_name + '<br/>' +
-                                           attemps + ' ' + attempt_label + ' ' + of_conector + ' ' + total_attemps + ' (' + percentage + '%)'
+                                           attemps + ' ' + attempt_label + ' ' + of_conector + ' ' + total_attemps +
+                                            ' (' + percentage + '%)' + '<br/>' + review_question;
+
                                 return text;
                             }
                         };
@@ -141,7 +141,6 @@ define(["local_fliplearning/vue",
                                             let question = vue.attempts_questions[this.x];
                                             let id = question.id;
                                             let url = M.cfg.wwwroot + '/question/preview.php?id='+id+'&courseid='+vue.courseid;
-                                            console.log(url);
                                             window.open(url, '_blank', 'top=50,left=50,width=900,height=600');
                                         }
                                     }
@@ -182,12 +181,13 @@ define(["local_fliplearning/vue",
                                 let value = this.y;
                                 let attempt_label = vue.strings.attempts_text;
                                 let of_conector = vue.strings.of_conector;
+                                let review_question = vue.strings.review_question;
                                 if (question_info.ha == 1) {
                                     attempt_label = vue.strings.attempt_text;
                                 }
                                 let text = '<b>' + question_name + ': </b>' + serie_name + '<br/>' +
                                             question_info.ha + ' ' + attempt_label + ' ' + of_conector + ' '
-                                            + question_info.to + ' (' + value + '%)';
+                                            + question_info.to + ' (' + value + '%)' + '<br/>' + review_question;
                                 return text;
                             }
                         };
@@ -356,6 +356,11 @@ define(["local_fliplearning/vue",
                             return 1;
                         }
                         return 0;
+                    },
+
+                    get_timezone(){
+                        let information = `${this.strings.ss_change_timezone} ${this.timezone}`
+                        return information;
                     },
                 }
             })

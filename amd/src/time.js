@@ -3,17 +3,17 @@ define(["local_fliplearning/vue",
         "local_fliplearning/axios",
         "local_fliplearning/moment",
         "local_fliplearning/pagination",
-        "local_fliplearning/chartcomponent",
+        "local_fliplearning/chartdynamic",
         "local_fliplearning/pageheader",
     ],
-    function(Vue, Vuetify, Axios, Moment, Pagination, Chart, Pageheader) {
+    function(Vue, Vuetify, Axios, Moment, Pagination, ChartDynamic, Pageheader) {
         "use strict";
 
         function init(content) {
             console.log(content);
             Vue.use(Vuetify)
             Vue.component('pagination', Pagination);
-            Vue.component('chart', Chart);
+            Vue.component('chart', ChartDynamic);
             Vue.component('pageheader', Pageheader);
             let vue = new Vue({
                 delimiters: ["[[", "]]"],
@@ -31,8 +31,6 @@ define(["local_fliplearning/vue",
                         errors : [],
                         pages : content.pages,
                         inverted_time: content.inverted_time,
-
-                        items: ['Foo', 'Bar', 'Fizz', 'Buzz'],
                     }
                 },
                 mounted(){
@@ -117,6 +115,11 @@ define(["local_fliplearning/vue",
                             noData: this.strings.no_data,
                         };
                         return chart;
+                    },
+
+                    get_timezone(){
+                        let information = `${this.strings.ss_change_timezone} ${this.timezone}`
+                        return information;
                     },
                 }
             })

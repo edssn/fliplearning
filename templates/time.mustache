@@ -26,25 +26,17 @@
                     </v-col>
                 </v-row>
 
+                <v-row class="d-flex justify-center">
+                    <span class="overline" v-text="get_timezone()"></span>
+                </v-row>
             </div>
 
 
-            <v-select
-                    attach
-                    :items="items"
-                    label="Solo field"
-                    solo
-            ></v-select>
-
 
             <div style="text-align:center;">
-
-                <h2>Tooltip</h2>
-                <p>Move the mouse over the text below:</p>
-
                 <div class="tooltips">
                     <p>Hover over me</p>
-                    <span class="tooltiptext">Tooltip text</span>
+                    <span class="tooltiptext">Tooltip text for question</span>
                 </div>
 
 		        <div class="tooltips">
@@ -57,31 +49,10 @@
                 <div class="dropdown">
                     <span>Mouse over me</span>
                     <div class="dropdown-content">
-                        <p>Hello World!</p>
+                        <p>Hello World aaaaaaaaa!</p>
                     </div>
                 </div>
-
-                <br/>
-                <v-tooltip bottom close-delay="1000000">
-                    <template v-slot:activator="{ on, attrs }">
-                        <v-btn
-                                color="primary"
-                                dark
-                                v-bind="attrs"
-                                v-on="on"
-                        >
-                            Button
-                        </v-btn>
-                    </template>
-                    <span>Tooltip</span>
-                </v-tooltip>
-
             </div>
-
-
-
-
-
 
         </v-container>
     </v-main>

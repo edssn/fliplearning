@@ -133,6 +133,9 @@ $content = [
         "pagination_title" => get_string("pagination_title","local_fliplearning"),
         "helplabel" => get_string("helplabel","local_fliplearning"),
         "exitbutton" => get_string("exitbutton","local_fliplearning"),
+
+        "session_text" => get_string("fml_session_text","local_fliplearning"),
+        "sessions_text" => get_string("fml_sessions_text","local_fliplearning"),
     ],
     'courseid' => $COURSE->id,
     'userid' => $USER->id,

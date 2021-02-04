@@ -93,6 +93,8 @@ $content = [
             get_string("fml_grades_worst_grade","local_fliplearning"),
         ),
         "grade_item_details_title" => "",
+        "view_details" => get_string("fml_view_details", "local_fliplearning"),
+        "send_mail" => get_string("fml_send_mail", "local_fliplearning"),
 
     ],
     'courseid' => $COURSE->id,

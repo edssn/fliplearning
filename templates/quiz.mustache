@@ -27,7 +27,7 @@
                                 :items="quiz"
                                 item-text="name"
                                 item-value="attempts"
-                                label="strings.quiz"
+                                :label="strings.quiz_label"
                                 v-model="default_quiz"
                                 v-on:change="calculate_questions_attempts"
                                 solo
@@ -47,12 +47,11 @@
                         <chart :container="'hardest_questions'" :chart="build_chart_hardest_questions()"></chart>
                     </v-col>
                 </v-row>
+
+                <v-row class="d-flex justify-center">
+                    <span class="overline" v-text="get_timezone()"></span>
+                </v-row>
             </div>
-
-
-
-
-
 
         </v-container>
     </v-main>

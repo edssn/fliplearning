@@ -72,7 +72,7 @@ $content = [
         "student_text" => get_string("fml_student_text", "local_fliplearning"),
         "students_text" => get_string("fml_students_text", "local_fliplearning"),
         "of_conector" => get_string("fml_of_conector", "local_fliplearning"),
-        "quiz" => get_string("fml_quiz", "local_fliplearning"),
+        "quiz_label" => get_string("fml_quiz", "local_fliplearning"),
 
         "questions_attempts_chart_title" => get_string("fml_questions_attempts_chart_title", "local_fliplearning"),
         "questions_attempts_yaxis_title" => get_string("fml_questions_attempts_yaxis_title", "local_fliplearning"),
@@ -84,6 +84,7 @@ $content = [
         "incorrect_attempt" => get_string("fml_incorrect_attempt", "local_fliplearning"),
         "blank_attempt" => get_string("fml_blank_attempt", "local_fliplearning"),
         "needgraded_attempt" => get_string("fml_needgraded_attempt", "local_fliplearning"),
+        "review_question" => get_string("fml_review_question", "local_fliplearning"),
 
     ],
     'courseid' => $COURSE->id,

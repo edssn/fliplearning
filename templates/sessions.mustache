@@ -36,7 +36,6 @@
 
                 <v-row class="d-flex justify-center">
                     <v-col sm="12">
-
                         <v-card class="remove-shadow make-border vuetify-datatable">
                             <v-card-title>
                                 <span v-text="strings.table_title"></span>
@@ -52,6 +51,7 @@
                             <v-data-table
                                     :headers="table_headers()"
                                     :items="progress_table"
+                                    item-key="id"
                                     :search="search" dense multi-sort
                                     :items-per-page="10"
                                     class="elevation-3"

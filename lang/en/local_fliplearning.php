@@ -35,6 +35,7 @@ $string['pagination_title'] = 'Selección semana';
 $string['helplabel'] = 'Ayuda';
 $string['exitbutton'] = '¡Entendido!';
 $string['no_data'] = 'No hay datos que mostrar';
+$string["fml_send_mail"] = "(Clic para enviar correo)";
 
 /* Menú */
 $string['menu_main_title'] = "Dashboard Progreso";
@@ -168,6 +169,9 @@ $string['fml_session_count_tooltip_suffix'] = ' sesiones';
 $string['fml_hours_sessions_title'] = 'Sesiones por Día y Hora';
 $string['fml_weeks_sessions_title'] = 'Sesiones por Semana';
 
+$string["fml_session_text"] = "sesión";
+$string["fml_sessions_text"] = "sesiones";
+
 $string['ss_change_timezone'] = 'Zona horaria:';
 $string['ss_activity_inside_plataform_student'] = 'Mi actividad en la plataforma';
 $string['ss_activity_inside_plataform_teacher'] = 'Actividad de los estudiantes en la plataforma';
@@ -205,8 +209,8 @@ $string['fml_second'] = 'segundo';
 $string['fml_seconds'] = 'segundos';
 
 /* Assign Submissions */
-$string['fml_intime_sub'] = 'Envío a tiempo';
-$string['fml_late_sub'] = 'Envío tardío';
+$string['fml_intime_sub'] = 'Envíos a tiempo';
+$string['fml_late_sub'] = 'Envíos tardíos';
 $string['fml_no_sub'] = 'Sin envío';
 $string['fml_assign_nodue'] = 'Sin fecha límite';
 $string['fml_assignsubs_title'] = 'Envíos de Tareas';
@@ -326,6 +330,7 @@ $string['fml_grades_distribution_smaller_than'] = 'menor al';
 $string['fml_grades_distribution_yaxis_title'] = 'Número de Estudiantes';
 $string['fml_grades_distribution_tooltip_prefix'] = 'Rango';
 $string['fml_grades_distribution_tooltip_suffix'] = 'estudiantes en este rango';
+$string["fml_view_details"] = "(Clic para ver detalles)";
 
 
 /* Quiz */
@@ -338,7 +343,6 @@ $string["fml_attempt_text"] = "intento";
 $string["fml_attempts_text"] = "intentos";
 $string["fml_student_text"] = "estudiante";
 $string["fml_students_text"] = "estudiantes";
-$string["fml_of_conector"] = "de";
 $string["fml_quiz"] = "Evaluaciones";
 $string["fml_questions_attempts_chart_title"] = "Intentos de Preguntas";
 $string["fml_questions_attempts_yaxis_title"] = "Número de Intentos";
@@ -349,6 +353,8 @@ $string["fml_partcorrect_attempt"] = "Parcialmente Correctos";
 $string["fml_incorrect_attempt"] = "Incorrectos";
 $string["fml_blank_attempt"] = "En Blanco";
 $string["fml_needgraded_attempt"] = "Sin Calificar";
+$string["fml_review_question"] = "(Clic para revisar la pregunta)";
+
 
 
 

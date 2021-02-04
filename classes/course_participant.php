@@ -83,7 +83,7 @@ class course_participant{
         $groups = new stdClass();
         $groups->all = groups_get_all_groups($this->course->id);
         if(self::current_user_is_admin()){
-            if(has_capability('local/student_reports:seegroupwithallstudent', $context)){
+            if(has_capability('local/fliplearning:seegroupwithallstudent', $context)){
                 array_unshift($groups->all, self::default_group());
             }
             if($exclude_witout_student){
@@ -99,7 +99,7 @@ class course_participant{
                 $groups->current_user_is_member[$group->id] = $group;
             }
         }
-        if(has_capability('local/student_reports:seegroupwithallstudent', $context)){
+        if(has_capability('local/fliplearning:seegroupwithallstudent', $context)){
             array_unshift($groups->current_user_is_member, self::default_group());
         }
         if((self::is_student() && $groupmode != SEPARATEGROUPS) || (self::is_student() && $groupmode == SEPARATEGROUPS && empty($groups->current_user_is_member))){

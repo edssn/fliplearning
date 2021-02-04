@@ -3,18 +3,18 @@ define(["local_fliplearning/vue",
         "local_fliplearning/axios",
         "local_fliplearning/moment",
         "local_fliplearning/pagination",
-        "local_fliplearning/chartcomponent",
+        "local_fliplearning/chartdynamic",
         "local_fliplearning/pageheader",
         "local_fliplearning/emailform"
     ],
-    function(Vue, Vuetify, Axios, Moment, Pagination, Chart, Pageheader, Emailform) {
+    function(Vue, Vuetify, Axios, Moment, Pagination, ChartDynamic, Pageheader, Emailform) {
         "use strict";
 
         function init(content) {
             console.log(content);
             Vue.use(Vuetify)
             Vue.component('pagination', Pagination);
-            Vue.component('chart', Chart);
+            Vue.component('chart', ChartDynamic);
             Vue.component('pageheader', Pageheader);
             Vue.component('emailform', Emailform);
             let vue = new Vue({
@@ -69,9 +69,6 @@ define(["local_fliplearning/vue",
                     document.querySelector("#sessions-loader").style.display = "none";
                     document.querySelector("#grades").style.display = "block";
                 },
-                computed :{
-
-                },
                 methods : {
                     get_help_content(){
                         let helpcontents = `Texto de Ayuda`;
@@ -119,6 +116,7 @@ define(["local_fliplearning/vue",
                                 let value = this.point.y;
                                 let item = vue.selected_items[position];
                                 let name = this.x;
+                                let view_details = vue.strings.view_details;
                                 let average = Number(item.average);
                                 value = vue.isInt(value) ? value : value.toFixed(2);
                                 average = vue.isInt(average) ? average : average.toFixed(2);
@@ -128,8 +126,8 @@ define(["local_fliplearning/vue",
                                     vue.strings.grades_tooltip_average + ': ' + average + ' (' + value + ' %)<br/>' +
                                     vue.strings.grades_tooltip_grade + ': ' + grademax + '<br/>' +
                                     count + ' ' + vue.strings.grades_tooltip_students + ' ' +
-                                    vue.grades.student_count
-                                    + '<br/>';
+                                    vue.grades.student_count + '<br/>' +
+                                    + '<br/>' + view_details;
                                 return text;
                             }
                         };
@@ -235,10 +233,11 @@ define(["local_fliplearning/vue",
                             formatter: function() {
                                 let prefix = vue.strings.grades_distribution_tooltip_prefix;
                                 let suffix = vue.strings.grades_distribution_tooltip_suffix;
+                                let send_mail = vue.strings.send_mail;
                                 let name = this.x;
                                 let value = this.y;
                                 let text = '<b>' + prefix + ': </b> '+ name + ' <br/>'
-                                    + value + ' ' + suffix;
+                                    + value + ' ' + suffix + ' <br/>' + send_mail;
                                 return text;
                             }
                         };
@@ -386,6 +385,11 @@ define(["local_fliplearning/vue",
 
                     update_dialog (value) {
                         this.dialog = value;
+                    },
+
+                    get_timezone(){
+                        let information = `${this.strings.ss_change_timezone} ${this.timezone}`
+                        return information;
                     },
                 }
             })

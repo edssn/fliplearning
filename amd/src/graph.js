@@ -1,8 +1,8 @@
 define(["local_fliplearning/vue",
         "local_fliplearning/vuetify",
-        "local_fliplearning/chartcomponent",
+        "local_fliplearning/chartdynamic",
     ],
-    function(Vue, Vuetify, Chart) {
+    function(Vue, Vuetify, ChartDynamic) {
         "use strict";
         let wwwroot = M.cfg.wwwroot;
 
@@ -10,7 +10,7 @@ define(["local_fliplearning/vue",
             console.log({chart: content.chart});
 
             Vue.use(Vuetify);
-            Vue.component('chart', Chart);
+            Vue.component('chart', ChartDynamic);
 
             new Vue({
                 delimiters: ["[[", "]]"],

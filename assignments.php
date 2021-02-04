@@ -83,6 +83,9 @@ $content = [
         "access_chart_title" => get_string("fml_access_chart_title", "local_fliplearning"),
         "access_chart_yaxis_label" => get_string("fml_access_chart_yaxis_label", "local_fliplearning"),
         "access_chart_suffix" => get_string("fml_access_chart_suffix", "local_fliplearning"),
+        "send_mail" => get_string("fml_send_mail", "local_fliplearning"),
+        "student_text" => get_string("fml_student_text", "local_fliplearning"),
+        "students_text" => get_string("fml_students_text", "local_fliplearning"),
 
         "no_data" => get_string("no_data", "local_fliplearning"),
         "assignsubs_chart_title" => get_string("fml_assignsubs_title", "local_fliplearning"),
