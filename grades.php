@@ -61,6 +61,7 @@ $content = [
         "grades_yaxis_title" => get_string("fml_grades_yaxis_title", 'local_fliplearning'),
         "grades_tooltip_average" => get_string("fml_grades_tooltip_average", 'local_fliplearning'),
         "grades_tooltip_grade" => get_string("fml_grades_tooltip_grade", 'local_fliplearning'),
+        "grades_tooltip_student" => get_string("fml_grades_tooltip_student", 'local_fliplearning'),
         "grades_tooltip_students" => get_string("fml_grades_tooltip_students", 'local_fliplearning'),
         "grades_greater_than" => get_string("fml_grades_distribution_greater_than", 'local_fliplearning'),
         "grades_smaller_than" => get_string("fml_grades_distribution_smaller_than", 'local_fliplearning'),
@@ -69,6 +70,8 @@ $content = [
         "grades_distribution_yaxis_title" => get_string("fml_grades_distribution_yaxis_title", 'local_fliplearning'),
         "grades_distribution_tooltip_prefix" => get_string("fml_grades_distribution_tooltip_prefix", 'local_fliplearning'),
         "grades_distribution_tooltip_suffix" => get_string("fml_grades_distribution_tooltip_suffix", 'local_fliplearning'),
+        "student_text" => get_string("fml_student_text", "local_fliplearning"),
+        "students_text" => get_string("fml_students_text", "local_fliplearning"),
 
         "email_strings" => array(
             "validation_subject_text" => get_string("fml_validation_subject_text","local_fliplearning"),

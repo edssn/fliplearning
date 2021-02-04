@@ -115,19 +115,22 @@ define(["local_fliplearning/vue",
                                 let position = this.point.x;
                                 let value = this.point.y;
                                 let item = vue.selected_items[position];
+                                let count = item.gradecount;
                                 let name = this.x;
                                 let view_details = vue.strings.view_details;
                                 let average = Number(item.average);
+                                let students_label = vue.strings.grades_tooltip_students;
+                                if (count == 1) {
+                                    students_label = vue.strings.grades_tooltip_student;
+                                }
                                 value = vue.isInt(value) ? value : value.toFixed(2);
                                 average = vue.isInt(average) ? average : average.toFixed(2);
                                 let grademax = item.grademax;
-                                let count = item.gradecount;
                                 let text = '<b>' + name + '<b> <br/>' +
                                     vue.strings.grades_tooltip_average + ': ' + average + ' (' + value + ' %)<br/>' +
                                     vue.strings.grades_tooltip_grade + ': ' + grademax + '<br/>' +
-                                    count + ' ' + vue.strings.grades_tooltip_students + ' ' +
-                                    vue.grades.student_count + '<br/>' +
-                                    + '<br/>' + view_details;
+                                    count + ' ' + students_label + ' ' + vue.grades.student_count + '<br/>' +
+                                    view_details;
                                 return text;
                             }
                         };
@@ -236,8 +239,13 @@ define(["local_fliplearning/vue",
                                 let send_mail = vue.strings.send_mail;
                                 let name = this.x;
                                 let value = this.y;
+                                let students_label = vue.strings.students_text;
+                                if (value == 1) {
+                                    students_label = vue.strings.student_text;
+                                }
                                 let text = '<b>' + prefix + ': </b> '+ name + ' <br/>'
-                                    + value + ' ' + suffix + ' <br/>' + send_mail;
+                                    + value + ' ' + students_label + ' ' + suffix + ' <br/>'
+                                    + send_mail;
                                 return text;
                             }
                         };

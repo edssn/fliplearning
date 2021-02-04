@@ -317,6 +317,7 @@ $string['fml_grades_chart_title'] = 'Promedios de Actividades Evaluables';
 $string['fml_grades_yaxis_title'] = 'Promedio de Calificaciones (%)';
 $string['fml_grades_tooltip_average'] = 'Calificación Promedio';
 $string['fml_grades_tooltip_grade'] = 'Calificación Máxima';
+$string['fml_grades_tooltip_student'] = 'estudiante calificado de';
 $string['fml_grades_tooltip_students'] = 'estudiantes calificados de';
 
 $string['fml_grades_best_grade'] = 'Mejor Calificación';
@@ -329,7 +330,7 @@ $string['fml_grades_distribution_greater_than'] = 'mayor al';
 $string['fml_grades_distribution_smaller_than'] = 'menor al';
 $string['fml_grades_distribution_yaxis_title'] = 'Número de Estudiantes';
 $string['fml_grades_distribution_tooltip_prefix'] = 'Rango';
-$string['fml_grades_distribution_tooltip_suffix'] = 'estudiantes en este rango';
+$string['fml_grades_distribution_tooltip_suffix'] = 'en este rango';
 $string["fml_view_details"] = "(Clic para ver detalles)";
 
 
