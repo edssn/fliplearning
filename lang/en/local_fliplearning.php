@@ -145,7 +145,7 @@ $string['fml_week4'] = 'Semana 4';
 $string['fml_week5'] = 'Semana 5';
 $string['fml_week6'] = 'Semana 6';
 
-$string['table_title'] = 'Progeso del Curso';
+$string['table_title'] = 'Progreso del Curso';
 $string['thead_name'] = 'Nombre';
 $string['thead_lastname'] = 'Apellidos';
 $string['thead_email'] = 'Correo';
