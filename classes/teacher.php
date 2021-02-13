@@ -1166,4 +1166,36 @@ class teacher extends report {
         }
         return $questions;
     }
+
+    public function get_dropout_clusters() {
+        $clusters = $this->get_clusters();
+        $users = $this->get_full_users();
+        $users = array_values($users);
+
+        $response = new stdClass();
+        $response->users = $users;
+        $response->clusters = $clusters;
+        return $response;
+    }
+
+    public function get_clusters() {
+        global $DB;
+        $sql = "SELECT * FROM {fliplearning_clustering} WHERE courseid = {$this->course->id} AND active = 1";
+        $rows = $DB->get_records_sql($sql);
+        $rows = array_values($rows);
+
+        $clusters = array();
+        foreach ($rows as $row) {
+            if (!isset($clusters[$row->cluster])) {
+                $cluster = new stdClass();
+                $cluster->number = $row->cluster;
+                $cluster->users = array();
+                array_push($cluster->users, $row->userid);
+                array_push($clusters, $cluster);
+            } else {
+                array_push($clusters[$row->cluster]->users, $row->userid);
+            }
+        }
+        return $clusters;
+    }
 }

@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Phpml\Clustering;
+namespace local_fliplearning\phpml\Clustering;
 
-use Phpml\Clustering\KMeans\Space;
-use Phpml\Exception\InvalidArgumentException;
+use local_fliplearning\phpml\Clustering\KMeans\Space;
+use local_fliplearning\phpml\Exception\InvalidArgumentException;
 
 class KMeans implements Clusterer
 {

@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Phpml\Preprocessing;
+namespace local_fliplearning\phpml\Preprocessing;
 
-use Phpml\Exception\NormalizerException;
-use Phpml\Math\Statistic\Mean;
-use Phpml\Math\Statistic\StandardDeviation;
+use local_fliplearning\phpml\Exception\NormalizerException;
+use local_fliplearning\phpml\Math\Statistic\Mean;
+use local_fliplearning\phpml\Math\Statistic\StandardDeviation;
 
 class Normalizer implements Preprocessor
 {

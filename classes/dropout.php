@@ -47,10 +47,6 @@ class dropout {
         $this->users = self::get_student_ids();;
     }
 
-    public function hello(){
-        return "hola";
-    }
-
     public function generate_data(){
         $start = $this->course->startdate;
         $end = null;
@@ -60,13 +56,15 @@ class dropout {
         $conditions = self::conditions_for_work_sessions($start, $end);
         $users_sessions = self::get_sessions_from_logs($conditions);
         $cms = self::get_course_modules(false);
-        //$cms = array_filter($cms, function($module){ return $module['visible'] == 1 && $module['modname'] != 'label';});
         $cms = array_filter($cms, function($module){ return $module->visible == 1 && $module->modname != 'label';});
-        $cm = self::calculate_indicator($cms, $users_sessions);
-        return $response = [];
+        $cms = self::calculate_indicators($cms, $users_sessions);
+        $cms = self::format_data($cms);
+        $cms = self::normalize_data($cms);
+        self::clustering($cms);
+        return $cms;
     }
 
-    private function calculate_indicator($cms, $users){
+    private function calculate_indicators($cms, $users){
 
         foreach ($cms as $cm) {
             if ($cm->modname == 'assign' || $cm->modname == 'assignment') {
@@ -74,7 +72,7 @@ class dropout {
             } else if ($cm->modname == 'book') {
                 $users = self::get_book_indicators($cm, $users);
             } else if ($cm->modname == 'chat') {
-
+                $users = self::get_chat_indicators($cm, $users);
             } else if ($cm->modname == 'choice') {
                 $users = self::get_choice_indicators($cm, $users);
             } else if ($cm->modname == 'data') {
@@ -84,25 +82,23 @@ class dropout {
             } else if ($cm->modname == 'folder') {
                 $users = self::get_folder_indicators($cm, $users);
             } else if ($cm->modname == 'forum') {
-
+                $users = self::get_forum_indicators($cm, $users);
             } else if ($cm->modname == 'glossary') {
                 $users = self::get_glossary_indicators($cm, $users);
-            } else if ($cm->modname == 'h5pactivity') {
-
             } else if ($cm->modname == 'imscp') {
                 $users = self::get_imscp_indicators($cm, $users);
             } else if ($cm->modname == 'lesson') {
-
+                $users = self::get_lesson_indicators($cm, $users);
             } else if ($cm->modname == 'lti') {
                 $users = self::get_lti_indicators($cm, $users);
             } else if ($cm->modname == 'page') {
                 $users = self::get_page_indicators($cm, $users);
             } else if ($cm->modname == 'quiz') {
-
+                $users = self::get_quiz_indicators($cm, $users);
             } else if ($cm->modname == 'resource') {
                 $users = self::get_resource_indicators($cm, $users);
             } else if ($cm->modname == 'scorm') {
-
+                $users = self::get_scorm_indicators($cm, $users);
             } else if ($cm->modname == 'survey') {
                 $users = self::get_survey_indicators($cm, $users);
             } else if ($cm->modname == 'url') {
@@ -110,12 +106,10 @@ class dropout {
             } else if ($cm->modname == 'wiki') {
                 $users = self::get_wiki_indicators($cm, $users);
             } else if ($cm->modname == 'workshop') {
-
+                $users = self::get_workshop_indicators($cm, $users);
             }
-
         }
-
-        return $response = [];
+        return $users;
     }
 
     private function get_assign_indicators ($cm, $users) {
@@ -139,14 +133,14 @@ class dropout {
             $social_first_level = 0;
             $social_second_level = 0;
             foreach ($cm_logs as $log) {
-                if ($log->action == "viewed" && $log->target == "course_module" && $log->objecttable == "assign") {
+                if ($log->component == "mod_assign" && $log->action == "viewed" && $log->target == "course_module") {
                     $cognitive_first_level = 1;
                     $social_first_level = 1;
-                } else if ($log->action == "submitted" && $log->target == "assessable" && $log->objecttable == "assign_submission") {
+                } else if ($log->component == "mod_assign" && $log->action == "submitted" && $log->target == "assessable") {
                     $cognitive_second_level++;
-                } else if ($log->action == "viewed" && $log->target == "feedback" && $log->objecttable == "assign_grades") {
+                } else if ($log->component == "mod_assign" && $log->action == "viewed" && $log->target == "feedback") {
                     $cognitive_third_level = 1;
-                } else if ($log->action == "created" && $log->target == "comment" && $log->objecttable == "comments") {
+                } else if ($log->component == "assignsubmission_comments" && $log->action == "created" && $log->target == "comment") {
                     $social_second_level = 1;
                 }
             }
@@ -210,8 +204,45 @@ class dropout {
     private function get_chat_indicators ($cm, $users) {
         $cognitive = new \mod_chat\analytics\indicator\cognitive_depth();
         $social = new \mod_chat\analytics\indicator\social_breadth();
-        $g = $cognitive->get_indicator_type();
-        $h = $social->get_cognitive_depth_level($cm);
+        $cm_cognitive_depth = $cognitive->get_cognitive_depth_level($cm);
+        $cm_social_breadth = $social->get_social_breadth_level($cm);
+        foreach ($users as $user) {
+            $cm_logs = array();
+            $logs = $user->logs;
+            foreach ($logs as $log) {
+                if ($log->contextlevel == "70" && $log->contextinstanceid == $cm->id) {
+                    array_push($cm_logs, $log);
+                }
+            }
+
+            $cognitive_first_level = 0;
+            $cognitive_second_level = 0;
+            $social_first_level = 0;
+            $social_second_level = 0;
+            foreach ($cm_logs as $log) {
+                if ($log->component == "mod_chat" && $log->action == "viewed" && $log->target == "course_module") {
+                    $cognitive_first_level = 1;
+                    $social_first_level = 1;
+                } else if ($log->component == "mod_chat" && $log->action == "sent" && $log->target == "message") {
+                    $cognitive_second_level = 3;
+                    $social_second_level = 1;
+                }
+            }
+            $user_cognitive_level = $cognitive_first_level + $cognitive_second_level;
+            $user_social_breadth = $social_first_level + $social_second_level;
+            $user_cognitive_level_value = $user_cognitive_level/$cm_cognitive_depth;
+            $user_social_breadth_value = $user_social_breadth/$cm_social_breadth;
+            $indicator = new stdClass();
+            $indicator->cognitive =$user_cognitive_level_value;
+            $indicator->social =$user_social_breadth_value;
+
+            if (!isset($user->cms)) {
+                $user->cms = array();
+            }
+            $label = $cm->modname.$cm->id;
+            $user->cms[$label] = $indicator;
+        }
+        return $users;
     }
 
     private function get_choice_indicators ($cm, $users) {
@@ -381,8 +412,48 @@ class dropout {
     private function get_forum_indicators ($cm, $users) {
         $cognitive = new \mod_forum\analytics\indicator\cognitive_depth();
         $social = new \mod_forum\analytics\indicator\social_breadth();
-        $g = $cognitive->get_indicator_type();
-        $h = $social->get_cognitive_depth_level($cm);
+        $cm_cognitive_depth = $cognitive->get_cognitive_depth_level($cm);
+        $cm_social_breadth = $social->get_social_breadth_level($cm);
+        foreach ($users as $user) {
+            $cm_logs = array();
+            $logs = $user->logs;
+            foreach ($logs as $log) {
+                if ($log->contextlevel == "70" && $log->contextinstanceid == $cm->id) {
+                    array_push($cm_logs, $log);
+                }
+            }
+
+            $cognitive_first_level = 0;
+            $cognitive_second_level = 0;
+            $cognitive_third_level = 0;
+            $social_first_level = 0;
+            $social_second_level = 0;
+            foreach ($cm_logs as $log) {
+                if ($log->component == "mod_forum" && $log->action == "viewed" && $log->target == "discussion") {
+                    $cognitive_first_level = 1;
+                    $social_first_level = 1;
+                } else if ($log->component == "mod_forum" && $log->action == "created" && $log->target == "post") {
+                    $cognitive_second_level = 1;
+                    $social_second_level = 1;
+                } else if ($log->component == "mod_forum" && $log->action == "created" && $log->target == "discussion") {
+                    $cognitive_third_level = 2;
+                }
+            }
+            $user_cognitive_level = $cognitive_first_level + $cognitive_second_level + $cognitive_third_level;
+            $user_social_breadth = $social_first_level + $social_second_level;
+            $user_cognitive_level_value = $user_cognitive_level/$cm_cognitive_depth;
+            $user_social_breadth_value = $user_social_breadth/$cm_social_breadth;
+            $indicator = new stdClass();
+            $indicator->cognitive =$user_cognitive_level_value;
+            $indicator->social =$user_social_breadth_value;
+
+            if (!isset($user->cms)) {
+                $user->cms = array();
+            }
+            $label = $cm->modname.$cm->id;
+            $user->cms[$label] = $indicator;
+        }
+        return $users;
     }
 
     private function get_glossary_indicators ($cm, $users) {
@@ -427,13 +498,6 @@ class dropout {
         return $users;
     }
 
-    private function get_h5pactivity_indicators ($cm, $users) {
-        $cognitive = new \mod_h5pactivity\analytics\indicator\cognitive_depth();
-        $social = new \mod_h5pactivity\analytics\indicator\social_breadth();
-        $g = $cognitive->get_indicator_type();
-        $h = $social->get_cognitive_depth_level($cm);
-    }
-
     private function get_imscp_indicators ($cm, $users) {
         $cognitive = new \mod_imscp\analytics\indicator\cognitive_depth();
         $social = new \mod_imscp\analytics\indicator\social_breadth();
@@ -473,8 +537,59 @@ class dropout {
     private function get_lesson_indicators ($cm, $users) {
         $cognitive = new \mod_lesson\analytics\indicator\cognitive_depth();
         $social = new \mod_lesson\analytics\indicator\social_breadth();
-        $g = $cognitive->get_indicator_type();
-        $h = $social->get_cognitive_depth_level($cm);
+        $cm_cognitive_depth = $cognitive->get_cognitive_depth_level($cm);
+        $cm_social_breadth = $social->get_social_breadth_level($cm);
+        foreach ($users as $user) {
+            $cm_logs = array();
+            $logs = $user->logs;
+            foreach ($logs as $log) {
+                if ($log->contextlevel == "70" && $log->contextinstanceid == $cm->id) {
+                    array_push($cm_logs, $log);
+                }
+            }
+
+            $cognitive_first_level = 0;
+            $cognitive_second_level = 0;
+            $cognitive_third_level = 0;
+            $cognitive_fourth_level = 0;
+            $social_first_level = 0;
+            $social_second_level = 0;
+            $first_attempt_ended = false;
+            foreach ($cm_logs as $log) {
+                if ($log->component == "mod_lesson" && $log->action == "viewed" && $log->target == "course_module") {
+                    $cognitive_first_level = 1;
+                    $social_first_level = 1;
+                } else if ($log->component == "mod_lesson" && $log->action == "ended" && $log->target == "lesson") {
+                    if (!$first_attempt_ended) {
+                        $cognitive_second_level = 1;
+                        $first_attempt_ended = true;
+                    } else {
+                        $cognitive_third_level = 1;
+                    }
+                    $social_second_level = 1;
+                }
+
+                if ($first_attempt_ended) {
+                    if ($log->component == "mod_lesson" && $log->action == "viewed" && $log->objecttable == "lesson_pages") {
+                        $cognitive_fourth_level = 1;
+                    }
+                }
+            }
+            $user_cognitive_level = $cognitive_first_level + $cognitive_second_level + $cognitive_third_level + $cognitive_fourth_level;
+            $user_social_breadth = $social_first_level + $social_second_level;
+            $user_cognitive_level_value = $user_cognitive_level/$cm_cognitive_depth;
+            $user_social_breadth_value = $user_social_breadth/$cm_social_breadth;
+            $indicator = new stdClass();
+            $indicator->cognitive =$user_cognitive_level_value;
+            $indicator->social =$user_social_breadth_value;
+
+            if (!isset($user->cms)) {
+                $user->cms = array();
+            }
+            $label = $cm->modname.$cm->id;
+            $user->cms[$label] = $indicator;
+        }
+        return $users;
     }
 
     private function get_lti_indicators ($cm, $users) {
@@ -552,8 +667,55 @@ class dropout {
     private function get_quiz_indicators ($cm, $users) {
         $cognitive = new \mod_quiz\analytics\indicator\cognitive_depth();
         $social = new \mod_quiz\analytics\indicator\social_breadth();
-        $g = $cognitive->get_indicator_type();
-        $h = $social->get_cognitive_depth_level($cm);
+        $cm_cognitive_depth = $cognitive->get_cognitive_depth_level($cm);
+        $cm_social_breadth = $social->get_social_breadth_level($cm);
+        foreach ($users as $user) {
+            $cm_logs = array();
+            $logs = $user->logs;
+            foreach ($logs as $log) {
+                if ($log->contextlevel == "70" && $log->contextinstanceid == $cm->id) {
+                    array_push($cm_logs, $log);
+                }
+            }
+
+            $cognitive_first_level = 0;
+            $cognitive_second_level = 0;
+            $cognitive_third_level = 0;
+            $cognitive_fourth_level = 0;
+            $social_first_level = 0;
+            $social_second_level = 0;
+            $first_attempt_ended = false;
+            foreach ($cm_logs as $log) {
+                if ($log->component == "mod_quiz" && $log->action == "viewed" && $log->target == "course_module") {
+                    $cognitive_first_level = 1;
+                    $social_first_level = 1;
+                } else if ($log->component == "mod_quiz" && $log->action == "submitted" && $log->target == "attempt") {
+                    if (!$first_attempt_ended) {
+                        $cognitive_second_level = 1;
+                        $first_attempt_ended = true;
+                    } else {
+                        $cognitive_fourth_level = 1;
+                    }
+                    $social_second_level = 1;
+                } else if ($log->component == "mod_quiz" && $log->action == "reviewed" && $log->target == "attempt") {
+                    $cognitive_third_level = 1;
+                }
+            }
+            $user_cognitive_level = $cognitive_first_level + $cognitive_second_level + $cognitive_third_level + $cognitive_fourth_level;
+            $user_social_breadth = $social_first_level + $social_second_level;
+            $user_cognitive_level_value = $user_cognitive_level/$cm_cognitive_depth;
+            $user_social_breadth_value = $user_social_breadth/$cm_social_breadth;
+            $indicator = new stdClass();
+            $indicator->cognitive =$user_cognitive_level_value;
+            $indicator->social =$user_social_breadth_value;
+
+            if (!isset($user->cms)) {
+                $user->cms = array();
+            }
+            $label = $cm->modname.$cm->id;
+            $user->cms[$label] = $indicator;
+        }
+        return $users;
     }
 
     private function get_resource_indicators ($cm, $users) {
@@ -595,8 +757,45 @@ class dropout {
     private function get_scorm_indicators ($cm, $users) {
         $cognitive = new \mod_scorm\analytics\indicator\cognitive_depth();
         $social = new \mod_scorm\analytics\indicator\social_breadth();
-        $g = $cognitive->get_indicator_type();
-        $h = $social->get_cognitive_depth_level($cm);
+        $cm_cognitive_depth = $cognitive->get_cognitive_depth_level($cm);
+        $cm_social_breadth = $social->get_social_breadth_level($cm);
+        foreach ($users as $user) {
+            $cm_logs = array();
+            $logs = $user->logs;
+            foreach ($logs as $log) {
+                if ($log->contextlevel == "70" && $log->contextinstanceid == $cm->id) {
+                    array_push($cm_logs, $log);
+                }
+            }
+
+            $cognitive_first_level = 0;
+            $cognitive_second_level = 0;
+            $social_first_level = 0;
+            $social_second_level = 0;
+            foreach ($cm_logs as $log) {
+                if ($log->component == "mod_scorm" && $log->action == "viewed" && $log->target == "course_module") {
+                    $cognitive_first_level = 1;
+                    $social_first_level = 1;
+                } else if ($log->component == "mod_scorm" && $log->action == "submitted") {
+                    $cognitive_second_level = 1;
+                    $social_second_level = 1;
+                }
+            }
+            $user_cognitive_level = $cognitive_first_level + $cognitive_second_level;
+            $user_social_breadth = $social_first_level + $social_second_level;
+            $user_cognitive_level_value = $user_cognitive_level/$cm_cognitive_depth;
+            $user_social_breadth_value = $user_social_breadth/$cm_social_breadth;
+            $indicator = new stdClass();
+            $indicator->cognitive =$user_cognitive_level_value;
+            $indicator->social =$user_social_breadth_value;
+
+            if (!isset($user->cms)) {
+                $user->cms = array();
+            }
+            $label = $cm->modname.$cm->id;
+            $user->cms[$label] = $indicator;
+        }
+        return $users;
     }
 
     private function get_survey_indicators ($cm, $users) {
@@ -722,7 +921,104 @@ class dropout {
     private function get_workshop_indicators ($cm, $users) {
         $cognitive = new \mod_workshop\analytics\indicator\cognitive_depth();
         $social = new \mod_workshop\analytics\indicator\social_breadth();
-        $g = $cognitive->get_indicator_type();
-        $h = $social->get_cognitive_depth_level($cm);
+        $cm_cognitive_depth = $cognitive->get_cognitive_depth_level($cm);
+        $cm_social_breadth = $social->get_social_breadth_level($cm);
+        foreach ($users as $user) {
+            $cm_logs = array();
+            $logs = $user->logs;
+            foreach ($logs as $log) {
+                if ($log->contextlevel == "70" && $log->contextinstanceid == $cm->id) {
+                    array_push($cm_logs, $log);
+                }
+            }
+
+            $cognitive_first_level = 0;
+            $cognitive_second_level = 0;
+            $cognitive_third_level = 0;
+            $social_first_level = 0;
+            $social_second_level = 0;
+            foreach ($cm_logs as $log) {
+                if ($log->component == "mod_workshop" && $log->action == "viewed" && $log->target == "course_module") {
+                    $cognitive_first_level = 1;
+                    $social_first_level = 1;
+                } else if ($log->component == "mod_workshop" && $log->action == "created" && $log->target == "submission") {
+                    $cognitive_second_level = 1;
+                } else if ($log->component == "mod_workshop" && $log->action == "assessed" && $log->target == "submission") {
+                    $cognitive_third_level = 1;
+                    $social_second_level = 1;
+                }
+            }
+            $user_cognitive_level = $cognitive_first_level + $cognitive_second_level + $cognitive_third_level;
+            $user_social_breadth = $social_first_level + $social_second_level;
+            $user_cognitive_level_value = $user_cognitive_level/$cm_cognitive_depth;
+            $user_social_breadth_value = $user_social_breadth/$cm_social_breadth;
+            $indicator = new stdClass();
+            $indicator->cognitive =$user_cognitive_level_value;
+            $indicator->social =$user_social_breadth_value;
+
+            if (!isset($user->cms)) {
+                $user->cms = array();
+            }
+            $label = $cm->modname.$cm->id;
+            $user->cms[$label] = $indicator;
+        }
+        return $users;
+    }
+
+    private function format_data($users) {
+        $data = array();
+        foreach ($users as $user) {
+            $userdata = array();
+            array_push($userdata, $user->active_days);
+            array_push($userdata, $user->summary->added);
+            array_push($userdata, $user->summary->count);
+            foreach ($user->cms as $cm) {
+                array_push($userdata, $cm->cognitive);
+                array_push($userdata, $cm->social);
+            }
+            $data[$user->userid] = $userdata;
+//            array_push($data, $userdata);
+        }
+        return $data;
+    }
+
+    private function normalize_data($data) {
+        $normalized = array();
+        if (count($data) > 0) {
+            $keys = array_keys($data);
+            $normalizer = new \local_fliplearning\phpml\Preprocessing\Normalizer();
+            $data = self::transpose($data);
+            $normalizer->transform($data);
+            $data = self::transpose($data);
+            foreach ($data as $index => $record) {
+                $normalized[$keys[$index]] = $record;
+            }
+        }
+        return $normalized;
+    }
+
+    private function transpose($array) {
+        return array_map(null, ...$array);
+    }
+
+    private function clustering($data) {
+        global $DB;
+        $sql = "UPDATE {fliplearning_clustering} SET active = 0 WHERE courseid = {$this->course->id}";
+        $DB->execute($sql);
+
+        $kmeans = new \local_fliplearning\phpml\Clustering\KMeans(2);
+        $clusters = $kmeans->cluster($data);
+
+        foreach ($clusters as $index => $users) {
+            foreach ($users as $userid => $user) {
+                $record = new stdClass();
+                $record->courseid = $this->course->id;
+                $record->userid = $userid;
+                $record->cluster = $index;
+                $record->active = 1;
+                $record->timecreated = time();
+                $DB->insert_record("fliplearning_clustering", $record);
+            }
+        }
     }
 }

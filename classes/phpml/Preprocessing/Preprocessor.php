@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Phpml\Preprocessing;
+namespace local_fliplearning\phpml\Preprocessing;
 
-use Phpml\Transformer;
+use local_fliplearning\phpml\Transformer;
 
 interface Preprocessor extends Transformer
 {

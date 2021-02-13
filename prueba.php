@@ -31,20 +31,23 @@ $context = context_course::instance($course->id);
 $url = '/local/fliplearning/prueba.php';
 local_fliplearning_set_page($course, $url);
 
+//$samples = [ 'Label1' => [1, 1], 'Label2' => [8, 7], 'Label3' => [1, 2]];
+$kmeans = new \local_fliplearning\phpml\Clustering\KMeans(2);
 
-//$samples = [[1, 3], [1, 4], [2, 4], [3, 1], [4, 1], [4, 2]];
-//$labels = ['a', 'a', 'a', 'b', 'b', 'b'];
-//$classifier = new \local_fliplearning\phpml\Classification\KNearestNeighbors();
-//$classifier->train($samples, $labels);
+$dropout = new \local_fliplearning\dropout($COURSE->id, $USER->id);
+$samples = $dropout->generate_data();
+
+//$normalizer = new \local_fliplearning\phpml\Preprocessing\Normalizer();
+//$normalizer->transform($samples);
+
+$content = [
+    'data' => $samples,
+    'clusters' => $kmeans->cluster($samples)
+];
 
 
-$classifier = new \local_fliplearning\dropout($COURSE->id, $USER->id);
-$classifier->generate_data();
 
-
-
+$PAGE->requires->js_call_amd('local_fliplearning/prueba','init', ['content' => $content]);
 echo $OUTPUT->header();
-//echo 'hola';
-//echo $classifier->predict([3, 2]);
-echo $classifier->hello();
+echo $OUTPUT->render_from_template('local_fliplearning/prueba', ['content' => $content]);
 echo $OUTPUT->footer();

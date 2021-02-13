@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Phpml\Clustering;
+namespace local_fliplearning\phpml\Clustering;
 
 interface Clusterer
 {

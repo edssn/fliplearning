@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Phpml;
+namespace local_fliplearning\phpml;
 
 interface Transformer
 {

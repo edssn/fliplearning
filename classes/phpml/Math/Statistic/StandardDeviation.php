@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Phpml\Math\Statistic;
+namespace local_fliplearning\phpml\Math\Statistic;
 
-use Phpml\Exception\InvalidArgumentException;
+use local_fliplearning\phpml\Exception\InvalidArgumentException;
 
 class StandardDeviation
 {

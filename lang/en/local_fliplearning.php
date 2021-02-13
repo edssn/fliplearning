@@ -45,6 +45,7 @@ $string['menu_time'] = 'Seguimiento de Tiempo';
 $string['menu_assignments'] = 'Seguimiento de Tareas';
 $string['menu_grades'] = 'Seguimiento de Calificaciones';
 $string['menu_quiz'] = 'Seguimiento de Evaluaciones';
+$string['menu_dropout'] = 'Deserción';
 $string['menu_logs'] = "Descargar registros";
 
 /* Nav Bar Menu */

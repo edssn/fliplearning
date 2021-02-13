@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Phpml\Clustering\KMeans;
+namespace local_fliplearning\phpml\Clustering\KMeans;
 
 use ArrayAccess;
 

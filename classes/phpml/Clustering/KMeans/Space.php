@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Phpml\Clustering\KMeans;
+namespace local_fliplearning\phpml\Clustering\KMeans;
 
 use InvalidArgumentException;
 use LogicException;
-use Phpml\Clustering\KMeans;
+use local_fliplearning\phpml\Clustering\KMeans;
 use SplObjectStorage;
 
 class Space extends SplObjectStorage
