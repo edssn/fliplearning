@@ -1185,8 +1185,9 @@ class teacher extends report {
 
         $clusters = $this->get_clusters();
         $users = $this->get_full_users();
+        $users_access = $this->get_users_last_access();
         $users = array_values($users);
-        $users = $this->get_cluster_users_modules_completion($users, $cms, $enable_completion);
+        $users = $this->get_cluster_users_details($users, $cms, $enable_completion, $users_access);
 
         $response = new stdClass();
         $response->users = $users;
@@ -1218,16 +1219,89 @@ class teacher extends report {
         return $clusters;
     }
 
-    private function get_cluster_users_modules_completion($users, $cms, $enable_completion) {
+    private function get_cluster_users_details($users, $cms, $enable_completion, $users_access) {
+        $tz = self::get_timezone();
+        date_default_timezone_set($tz);
+
         $total_cms = count($cms);
         if ($total_cms > 0) {
             foreach ($users as $user) {
                 $complete_cms = self::count_complete_course_module($cms, $user->id, $enable_completion);
                 $user->complete_cms = $complete_cms;
                 $user->progress_percentage = (int)(($complete_cms * 100)/$total_cms);
+                $user->course_lastaccess = $this->get_user_last_access($user->id, $users_access);
             }
         }
         return $users;
+    }
 
+    private function get_user_last_access($userid, $users_access) {
+        $access = new stdClass();
+        $access->label = get_string("fml_dropout_user_never_access", "local_fliplearning");
+        $access->timestamp = 0;
+        if (isset($users_access[$userid])) {
+            $timestamp = (int)$users_access[$userid]->timeaccess;
+            $str = strtolower(date("D", $timestamp));
+            $day_text = get_string("fml_$str", "local_fliplearning");
+            $month_day = date("d", $timestamp);
+            $str = strtolower(date("M", $timestamp));
+            $month_text = get_string("fml_$str", "local_fliplearning");
+            $year = date("Y", $timestamp);
+            $hour = date("h", $timestamp);
+            $min = date("i", $timestamp);
+            $form = date("A", $timestamp);
+            $timeago = $this->time_elapsed_string($timestamp);
+            $str = "$day_text, $month_day $month_text $year, $hour:$min $form ($timeago)";
+            $access->timestamp = $timestamp;
+            $access->label = $str;
+        }
+        return $access;
+    }
+
+    private function time_elapsed_string($timestamp) {
+        $now = (int) date("U");
+        $diff = $now - $timestamp;
+        $ago = get_string("fml_ago", "local_fliplearning");
+
+        $interval = $diff / 86400;
+        if ($interval >= 1) {
+            $interval = floor($interval);
+            $text = get_string("fml_days", "local_fliplearning");
+            if ($interval == 1) {
+                $text = get_string("fml_day", "local_fliplearning");
+            }
+            return "$interval $text $ago";
+        }
+
+        $interval = $diff / 3600;
+        if ($interval >= 1) {
+            $interval = floor($interval);
+            $text = get_string("fml_hours", "local_fliplearning");
+            if ($interval == 1) {
+                $text = get_string("fml_hour", "local_fliplearning");
+            }
+            return "$interval $text $ago";
+        }
+
+        $interval = $diff / 60;
+        if ($interval >= 1) {
+            $interval = floor($interval);
+            $text = get_string("fml_minutes", "local_fliplearning");
+            if ($interval == 1) {
+                $text = get_string("fml_minute", "local_fliplearning");
+            }
+            return "$interval $text $ago";
+        }
+
+        if ($diff >= 1) {
+            $text = get_string("fml_seconds", "local_fliplearning");
+            if ($diff == 1) {
+                $text = get_string("fml_second", "local_fliplearning");
+            }
+            return "$diff $text $ago";
+        }
+
+        $text = get_string("fml_now", "local_fliplearning");
+        return "$text";
     }
 }

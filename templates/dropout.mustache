@@ -100,12 +100,24 @@
                                         <span v-text="selected_user.email"></span>
                                     </v-col>
                                 </v-row>
+                                <v-row>
+                                    <v-col sm="12">
+                                        <span v-text="selected_user.course_lastaccess.label"></span>
+                                    </v-col>
+                                </v-row>
                             </v-card-text>
 
                             <v-card-actions>
                                 <v-btn
                                         color="deep-purple lighten-2"
                                         v-text="strings.see_profile"
+                                        v-on:click="see_profile()"
+                                        text
+                                >
+                                </v-btn>
+                                <v-btn
+                                        color="deep-purple lighten-2"
+                                        v-text="strings.send_mail"
                                         v-on:click="see_profile()"
                                         text
                                 >
@@ -130,7 +142,7 @@
                 <v-row class="d-flex justify-center">
                     <span class="overline" v-text="get_timezone()"></span>
                 </v-row>
-            </div>
+            </span>
 
 
         </v-container>

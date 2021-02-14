@@ -68,6 +68,7 @@ $content = [
         "thead_progress" => get_string("thead_progress", "local_fliplearning"),
         "table_title" => get_string("fml_dropout_table_title", "local_fliplearning"),
         "see_profile" => get_string("fml_dropout_see_profile", "local_fliplearning"),
+        "send_mail" => get_string("fml_emailform_title", "local_fliplearning"),
 
 
     ],

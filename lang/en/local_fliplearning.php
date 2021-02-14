@@ -202,12 +202,20 @@ $string['api_cancel_action'] = 'Has cancelado la acción';
 $string['generate_data_task'] = 'Proceso para generar datos para Flip my Learning Plugin';
 
 /* Time */
+$string['fml_year'] = 'año';
+$string['fml_years'] = 'años';
+$string['fml_month'] = 'mes';
+$string['fml_months'] = 'meses';
+$string['fml_day'] = 'día';
+$string['fml_days'] = 'días';
 $string['fml_hour'] = 'hora';
 $string['fml_hours'] = 'horas';
 $string['fml_minute'] = 'minuto';
 $string['fml_minutes'] = 'minutos';
 $string['fml_second'] = 'segundo';
 $string['fml_seconds'] = 'segundos';
+$string['fml_ago'] = 'atrás';
+$string['fml_now'] = 'justo ahora';
 
 /* Assign Submissions */
 $string['fml_intime_sub'] = 'Envíos a tiempo';
@@ -364,6 +372,7 @@ $string["fml_cluster_text"] = "Clúster";
 $string["fml_cluster_label"] = "Grupo";
 $string["fml_dropout_table_title"] = "Estudiantes del Grupo";
 $string["fml_dropout_see_profile"] = "Ver Perfil";
+$string["fml_dropout_user_never_access"] = "Nunca Accedido";
 
 
 

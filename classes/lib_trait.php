@@ -99,7 +99,7 @@ trait lib_trait {
         $users = [];
         list($in, $invalues) = $DB->get_in_or_equal($this->users);
         $fields = self::USER_FIELDS;
-        $sql = "select $fields from {user} where id $in order by lastname asc";
+        $sql = "SELECT $fields FROM {user} WHERE id $in ORDER BY lastname ASC";
         $rows = $DB->get_recordset_sql($sql, $invalues);
         foreach($rows as $key => $row){
 //            array_push($users, $row);
@@ -107,6 +107,19 @@ trait lib_trait {
         }
         $rows->close();
         return $users;
+    }
+
+    protected function get_users_last_access(){
+        global $DB;
+        $user_access = [];
+        list($in, $invalues) = $DB->get_in_or_equal($this->users);
+        $sql = "SELECT *  FROM {user_lastaccess} WHERE courseid = {$this->course->id} AND userid $in";
+        $rows = $DB->get_recordset_sql($sql, $invalues);
+        foreach($rows as $row){
+            $user_access[$row->userid] = $row;
+        }
+        $rows->close();
+        return $user_access;
     }
 
     /**
