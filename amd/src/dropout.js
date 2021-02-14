@@ -30,7 +30,19 @@ define(["local_fliplearning/vue",
                         loading : false,
                         errors : [],
                         pages : content.pages,
+
+                        dropout: content.dropout,
+                        selected_cluster: [],
+                        cluster_users: [],
+                        selected_user: {},
+                        search: null,
                     }
+                },
+                beforeMount(){
+                    if (this.dropout.clusters.length) {
+                        this.selected_cluster = this.dropout.clusters[0];
+                        this.change_cluster(this.selected_cluster.users);
+                    };
                 },
                 mounted(){
                     document.querySelector("#sessions-loader").style.display = "none";
@@ -43,6 +55,19 @@ define(["local_fliplearning/vue",
                     get_help_content(){
                         let helpcontents = `Texto de Ayuda`;
                         return helpcontents;
+                    },
+
+                    change_cluster(users) {
+                        let selected_users = [];
+                        this.dropout.users.forEach(user => {
+                            if (users.includes(user.id)) {
+                                selected_users.push(user);
+                            }
+                        });
+                        this.cluster_users = selected_users;
+                        this.selected_user = this.cluster_users[0] || {};
+                        console.log(this.cluster_users);
+                        console.log(this.selected_user);
                     },
 
                     update_interactions(week){
@@ -71,6 +96,38 @@ define(["local_fliplearning/vue",
                             this.loading = false;
                         });
                         return this.data;
+                    },
+
+                    table_headers(){
+                        let headers = [
+                            { text: '', value : 'id', align : 'center', sortable : false},
+                            { text: this.strings.thead_name , value : 'firstname'},
+                            { text: this.strings.thead_lastname , value : 'lastname'},
+                            { text: this.strings.thead_progress , value : 'progress_percentage'},
+                        ];
+                        return headers;
+                    },
+
+                    change_user(user) {
+                        this.selected_user = user;
+                    },
+
+                    get_picture_url(userid){
+                        return `${M.cfg.wwwroot}/user/pix.php?file=/${userid}/f1.jpg`;
+                    },
+
+                    get_user_fullname(){
+                        return `${this.selected_user.firstname} ${this.selected_user.lastname}`;
+                    },
+
+                    get_username(){
+                        return `@${this.selected_user.username}`;
+                    },
+
+                    see_profile () {
+                        let id = this.selected_user.id;
+                        let url = M.cfg.wwwroot + '/user/view.php?id='+id+'&course='+vue.courseid;
+                        window.open(url);
                     },
 
                     get_timezone(){

@@ -314,6 +314,7 @@ $string['fml_wiki_url'] = '/mod/wiki/view.php?id=';
 $string['fml_workshop_url'] = '/mod/workshop/view.php?id=';
 
 /* Grades */
+$string['fml_grades_select_label'] = 'Categoría de Evaluación';
 $string['fml_grades_chart_title'] = 'Promedios de Actividades Evaluables';
 $string['fml_grades_yaxis_title'] = 'Promedio de Calificaciones (%)';
 $string['fml_grades_tooltip_average'] = 'Calificación Promedio';
@@ -357,6 +358,12 @@ $string["fml_blank_attempt"] = "En Blanco";
 $string["fml_needgraded_attempt"] = "Sin Calificar";
 $string["fml_review_question"] = "(Clic para revisar la pregunta)";
 
+
+/* Deserción */
+$string["fml_cluster_text"] = "Clúster";
+$string["fml_cluster_label"] = "Grupo";
+$string["fml_dropout_table_title"] = "Estudiantes del Grupo";
+$string["fml_dropout_see_profile"] = "Ver Perfil";
 
 
 

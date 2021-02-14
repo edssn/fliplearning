@@ -621,9 +621,7 @@ a.fliplearning-navbar-menu-item .badge {
 
 
 /* Work Session */
-#work_sessions .round-avatar{
-    width: 35px;
-    height: 35px;
+.round-avatar{
     border-radius: 50%;
     border: 1px solid #e0e0e0;
     margin: 2px;

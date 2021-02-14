@@ -13,18 +13,119 @@
                 <span class="mb-1 mt-5 body-1" v-text="strings.graph_generating"></span>
                 <v-progress-linear indeterminate color="cyan"></v-progress-linear>
             </v-row>
-            <div v-else>
+            <span v-else>
                 <v-alert v-if="errors.length > 0" dense outlined type="error" v-text="strings.api_error_network"></v-alert>
 
-<!--                <pagination-->
-<!--                        :pages="pages" :name="strings.pagination_name" :nameseparator="strings.pagination_separator"-->
-<!--                        @changepage="update_interactions" :title="strings.pagination_title"></pagination>-->
+                <v-row>
+                    <v-col sm="12">
+                        <v-select
+                                attach
+                                :items="dropout.clusters"
+                                item-text="name"
+                                item-value="users"
+                                :label="strings.cluster_label"
+                                v-model="selected_cluster"
+                                v-on:change="change_cluster"
+                                solo
+                        ></v-select>
+                    </v-col>
+                </v-row>
+
+                <v-row>
+                    <v-col sm="12" md="6">
+                        <v-row class="d-flex justify-center">
+                            <v-col sm="12">
+                                <v-card class="remove-shadow make-border vuetify-datatable">
+                                    <v-card-title>
+                                        <span v-text="strings.table_title"></span>
+                                        <v-spacer></v-spacer>
+                                        <v-text-field
+                                                v-model="search"
+                                                append-icon="search"
+                                                single-line
+                                                hide-details
+                                                class="txt_search"
+                                        ></v-text-field>
+                                    </v-card-title>
+                                    <v-data-table
+                                            :headers="table_headers()"
+                                            :items="cluster_users"
+                                            item-key="id"
+                                            :search="search" dense multi-sort
+                                            :items-per-page="10"
+                                            class="elevation-3"
+                                            @click:row="change_user"
+                                    >
+                                        <template v-slot:item.id="{ item }">
+                                            <img :src="get_picture_url(item.id)" width="35px" heigth="35px" class="round-avatar"/>
+                                        </template>
+
+                                        <template v-slot:item.progress_percentage="{ item }">
+                                            <v-progress-linear :value="item.progress_percentage" height="8"></v-progress-linear>
+                                        </template>
+
+                                    </v-data-table>
+                                </v-card>
+                            </v-col>
+                        </v-row>
+                    </v-col>
+
+                    <v-col sm="12" md="6">
+
+                        <v-card class="mx-auto my-3">
+
+                            <v-spacer></v-spacer>
+
+                            <v-card-text>
+                                <v-row>
+                                    <v-col sm="3">
+                                        <img :src="get_picture_url(selected_user.id)" height="100" width="100" class="round-avatar"/>
+                                    </v-col>
+                                    <v-col sm="9">
+                                        <h1 v-text="get_user_fullname()"></h1>
+                                    </v-col>
+                                </v-row>
+                            </v-card-text>
+
+                            <v-divider ></v-divider>
+
+                            <v-card-text>
+                                <v-row>
+                                    <v-col sm="12">
+                                        <span v-text="get_username()"></span>
+                                    </v-col>
+                                </v-row>
+                                <v-row>
+                                    <v-col sm="12">
+                                        <span v-text="selected_user.email"></span>
+                                    </v-col>
+                                </v-row>
+                            </v-card-text>
+
+                            <v-card-actions>
+                                <v-btn
+                                        color="deep-purple lighten-2"
+                                        v-text="strings.see_profile"
+                                        v-on:click="see_profile()"
+                                        text
+                                >
+                                </v-btn>
+                            </v-card-actions>
+                        </v-card>
+
+
+                    </v-col>
+                </v-row>
 
                 <v-row>
                     <v-col sm="12">
 <!--                        <chart :container="'time_inverted'" :chart="build_chart_inverted_time()"></chart>-->
                     </v-col>
                 </v-row>
+
+
+
+
 
                 <v-row class="d-flex justify-center">
                     <span class="overline" v-text="get_timezone()"></span>

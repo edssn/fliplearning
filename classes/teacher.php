@@ -1168,13 +1168,30 @@ class teacher extends report {
     }
 
     public function get_dropout_clusters() {
+        if(!self::course_in_transit()){
+            return null;
+        }
+        if(!self::course_has_users()){
+            return null;
+        }
+
+        $enable_completion = false;
+        if(isset($this->course->enablecompletion) && ((int)$this->course->enablecompletion) == 1) {
+            $enable_completion = true;
+        }
+
+        $cms = self::get_course_modules();
+        $cms = array_filter($cms, function($module){ return $module['visible'] == 1;});
+
         $clusters = $this->get_clusters();
         $users = $this->get_full_users();
         $users = array_values($users);
+        $users = $this->get_cluster_users_modules_completion($users, $cms, $enable_completion);
 
         $response = new stdClass();
         $response->users = $users;
         $response->clusters = $clusters;
+        $response->total_cms = count($cms);
         return $response;
     }
 
@@ -1185,9 +1202,11 @@ class teacher extends report {
         $rows = array_values($rows);
 
         $clusters = array();
+        $cluster_text = get_string("fml_cluster_text", "local_fliplearning");
         foreach ($rows as $row) {
             if (!isset($clusters[$row->cluster])) {
                 $cluster = new stdClass();
+                $cluster->name = $cluster_text." ".$row->cluster;
                 $cluster->number = $row->cluster;
                 $cluster->users = array();
                 array_push($cluster->users, $row->userid);
@@ -1197,5 +1216,18 @@ class teacher extends report {
             }
         }
         return $clusters;
+    }
+
+    private function get_cluster_users_modules_completion($users, $cms, $enable_completion) {
+        $total_cms = count($cms);
+        if ($total_cms > 0) {
+            foreach ($users as $user) {
+                $complete_cms = self::count_complete_course_module($cms, $user->id, $enable_completion);
+                $user->complete_cms = $complete_cms;
+                $user->progress_percentage = (int)(($complete_cms * 100)/$total_cms);
+            }
+        }
+        return $users;
+
     }
 }

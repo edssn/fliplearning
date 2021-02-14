@@ -23,7 +23,7 @@
                                 :items="grades.categories"
                                 item-text="name"
                                 item-value="items"
-                                label="Categoría"
+                                :label="strings.grades_select_label"
                                 v-model="default_category"
                                 v-on:change="change_category"
                                 solo

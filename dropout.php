@@ -62,12 +62,18 @@ $content = [
         "helplabel" => get_string("helplabel", "local_fliplearning"),
         "exitbutton" => get_string("exitbutton", "local_fliplearning"),
 
+        "cluster_label" => get_string("fml_cluster_label", "local_fliplearning"),
+        "thead_name" => get_string("thead_name", "local_fliplearning"),
+        "thead_lastname" => get_string("thead_lastname", "local_fliplearning"),
+        "thead_progress" => get_string("thead_progress", "local_fliplearning"),
+        "table_title" => get_string("fml_dropout_table_title", "local_fliplearning"),
+        "see_profile" => get_string("fml_dropout_see_profile", "local_fliplearning"),
+
 
     ],
     'courseid' => $COURSE->id,
     'userid' => $USER->id,
     'dropout' => $reports->get_dropout_clusters(),
-//    'pages' => $configweeks->get_weeks_paginator(),
     'profile_render' => $reports->render_has(),
     'groups' => local_fliplearning_get_groups($course, $USER),
     'timezone' => $reports->timezone,

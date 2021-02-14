@@ -57,6 +57,7 @@ $content = [
         "api_error_network" => get_string("api_error_network", "local_fliplearning"),
         "helplabel" => get_string("helplabel", "local_fliplearning"),
         "exitbutton" => get_string("exitbutton", "local_fliplearning"),
+        "grades_select_label" => get_string("fml_grades_select_label", "local_fliplearning"),
         "grades_chart_title" => get_string("fml_grades_chart_title", 'local_fliplearning'),
         "grades_yaxis_title" => get_string("fml_grades_yaxis_title", 'local_fliplearning'),
         "grades_tooltip_average" => get_string("fml_grades_tooltip_average", 'local_fliplearning'),
