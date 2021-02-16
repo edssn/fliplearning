@@ -22,7 +22,11 @@
 
                 <v-row>
                     <v-col sm="12">
-                        <chart :container="'assignsubs'" :chart="build_chart_submissions()"></chart>
+                        <chart
+                                :container="'assignsubs'"
+                                :chart="build_chart_submissions()"
+                                :lang="strings.chart"
+                        ></chart>
                     </v-col>
                 </v-row>
 
@@ -39,7 +43,11 @@
 
                 <v-row>
                     <v-col sm="12">
-                        <chart :container="'access_content'" :chart="build_chart_access_content()"></chart>
+                        <chart
+                                :container="'access_content'"
+                                :chart="build_chart_access_content()"
+                                :lang="strings.chart"
+                        ></chart>
                     </v-col>
                 </v-row>
 

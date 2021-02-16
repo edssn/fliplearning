@@ -273,7 +273,7 @@ define(["local_fliplearning/vue",
                             { text: this.strings.thead_lastname , value : 'lastname'},
                             { text: this.strings.thead_email , value : 'email'},
                             { text: this.strings.thead_progress , value : 'progress_percentage',  align : 'center'},
-                            { text: this.strings.thead_sessions , value : 'sessions',  align : 'center'},
+                            { text: this.strings.thead_sessions , value : 'sessions_number',  align : 'center'},
                             { text: this.strings.thead_time , value : 'inverted_time', align : 'center'},
                         ];
                         return headers;
@@ -291,11 +291,11 @@ define(["local_fliplearning/vue",
                     get_progress_tooltip(item){
                         let module_label = this.strings.modules_label;
                         let finished_label = this.strings.finisheds_label;
-                        if (item.complete_cms == 1) {
+                        if (item.cms.complete == 1) {
                             module_label = this.strings.module_label;
                             finished_label = this.strings.finished_label;
                         }
-                        return `${item.complete_cms} ${module_label} ${finished_label} ${this.strings.of_conector} ${item.total_cms}`;
+                        return `${item.cms.complete} ${module_label} ${finished_label} ${this.strings.of_conector} ${item.cms.total}`;
                     },
                 }
             })

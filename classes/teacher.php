@@ -325,26 +325,24 @@ class teacher extends report {
             $end = $this->course->enddate;
         }
 
-
         $enable_completion = false;
         if(isset($this->course->enablecompletion) && ((int)$this->course->enablecompletion) == 1) {
             $enable_completion = true;
         }
 
-        $work_sessions = self::get_work_sessions($start, $end);
-        $all_course_modules = self::get_course_modules();
-        $visible_modules = array_filter($all_course_modules, function($module){ return $module['visible'] == 1;});
-        $table = self::get_course_modules_completion($work_sessions, $visible_modules, $enable_completion);
+        $users_sessions = self::get_work_sessions($start, $end);
+        $cms = self::get_course_modules();
+        $table = self::get_progress_table($users_sessions, $cms, $enable_completion);
         return $table;
     }
 
-    private function get_course_modules_completion($users_sessions, $course_modules, $enable_completion) {
+    private function get_progress_table($users, $cms, $enable_completion, $include_sessions = false) {
         $table = array();
-        $total_cms = count($course_modules);
+        $total_cms = count($cms);
         if ($total_cms > 0) {
-            foreach ($users_sessions as $index => $user) {
-                $complete_cms = self::count_complete_course_module($course_modules, $user->userid, $enable_completion);
-                $progress_percentage = (int)(($complete_cms * 100)/$total_cms);
+            foreach ($users as $user) {
+                $cms_interaction = self::cms_interactions($cms, $user, $enable_completion);
+                $progress_percentage = (int)(($cms_interaction->complete * 100)/$total_cms);
                 $inverted_time_label = self::convert_time($user->time_format, $user->summary->added, "hour");
                 $user_record = self::get_user($user->userid);
 
@@ -352,14 +350,17 @@ class teacher extends report {
                 $record->id = $user_record->id;
                 $record->firstname = $user_record->firstname;
                 $record->lastname = $user_record->lastname;
+                $record->username = $user_record->username;
                 $record->email = $user_record->email;
                 $record->progress_percentage = $progress_percentage;
-                $record->total_cms = $total_cms;
-                $record->complete_cms = $complete_cms;
-                $record->sessions = $user->summary->count;
+                $record->cms = $cms_interaction;
+                $record->sessions_number = $user->summary->count;
                 $record->inverted_time = $user->summary->added;
                 $record->inverted_time_label = $inverted_time_label;
 
+                if ($include_sessions) {
+                    $record->sessions = $user->sessions;
+                }
                 array_push($table, $record);
             }
         }
@@ -367,36 +368,63 @@ class teacher extends report {
 
     }
 
-    private function count_complete_course_module($course_modules, $userid, $enable_completion){
+    private function cms_interactions($cms, $user, $cms_completion_enabled){
         $complete_cms = 0;
-        foreach ($course_modules as $module) {
-            if ($enable_completion) {
+        $cms_ids = array();
+        $viewed_cms = 0;
+        foreach ($cms as $module) {
+            $finished = null;
+            if ($cms_completion_enabled) {
                 $module_completion_configure = $module['completion'] != 0;
                 if ($module_completion_configure) {
-                    $finished = self::get_finished_course_module_by_conditions($userid, $module['id']);
-                    if ($finished) {
-                        $complete_cms++;
-                    }
-                } else {
-                    $finished = self::get_finished_course_module_by_view($userid, $module['id']);
-                    if ($finished) {
-                        $complete_cms++;
-                    }
-                }
-            } else {
-                $finished = self::get_finished_course_module_by_view($userid, $module['id']);
-                if ($finished) {
-                    $complete_cms++;
+                    $finished = self::finished_cm_by_conditions($user->userid, $module['id']);
                 }
             }
+            $interactions = self::count_cm_interactions($user, $module['id']);
+            $viewed = ($interactions > 0);
+            $finished = (!isset($finished)) ? $viewed : $finished;
+
+            $cm = new stdClass();
+            $cm->id = $module['id'];
+            $cm->interactions = $interactions;
+            $cm->complete = false;
+            $cm->viewed = false;
+            if ($viewed) {
+                $viewed_cms++;
+                $cm->viewed = true;
+            }
+            if ($finished) {
+                $complete_cms++;
+                $cm->complete = true;
+            }
+            if ($viewed || $finished) {
+                array_push($cms_ids, $cm);
+            }
         }
-        return $complete_cms;
+        $interaction = new stdClass();
+        $interaction->complete = $complete_cms;
+        $interaction->viewed = $viewed_cms;
+        $interaction->cms = $cms_ids;
+        $interaction->total = count($cms);
+        return $interaction;
+    }
+
+    private function count_cm_interactions($user, $cm_id){
+        $cm_logs = 0;
+        foreach ($user->logs as $log) {
+            if ($log->contextlevel == 70 && $log->contextinstanceid == $cm_id) {
+                $cm_logs++;
+            }
+        }
+        return $cm_logs;
     }
 
     private function get_finished_course_module_by_view($userid, $cm_id){
         global $DB;
         $complete = false;
-        $sql = "select id from {logstore_standard_log} where courseid = {$this->course->id} AND userid = {$userid} AND contextinstanceid = {$cm_id}";
+        $sql = "SELECT id from {logstore_standard_log} 
+                WHERE courseid = {$this->course->id} AND contextlevel = 70 
+                AND contextinstanceid = {$cm_id} AND userid = {$userid}";
         $logs = $DB->get_records_sql($sql);
         if (isset($logs) && count($logs)>0) {
             $complete = true;
@@ -404,12 +432,12 @@ class teacher extends report {
         return $complete;
     }
 
-    private function get_finished_course_module_by_conditions($userid, $cm_id){
+    private function finished_cm_by_conditions($userid, $cm_id){
         global $DB;
         $complete = false;
-        $sql = "select id from {course_modules_completion} where coursemoduleid = {$cm_id} AND userid = {$userid}";
-        $logs = $DB->get_records_sql($sql);
-        if (isset($logs) && count($logs)>0) {
+        $item = $DB->get_record('course_modules_completion',
+            array('coursemoduleid' => $cm_id, 'userid' => $userid), 'id, timemodified');
+        if ($item) {
             $complete = true;
         }
         return $complete;
@@ -1175,24 +1203,37 @@ class teacher extends report {
             return null;
         }
 
+        $start = null;
+        if(isset($this->course->startdate) && ((int)$this->course->startdate) > 0) {
+            $start = $this->course->startdate;
+        }
+        $end = null;
+        if(isset($this->course->enddate) && ((int)$this->course->enddate) > 0) {
+            $end = $this->course->enddate;
+        }
+
         $enable_completion = false;
         if(isset($this->course->enablecompletion) && ((int)$this->course->enablecompletion) == 1) {
             $enable_completion = true;
         }
 
         $cms = self::get_course_modules();
-        $cms = array_filter($cms, function($module){ return $module['visible'] == 1;});
+        $users = self::get_work_sessions($start, $end);
+        $users = self::get_progress_table($users, $cms, $enable_completion, true);
 
         $clusters = $this->get_clusters();
-        $users = $this->get_full_users();
         $users_access = $this->get_users_last_access();
-        $users = array_values($users);
-        $users = $this->get_cluster_users_details($users, $cms, $enable_completion, $users_access);
+        $users = $this->get_users_details($users, $cms, $enable_completion, $users_access);
+        $users = $this->get_users_grades($users);
+
+        $weeks = $this->get_weeks();
 
         $response = new stdClass();
         $response->users = $users;
         $response->clusters = $clusters;
         $response->total_cms = count($cms);
+        $response->cms = $cms;
+        $response->weeks = $weeks;
         return $response;
     }
 
@@ -1219,16 +1260,14 @@ class teacher extends report {
         return $clusters;
     }
 
-    private function get_cluster_users_details($users, $cms, $enable_completion, $users_access) {
-        $tz = self::get_timezone();
-        date_default_timezone_set($tz);
-
+    private function get_users_details($users, $cms, $enable_completion, $users_access) {
+        date_default_timezone_set(self::get_timezone());
         $total_cms = count($cms);
         if ($total_cms > 0) {
             foreach ($users as $user) {
-                $complete_cms = self::count_complete_course_module($cms, $user->id, $enable_completion);
-                $user->complete_cms = $complete_cms;
-                $user->progress_percentage = (int)(($complete_cms * 100)/$total_cms);
+//                $complete_cms = self::cms_interactions($cms, $user->id, $enable_completion);
+//                $user->complete_cms = $complete_cms;
+//                $user->progress_percentage = (int)(($complete_cms * 100)/$total_cms);
                 $user->course_lastaccess = $this->get_user_last_access($user->id, $users_access);
             }
         }
@@ -1303,5 +1342,46 @@ class teacher extends report {
 
         $text = get_string("fml_now", "local_fliplearning");
         return "$text";
+    }
+
+    private function get_users_grades($users) {
+        global $DB;
+        $item = $DB->get_record('grade_items',
+            array('courseid' => $this->course->id, 'itemtype' => 'course'), 'id, courseid, grademax', MUST_EXIST);
+        $sql = "SELECT id, userid, rawgrademax, finalgrade FROM {grade_grades} 
+                WHERE itemid = {$item->id} AND finalgrade IS NOT NULL";
+        $rows = $DB->get_records_sql($sql);
+        $grades = array();
+        foreach ($rows as $row) {
+            $grades[$row->userid] = $row;
+        }
+
+        foreach ($users as $user) {
+            $grade = new stdClass();
+            $grade->finalgrade = 0;
+            $grade->maxgrade = $item->grademax;
+            if (isset($grades[$user->id])) {
+                $grade->finalgrade = $grades[$user->id]->finalgrade;
+            }
+            $user->coursegrade = $grade;
+        }
+        return $users;
+    }
+
+    private function get_weeks() {
+        $configweeks = new \local_fliplearning\configweeks($this->course->id, $this->user->id);
+        $weeks = array();
+        foreach ($configweeks->weeks as $item) {
+            $week = new stdClass();
+            $week->weekstart = $item->weekstart;
+            $week->weekend = $item->weekend;
+            $week->weekstartlabel = $item->weekstartlabel;
+            $week->weekendlabel = $item->weekendlabel;
+            $week->position = $item->position;
+            $week->name = $item->name;
+            $week->setions = $item->sections;
+            array_push($weeks, $week);
+        }
+        return $weeks;
     }
 }

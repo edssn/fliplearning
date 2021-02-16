@@ -176,9 +176,12 @@ trait lib_trait {
         return $name;
     }
 
-    public function get_course_modules($formatted = true){
+    public function get_course_modules($hidden_cms = false, $formatted = true){
         $modinfo = get_fast_modinfo($this->course->id);
         $modules = $modinfo->get_cms();
+        if (!$hidden_cms) {
+            $modules = array_filter($modules, function($module){ return $module->visible == 1;});
+        }
         if ($formatted) {
             $modules = self::format_course_module($modules);
         }
@@ -192,7 +195,7 @@ trait lib_trait {
 
     private function format_course_module($modules){
         $full_modules = array();
-        foreach ($modules as $index => $module){
+        foreach ($modules as $module){
             $full_module = [
                 'id' => $module->id,
                 'module' => $module->module,
@@ -202,6 +205,8 @@ trait lib_trait {
                 'module' =>  $module->module,
                 'name' =>  $module->name,
                 'completion' =>  $module->completion,
+                'sectionnum' =>  $module->sectionnum,
+                'section' =>  $module->section,
             ];
             $full_modules[] = $full_module;
         }
@@ -612,7 +617,8 @@ trait lib_trait {
         $users = array();
         $conditions = self::get_query_from_conditions($filters);
         list($in, $invalues) = $DB->get_in_or_equal($this->users);
-        $sql = "select * from {logstore_standard_log} where courseid = {$this->course->id} {$conditions} AND userid $in order by timecreated asc";
+        $sql = "SELECT * FROM {logstore_standard_log} 
+                WHERE courseid = {$this->course->id} {$conditions} AND userid $in ORDER BY timecreated ASC";
         $logs = $DB->get_recordset_sql($sql, $invalues);
         foreach($logs as $key => $log){
             if(isset($users[$log->userid])){

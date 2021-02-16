@@ -41,10 +41,18 @@
 
                 <v-row>
                     <v-col sm="12" md="6">
-                        <chart :container="'questions_attempts'" :chart="build_chart_questions_attempts()"></chart>
+                        <chart
+                                :container="'questions_attempts'"
+                                :chart="build_chart_questions_attempts()"
+                                :lang="strings.chart"
+                        ></chart>
                     </v-col>
                     <v-col sm="12" md="6">
-                        <chart :container="'hardest_questions'" :chart="build_chart_hardest_questions()"></chart>
+                        <chart
+                                :container="'hardest_questions'"
+                                :chart="build_chart_hardest_questions()"
+                                :lang="strings.chart"
+                        ></chart>
                     </v-col>
                 </v-row>
 

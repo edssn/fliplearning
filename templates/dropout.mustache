@@ -109,14 +109,14 @@
 
                             <v-card-actions>
                                 <v-btn
-                                        color="deep-purple lighten-2"
+                                        color="primary lighten"
                                         v-text="strings.see_profile"
                                         v-on:click="see_profile()"
                                         text
                                 >
                                 </v-btn>
                                 <v-btn
-                                        color="deep-purple lighten-2"
+                                        color="primary lighten"
                                         v-text="strings.send_mail"
                                         v-on:click="see_profile()"
                                         text
@@ -130,8 +130,48 @@
                 </v-row>
 
                 <v-row>
-                    <v-col sm="12">
-<!--                        <chart :container="'time_inverted'" :chart="build_chart_inverted_time()"></chart>-->
+                    <v-col sm="12" md="6">
+                        <v-card elevation="2">
+                            <v-card-title class="justify-center" v-text="strings.student_progress_title"></v-card-title>
+                            <v-card-text class=text-center>
+                                <v-progress-circular
+                                        :rotate="-90"
+                                        :size="100"
+                                        :width="15"
+                                        :value="selected_user.progress_percentage"
+                                        color="primary"
+
+                                >
+                                    <span v-text="get_progress_percentage()"></span>
+                                </v-progress-circular>
+                            </v-card-text>
+                            <v-card-text class=text-center>
+                                <span v-text="get_progress_message()"></span>
+                            </v-card-text>
+                            <br/>
+                        </v-card>
+                    </v-col>
+
+                    <v-col sm="12" md="2">
+                        <v-card elevation="2">
+                            <v-card-title v-text="selected_user.inverted_time_label">
+                            </v-card-title>
+                            <v-card-text v-text="strings.inverted_time_title"></v-card-text>
+                        </v-card>
+                    </v-col>
+                    <v-col sm="12" md="2">
+                        <v-card elevation="2">
+                            <v-card-title v-text="selected_user.sessions_number">
+                            </v-card-title>
+                            <v-card-text v-text="strings.inverted_sessions_title"></v-card-text>
+                        </v-card>
+                    </v-col>
+                    <v-col sm="12" md="2">
+                        <v-card elevation="2">
+                            <v-card-title v-text="get_student_grade()">
+                            </v-card-title>
+                            <v-card-text v-text="strings.student_grade_title"></v-card-text>
+                        </v-card>
                     </v-col>
                 </v-row>
 

@@ -10,11 +10,12 @@ define([
     function(Highcharts) {
     return {
         template: `<div v-bind:id="container"></div>`,
-        props: ['container', 'chart'],
+        props: ['container', 'chart', 'lang'],
         data() {
             return { }
         },
         mounted() {
+            (this.lang) && Highcharts.setOptions({lang: this.lang});
             this._highchart = Highcharts.chart(this.container, this.chart);
         },
         watch: {

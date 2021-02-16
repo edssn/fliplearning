@@ -27,10 +27,18 @@
 
                 <v-row>
                     <v-col sm="12" md="6">
-                        <chart :container="'sessions1'" :chart="build_chart_session_by_hours()"></chart>
+                        <chart
+                                :container="'sessions1'"
+                                :chart="build_chart_session_by_hours()"
+                                :lang="strings.chart"
+                        ></chart>
                     </v-col>
                     <v-col sm="12" md="6">
-                        <chart :container="'sessions2'" :chart="build_chart_session_by_weeks()"></chart>
+                        <chart
+                                :container="'sessions2'"
+                                :chart="build_chart_session_by_weeks()"
+                                :lang="strings.chart"
+                        ></chart>
                     </v-col>
                 </v-row>
 
@@ -91,7 +99,11 @@
 
                 <v-row>
                     <v-col sm="12">
-                        <chart :container="'session_count'" :chart="build_chart_session_count()"></chart>
+                        <chart
+                                :container="'session_count'"
+                                :chart="build_chart_session_count()"
+                                :lang="strings.chart"
+                        ></chart>
                     </v-col>
                 </v-row>
 

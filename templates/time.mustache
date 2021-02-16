@@ -22,7 +22,11 @@
 
                 <v-row>
                     <v-col sm="12">
-                        <chart :container="'time_inverted'" :chart="build_chart_inverted_time()"></chart>
+                        <chart
+                                :container="'time_inverted'"
+                                :chart="build_chart_inverted_time()"
+                                :lang="strings.chart"
+                        ></chart>
                     </v-col>
                 </v-row>
 

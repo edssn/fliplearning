@@ -33,17 +33,25 @@
 
                 <v-row>
                     <v-col sm="12">
-                        <chart :container="'items_average'" :chart="build_chart_items_average()"></chart>
+                        <chart
+                                :container="'items_average'"
+                                :chart="build_chart_items_average()"
+                                :lang="strings.chart"
+                        ></chart>
                     </v-col>
                 </v-row>
 
                 <v-row>
                     <v-col sm="12" md="6">
-                        <chart :container="'item_detail'" :chart="build_chart_item_grade_detail()"></chart>
+                        <chart
+                                :container="'item_detail'"
+                                :chart="build_chart_item_grade_detail()"
+                                :lang="strings.chart"
+                        ></chart>
                     </v-col>
 
                     <v-col sm="12" md="6">
-                        <chart :container="'item_grades_distribution'" :chart="build_chart_item_grades_distribution()"></chart>
+                        <chart :container="'item_grades_distribution'" :chart="build_chart_item_grades_distribution()" :lang="strings.chart"></chart>
                     </v-col>
                 </v-row>
 

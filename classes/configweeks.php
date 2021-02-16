@@ -91,7 +91,8 @@ class configweeks {
      */
     public function get_weeks(){
         global $DB;
-        $sql = "select * from {fliplearning_weeks} where courseid = ? and instanceid = ? and timedeleted IS NULL order by position asc";
+        $sql = "SELECT * FROM {fliplearning_weeks} 
+                WHERE courseid = ? AND instanceid = ? AND timedeleted IS NULL ORDER BY POSITION ASC";
         $weeks = $DB->get_records_sql($sql, array($this->course->id, $this->instance->id));
         $weeks = array_values($weeks);
         return $weeks;

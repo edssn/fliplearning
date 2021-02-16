@@ -130,6 +130,33 @@ define(["local_fliplearning/vue",
                         window.open(url);
                     },
 
+                    get_progress_message(){
+                        let module_label = this.strings.modules_label;
+                        let finished_label = this.strings.finisheds_label;
+                        if (this.selected_user.cms.complete == 1) {
+                            module_label = this.strings.module_label;
+                            finished_label = this.strings.finished_label;
+                        }
+                        return `${this.selected_user.cms.complete} ${module_label} ${finished_label} ${this.strings.of_conector} ${this.dropout.total_cms}`;
+                    },
+
+                    get_progress_percentage() {
+                        return `${this.selected_user.progress_percentage} %`;
+                    },
+
+                    get_student_grade() {
+                        let grade = this.selected_user.coursegrade;
+                        grade.finalgrade = Number(grade.finalgrade);
+                        grade.maxgrade = Number(grade.maxgrade);
+                        let student_grade = this.isInt(grade.finalgrade) ? grade.finalgrade : grade.finalgrade.toFixed(2);
+                        let max_grade = this.isInt(grade.maxgrade) ? grade.maxgrade : grade.maxgrade.toFixed(2);
+                        return `${student_grade}/${max_grade}`;
+                    },
+
+                    isInt(n) {
+                        return n % 1 === 0;
+                    },
+
                     get_timezone(){
                         let information = `${this.strings.ss_change_timezone} ${this.timezone}`
                         return information;

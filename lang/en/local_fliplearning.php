@@ -55,6 +55,28 @@ $string['togglemenu'] = 'Mostrar/Ocultar menú de FML';
 $string['pagination_component_to'] = 'al';
 $string['pagination_component_name'] = 'Semana';
 
+/* Chart*/
+$string['chart_loading'] = 'Cargando...';
+$string['chart_exportButtonTitle'] = "Exportar";
+$string['chart_printButtonTitle'] = "Imprimir";
+$string['chart_rangeSelectorFrom'] = "De";
+$string['chart_rangeSelectorTo'] = "Hasta";
+$string['chart_rangeSelectorZoom'] = "Rango";
+$string['chart_downloadPNG'] = 'Descargar imagen PNG';
+$string['chart_downloadJPEG'] = 'Descargar imagen JPEG';
+$string['chart_downloadPDF'] = 'Descargar documento PDF';
+$string['chart_downloadSVG'] = 'Descargar imagen SVG';
+$string['chart_downloadCSV'] = 'Descargar CSV';
+$string['chart_downloadXLS'] = 'Descargar XLS';
+$string['chart_exitFullscreen'] = 'Salir de Pantalla Completa';
+$string['chart_hideData'] = 'Ocultar Tabla de Datos';
+$string['chart_noData'] = 'No hay datos que mostrar';
+$string['chart_printChart'] = 'Imprimir Gráfico';
+$string['chart_viewData'] = 'Ver Tabla de Datos';
+$string['chart_viewFullscreen'] = 'Ver en Pantalla Completa';
+$string['chart_resetZoom'] = 'Reiniciar zoom';
+$string['chart_resetZoomTitle'] = 'Reiniciar zoom nivel 1:1';
+
 /* Set weeks */
 $string['setweeks_title'] = 'Configuración de las Semanas del Curso';
 $string['setweeks_description'] = 'Para comenzar, debe configurar el curso por semanas y definir una fecha de inicio para la primera semana (el resto de semanas se realizará de forma automática a partir de esta fecha. A continuación, debe asociar las actividades o módulos relacionadas a cada semana arrastrándolas de la columna de la derecha a la semana correspondiente.  No es necesario asignar todas las actividades o módulos a las semanas, simplemente aquellas que se quieran considerar para hacer el seguimiento de los estudiantes. Finalmente, debe clicar sobre el botón Guardar para conservar su configuración.';
@@ -90,8 +112,7 @@ $string['plugin_visible'] = 'Reportes visibles.';
 $string['plugin_hidden'] = 'Reportes ocultos.';
 $string['title_conditions'] = 'Condiciones de uso';
 
-/* Sessions */
-$string['fml_title'] = 'Sesiones de Trabajo';
+/* Time Names */
 $string['fml_mon'] = 'Lunes';
 $string['fml_tue'] = 'Martes';
 $string['fml_wed'] = 'Miércoles';
@@ -99,6 +120,45 @@ $string['fml_thu'] = 'Jueves';
 $string['fml_fri'] = 'Viernes';
 $string['fml_sat'] = 'Sábado';
 $string['fml_sun'] = 'Domingo';
+$string['fml_mon_short'] = 'Lun';
+$string['fml_tue_short'] = 'Mar';
+$string['fml_wed_short'] = 'Mié';
+$string['fml_thu_short'] = 'Jue';
+$string['fml_fri_short'] = 'Vie';
+$string['fml_sat_short'] = 'Sáb';
+$string['fml_sun_short'] = 'Dom';
+
+$string['fml_jan'] = 'Enero';
+$string['fml_feb'] = 'Febrero';
+$string['fml_mar'] = 'Marzo';
+$string['fml_apr'] = 'Abril';
+$string['fml_may'] = 'Mayo';
+$string['fml_jun'] = 'Junio';
+$string['fml_jul'] = 'Julio';
+$string['fml_aug'] = 'Agosto';
+$string['fml_sep'] = 'Septiembre';
+$string['fml_oct'] = 'Octubre';
+$string['fml_nov'] = 'Noviembre';
+$string['fml_dec'] = 'Diciembre';
+$string['fml_jan_short'] = 'Ene';
+$string['fml_feb_short'] = 'Feb';
+$string['fml_mar_short'] = 'Mar';
+$string['fml_apr_short'] = 'Abr';
+$string['fml_may_short'] = 'May';
+$string['fml_jun_short'] = 'Jun';
+$string['fml_jul_short'] = 'Jul';
+$string['fml_aug_short'] = 'Ago';
+$string['fml_sep_short'] = 'Sep';
+$string['fml_oct_short'] = 'Oct';
+$string['fml_nov_short'] = 'Nov';
+$string['fml_dec_short'] = 'Dic';
+
+$string['fml_week1'] = 'Semana 1';
+$string['fml_week2'] = 'Semana 2';
+$string['fml_week3'] = 'Semana 3';
+$string['fml_week4'] = 'Semana 4';
+$string['fml_week5'] = 'Semana 5';
+$string['fml_week6'] = 'Semana 6';
 
 $string['fml_00'] = '12am';
 $string['fml_01'] = '1am';
@@ -125,26 +185,8 @@ $string['fml_21'] = '9pm';
 $string['fml_22'] = '10pm';
 $string['fml_23'] = '11pm';
 
-$string['fml_jan'] = 'Enero';
-$string['fml_feb'] = 'Febrero';
-$string['fml_mar'] = 'Marzo';
-$string['fml_apr'] = 'Abril';
-$string['fml_may'] = 'Mayo';
-$string['fml_jun'] = 'Junio';
-$string['fml_jul'] = 'Julio';
-$string['fml_aug'] = 'Agosto';
-$string['fml_sep'] = 'Septiembre';
-$string['fml_oct'] = 'Octubre';
-$string['fml_nov'] = 'Noviembre';
-$string['fml_dec'] = 'Diciembre';
-
-$string['fml_week1'] = 'Semana 1';
-$string['fml_week2'] = 'Semana 2';
-$string['fml_week3'] = 'Semana 3';
-$string['fml_week4'] = 'Semana 4';
-$string['fml_week5'] = 'Semana 5';
-$string['fml_week6'] = 'Semana 6';
-
+/* Sessions */
+$string['fml_title'] = 'Sesiones de Trabajo';
 $string['table_title'] = 'Progreso del Curso';
 $string['thead_name'] = 'Nombre';
 $string['thead_lastname'] = 'Apellidos';
@@ -373,6 +415,8 @@ $string["fml_cluster_label"] = "Grupo";
 $string["fml_dropout_table_title"] = "Estudiantes del Grupo";
 $string["fml_dropout_see_profile"] = "Ver Perfil";
 $string["fml_dropout_user_never_access"] = "Nunca Accedido";
+$string["fml_dropout_student_progress_title"] = "Progreso del Estudiante";
+$string["fml_dropout_student_grade_title"] = "Calificación";
 
 
 
