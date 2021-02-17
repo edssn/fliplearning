@@ -36,10 +36,13 @@ define(["local_fliplearning/vue",
                         cluster_users: [],
                         selected_user: {},
                         search: null,
+                        week_modules_chart_data: [],
+                        week_modules_chart_categories: [],
                     }
                 },
                 beforeMount(){
                     if (this.dropout.clusters.length) {
+                        this.set_modules_in_sections();
                         this.selected_cluster = this.dropout.clusters[0];
                         this.change_cluster(this.selected_cluster.users);
                     };
@@ -57,6 +60,24 @@ define(["local_fliplearning/vue",
                         return helpcontents;
                     },
 
+                    set_modules_in_sections() {
+                        let sectionsMap = new Map();
+                        let sectionid = 0;
+                        this.dropout.cms.forEach(cm => {
+                            sectionid = Number(cm.section);
+                            if (!sectionsMap.has(sectionid)) {
+                                sectionsMap.set(sectionid, [cm]);
+                            } else {
+                                sectionsMap.get(sectionid).push(cm);
+                            }
+                        });
+                        this.dropout.sections.forEach(section => {
+                            sectionid = Number(section.sectionid);
+                            section.sectionid = sectionid;
+                            section.modules = sectionsMap.get(sectionid);
+                        });
+                    },
+
                     change_cluster(users) {
                         let selected_users = [];
                         this.dropout.users.forEach(user => {
@@ -66,8 +87,183 @@ define(["local_fliplearning/vue",
                         });
                         this.cluster_users = selected_users;
                         this.selected_user = this.cluster_users[0] || {};
-                        console.log(this.cluster_users);
+                        // console.log(this.cluster_users);
                         console.log(this.selected_user);
+                        this.calculate_modules_access_by_week();
+                    },
+
+                    build_modules_access_chart() {
+                        let chart = new Object();
+                        chart.chart = {
+                            type: 'bar',
+                            backgroundColor: '#FAFAFA',
+                        };
+                        chart.title = {
+                            text: this.strings.modules_access_chart_title,
+                        };
+                        chart.xAxis = {
+                            type: 'category',
+                        };
+                        chart.yAxis = {
+                            allowDecimals: false,
+                            title: {
+                                enabled: true,
+                                text: this.strings.modules_amount,
+                            }
+                        };
+                        chart.tooltip = {
+                            formatter: function () {
+                                let module_text = (this.y == 1) ? vue.strings.module_label : vue.strings.modules_label;
+                                return '<b>' + this.key + '</b>: ' + this.y + ' ' + module_text + '<br/>'
+                                    + '<i>'+ vue.strings.modules_details + '<i/>';
+                            }
+                        };
+                        chart.plotOptions = {
+                            series: {
+                                cursor: 'pointer',
+                                    point: {
+                                    events: {
+                                        click: function () {
+                                            console.log(this);
+                                            vue.open_modules_modal(this.x);
+                                            // alert('Category: ' + this.category + ', value: ' + this.y);
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        chart.legend = {
+                            enabled: false
+                        };
+                        chart.series = [{
+                            colorByPoint: true,
+                            data: [
+                                {name: this.strings.modules_access_chart_series_viewed, y: this.selected_user.cms.viewed},
+                                {name: this.strings.modules_access_chart_series_complete, y: this.selected_user.cms.complete},
+                                {name: this.strings.modules_access_chart_series_total, y: this.selected_user.cms.total}
+                            ]
+                        }];
+                        return chart;
+                    },
+
+                    build_week_modules_chart() {
+                        let chart = new Object();
+                        chart.chart = {
+                            type: 'column',
+                            backgroundColor: '#FAFAFA',
+                        };
+                        chart.title = {
+                            text: this.strings.week_modules_chart_title,
+                        };
+                        chart.xAxis = {
+                            categories: this.week_modules_chart_categories,
+                            title: {
+                                text: null
+                            },
+                            crosshair: true
+                        };
+                        chart.yAxis = {
+                            allowDecimals: false,
+                            title: {
+                                text: this.strings.modules_amount,
+                            }
+                        };
+                        chart.tooltip = {
+                            shared: true,
+                            crosshair: true,
+                        };
+                        chart.plotOptions = {
+                            series: {
+                                cursor: 'pointer',
+                                point: {
+                                    events: {
+                                        click: function () {
+                                            console.log(this);
+                                            vue.open_modules_modal(this.colorIndex, this.x);
+                                            // alert('Category: ' + this.category + ', value: ' + this.y);
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        // chart.tooltip = {
+                        //     formatter: function () {
+                        //         let module_text = (this.y == 1) ? vue.strings.module_label : vue.strings.modules_label;
+                        //         return '<b>' + this.key + '</b>: ' + this.y + ' ' + module_text + '<br/>'
+                        //             + '<i>'+ vue.strings.modules_details + '<i/>';
+                        //     }
+                        // };
+                        chart.series = this.week_modules_chart_data;
+                        return chart;
+                    },
+
+                    calculate_modules_access_by_week() {
+                        let sectionid = 0, moduleid = 0, weekcompletecms = 0, weekviewedcms = 0;
+                        let modules = [], completecms = [], viewedcms = [], categories = [];
+                        let user_cm;
+                        this.dropout.weeks.forEach(week => {
+                            // console.log({week});
+                            weekcompletecms = 0, weekviewedcms = 0;
+                            week.sections.forEach(section => {
+                                // console.log({section});
+                                sectionid = Number(section.sectionid);
+                                section.sectionid = sectionid;
+
+                                modules = this.get_section(sectionid);
+                                modules.forEach(module => {
+                                    // console.log({module});
+                                    moduleid = Number(module.id);
+                                    module.id = moduleid;
+
+                                    user_cm = this.get_user_module(moduleid);
+                                    // console.log(user_cm);
+                                    if (user_cm) {
+                                        (user_cm.complete) && weekcompletecms++;
+                                        (user_cm.viewed) && weekviewedcms++;
+                                    }
+
+                                });
+
+                            });
+                            completecms.push(weekcompletecms);
+                            viewedcms.push(weekviewedcms);
+                            categories.push(`${week.name} ${(week.position + 1)}`);
+                        });
+                        // console.log({completecms, viewedcms});
+                        this.week_modules_chart_categories = categories;
+                        this.week_modules_chart_data = [
+                            { name: this.strings.modules_access_chart_series_viewed, data: viewedcms },
+                            { name: this.strings.modules_access_chart_series_complete, data: completecms }
+                        ];
+                    },
+
+                    open_modules_modal(type, week){
+                        console.log({type, week});
+                    },
+
+                    get_section(sectionid) {
+                        let modules = [];
+                        let sections = this.dropout.sections;
+                        for (let i = 0; i < sections.length; i++) {
+                            if (sections[i].sectionid == sectionid) {
+                                modules = sections[i].modules;
+                                break;
+                            }
+                        }
+                        return modules;
+                    },
+
+                    get_user_module(moduleid) {
+                        let module;
+                        let cms = this.selected_user.cms.cms;
+                        for (let i = 0; i < cms.length; i++) {
+                            cms[i].id = Number(cms[i].id);
+                            if (cms[i].id == moduleid) {
+                                module = cms[i];
+                                break;
+                            }
+                        }
+                        return module;
                     },
 
                     update_interactions(week){
@@ -110,6 +306,7 @@ define(["local_fliplearning/vue",
 
                     change_user(user) {
                         this.selected_user = user;
+                        this.calculate_modules_access_by_week();
                     },
 
                     get_picture_url(userid){

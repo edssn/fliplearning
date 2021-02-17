@@ -417,7 +417,13 @@ $string["fml_dropout_see_profile"] = "Ver Perfil";
 $string["fml_dropout_user_never_access"] = "Nunca Accedido";
 $string["fml_dropout_student_progress_title"] = "Progreso del Estudiante";
 $string["fml_dropout_student_grade_title"] = "Calificación";
-
+$string["fml_modules_access_chart_title"] = "Módulos del Curso";
+$string["fml_modules_access_chart_series_total"] = "Total";
+$string["fml_modules_access_chart_series_complete"] = "Completos";
+$string["fml_modules_access_chart_series_viewed"] = "Accedidos";
+$string["fml_week_modules_chart_title"] = "Módulos por Semanas";
+$string["fml_modules_amount"] = "Cantidad de Módulos";
+$string["fml_modules_details"] = "(Clic para ver módulos)";
 
 
 

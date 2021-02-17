@@ -15,7 +15,7 @@ define([
             return { }
         },
         mounted() {
-            (this.lang) && Highcharts.setOptions({lang: this.lang});
+            (this.lang) && Highcharts.setOptions({lang: this.lang, credits: { enabled: false }});
             this._highchart = Highcharts.chart(this.container, this.chart);
         },
         watch: {

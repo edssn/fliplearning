@@ -111,9 +111,10 @@ define(["local_fliplearning/vue",
                             }
                         };
                         chart.tooltip = {
+                            shared: true,
                             formatter: function() {
-                                let position = this.point.x;
-                                let value = this.point.y;
+                                let position = this.points[0].point.x;
+                                let value = this.y;
                                 let item = vue.selected_items[position];
                                 let count = item.gradecount;
                                 let name = this.x;
@@ -130,7 +131,7 @@ define(["local_fliplearning/vue",
                                     vue.strings.grades_tooltip_average + ': ' + average + ' (' + value + ' %)<br/>' +
                                     vue.strings.grades_tooltip_grade + ': ' + grademax + '<br/>' +
                                     count + ' ' + students_label + ' ' + vue.grades.student_count + '<br/>' +
-                                    view_details;
+                                    '<i>' + view_details + '</i>';
                                 return text;
                             }
                         };
@@ -168,25 +169,18 @@ define(["local_fliplearning/vue",
                             text: this.strings.grades_details_subtitle,
                         };
                         chart.xAxis = {
-                            categories: this.strings.grade_item_details_categories,
+                            type: 'category',
                         };
                         chart.legend = {
                             enabled: false
                         };
                         chart.tooltip = {
+                            shared: true,
                             formatter: function() {
-                                let category = this.x;
+                                let category = this.points[0].key;
                                 let name = vue.selected_item.itemname;
                                 let maxgrade = vue.selected_item.grademax;
-                                let grade = 0;
-                                if (this.point.x == 0) {
-                                    grade = vue.selected_item.maxrating;
-                                } else if (this.point.x == 1) {
-                                    grade = vue.selected_item.average;
-                                } else {
-                                    grade = vue.selected_item.minrating;
-                                }
-                                grade = Number(grade);
+                                let grade = this.y;
                                 grade = vue.isInt(grade) ? grade : grade.toFixed(2);
                                 let text = '<b>' + name + '<b> <br/>' +
                                     category + ': ' + grade + '/' + maxgrade + '<br/>';
@@ -199,6 +193,7 @@ define(["local_fliplearning/vue",
                             }
                         }];
                         chart.series = [{
+                            colorByPoint: true,
                             data: this.grade_item_details_data,
                         }];
                         chart.credits = {
@@ -245,7 +240,7 @@ define(["local_fliplearning/vue",
                                 }
                                 let text = '<b>' + prefix + ': </b> '+ name + ' <br/>'
                                     + value + ' ' + students_label + ' ' + suffix + ' <br/>'
-                                    + send_mail;
+                                    + '<i>' + send_mail + '</i>';
                                 return text;
                             }
                         };
@@ -313,14 +308,16 @@ define(["local_fliplearning/vue",
 
                     calculate_chart_item_grade_detail(item) {
                         this.selected_item = item;
-                        let item_data = [0, 0, 0];
-                        if (item) {
-                            item_data = [
-                                Number(item.maxrating),
-                                Number(item.average),
-                                Number(item.minrating),
-                            ];
-                        }
+                        let item_data = [{
+                            name: this.strings.grades_best_grade,
+                            y: Number(item.maxrating) || 0
+                        },{
+                            name: this.strings.grades_average_grade,
+                            y: Number(item.average) || 0
+                        }, {
+                            name: this.strings.grades_worst_grade,
+                            y: Number(item.minrating) || 0
+                        }];
                         this.grade_item_details_data = item_data;
                     },
 

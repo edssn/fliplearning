@@ -147,8 +147,13 @@ $content = [
         "finisheds_label" => get_string("fml_finisheds_label", "local_fliplearning"),
         "inverted_time_title" => get_string("thead_time", "local_fliplearning"),
         "inverted_sessions_title" => get_string("thead_sessions", "local_fliplearning"),
-
-
+        "modules_access_chart_title" => get_string("fml_modules_access_chart_title", "local_fliplearning"),
+        "modules_access_chart_series_total" => get_string("fml_modules_access_chart_series_total", "local_fliplearning"),
+        "modules_access_chart_series_complete" => get_string("fml_modules_access_chart_series_complete", "local_fliplearning"),
+        "modules_access_chart_series_viewed" => get_string("fml_modules_access_chart_series_viewed", "local_fliplearning"),
+        "week_modules_chart_title" => get_string("fml_week_modules_chart_title", "local_fliplearning"),
+        "modules_amount" => get_string("fml_modules_amount", "local_fliplearning"),
+        "modules_details" => get_string("fml_modules_details", "local_fliplearning"),
 
     ],
     'courseid' => $COURSE->id,

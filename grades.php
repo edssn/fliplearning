@@ -164,6 +164,10 @@ $content = [
             get_string("fml_grades_average_grade","local_fliplearning"),
             get_string("fml_grades_worst_grade","local_fliplearning"),
         ),
+        "grades_best_grade" => get_string("fml_grades_best_grade","local_fliplearning"),
+        "grades_average_grade" => get_string("fml_grades_average_grade","local_fliplearning"),
+        "grades_worst_grade" => get_string("fml_grades_worst_grade","local_fliplearning"),
+
         "grade_item_details_title" => "",
         "view_details" => get_string("fml_view_details", "local_fliplearning"),
         "send_mail" => get_string("fml_send_mail", "local_fliplearning"),

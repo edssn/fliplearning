@@ -1226,14 +1226,15 @@ class teacher extends report {
         $users = $this->get_users_details($users, $cms, $enable_completion, $users_access);
         $users = $this->get_users_grades($users);
 
-        $weeks = $this->get_weeks();
+        $configweeks = new \local_fliplearning\configweeks($this->course->id, $this->user->id);
 
         $response = new stdClass();
         $response->users = $users;
         $response->clusters = $clusters;
         $response->total_cms = count($cms);
         $response->cms = $cms;
-        $response->weeks = $weeks;
+        $response->weeks = $configweeks->weeks;
+        $response->sections = $configweeks->current_sections;
         return $response;
     }
 
@@ -1368,8 +1369,7 @@ class teacher extends report {
         return $users;
     }
 
-    private function get_weeks() {
-        $configweeks = new \local_fliplearning\configweeks($this->course->id, $this->user->id);
+    private function get_weeks($configweeks) {
         $weeks = array();
         foreach ($configweeks->weeks as $item) {
             $week = new stdClass();
@@ -1383,5 +1383,13 @@ class teacher extends report {
             array_push($weeks, $week);
         }
         return $weeks;
+    }
+
+    private function get_course_format() {
+        $format = $this->course->format;
+        if (get_string_manager()->string_exists("course_format_$format", "local_fliplearning")) {
+            $format = get_string("course_format_$format", "local_fliplearning");
+        }
+        return $format;
     }
 }
