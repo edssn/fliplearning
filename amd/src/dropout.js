@@ -39,6 +39,7 @@ define(["local_fliplearning/vue",
                         week_modules_chart_data: [],
                         week_modules_chart_categories: [],
                         selected_sections: [],
+                        sessions_evolution_data: [],
                         dialog: false,
                     }
                 },
@@ -88,10 +89,12 @@ define(["local_fliplearning/vue",
                             }
                         });
                         this.cluster_users = selected_users;
-                        this.selected_user = this.cluster_users[0] || {};
+                        let user = this.cluster_users[0] || {};
+                        this.change_user(user);
                         // console.log(this.cluster_users);
-                        console.log(this.selected_user);
-                        this.calculate_modules_access_by_week();
+                        // console.log(this.selected_user);
+                        // this.calculate_modules_access_by_week();
+                        // this.calculate_sessions_evolution();
                     },
 
                     build_modules_access_chart() {
@@ -204,6 +207,50 @@ define(["local_fliplearning/vue",
                         return chart;
                     },
 
+                    build_sessions_evolution_chart() {
+                        let chart = new Object();
+                        chart.chart = {
+                            zoomType: 'x',
+                            backgroundColor: '#FAFAFA',
+                        };
+                        chart.title = {
+                            text: this.strings.sessions_evolution_chart_title,
+                        };
+                        chart.xAxis = {
+                            type: 'datetime'
+                        };
+                        chart.yAxis = [{
+                            allowDecimals: false,
+                            title: { text: this.strings.sessions_evolution_chart_xaxis1 }
+                        }, {
+                            title: { text: this.strings.sessions_evolution_chart_xaxis2 },
+                            opposite: true
+                        }];
+                        chart.tooltip = {
+                            shared: true,
+                            useHTML: true,
+                            headerFormat: '<small>{point.key}</small><table>',
+                            pointFormat: '<tr><td style="color: {series.color}">{series.name}: </td>' +
+                                         '<td style="text-align: right"><b>{point.y} min</b></td></tr>',
+                            footerFormat: '</table>',
+                            valueDecimals: 2
+                        };
+                        chart.plotOptions = {
+                            series: {
+                                cursor: 'pointer',
+                                    point: {
+                                    events: {
+                                        click: function () {
+                                            console.log(this);
+                                        }
+                                    }
+                                }
+                            }
+                        };
+                        chart.series = this.sessions_evolution_data;
+                        return chart;
+                    },
+
                     calculate_modules_access_by_week() {
                         let sectionid = 0, moduleid = 0, weekcompletecms = 0, weekviewedcms = 0;
                         let modules = [], completecms = [], viewedcms = [], categories = [];
@@ -243,6 +290,24 @@ define(["local_fliplearning/vue",
                             { name: this.strings.modules_access_chart_series_viewed, data: viewedcms },
                             { name: this.strings.modules_access_chart_series_complete, data: completecms }
                         ];
+                    },
+
+                    calculate_sessions_evolution() {
+                        let sessions_data = [], time_data = [];
+                        let sumtime = 0, sumsessions = 0, time = 0, timestamp = 0;
+                        this.selected_user.sessions.forEach(session => {
+                            timestamp = Number(session.start) * 1000;
+                            time = (Number(session.duration)) / 60;
+                            sumtime += time;
+                            sumsessions++;
+                            sessions_data.push({ x: timestamp, y: sumsessions });
+                            time_data.push({ x: timestamp, y: sumtime });
+                        });
+                        this.sessions_evolution_data = [
+                            { name: this.strings.sessions_evolution_chart_legend1, yAxis: 0, data: sessions_data },
+                            { name: this.strings.sessions_evolution_chart_legend2, yAxis: 1, data: time_data },
+                        ];
+                        console.log({sessions_data, time_data});
                     },
 
                     open_modules_modal(type, weekposition){
@@ -343,7 +408,9 @@ define(["local_fliplearning/vue",
 
                     change_user(user) {
                         this.selected_user = user;
+                        console.log({user});
                         this.calculate_modules_access_by_week();
+                        this.calculate_sessions_evolution();
                     },
 
                     get_picture_url(userid){

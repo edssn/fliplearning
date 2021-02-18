@@ -160,6 +160,11 @@ $content = [
         "modules_no_viewed" => get_string("fml_modules_no_viewed", "local_fliplearning"),
         "modules_complete" => get_string("fml_modules_complete", "local_fliplearning"),
         "close_button" => get_string("fml_close_button", "local_fliplearning"),
+        "sessions_evolution_chart_title" => get_string("fml_sessions_evolution_chart_title", "local_fliplearning"),
+        "sessions_evolution_chart_xaxis1" => get_string("fml_sessions_evolution_chart_xaxis1", "local_fliplearning"),
+        "sessions_evolution_chart_xaxis2" => get_string("fml_sessions_evolution_chart_xaxis2", "local_fliplearning"),
+        "sessions_evolution_chart_legend1" => get_string("fml_sessions_evolution_chart_legend1", "local_fliplearning"),
+        "sessions_evolution_chart_legend2" => get_string("fml_sessions_evolution_chart_legend2", "local_fliplearning"),
 
     ],
     'courseid' => $COURSE->id,

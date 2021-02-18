@@ -278,6 +278,16 @@
                     </v-dialog>
                 </v-row>
 
+                <v-row>
+                    <v-col sm="12">
+                        <chart
+                                :container="'sessions_evolution'"
+                                :chart="build_sessions_evolution_chart()"
+                                :lang="strings.chart"
+                        ></chart>
+                    </v-col>
+                </v-row>
+
 
 
                 <v-row class="d-flex justify-center">

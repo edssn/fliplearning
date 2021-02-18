@@ -430,6 +430,11 @@ $string["fml_modules_interactions"] = "interacciones";
 $string["fml_modules_viewed"] = "Accedido";
 $string["fml_modules_no_viewed"] = "No accedido";
 $string["fml_modules_complete"] = "Completado";
+$string["fml_sessions_evolution_chart_title"] = "Sesiones y Tiempo Invertido";
+$string["fml_sessions_evolution_chart_xaxis1"] = "Número de Sesiones";
+$string["fml_sessions_evolution_chart_xaxis2"] = "Cantidad de Horas";
+$string["fml_sessions_evolution_chart_legend1"] = "Cantidad de Sesiones";
+$string["fml_sessions_evolution_chart_legend2"] = "Tiempo Invertido";
 
 
 
