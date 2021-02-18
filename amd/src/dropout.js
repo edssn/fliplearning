@@ -38,6 +38,8 @@ define(["local_fliplearning/vue",
                         search: null,
                         week_modules_chart_data: [],
                         week_modules_chart_categories: [],
+                        selected_sections: [],
+                        dialog: false,
                     }
                 },
                 beforeMount(){
@@ -112,9 +114,10 @@ define(["local_fliplearning/vue",
                             }
                         };
                         chart.tooltip = {
+                            shared: true,
                             formatter: function () {
                                 let module_text = (this.y == 1) ? vue.strings.module_label : vue.strings.modules_label;
-                                return '<b>' + this.key + '</b>: ' + this.y + ' ' + module_text + '<br/>'
+                                return '<b>' + this.points[0].key + '</b>: ' + this.y + ' ' + module_text + '<br/>'
                                     + '<i>'+ vue.strings.modules_details + '<i/>';
                             }
                         };
@@ -124,9 +127,7 @@ define(["local_fliplearning/vue",
                                     point: {
                                     events: {
                                         click: function () {
-                                            console.log(this);
                                             vue.open_modules_modal(this.x);
-                                            // alert('Category: ' + this.category + ', value: ' + this.y);
                                         }
                                     }
                                 }
@@ -170,7 +171,19 @@ define(["local_fliplearning/vue",
                         };
                         chart.tooltip = {
                             shared: true,
-                            crosshair: true,
+                            useHTML: true,
+                            formatter: function () {
+                                let module_text_viewed = (this.points[0].y == 1) ? vue.strings.module_label : vue.strings.modules_label;
+                                let viewed_series_name = this.points[0].series.name;
+                                let module_text_completed = (this.points[1].y == 1) ? vue.strings.module_label : vue.strings.modules_label;
+                                let completed_series_name = this.points[1].series.name;
+                                return `${this.x} <br/>
+                                        <b style="color: ${this.points[0].color}">${viewed_series_name}: </b>
+                                        ${this.points[0].y} ${module_text_viewed}<br/> 
+                                        <b style="color: ${this.points[1].color}">${completed_series_name}: </b>
+                                        ${this.points[1].y} ${module_text_completed}<br/> 
+                                        <i>${vue.strings.modules_details}<i/>`;
+                            }
                         };
                         chart.plotOptions = {
                             series: {
@@ -178,21 +191,15 @@ define(["local_fliplearning/vue",
                                 point: {
                                     events: {
                                         click: function () {
-                                            console.log(this);
                                             vue.open_modules_modal(this.colorIndex, this.x);
-                                            // alert('Category: ' + this.category + ', value: ' + this.y);
                                         }
                                     }
                                 }
                             }
-                        },
-                        // chart.tooltip = {
-                        //     formatter: function () {
-                        //         let module_text = (this.y == 1) ? vue.strings.module_label : vue.strings.modules_label;
-                        //         return '<b>' + this.key + '</b>: ' + this.y + ' ' + module_text + '<br/>'
-                        //             + '<i>'+ vue.strings.modules_details + '<i/>';
-                        //     }
-                        // };
+                        };
+                        chart.legend = {
+                            enabled: false
+                        };
                         chart.series = this.week_modules_chart_data;
                         return chart;
                     },
@@ -209,14 +216,15 @@ define(["local_fliplearning/vue",
                                 sectionid = Number(section.sectionid);
                                 section.sectionid = sectionid;
 
-                                modules = this.get_section(sectionid);
+                                modules = this.sections_modules(sectionid);
                                 modules.forEach(module => {
                                     // console.log({module});
                                     moduleid = Number(module.id);
                                     module.id = moduleid;
 
-                                    user_cm = this.get_user_module(moduleid);
-                                    // console.log(user_cm);
+                                    // user_cm = this.get_user_module(moduleid);
+                                    user_cm = this.selected_user.cms.modules[`cm${module.id}`];
+                                    // console.log({user_cm});
                                     if (user_cm) {
                                         (user_cm.complete) && weekcompletecms++;
                                         (user_cm.viewed) && weekviewedcms++;
@@ -237,11 +245,40 @@ define(["local_fliplearning/vue",
                         ];
                     },
 
-                    open_modules_modal(type, week){
-                        console.log({type, week});
+                    open_modules_modal(type, weekposition){
+                        let sections = this.dropout.sections;
+                        if (Number.isInteger(weekposition)) {
+                            sections = [];
+                            let section;
+                            let week = this.dropout.weeks[weekposition];
+                            week.sections.forEach(item => {
+                                section = {
+                                    sectionid: item.sectionid,
+                                    name: item.name,
+                                    modules: this.sections_modules(item.sectionid)
+                                };
+                                sections.push(section);
+                            });
+                        }
+                        sections.forEach(section => {
+                            section.modules.forEach(module => {
+                                module.complete = false;
+                                module.viewed = false;
+                                module.interactions = 0;
+                                let user_cm = this.selected_user.cms.modules[`cm${module.id}`];
+                                if (user_cm) {
+                                    module.complete = user_cm.complete;
+                                    module.viewed = user_cm.viewed;
+                                    module.interactions = user_cm.interactions;
+                                }
+                            });
+                        });
+
+                        this.dialog = true;
+                        this.selected_sections = sections;
                     },
 
-                    get_section(sectionid) {
+                    sections_modules(sectionid) {
                         let modules = [];
                         let sections = this.dropout.sections;
                         for (let i = 0; i < sections.length; i++) {
@@ -255,7 +292,7 @@ define(["local_fliplearning/vue",
 
                     get_user_module(moduleid) {
                         let module;
-                        let cms = this.selected_user.cms.cms;
+                        let cms = this.selected_user.cms.modules;
                         for (let i = 0; i < cms.length; i++) {
                             cms[i].id = Number(cms[i].id);
                             if (cms[i].id == moduleid) {
@@ -311,6 +348,19 @@ define(["local_fliplearning/vue",
 
                     get_picture_url(userid){
                         return `${M.cfg.wwwroot}/user/pix.php?file=/${userid}/f1.jpg`;
+                    },
+
+                    get_module_icon(modname){
+                        return `${M.cfg.wwwroot}/theme/image.php/boost/${modname}/1/icon`;
+                    },
+
+                    get_module_url(module){
+                        return `${M.cfg.wwwroot}/mod/${module.modname}/view.php?id=${module.id}`;
+                    },
+
+                    get_interactions_number(interactions){
+                        let interactions_text = (interactions == 1) ? this.strings.modules_interaction : this.strings.modules_interactions;
+                        return `(${interactions} ${interactions_text})`;
                     },
 
                     get_user_fullname(){

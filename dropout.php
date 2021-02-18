@@ -154,6 +154,12 @@ $content = [
         "week_modules_chart_title" => get_string("fml_week_modules_chart_title", "local_fliplearning"),
         "modules_amount" => get_string("fml_modules_amount", "local_fliplearning"),
         "modules_details" => get_string("fml_modules_details", "local_fliplearning"),
+        "modules_interaction" => get_string("fml_modules_interaction", "local_fliplearning"),
+        "modules_interactions" => get_string("fml_modules_interactions", "local_fliplearning"),
+        "modules_viewed" => get_string("fml_modules_viewed", "local_fliplearning"),
+        "modules_no_viewed" => get_string("fml_modules_no_viewed", "local_fliplearning"),
+        "modules_complete" => get_string("fml_modules_complete", "local_fliplearning"),
+        "close_button" => get_string("fml_close_button", "local_fliplearning"),
 
     ],
     'courseid' => $COURSE->id,

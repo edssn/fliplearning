@@ -328,6 +328,7 @@ $string['fml_message_label'] = 'Agrega un mensaje';
 
 $string['fml_submit_button'] = 'Enviar';
 $string['fml_cancel_button'] = 'Cancelar';
+$string['fml_close_button'] = 'Cerrar';
 $string['fml_emailform_title'] = 'Enviar Correo';
 $string['fml_sending_text'] = 'Enviando Correos';
 
@@ -424,6 +425,11 @@ $string["fml_modules_access_chart_series_viewed"] = "Accedidos";
 $string["fml_week_modules_chart_title"] = "Módulos por Semanas";
 $string["fml_modules_amount"] = "Cantidad de Módulos";
 $string["fml_modules_details"] = "(Clic para ver módulos)";
+$string["fml_modules_interaction"] = "interacción";
+$string["fml_modules_interactions"] = "interacciones";
+$string["fml_modules_viewed"] = "Accedido";
+$string["fml_modules_no_viewed"] = "No accedido";
+$string["fml_modules_complete"] = "Completado";
 
 
 

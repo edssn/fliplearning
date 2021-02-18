@@ -55,7 +55,7 @@ class dropout {
         }
         $conditions = self::conditions_for_work_sessions($start, $end);
         $users_sessions = self::get_sessions_from_logs($conditions);
-        $cms = self::get_course_modules(false);
+        $cms = self::get_course_modules(false, false);
         $cms = array_filter($cms, function($module){ return $module->visible == 1 && $module->modname != 'label';});
         $cms = self::calculate_indicators($cms, $users_sessions);
         $cms = self::format_data($cms);

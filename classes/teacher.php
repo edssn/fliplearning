@@ -398,13 +398,15 @@ class teacher extends report {
                 $cm->complete = true;
             }
             if ($viewed || $finished) {
-                array_push($cms_ids, $cm);
+                $cmid = "cm".$module['id'];
+                $cms_ids[$cmid] = $cm;
+//                array_push($cms_ids, $cm);
             }
         }
         $interaction = new stdClass();
         $interaction->complete = $complete_cms;
         $interaction->viewed = $viewed_cms;
-        $interaction->cms = $cms_ids;
+        $interaction->modules = $cms_ids;
         $interaction->total = count($cms);
         return $interaction;
     }
@@ -1218,6 +1220,9 @@ class teacher extends report {
         }
 
         $cms = self::get_course_modules();
+        $cms = array_filter($cms, function($cm){ return $cm['modname'] != 'label';});
+        $cms = array_values($cms);
+
         $users = self::get_work_sessions($start, $end);
         $users = self::get_progress_table($users, $cms, $enable_completion, true);
 
