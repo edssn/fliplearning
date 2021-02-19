@@ -165,6 +165,11 @@ $content = [
         "sessions_evolution_chart_xaxis2" => get_string("fml_sessions_evolution_chart_xaxis2", "local_fliplearning"),
         "sessions_evolution_chart_legend1" => get_string("fml_sessions_evolution_chart_legend1", "local_fliplearning"),
         "sessions_evolution_chart_legend2" => get_string("fml_sessions_evolution_chart_legend2", "local_fliplearning"),
+        "session_text" => get_string("fml_session_text", "local_fliplearning"),
+        "sessions_text" => get_string("fml_sessions_text", "local_fliplearning"),
+        "hours_short" => get_string("fml_hours_short", "local_fliplearning"),
+        "minutes_short" => get_string("fml_minutes_short", "local_fliplearning"),
+        "seconds_short" => get_string("fml_seconds_short", "local_fliplearning"),
 
     ],
     'courseid' => $COURSE->id,

@@ -460,9 +460,9 @@ trait lib_trait {
         $response = false;
         $valid_params = true;
         if ($measure == 'minutes') {
-            $time = $time * 60 / 1;
+            $time = $time * 60;
         } elseif ($measure == 'hours') {
-            $time = $time * 3600 / 1;
+            $time = $time * 3600;
         } else {
             $valid_params = false;
         }

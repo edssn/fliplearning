@@ -252,10 +252,13 @@ $string['fml_day'] = 'día';
 $string['fml_days'] = 'días';
 $string['fml_hour'] = 'hora';
 $string['fml_hours'] = 'horas';
+$string['fml_hours_short'] = 'h';
 $string['fml_minute'] = 'minuto';
 $string['fml_minutes'] = 'minutos';
+$string['fml_minutes_short'] = 'm';
 $string['fml_second'] = 'segundo';
 $string['fml_seconds'] = 'segundos';
+$string['fml_seconds_short'] = 's';
 $string['fml_ago'] = 'atrás';
 $string['fml_now'] = 'justo ahora';
 

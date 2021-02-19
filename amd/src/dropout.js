@@ -229,11 +229,18 @@ define(["local_fliplearning/vue",
                         chart.tooltip = {
                             shared: true,
                             useHTML: true,
-                            headerFormat: '<small>{point.key}</small><table>',
-                            pointFormat: '<tr><td style="color: {series.color}">{series.name}: </td>' +
-                                         '<td style="text-align: right"><b>{point.y} min</b></td></tr>',
-                            footerFormat: '</table>',
-                            valueDecimals: 2
+                            formatter: function () {
+                                let sessions = this.points[0].y;
+                                let sessions_suffix = (this.points[0].y == 1) ? vue.strings.session_text : vue.strings.sessions_text;
+                                let sessions_prefix = this.points[0].series.name;
+                                let time_prefix = this.points[1].series.name;
+                                let time = vue.convert_time(this.points[1].y * 60);
+                                return `<small>${new Date(this.x)}</small><br/>
+                                        <b style="color: ${this.points[0].color}">${sessions_prefix}: </b>
+                                        ${sessions} ${sessions_suffix}<br/>
+                                        <b style="color: ${this.points[1].color}">${time_prefix}: </b>
+                                        ${time}<br/>`;
+                            }
                         };
                         chart.plotOptions = {
                             series: {
@@ -307,7 +314,25 @@ define(["local_fliplearning/vue",
                             { name: this.strings.sessions_evolution_chart_legend1, yAxis: 0, data: sessions_data },
                             { name: this.strings.sessions_evolution_chart_legend2, yAxis: 1, data: time_data },
                         ];
-                        console.log({sessions_data, time_data});
+                    },
+
+                    convert_time(time) {
+                        time *= 60; // pasar los minutos a segundos
+                        let h = this.strings.hours_short;
+                        let m = this.strings.minutes_short;
+                        let s = this.strings.seconds_short;
+                        let hours = Math.floor(time / 3600);
+                        let minutes = Math.floor((time % 3600) / 60);
+                        let seconds = Math.floor(time % 60);
+                        let text;
+                        if (hours >= 1) {
+                            text = `${hours}${h} ${minutes}${m}`;
+                        } else if ((minutes >= 1)) {
+                            text = `${minutes}${m} ${seconds}${s}`;
+                        } else {
+                            text = `${seconds}${s}`;
+                        }
+                        return text;
                     },
 
                     open_modules_modal(type, weekposition){
