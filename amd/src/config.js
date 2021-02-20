@@ -13,6 +13,7 @@ define([],function() {
             "draggable": M.cfg.wwwroot + '/local/fliplearning/js/draggable',
             "datepicker": M.cfg.wwwroot + '/local/fliplearning/js/datepicker',
             "moment": M.cfg.wwwroot + '/local/fliplearning/js/moment',
+            "momenttimezone": M.cfg.wwwroot + '/local/fliplearning/js/moment-timezone',
             "alertify": M.cfg.wwwroot + '/local/fliplearning/js/alertify',
             "highcharts": M.cfg.wwwroot + '/local/fliplearning/js/highcharts/'
         },
@@ -24,6 +25,7 @@ define([],function() {
             'draggable': {deps: ['sortablejs'], exports: 'draggable'},
             'datepicker': {deps: ['vue'], exports: 'datepicker'},
             'moment': {deps: ['vue'], exports: 'moment'},
+            'momenttimezone': {exports: 'momenttimezone'},
             'alertify': {exports: 'alertify'},
         }
     });

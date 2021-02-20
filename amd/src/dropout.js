@@ -2,11 +2,12 @@ define(["local_fliplearning/vue",
         "local_fliplearning/vuetify",
         "local_fliplearning/axios",
         "local_fliplearning/moment",
+        "local_fliplearning/momenttimezone",
         "local_fliplearning/pagination",
         "local_fliplearning/chartdynamic",
         "local_fliplearning/pageheader",
     ],
-    function(Vue, Vuetify, Axios, Moment, Pagination, ChartDynamic, Pageheader) {
+    function(Vue, Vuetify, Axios, Moment, MomentTimezone, Pagination, ChartDynamic, Pageheader) {
         "use strict";
 
         function init(content) {
@@ -176,15 +177,21 @@ define(["local_fliplearning/vue",
                             shared: true,
                             useHTML: true,
                             formatter: function () {
-                                let module_text_viewed = (this.points[0].y == 1) ? vue.strings.module_label : vue.strings.modules_label;
-                                let viewed_series_name = this.points[0].series.name;
-                                let module_text_completed = (this.points[1].y == 1) ? vue.strings.module_label : vue.strings.modules_label;
-                                let completed_series_name = this.points[1].series.name;
+                                let text1 = '', text2 = '';
+                                if (this.points[0]) {
+                                    let module_text_viewed = (this.points[0].y == 1) ? vue.strings.module_label : vue.strings.modules_label;
+                                    let viewed_series_name = this.points[0].series.name;
+                                    text1 = `<b style="color: ${this.points[0].color}">${viewed_series_name}: </b>
+                                            ${this.points[0].y} ${module_text_viewed}<br/>`;
+                                }
+                                if (this.points[1]) {
+                                    let module_text_completed = (this.points[1].y == 1) ? vue.strings.module_label : vue.strings.modules_label;
+                                    let completed_series_name = this.points[1].series.name;
+                                    text2 = `<b style="color: ${this.points[1].color}">${completed_series_name}: </b>
+                                            ${this.points[1].y} ${module_text_completed}<br/>`;
+                                }
                                 return `${this.x} <br/>
-                                        <b style="color: ${this.points[0].color}">${viewed_series_name}: </b>
-                                        ${this.points[0].y} ${module_text_viewed}<br/> 
-                                        <b style="color: ${this.points[1].color}">${completed_series_name}: </b>
-                                        ${this.points[1].y} ${module_text_completed}<br/> 
+                                        ${text1}${text2}
                                         <i>${vue.strings.modules_details}<i/>`;
                             }
                         };
@@ -199,9 +206,6 @@ define(["local_fliplearning/vue",
                                     }
                                 }
                             }
-                        };
-                        chart.legend = {
-                            enabled: false
                         };
                         chart.series = this.week_modules_chart_data;
                         return chart;
@@ -230,12 +234,13 @@ define(["local_fliplearning/vue",
                             shared: true,
                             useHTML: true,
                             formatter: function () {
+                                let date_label = vue.calculate_timezone_date_string(this.x);
                                 let sessions = this.points[0].y;
                                 let sessions_suffix = (this.points[0].y == 1) ? vue.strings.session_text : vue.strings.sessions_text;
                                 let sessions_prefix = this.points[0].series.name;
                                 let time_prefix = this.points[1].series.name;
                                 let time = vue.convert_time(this.points[1].y * 60);
-                                return `<small>${new Date(this.x)}</small><br/>
+                                return `<small>${date_label}</small><br/>
                                         <b style="color: ${this.points[0].color}">${sessions_prefix}: </b>
                                         ${sessions} ${sessions_suffix}<br/>
                                         <b style="color: ${this.points[1].color}">${time_prefix}: </b>
@@ -256,6 +261,27 @@ define(["local_fliplearning/vue",
                         };
                         chart.series = this.sessions_evolution_data;
                         return chart;
+                    },
+
+                    calculate_timezone_date_string(timestamp) {
+                        let dat, weekday, monthday, month, time;
+                        if (Moment.tz.zone(this.timezone)) {
+                            dat = Moment(timestamp).tz(this.timezone);
+                            weekday = dat.day();
+                            monthday = dat.date();
+                            month = dat.month();
+                            time = dat.format('HH:mm:ss');
+                        } else {
+                            let tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+                            dat =  new Date(timestamp);
+                            weekday = dat.getDay();
+                            monthday = dat.getDate();
+                            month = dat.getMonth();
+                            time = `${dat.getHours()}:${dat.getMinutes()}:${dat.getSeconds()} (${tz})`;
+                        }
+                        weekday = this.strings.chart.weekdays[weekday];
+                        month = this.strings.chart.shortMonths[month];
+                        return `${weekday}, ${month} ${monthday}, ${time}`;
                     },
 
                     calculate_modules_access_by_week() {

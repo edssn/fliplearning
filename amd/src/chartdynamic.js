@@ -6,7 +6,8 @@ define([
         'highcharts/modules/exporting',
         'highcharts/modules/export-data',
         'highcharts/modules/accessibility',
-        'highcharts/modules/no-data-to-display'],
+        'highcharts/modules/no-data-to-display',
+        ],
     function(Highcharts) {
     return {
         template: `<div v-bind:id="container"></div>`,
