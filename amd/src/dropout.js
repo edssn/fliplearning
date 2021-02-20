@@ -190,9 +190,7 @@ define(["local_fliplearning/vue",
                                     text2 = `<b style="color: ${this.points[1].color}">${completed_series_name}: </b>
                                             ${this.points[1].y} ${module_text_completed}<br/>`;
                                 }
-                                return `${this.x} <br/>
-                                        ${text1}${text2}
-                                        <i>${vue.strings.modules_details}<i/>`;
+                                return `${this.x} <br/> ${text1}${text2} <i>${vue.strings.modules_details}<i/>`;
                             }
                         };
                         chart.plotOptions = {
@@ -235,16 +233,9 @@ define(["local_fliplearning/vue",
                             useHTML: true,
                             formatter: function () {
                                 let date_label = vue.calculate_timezone_date_string(this.x);
-                                let sessions = this.points[0].y;
-                                let sessions_suffix = (this.points[0].y == 1) ? vue.strings.session_text : vue.strings.sessions_text;
-                                let sessions_prefix = this.points[0].series.name;
-                                let time_prefix = this.points[1].series.name;
-                                let time = vue.convert_time(this.points[1].y * 60);
-                                return `<small>${date_label}</small><br/>
-                                        <b style="color: ${this.points[0].color}">${sessions_prefix}: </b>
-                                        ${sessions} ${sessions_suffix}<br/>
-                                        <b style="color: ${this.points[1].color}">${time_prefix}: </b>
-                                        ${time}<br/>`;
+                                let text1 = (this.points[0]) ? vue.get_sessions_evolution_tooltip(this.points[0]) : '';
+                                let text2 = (this.points[1]) ? vue.get_sessions_evolution_tooltip(this.points[1]) : '';
+                                return `<small>${date_label}</small><br/>${text1}${text2}`;
                             }
                         };
                         chart.plotOptions = {
@@ -261,6 +252,23 @@ define(["local_fliplearning/vue",
                         };
                         chart.series = this.sessions_evolution_data;
                         return chart;
+                    },
+
+                    get_sessions_evolution_tooltip (point) {
+                        let text = '', sessions, sessions_suffix, sessions_prefix, time_prefix, time;
+                        if (point.colorIndex == 0) {
+                            sessions = point.y;
+                            sessions_suffix = (sessions == 1) ? vue.strings.session_text : vue.strings.sessions_text;
+                            sessions_prefix = point.series.name;
+                            text = `<b style="color: ${point.color}">${sessions_prefix}: </b>
+                                     ${sessions} ${sessions_suffix}<br/>`;
+                        } else {
+                            time_prefix = point.series.name;
+                            time = vue.convert_time(point.y * 60);
+                            text = `<b style="color: ${point.color}">${time_prefix}: </b>
+                                    ${time}<br/>`;
+                        }
+                        return text;
                     },
 
                     calculate_timezone_date_string(timestamp) {
