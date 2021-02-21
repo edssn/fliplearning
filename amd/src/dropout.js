@@ -1,13 +1,13 @@
 define(["local_fliplearning/vue",
         "local_fliplearning/vuetify",
-        "local_fliplearning/axios",
         "local_fliplearning/moment",
         "local_fliplearning/momenttimezone",
         "local_fliplearning/pagination",
         "local_fliplearning/chartdynamic",
         "local_fliplearning/pageheader",
+        "local_fliplearning/emailform"
     ],
-    function(Vue, Vuetify, Axios, Moment, MomentTimezone, Pagination, ChartDynamic, Pageheader) {
+    function(Vue, Vuetify, Moment, MomentTimezone, Pagination, ChartDynamic, Pageheader, Emailform) {
         "use strict";
 
         function init(content) {
@@ -16,6 +16,7 @@ define(["local_fliplearning/vue",
             Vue.component('pagination', Pagination);
             Vue.component('chart', ChartDynamic);
             Vue.component('pageheader', Pageheader);
+            Vue.component('emailform', Emailform);
             let vue = new Vue({
                 delimiters: ["[[", "]]"],
                 el: "#dropout",
@@ -35,7 +36,7 @@ define(["local_fliplearning/vue",
                         dropout: content.dropout,
                         selected_cluster: [],
                         cluster_users: [],
-                        selected_user: {},
+                        selected_user: null,
                         search: null,
                         week_modules_chart_data: [],
                         week_modules_chart_categories: [],
@@ -44,7 +45,13 @@ define(["local_fliplearning/vue",
                         user_grades_categories: [],
                         user_grades_data: [],
                         course_grades_data: [],
-                        dialog: false,
+                        modules_dialog: false,
+
+                        email_users: [],
+                        email_dialog : false,
+                        modulename : "",
+                        moduleid : false,
+                        email_strings: content.strings.email_strings,
                     }
                 },
                 beforeMount(){
@@ -92,9 +99,96 @@ define(["local_fliplearning/vue",
                                 selected_users.push(user);
                             }
                         });
-                        this.cluster_users = selected_users;
-                        let user = this.cluster_users[0] || {};
-                        this.change_user(user);
+                        if (selected_users.length) {
+                            this.cluster_users = selected_users;
+                            let user = this.cluster_users[0];
+                            this.change_user(user);
+                        } else {
+                            this.cluster_users = [];
+                            this.selected_user = null;
+                        }
+                    },
+
+                    change_user(user) {
+                        this.selected_user = user;
+                        console.log({user});
+                        this.calculate_modules_access_by_week();
+                        this.calculate_sessions_evolution();
+                        this.calculate_user_grades()
+                    },
+
+                    calculate_modules_access_by_week() {
+                        let sectionid = 0, moduleid = 0, weekcompletecms = 0, weekviewedcms = 0;
+                        let modules = [], completecms = [], viewedcms = [], categories = [];
+                        let user_cm;
+                        this.dropout.weeks.forEach(week => {
+                            // console.log({week});
+                            weekcompletecms = 0, weekviewedcms = 0;
+                            week.sections.forEach(section => {
+                                // console.log({section});
+                                sectionid = Number(section.sectionid);
+                                section.sectionid = sectionid;
+
+                                modules = this.sections_modules(sectionid);
+                                modules.forEach(module => {
+                                    // console.log({module});
+                                    moduleid = Number(module.id);
+                                    module.id = moduleid;
+
+                                    // user_cm = this.get_user_module(moduleid);
+                                    user_cm = this.selected_user.cms.modules[`cm${module.id}`];
+                                    // console.log({user_cm});
+                                    if (user_cm) {
+                                        (user_cm.complete) && weekcompletecms++;
+                                        (user_cm.viewed) && weekviewedcms++;
+                                    }
+
+                                });
+
+                            });
+                            completecms.push(weekcompletecms);
+                            viewedcms.push(weekviewedcms);
+                            categories.push(`${week.name} ${(week.position + 1)}`);
+                        });
+                        // console.log({completecms, viewedcms});
+                        this.week_modules_chart_categories = categories;
+                        this.week_modules_chart_data = [
+                            { name: this.strings.modules_access_chart_series_viewed, data: viewedcms },
+                            { name: this.strings.modules_access_chart_series_complete, data: completecms }
+                        ];
+                    },
+
+                    calculate_sessions_evolution() {
+                        let sessions_data = [], time_data = [];
+                        let sumtime = 0, sumsessions = 0, time = 0, timestamp = 0;
+                        this.selected_user.sessions.forEach(session => {
+                            timestamp = Number(session.start) * 1000;
+                            time = (Number(session.duration)) / 60;
+                            sumtime += time;
+                            sumsessions++;
+                            sessions_data.push({ x: timestamp, y: sumsessions });
+                            time_data.push({ x: timestamp, y: sumtime });
+                        });
+                        this.sessions_evolution_data = [
+                            { name: this.strings.sessions_evolution_chart_legend1, yAxis: 0, data: sessions_data },
+                            { name: this.strings.sessions_evolution_chart_legend2, yAxis: 1, data: time_data },
+                        ];
+                    },
+
+                    calculate_user_grades() {
+                        let categories = [], course_grades = [], user_grades = [];
+                        let user_grade = 0, user_name = this.selected_user.firstname;
+                        this.selected_user.gradeitems.forEach(item => {
+                            user_grade = (Number(item.finalgrade) * 100) / Number(item.grademax);
+                            categories.push(item.itemname);
+                            course_grades.push(item.average_percentage);
+                            user_grades.push(user_grade);
+                        });
+                        this.user_grades_data = [
+                            { name: user_name, data: user_grades },
+                            { name: this.strings.user_grades_chart_legend, data: course_grades },
+                        ];
+                        this.user_grades_categories = categories;
                     },
 
                     build_modules_access_chart() {
@@ -361,79 +455,11 @@ define(["local_fliplearning/vue",
                         return `${weekday}, ${month} ${monthday}, ${time}`;
                     },
 
-                    calculate_modules_access_by_week() {
-                        let sectionid = 0, moduleid = 0, weekcompletecms = 0, weekviewedcms = 0;
-                        let modules = [], completecms = [], viewedcms = [], categories = [];
-                        let user_cm;
-                        this.dropout.weeks.forEach(week => {
-                            // console.log({week});
-                            weekcompletecms = 0, weekviewedcms = 0;
-                            week.sections.forEach(section => {
-                                // console.log({section});
-                                sectionid = Number(section.sectionid);
-                                section.sectionid = sectionid;
 
-                                modules = this.sections_modules(sectionid);
-                                modules.forEach(module => {
-                                    // console.log({module});
-                                    moduleid = Number(module.id);
-                                    module.id = moduleid;
 
-                                    // user_cm = this.get_user_module(moduleid);
-                                    user_cm = this.selected_user.cms.modules[`cm${module.id}`];
-                                    // console.log({user_cm});
-                                    if (user_cm) {
-                                        (user_cm.complete) && weekcompletecms++;
-                                        (user_cm.viewed) && weekviewedcms++;
-                                    }
 
-                                });
 
-                            });
-                            completecms.push(weekcompletecms);
-                            viewedcms.push(weekviewedcms);
-                            categories.push(`${week.name} ${(week.position + 1)}`);
-                        });
-                        // console.log({completecms, viewedcms});
-                        this.week_modules_chart_categories = categories;
-                        this.week_modules_chart_data = [
-                            { name: this.strings.modules_access_chart_series_viewed, data: viewedcms },
-                            { name: this.strings.modules_access_chart_series_complete, data: completecms }
-                        ];
-                    },
 
-                    calculate_sessions_evolution() {
-                        let sessions_data = [], time_data = [];
-                        let sumtime = 0, sumsessions = 0, time = 0, timestamp = 0;
-                        this.selected_user.sessions.forEach(session => {
-                            timestamp = Number(session.start) * 1000;
-                            time = (Number(session.duration)) / 60;
-                            sumtime += time;
-                            sumsessions++;
-                            sessions_data.push({ x: timestamp, y: sumsessions });
-                            time_data.push({ x: timestamp, y: sumtime });
-                        });
-                        this.sessions_evolution_data = [
-                            { name: this.strings.sessions_evolution_chart_legend1, yAxis: 0, data: sessions_data },
-                            { name: this.strings.sessions_evolution_chart_legend2, yAxis: 1, data: time_data },
-                        ];
-                    },
-
-                    calculate_user_grades() {
-                        let categories = [], course_grades = [], user_grades = [];
-                        let user_grade = 0, user_name = this.selected_user.firstname;
-                        this.selected_user.gradeitems.forEach(item => {
-                            user_grade = (Number(item.finalgrade) * 100) / Number(item.grademax);
-                            categories.push(item.itemname);
-                            course_grades.push(item.average_percentage);
-                            user_grades.push(user_grade);
-                        });
-                        this.user_grades_data = [
-                            { name: user_name, data: user_grades },
-                            { name: this.strings.user_grades_chart_legend, data: course_grades },
-                        ];
-                        this.user_grades_categories = categories;
-                    },
 
                     convert_time(time) {
                         time *= 60; // pasar los minutos a segundos
@@ -483,7 +509,7 @@ define(["local_fliplearning/vue",
                             });
                         });
 
-                        this.dialog = true;
+                        this.modules_dialog = true;
                         this.selected_sections = sections;
                     },
 
@@ -522,13 +548,7 @@ define(["local_fliplearning/vue",
                         return headers;
                     },
 
-                    change_user(user) {
-                        this.selected_user = user;
-                        console.log({user});
-                        this.calculate_modules_access_by_week();
-                        this.calculate_sessions_evolution();
-                        this.calculate_user_grades()
-                    },
+
 
                     get_picture_url(userid){
                         return `${M.cfg.wwwroot}/user/pix.php?file=/${userid}/f1.jpg`;
@@ -582,6 +602,27 @@ define(["local_fliplearning/vue",
                         let student_grade = this.isInt(grade.finalgrade) ? grade.finalgrade : grade.finalgrade.toFixed(2);
                         let max_grade = this.isInt(grade.maxgrade) ? grade.maxgrade : grade.maxgrade.toFixed(2);
                         return `${student_grade}/${max_grade}`;
+                    },
+
+                    get_sendmail_user_text() {
+                        return `${this.strings.send_mail_to_user} ${this.selected_user.firstname}`;
+                    },
+
+                    sendmail(type) {
+                        this.strings.email_strings.subject = this.strings.email_strings.subject_prefix;
+                        this.modulename = "course";
+                        this.moduleid = this.courseid;
+                        if (type == 1) {
+                            this.email_users = [this.selected_user];
+                            this.email_dialog = true;
+                        } else if (type == 2) {
+                            this.email_users = this.cluster_users;
+                            this.email_dialog = true;
+                        }
+                    },
+
+                    update_email_dialog (value) {
+                        this.email_dialog = value;
                     },
 
                     isInt(n) {

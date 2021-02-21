@@ -14,295 +14,328 @@
                 <v-progress-linear indeterminate color="cyan"></v-progress-linear>
             </v-row>
             <span v-else>
-                <v-alert v-if="errors.length > 0" dense outlined type="error" v-text="strings.api_error_network"></v-alert>
 
-                <v-row>
-                    <v-col sm="12">
-                        <v-select
-                                attach
-                                :items="dropout.clusters"
-                                item-text="name"
-                                item-value="users"
-                                :label="strings.cluster_label"
-                                v-model="selected_cluster"
-                                v-on:change="change_cluster"
-                                solo
-                        ></v-select>
-                    </v-col>
-                </v-row>
+                <div v-if="dropout.clusters.length == 0">
+                    <span v-text="strings.dropout_no_data"></span>
+                </div>
+                <div v-else>
+                    <v-alert v-if="errors.length > 0" dense outlined type="error" v-text="strings.api_error_network"></v-alert>
 
-                <v-row>
-                    <v-col sm="12" md="6">
-                        <v-row class="d-flex justify-center">
+                    <v-row>
                             <v-col sm="12">
-                                <v-card class="remove-shadow make-border vuetify-datatable">
-                                    <v-card-title>
-                                        <span v-text="strings.table_title"></span>
-                                        <v-spacer></v-spacer>
-                                        <v-text-field
-                                                v-model="search"
-                                                append-icon="search"
-                                                single-line
-                                                hide-details
-                                                class="txt_search"
-                                        ></v-text-field>
+                                <v-select
+                                        attach
+                                        :items="dropout.clusters"
+                                        item-text="name"
+                                        item-value="users"
+                                        :label="strings.cluster_label"
+                                        v-model="selected_cluster"
+                                        v-on:change="change_cluster"
+                                        solo
+                                ></v-select>
+                            </v-col>
+                        </v-row>
+
+                    <div v-if="selected_user">
+
+                        <v-row>
+                            <v-col sm="12" md="6">
+                                <v-row class="d-flex justify-center">
+                                    <v-col sm="12">
+                                        <v-card class="remove-shadow make-border vuetify-datatable">
+                                            <v-card-title>
+                                                <span v-text="strings.table_title"></span>
+                                                <v-spacer></v-spacer>
+                                                <v-text-field
+                                                        v-model="search"
+                                                        append-icon="search"
+                                                        single-line
+                                                        hide-details
+                                                        class="txt_search"
+                                                ></v-text-field>
+                                            </v-card-title>
+                                            <v-data-table
+                                                    :headers="table_headers()"
+                                                    :items="cluster_users"
+                                                    item-key="id"
+                                                    :search="search" dense multi-sort
+                                                    :items-per-page="10"
+                                                    class="elevation-3"
+                                                    @click:row="change_user"
+                                            >
+                                                <template v-slot:item.id="{ item }">
+                                                    <img :src="get_picture_url(item.id)" width="35px" heigth="35px" class="round-avatar"/>
+                                                </template>
+
+                                                <template v-slot:item.progress_percentage="{ item }">
+                                                    <v-progress-linear :value="item.progress_percentage" height="8"></v-progress-linear>
+                                                </template>
+
+                                            </v-data-table>
+                                        </v-card>
+                                    </v-col>
+                                </v-row>
+                            </v-col>
+
+                            <v-col sm="12" md="6">
+                                <v-card class="mx-auto my-3">
+                                    <v-spacer></v-spacer>
+
+                                    <v-card-text>
+                                        <v-row>
+                                            <v-col sm="3">
+                                                <img :src="get_picture_url(selected_user.id)" height="100" width="100" class="round-avatar"/>
+                                            </v-col>
+                                            <v-col sm="9">
+                                                <h1 v-text="get_user_fullname()"></h1>
+                                            </v-col>
+                                        </v-row>
+                                    </v-card-text>
+
+                                    <v-divider ></v-divider>
+
+                                    <v-card-text>
+                                        <v-row>
+                                            <v-col sm="12">
+                                                <span v-text="get_username()"></span>
+                                            </v-col>
+                                        </v-row>
+                                        <v-row>
+                                            <v-col sm="12">
+                                                <span v-text="selected_user.email"></span>
+                                            </v-col>
+                                        </v-row>
+                                        <v-row>
+                                            <v-col sm="12">
+                                                <span v-text="selected_user.course_lastaccess.label"></span>
+                                            </v-col>
+                                        </v-row>
+                                    </v-card-text>
+
+                                    <v-card-actions>
+                                        <v-btn
+                                                color="primary lighten"
+                                                v-text="strings.see_profile"
+                                                v-on:click="see_profile()"
+                                                text
+                                        >
+                                        </v-btn>
+                                        <v-btn
+                                                color="primary lighten"
+                                                v-text="get_sendmail_user_text()"
+                                                v-on:click="sendmail(1)"
+                                                text
+                                        >
+                                        </v-btn>
+                                        <v-btn
+                                                color="primary lighten"
+                                                v-text="strings.send_mail_to_group"
+                                                v-on:click="sendmail(2)"
+                                                text
+                                        >
+                                        </v-btn>
+                                    </v-card-actions>
+                                </v-card>
+
+
+                            </v-col>
+                        </v-row>
+
+                        <v-row>
+                            <v-col sm="12" md="6">
+                                <v-card elevation="2">
+                                    <v-card-title class="justify-center" v-text="strings.student_progress_title"></v-card-title>
+                                    <v-card-text class=text-center>
+                                        <v-progress-circular
+                                                :rotate="-90"
+                                                :size="100"
+                                                :width="15"
+                                                :value="selected_user.progress_percentage"
+                                                color="primary"
+
+                                        >
+                                            <span v-text="get_progress_percentage()"></span>
+                                        </v-progress-circular>
+                                    </v-card-text>
+                                    <v-card-text class=text-center>
+                                        <span v-text="get_progress_message()"></span>
+                                    </v-card-text>
+                                    <br/>
+                                </v-card>
+                            </v-col>
+
+                            <v-col sm="12" md="2">
+                                <v-card elevation="2">
+                                    <v-card-title v-text="convert_time(selected_user.inverted_time)">
                                     </v-card-title>
-                                    <v-data-table
-                                            :headers="table_headers()"
-                                            :items="cluster_users"
-                                            item-key="id"
-                                            :search="search" dense multi-sort
-                                            :items-per-page="10"
-                                            class="elevation-3"
-                                            @click:row="change_user"
-                                    >
-                                        <template v-slot:item.id="{ item }">
-                                            <img :src="get_picture_url(item.id)" width="35px" heigth="35px" class="round-avatar"/>
-                                        </template>
-
-                                        <template v-slot:item.progress_percentage="{ item }">
-                                            <v-progress-linear :value="item.progress_percentage" height="8"></v-progress-linear>
-                                        </template>
-
-                                    </v-data-table>
+                                    <v-card-text v-text="strings.inverted_time_title"></v-card-text>
+                                </v-card>
+                            </v-col>
+                            <v-col sm="12" md="2">
+                                <v-card elevation="2">
+                                    <v-card-title v-text="selected_user.sessions_number">
+                                    </v-card-title>
+                                    <v-card-text v-text="strings.inverted_sessions_title"></v-card-text>
+                                </v-card>
+                            </v-col>
+                            <v-col sm="12" md="2">
+                                <v-card elevation="2">
+                                    <v-card-title v-text="get_student_grade()">
+                                    </v-card-title>
+                                    <v-card-text v-text="strings.student_grade_title"></v-card-text>
                                 </v-card>
                             </v-col>
                         </v-row>
-                    </v-col>
 
-                    <v-col sm="12" md="6">
+                        <v-row>
+                            <v-col sm="12" md="6">
+                                <chart
+                                        :container="'modules_access'"
+                                        :chart="build_modules_access_chart()"
+                                        :lang="strings.chart"
+                                ></chart>
+                            </v-col>
 
-                        <v-card class="mx-auto my-3">
+                            <v-col sm="12" md="6">
+                                <chart
+                                        :container="'week_modules'"
+                                        :chart="build_week_modules_chart()"
+                                        :lang="strings.chart"
+                                ></chart>
+                            </v-col>
+                        </v-row>
 
-                            <v-spacer></v-spacer>
+                        <v-row>
+                            <v-dialog
+                                    v-model="modules_dialog"
+                                    max-width="700px"
+                            >
+                                <v-card>
+                                    <v-card-title v-text="strings.modules_access_chart_title"></v-card-title>
 
-                            <v-card-text>
-                                <v-row>
-                                    <v-col sm="3">
-                                        <img :src="get_picture_url(selected_user.id)" height="100" width="100" class="round-avatar"/>
-                                    </v-col>
-                                    <v-col sm="9">
-                                        <h1 v-text="get_user_fullname()"></h1>
-                                    </v-col>
-                                </v-row>
-                            </v-card-text>
+                                    <v-card-text v-for="section in selected_sections" :key="section.id">
+                                        <v-divider></v-divider>
+                                        <h4 v-text="section.name"></h4>
+                                        <div v-for="module in section.modules" :key="module.id">
+                                            <img
+                                                    :src="get_module_icon(module.modname)"
+                                                    width="25" height="25"
+                                            >
+                                            <a :href="get_module_url(module)" target="_blank">
+                                                <span v-text="module.name"></span>
+                                            </a>
 
-                            <v-divider ></v-divider>
+                                            <span v-text="get_interactions_number(module.interactions)"></span>
 
-                            <v-card-text>
-                                <v-row>
-                                    <v-col sm="12">
-                                        <span v-text="get_username()"></span>
-                                    </v-col>
-                                </v-row>
-                                <v-row>
-                                    <v-col sm="12">
-                                        <span v-text="selected_user.email"></span>
-                                    </v-col>
-                                </v-row>
-                                <v-row>
-                                    <v-col sm="12">
-                                        <span v-text="selected_user.course_lastaccess.label"></span>
-                                    </v-col>
-                                </v-row>
-                            </v-card-text>
+                                            <br/>
 
-                            <v-card-actions>
-                                <v-btn
-                                        color="primary lighten"
-                                        v-text="strings.see_profile"
-                                        v-on:click="see_profile()"
-                                        text
-                                >
-                                </v-btn>
-                                <v-btn
-                                        color="primary lighten"
-                                        v-text="strings.send_mail"
-                                        v-on:click="see_profile()"
-                                        text
-                                >
-                                </v-btn>
-                            </v-card-actions>
-                        </v-card>
+                                            <v-chip
+                                                    v-if="!module.viewed"
+                                                    color="red"
+                                                    text-color="white"
+                                            >
+                                                <v-avatar left>
+                                                    <v-icon v-text="'mdi-eye-off'" small></v-icon>
+                                                </v-avatar>
+                                                <span
+                                                        class="d-flex justify-space-between caption"
+                                                        v-text="strings.modules_no_viewed"
+                                                >
+                                                </span>
+                                            </v-chip>
 
+                                            <v-chip
+                                                    v-if="module.viewed"
+                                                    color="orange"
+                                                    text-color="white"
+                                            >
+                                                <v-avatar left>
+                                                    <v-icon v-text="'mdi-eye'" small></v-icon>
+                                                </v-avatar>
+                                                <span
+                                                        class="d-flex justify-space-between caption"
+                                                        v-text="strings.modules_viewed"
+                                                >
+                                                </span>
+                                            </v-chip>
 
-                    </v-col>
-                </v-row>
+                                            <v-chip
+                                                    v-if="module.complete"
+                                                    color="green"
+                                                    text-color="white"
+                                            >
+                                                <v-avatar left>
+                                                    <v-icon v-text="'mdi-checkbox-marked-circle-outline'" small></v-icon>
+                                                </v-avatar>
+                                                <span
+                                                        class="d-flex justify-space-between caption"
+                                                        v-text="strings.modules_complete"
+                                                >
+                                                </span>
+                                            </v-chip>
 
-                <v-row>
-                    <v-col sm="12" md="6">
-                        <v-card elevation="2">
-                            <v-card-title class="justify-center" v-text="strings.student_progress_title"></v-card-title>
-                            <v-card-text class=text-center>
-                                <v-progress-circular
-                                        :rotate="-90"
-                                        :size="100"
-                                        :width="15"
-                                        :value="selected_user.progress_percentage"
-                                        color="primary"
+                                        </div>
+                                    </v-card-text>
 
-                                >
-                                    <span v-text="get_progress_percentage()"></span>
-                                </v-progress-circular>
-                            </v-card-text>
-                            <v-card-text class=text-center>
-                                <span v-text="get_progress_message()"></span>
-                            </v-card-text>
-                            <br/>
-                        </v-card>
-                    </v-col>
-
-                    <v-col sm="12" md="2">
-                        <v-card elevation="2">
-                            <v-card-title v-text="convert_time(selected_user.inverted_time)">
-                            </v-card-title>
-                            <v-card-text v-text="strings.inverted_time_title"></v-card-text>
-                        </v-card>
-                    </v-col>
-                    <v-col sm="12" md="2">
-                        <v-card elevation="2">
-                            <v-card-title v-text="selected_user.sessions_number">
-                            </v-card-title>
-                            <v-card-text v-text="strings.inverted_sessions_title"></v-card-text>
-                        </v-card>
-                    </v-col>
-                    <v-col sm="12" md="2">
-                        <v-card elevation="2">
-                            <v-card-title v-text="get_student_grade()">
-                            </v-card-title>
-                            <v-card-text v-text="strings.student_grade_title"></v-card-text>
-                        </v-card>
-                    </v-col>
-                </v-row>
-
-                <v-row>
-                    <v-col sm="12" md="6">
-                        <chart
-                                :container="'modules_access'"
-                                :chart="build_modules_access_chart()"
-                                :lang="strings.chart"
-                        ></chart>
-                    </v-col>
-
-                    <v-col sm="12" md="6">
-                        <chart
-                                :container="'week_modules'"
-                                :chart="build_week_modules_chart()"
-                                :lang="strings.chart"
-                        ></chart>
-                    </v-col>
-                </v-row>
-
-                <v-row>
-                    <v-dialog
-                        v-model="dialog"
-                        max-width="700px"
-                        >
-                        <v-card>
-                            <v-card-title v-text="strings.modules_access_chart_title"></v-card-title>
-
-                            <v-card-text v-for="section in selected_sections" :key="section.id">
-                                <v-divider></v-divider>
-                                <h4 v-text="section.name"></h4>
-                                <div v-for="module in section.modules" :key="module.id">
-                                    <img
-                                        :src="get_module_icon(module.modname)"
-                                        width="25" height="25"
-                                    >
-                                    <a :href="get_module_url(module)" target="_blank">
-                                        <span v-text="module.name"></span>
-                                    </a>
-
-                                    <span v-text="get_interactions_number(module.interactions)"></span>
-
-                                    <br/>
-
-                                    <v-chip
-                                            v-if="!module.viewed"
-                                            color="red"
-                                            text-color="white"
-                                    >
-                                        <v-avatar left>
-                                            <v-icon v-text="'mdi-eye-off'" small></v-icon>
-                                        </v-avatar>
-                                        <span
-                                            class="d-flex justify-space-between caption"
-                                            v-text="strings.modules_no_viewed"
+                                    <v-card-actions>
+                                        <v-btn
+                                                color="primary darken-1"
+                                                text
+                                                @click="modules_dialog = false"
+                                                v-text="strings.close_button"
                                         >
-                                        </span>
-                                    </v-chip>
+                                        </v-btn>
+                                    </v-card-actions>
+                                </v-card>
+                            </v-dialog>
+                        </v-row>
 
-                                    <v-chip
-                                        v-if="module.viewed"
-                                        color="orange"
-                                        text-color="white"
-                                    >
-                                        <v-avatar left>
-                                            <v-icon v-text="'mdi-eye'" small></v-icon>
-                                        </v-avatar>
-                                        <span
-                                            class="d-flex justify-space-between caption"
-                                            v-text="strings.modules_viewed"
-                                        >
-                                        </span>
-                                    </v-chip>
+                        <v-row>
+                            <v-col sm="12">
+                                <chart
+                                        :container="'sessions_evolution'"
+                                        :chart="build_sessions_evolution_chart()"
+                                        :lang="strings.chart"
+                                ></chart>
+                            </v-col>
+                        </v-row>
 
-                                    <v-chip
-                                            v-if="module.complete"
-                                            color="green"
-                                            text-color="white"
-                                    >
-                                        <v-avatar left>
-                                            <v-icon v-text="'mdi-checkbox-marked-circle-outline'" small></v-icon>
-                                        </v-avatar>
-                                        <span
-                                            class="d-flex justify-space-between caption"
-                                            v-text="strings.modules_complete"
-                                        >
-                                        </span>
-                                    </v-chip>
+                        <v-row>
+                            <v-col sm="12">
+                                <chart
+                                        :container="'user_grades'"
+                                        :chart="build_user_grades_chart()"
+                                        :lang="strings.chart"
+                                ></chart>
+                            </v-col>
+                        </v-row>
 
-                                </div>
-                            </v-card-text>
+                        <v-row justify="center">
+                            <v-col sm="12">
+                                <emailform
+                                        :dialog="email_dialog"
+                                        :selected_users="email_users"
+                                        :strings="email_strings"
+                                        :moduleid="moduleid"
+                                        :modulename="modulename"
+                                        :courseid="courseid"
+                                        :userid="userid"
+                                        @update_dialog="update_email_dialog"
+                                ></emailform>
+                            </v-col>
+                        </v-row>
 
-                            <v-card-actions>
-                                <v-btn
-                                    color="primary darken-1"
-                                    text
-                                    @click="dialog = false"
-                                    v-text="strings.close_button"
-                                >
-                                </v-btn>
-                            </v-card-actions>
-                        </v-card>
-                    </v-dialog>
-                </v-row>
-
-                <v-row>
-                    <v-col sm="12">
-                        <chart
-                                :container="'sessions_evolution'"
-                                :chart="build_sessions_evolution_chart()"
-                                :lang="strings.chart"
-                        ></chart>
-                    </v-col>
-                </v-row>
-
-                <v-row>
-                    <v-col sm="12">
-                        <chart
-                                :container="'user_grades'"
-                                :chart="build_user_grades_chart()"
-                                :lang="strings.chart"
-                        ></chart>
-                    </v-col>
-                </v-row>
+                        <v-row class="d-flex justify-center">
+                            <span class="overline" v-text="get_timezone()"></span>
+                        </v-row>
+                    </div>
+                    <div v-else>
+                        <span v-text="strings.dropout_no_users_cluster"></span>
+                    </div>
 
 
+                </div>
 
-                <v-row class="d-flex justify-center">
-                    <span class="overline" v-text="get_timezone()"></span>
-                </v-row>
             </span>
 
 

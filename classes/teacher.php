@@ -1198,42 +1198,44 @@ class teacher extends report {
             return null;
         }
 
-        $start = null;
-        if(isset($this->course->startdate) && ((int)$this->course->startdate) > 0) {
-            $start = $this->course->startdate;
-        }
-        $end = null;
-        if(isset($this->course->enddate) && ((int)$this->course->enddate) > 0) {
-            $end = $this->course->enddate;
-        }
-
-        $enable_completion = false;
-        if(isset($this->course->enablecompletion) && ((int)$this->course->enablecompletion) == 1) {
-            $enable_completion = true;
-        }
-
-        $cms = self::get_course_modules();
-        $cms = array_filter($cms, function($cm){ return $cm['modname'] != 'label';});
-        $cms = array_values($cms);
-
-        $users = self::get_work_sessions($start, $end);
-        $users = self::get_progress_table($users, $cms, $enable_completion, true);
-
         $clusters = $this->get_clusters();
-        $users_access = $this->get_users_last_access();
-        $users = $this->get_users_details($users, $cms, $users_access);
-        $users = $this->get_users_course_grade($users);
-        $users = $this->get_users_items_grades($users);
-
-        $configweeks = new \local_fliplearning\configweeks($this->course->id, $this->user->id);
-
         $response = new stdClass();
-        $response->users = $users;
         $response->clusters = $clusters;
-        $response->total_cms = count($cms);
-        $response->cms = $cms;
-        $response->weeks = $configweeks->weeks;
-        $response->sections = $configweeks->current_sections;
+        if (count($clusters)) {
+            $response->clusters = $clusters;
+            $start = null;
+            if(isset($this->course->startdate) && ((int)$this->course->startdate) > 0) {
+                $start = $this->course->startdate;
+            }
+            $end = null;
+            if(isset($this->course->enddate) && ((int)$this->course->enddate) > 0) {
+                $end = $this->course->enddate;
+            }
+            $enable_completion = false;
+            if(isset($this->course->enablecompletion) && ((int)$this->course->enablecompletion) == 1) {
+                $enable_completion = true;
+            }
+
+            $cms = self::get_course_modules();
+            $cms = array_filter($cms, function($cm){ return $cm['modname'] != 'label';});
+            $cms = array_values($cms);
+
+            $users = self::get_work_sessions($start, $end);
+            $users = self::get_progress_table($users, $cms, $enable_completion, true);
+
+            $users_access = $this->get_users_last_access();
+            $users = $this->get_users_details($users, $cms, $users_access);
+            $users = $this->get_users_course_grade($users);
+            $users = $this->get_users_items_grades($users);
+
+            $configweeks = new \local_fliplearning\configweeks($this->course->id, $this->user->id);
+
+            $response->users = $users;
+            $response->total_cms = count($cms);
+            $response->cms = $cms;
+            $response->weeks = $configweeks->weeks;
+            $response->sections = $configweeks->current_sections;
+        }
         return $response;
     }
 
@@ -1382,7 +1384,6 @@ class teacher extends report {
             $itemsgraded[$row->itemid][$row->userid] = $row;
         }
         $rows->close();
-
 
         foreach ($users as $user) {
             $useritems = array();
