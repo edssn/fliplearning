@@ -170,6 +170,12 @@ $content = [
         "hours_short" => get_string("fml_hours_short", "local_fliplearning"),
         "minutes_short" => get_string("fml_minutes_short", "local_fliplearning"),
         "seconds_short" => get_string("fml_seconds_short", "local_fliplearning"),
+        "user_grades_chart_title" => get_string("fml_user_grades_chart_title", "local_fliplearning"),
+        "user_grades_chart_yaxis" => get_string("fml_user_grades_chart_yaxis", "local_fliplearning"),
+        "user_grades_chart_xaxis" => get_string("fml_user_grades_chart_xaxis", "local_fliplearning"),
+        "user_grades_chart_legend" => get_string("fml_user_grades_chart_legend", "local_fliplearning"),
+        "user_grades_chart_tooltip_no_graded" => get_string("fml_user_grades_chart_tooltip_no_graded", "local_fliplearning"),
+        "user_grades_chart_view_activity" => get_string("fml_user_grades_chart_view_activity", "local_fliplearning"),
 
     ],
     'courseid' => $COURSE->id,

@@ -850,7 +850,6 @@ class teacher extends report {
     }
 
     public function grade_items() {
-
         $categories = $this->get_grade_categories();
         $items = $this->get_grade_items();
         $items = $this->format_items($items);
@@ -902,18 +901,12 @@ class teacher extends report {
         global $DB;
         $coursemoduleid = false;
         if (isset($item->itemmodule)) {
-            $sql = "SELECT id FROM {modules} WHERE name = '{$item->itemmodule}'";
-            $result = $DB->get_record_sql($sql);
+            $result = $DB->get_record('modules', array('name' => $item->itemmodule), 'id', MUST_EXIST);
             $moduleid =  $result->id;
-            if (isset($moduleid)) {
-                $sql = "SELECT id FROM {course_modules} 
-                        WHERE course = {$this->course->id} AND module = {$moduleid} 
-                        AND instance = {$item->iteminstance} and visible = 1";
-                $result = $DB->get_record_sql($sql);
-                if (isset($result->id)) {
-                    $coursemoduleid = (int) $result->id;
-                }
-            }
+            $result = $DB->get_record('course_modules',
+                array('course' => $this->course->id, 'module' => $moduleid, 'instance' => $item->iteminstance),
+                'id', MUST_EXIST);
+            $coursemoduleid = (int) $result->id;
         }
         return $coursemoduleid;
     }
@@ -1228,8 +1221,9 @@ class teacher extends report {
 
         $clusters = $this->get_clusters();
         $users_access = $this->get_users_last_access();
-        $users = $this->get_users_details($users, $cms, $enable_completion, $users_access);
-        $users = $this->get_users_grades($users);
+        $users = $this->get_users_details($users, $cms, $users_access);
+        $users = $this->get_users_course_grade($users);
+        $users = $this->get_users_items_grades($users);
 
         $configweeks = new \local_fliplearning\configweeks($this->course->id, $this->user->id);
 
@@ -1266,14 +1260,11 @@ class teacher extends report {
         return $clusters;
     }
 
-    private function get_users_details($users, $cms, $enable_completion, $users_access) {
+    private function get_users_details($users, $cms, $users_access) {
         date_default_timezone_set(self::get_timezone());
         $total_cms = count($cms);
         if ($total_cms > 0) {
             foreach ($users as $user) {
-//                $complete_cms = self::cms_interactions($cms, $user->id, $enable_completion);
-//                $user->complete_cms = $complete_cms;
-//                $user->progress_percentage = (int)(($complete_cms * 100)/$total_cms);
                 $user->course_lastaccess = $this->get_user_last_access($user->id, $users_access);
             }
         }
@@ -1350,7 +1341,7 @@ class teacher extends report {
         return "$text";
     }
 
-    private function get_users_grades($users) {
+    private function get_users_course_grade($users) {
         global $DB;
         $item = $DB->get_record('grade_items',
             array('courseid' => $this->course->id, 'itemtype' => 'course'), 'id, courseid, grademax', MUST_EXIST);
@@ -1370,6 +1361,53 @@ class teacher extends report {
                 $grade->finalgrade = $grades[$user->id]->finalgrade;
             }
             $user->coursegrade = $grade;
+        }
+        return $users;
+    }
+
+    private function get_users_items_grades($users) {
+        global $DB;
+        $items = $this->get_grade_items();
+        $items = $this->format_items($items);
+        $items = $this->set_average_max_min_grade($items, $users);
+
+        $itemsids = $this->extract_elements_field($items, 'id');
+        list($in, $invalues) = $DB->get_in_or_equal($itemsids);
+        $sql = "SELECT id, itemid, userid, finalgrade FROM {grade_grades} 
+                WHERE itemid $in AND finalgrade IS NOT NULL ORDER BY itemid, userid";
+        $rows = $DB->get_recordset_sql($sql, $invalues);
+
+        $itemsgraded = array();
+        foreach($rows as $row){
+            $itemsgraded[$row->itemid][$row->userid] = $row;
+        }
+        $rows->close();
+
+
+        foreach ($users as $user) {
+            $useritems = array();
+            foreach ($items as $item) {
+                $useritem = new stdClass();
+                $useritem->average = $item->average;
+                $useritem->average_percentage = $item->average_percentage;
+                $useritem->categoryid = $item->categoryid;
+                $useritem->coursemoduleid = $item->coursemoduleid;
+                $useritem->finalgrade = 0;
+                $useritem->gradecount = $item->gradecount;
+                $useritem->grademax = $item->grademax;
+                $useritem->grademin = $item->grademin;
+                $useritem->id = $item->id;
+                $useritem->iteminstance = $item->iteminstance;
+                $useritem->itemmodule = $item->itemmodule;
+                $useritem->itemname = $item->itemname;
+                $useritem->maxrating = $item->maxrating;
+                $useritem->minrating = $item->minrating;
+                if (isset($itemsgraded[$item->id][$user->id])) {
+                    $useritem->finalgrade = $itemsgraded[$item->id][$user->id]->finalgrade;
+                }
+                array_push($useritems, $useritem);
+            }
+            $user->gradeitems = $useritems;
         }
         return $users;
     }

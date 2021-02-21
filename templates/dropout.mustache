@@ -288,6 +288,16 @@
                     </v-col>
                 </v-row>
 
+                <v-row>
+                    <v-col sm="12">
+                        <chart
+                                :container="'user_grades'"
+                                :chart="build_user_grades_chart()"
+                                :lang="strings.chart"
+                        ></chart>
+                    </v-col>
+                </v-row>
+
 
 
                 <v-row class="d-flex justify-center">

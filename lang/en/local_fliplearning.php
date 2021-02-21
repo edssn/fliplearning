@@ -427,7 +427,7 @@ $string["fml_modules_access_chart_series_complete"] = "Completos";
 $string["fml_modules_access_chart_series_viewed"] = "Accedidos";
 $string["fml_week_modules_chart_title"] = "Módulos por Semanas";
 $string["fml_modules_amount"] = "Cantidad de Módulos";
-$string["fml_modules_details"] = "(Clic para ver módulos)";
+$string["fml_modules_details"] = "(Clic para ver recursos)";
 $string["fml_modules_interaction"] = "interacción";
 $string["fml_modules_interactions"] = "interacciones";
 $string["fml_modules_viewed"] = "Accedido";
@@ -438,6 +438,11 @@ $string["fml_sessions_evolution_chart_xaxis1"] = "Número de Sesiones";
 $string["fml_sessions_evolution_chart_xaxis2"] = "Cantidad de Horas";
 $string["fml_sessions_evolution_chart_legend1"] = "Cantidad de Sesiones";
 $string["fml_sessions_evolution_chart_legend2"] = "Tiempo Invertido";
-
+$string["fml_user_grades_chart_title"] = "Calificaciones";
+$string["fml_user_grades_chart_yaxis"] = "Calificación en Porcentaje";
+$string["fml_user_grades_chart_xaxis"] = "Actividades Evaluables";
+$string["fml_user_grades_chart_legend"] = "Curso (Media)";
+$string["fml_user_grades_chart_tooltip_no_graded"] = "Sin Calificaciones";
+$string["fml_user_grades_chart_view_activity"] = "Clic para ver la actividad";
 
 
