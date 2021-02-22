@@ -82,8 +82,9 @@ class teacher extends report {
         $schedules = array();
         foreach($user_sessions as $sessions){
             foreach($sessions as $session){
-                $day = strtolower(date("D", (int) $session->start));
-                $hour = date("G", (int) $session->start);
+                $start = (int) $session->start;
+                $day = strtolower(date("D", $start));
+                $hour = date("G", $start);
 
                 if(!isset($schedules[$day])){
                     $schedules[$day] = array();
@@ -303,11 +304,7 @@ class teacher extends report {
         print_error("Weekcode not found");
     }
 
-    protected function get_work_sessions($start, $end){
-        $conditions = self::conditions_for_work_sessions($start, $end);
-        $sessions_users = self::get_sessions_from_logs($conditions);
-        return $sessions_users;
-    }
+
 
     public function progress_table(){
         if(!self::course_in_transit()){

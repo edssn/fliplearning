@@ -30,21 +30,22 @@ require_once("lib_trait.php");
 
 use stdClass;
 
-class dropout {
+class dropout extends report {
     use \lib_trait;
 
-    const MINUTES_TO_NEW_SESSION = 30;
-    const USER_FIELDS = "id, username, firstname, lastname, email, lastaccess, picture, deleted";
-    public $course;
-    public $user;
-    public $current_sections;
-    protected $users;
+    function __construct($courseid, $userid){
+        parent::__construct($courseid, $userid);
+        self::set_profile();
+        self::set_users();
+    }
 
-    function __construct($course, $userid){
-        $this->course = self::get_course($course);
-        $this->user = self::get_user($userid);
-        $this->current_sections = self::get_course_sections();
-        $this->users = self::get_student_ids();;
+    public function set_profile(){
+        $this->profile = "teacher";
+    }
+
+    public function set_users(){
+        $this->users = self::get_student_ids(false);
+        return $this->users;
     }
 
     public function generate_data(){

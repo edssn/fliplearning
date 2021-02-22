@@ -153,12 +153,12 @@ $string['fml_oct_short'] = 'Oct';
 $string['fml_nov_short'] = 'Nov';
 $string['fml_dec_short'] = 'Dic';
 
-$string['fml_week1'] = 'Semana 1';
-$string['fml_week2'] = 'Semana 2';
-$string['fml_week3'] = 'Semana 3';
-$string['fml_week4'] = 'Semana 4';
-$string['fml_week5'] = 'Semana 5';
-$string['fml_week6'] = 'Semana 6';
+$string['fml_week1'] = 'Sem 1';
+$string['fml_week2'] = 'Sem 2';
+$string['fml_week3'] = 'Sem 3';
+$string['fml_week4'] = 'Sem 4';
+$string['fml_week5'] = 'Sem 5';
+$string['fml_week6'] = 'Sem 6';
 
 $string['fml_00'] = '12am';
 $string['fml_01'] = '1am';
