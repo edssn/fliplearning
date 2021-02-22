@@ -32,15 +32,11 @@ $url = '/local/fliplearning/time.php';
 local_fliplearning_set_page($course, $url);
 
 require_capability('local/fliplearning:usepluggin', $context);
-require_capability('local/fliplearning:time', $context);
+require_capability('local/fliplearning:view_as_teacher', $context);
+require_capability('local/fliplearning:quiz', $context);
 
-\local_fliplearning\log::create("time","view", $USER->id, $COURSE->id);
-
-if(has_capability('local/fliplearning:view_as_teacher', $context)){
-    $reports = new \local_fliplearning\teacher($COURSE->id, $USER->id);
-}else{
-    $reports = new \local_fliplearning\student($COURSE->id, $USER->id);
-}
+\local_fliplearning\log::create("quiz","view", $USER->id, $COURSE->id);
+$reports = new \local_fliplearning\teacher($COURSE->id, $USER->id);
 
 $configweeks = new \local_fliplearning\configweeks($COURSE, $USER);
 if(!$configweeks->is_set()){
@@ -118,6 +114,7 @@ $content = [
                 get_string("fml_sat_short", "local_fliplearning"),
             ),
         ),
+        "title" => get_string("menu_quiz","local_fliplearning"),
         "no_data" => get_string("no_data", "local_fliplearning"),
         "pagination" => get_string("pagination", "local_fliplearning"),
         "ss_change_timezone" => get_string("ss_change_timezone", "local_fliplearning"),

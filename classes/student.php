@@ -35,10 +35,9 @@ class student extends report {
     }
 
     /**
-     * Almacena los ids de los estudiantes en la variable $users de la clase
+     * Almacena el id del estudiante en la variable $users de la clase
      */
     public function set_users(){
-        global $DB;
         $this->users = array($this->user->id);
         return $this->users;
     }

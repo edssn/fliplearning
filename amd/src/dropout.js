@@ -455,12 +455,6 @@ define(["local_fliplearning/vue",
                         return `${weekday}, ${month} ${monthday}, ${time}`;
                     },
 
-
-
-
-
-
-
                     convert_time(time) {
                         time *= 60; // pasar los minutos a segundos
                         let h = this.strings.hours_short;
@@ -547,8 +541,6 @@ define(["local_fliplearning/vue",
                         ];
                         return headers;
                     },
-
-
 
                     get_picture_url(userid){
                         return `${M.cfg.wwwroot}/user/pix.php?file=/${userid}/f1.jpg`;

@@ -87,7 +87,6 @@ define(["local_fliplearning/vue",
                             type: 'category',
                         };
                         chart.yAxis = {
-                            allowDecimals: false,
                             title: {
                                 enabled: true,
                                 text: this.strings.x_axis,

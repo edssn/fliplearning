@@ -34,6 +34,7 @@ $url = '/local/fliplearning/setweeks.php';
 local_fliplearning_set_page($course, $url);
 
 require_capability('local/fliplearning:usepluggin', $context);
+require_capability('local/fliplearning:view_as_teacher', $context);
 require_capability('local/fliplearning:setweeks', $context);
 
 \local_fliplearning\log::create("setweeks","view", $USER->id, $COURSE->id);

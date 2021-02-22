@@ -57,13 +57,13 @@ function local_fliplearning_render_navbar_output(\renderer_base $renderer) {
         array_push($items, local_fliplearning_new_menu_item(s($text), $url));
     }
 
-    if(has_capability('local/fliplearning:sessions', $context) && $configuration_is_set){
+    if(has_capability('local/fliplearning:work_sessions', $context) && $configuration_is_set){
         $text = get_string('menu_sessions', 'local_fliplearning');
         $url = new moodle_url('/local/fliplearning/sessions.php?courseid='.$COURSE->id);
         array_push($items, local_fliplearning_new_menu_item(s($text), $url));
     }
 
-    if(has_capability('local/fliplearning:time', $context) && $configuration_is_set){
+    if(has_capability('local/fliplearning:times', $context) && $configuration_is_set){
         $text = get_string('menu_time', 'local_fliplearning');
         $url = new moodle_url('/local/fliplearning/time.php?courseid='.$COURSE->id);
         array_push($items, local_fliplearning_new_menu_item(s($text), $url));

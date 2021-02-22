@@ -33,15 +33,11 @@ $url = '/local/fliplearning/assignments.php';
 local_fliplearning_set_page($course, $url);
 
 require_capability('local/fliplearning:usepluggin', $context);
+require_capability('local/fliplearning:view_as_teacher', $context);
 require_capability('local/fliplearning:assignments', $context);
 
 \local_fliplearning\log::create("assignments", "view", $USER->id, $COURSE->id);
-
-if (has_capability('local/fliplearning:view_as_teacher', $context)) {
-    $reports = new \local_fliplearning\teacher($COURSE->id, $USER->id);
-} else {
-    $reports = new \local_fliplearning\student($COURSE->id, $USER->id);
-}
+$reports = new \local_fliplearning\teacher($COURSE->id, $USER->id);
 
 $configweeks = new \local_fliplearning\configweeks($COURSE, $USER);
 if (!$configweeks->is_set()) {

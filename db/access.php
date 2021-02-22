@@ -52,7 +52,7 @@ $capabilities = array(
         )
     ),
 
-    'local/fliplearning:sessions' => array(
+    'local/fliplearning:work_sessions' => array(
         'captype'      => 'read',
         'contextlevel' => CONTEXT_COURSE,
         'archetypes'   => array(
@@ -62,7 +62,7 @@ $capabilities = array(
         )
     ),
 
-    'local/fliplearning:time' => array(
+    'local/fliplearning:times' => array(
         'captype'      => 'read',
         'contextlevel' => CONTEXT_COURSE,
         'archetypes'   => array(
@@ -102,7 +102,7 @@ $capabilities = array(
         )
     ),
 
-    'local/fliplearning:seegroupwithallstudent' => array(
+    'local/fliplearning:dropout' => array(
         'captype'      => 'read',
         'contextlevel' => CONTEXT_COURSE,
         'archetypes'   => array(
@@ -112,7 +112,7 @@ $capabilities = array(
         )
     ),
 
-    'local/fliplearning:dropout' => array(
+    'local/fliplearning:seegroupwithallstudent' => array(
         'captype'      => 'read',
         'contextlevel' => CONTEXT_COURSE,
         'archetypes'   => array(
