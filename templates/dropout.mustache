@@ -10,17 +10,33 @@
                     :helpcontents="get_help_content()" :groups="groups" :courseid="courseid" :userid="userid"></pageheader>
         <v-container pa-8>
             <v-row v-if="loading">
-                <span class="mb-1 mt-5 body-1" v-text="strings.graph_generating"></span>
+                <span class="mb-1 mt-5 body-1" v-text="strings.generating_data"></span>
                 <v-progress-linear indeterminate color="cyan"></v-progress-linear>
             </v-row>
             <span v-else>
 
+                <v-alert v-if="errors.length > 0" dense outlined type="error" v-text="strings.api_error_network"></v-alert>
+
                 <div v-if="dropout.clusters.length == 0">
-                    <span v-text="strings.dropout_no_data"></span>
+                    <v-row>
+                        <v-col sm="12">
+                            <span v-text="strings.dropout_no_data"></span>
+                        </v-col>
+
+                        <v-col sm="12">
+                            <v-btn
+                                depressed
+                                color="primary"
+                            >
+                                <span
+                                    v-text="strings.generate_data_manually"
+                                    v-on:click="generate_dropout_data()"
+                                ></span>
+                            </v-btn>
+                        </v-col>
+                    </v-row>
                 </div>
                 <div v-else>
-                    <v-alert v-if="errors.length > 0" dense outlined type="error" v-text="strings.api_error_network"></v-alert>
-
                     <v-row>
                             <v-col sm="12">
                                 <v-select

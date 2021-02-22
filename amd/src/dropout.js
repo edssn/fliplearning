@@ -1,5 +1,6 @@
 define(["local_fliplearning/vue",
         "local_fliplearning/vuetify",
+        "local_fliplearning/axios",
         "local_fliplearning/moment",
         "local_fliplearning/momenttimezone",
         "local_fliplearning/pagination",
@@ -7,12 +8,12 @@ define(["local_fliplearning/vue",
         "local_fliplearning/pageheader",
         "local_fliplearning/emailform"
     ],
-    function(Vue, Vuetify, Moment, MomentTimezone, Pagination, ChartDynamic, Pageheader, Emailform) {
+    function(Vue, Vuetify, Axios, Moment, MomentTimezone, Pagination, ChartDynamic, Pageheader, Emailform) {
         "use strict";
 
         function init(content) {
-            console.log(content);
-            Vue.use(Vuetify)
+            // console.log(content);
+            Vue.use(Vuetify);
             Vue.component('pagination', Pagination);
             Vue.component('chart', ChartDynamic);
             Vue.component('pageheader', Pageheader);
@@ -111,7 +112,7 @@ define(["local_fliplearning/vue",
 
                     change_user(user) {
                         this.selected_user = user;
-                        console.log({user});
+                        // console.log({user});
                         this.calculate_modules_access_by_week();
                         this.calculate_sessions_evolution();
                         this.calculate_user_grades()
@@ -619,6 +620,34 @@ define(["local_fliplearning/vue",
 
                     isInt(n) {
                         return n % 1 === 0;
+                    },
+
+                    generate_dropout_data(){
+                        this.loading = true;
+                        console.log('generate_dropout_data');
+                        this.errors = [];
+                        let data = {
+                            action : "dropoutdata",
+                            userid : this.userid,
+                            courseid : this.courseid,
+                            profile : this.render_has,
+                        }
+                        Axios({
+                            method:'get',
+                            url: M.cfg.wwwroot + "/local/fliplearning/ajax.php",
+                            params : data,
+                        }).then((response) => {
+                            if (response.status == 200 && response.data.ok) {
+                                location.reload();
+                            } else {
+                                this.error_messages.push(this.strings.error_network);
+                            }
+                        }).catch((e) => {
+                            this.errors.push(this.strings.api_error_network);
+                        }).finally(() => {
+                            this.loading = false;
+                        });
+                        return this.data;
                     },
 
                     get_timezone(){

@@ -128,6 +128,8 @@ $content = [
         "exitbutton" => get_string("exitbutton", "local_fliplearning"),
         "dropout_no_data" => get_string("fml_dropout_no_data", "local_fliplearning"),
         "dropout_no_users_cluster" => get_string("fml_dropout_no_users_cluster", "local_fliplearning"),
+        "generate_data_manually" => get_string("fml_dropout_generate_data_manually", "local_fliplearning"),
+        "generating_data" => get_string("fml_dropout_generating_data", "local_fliplearning"),
 
         "cluster_label" => get_string("fml_cluster_label", "local_fliplearning"),
         "thead_name" => get_string("thead_name", "local_fliplearning"),

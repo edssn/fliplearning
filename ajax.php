@@ -115,6 +115,13 @@ if($action == 'saveconfigweek') {
     if($weekcode && $courseid && $userid && $profile){
         $func = "local_fliplearning_get_quiz_attempts";
     }
+} elseif($action == 'dropoutdata') {
+    array_push($params, $courseid);
+    array_push($params, $userid);
+    array_push($params, $profile);
+    if($courseid && $userid && $profile){
+        $func = "local_fliplearning_generate_dropout_data";
+    }
 }
 
 
@@ -226,4 +233,15 @@ function local_fliplearning_get_quiz_attempts($weekcode, $courseid, $userid, $pr
         "quiz" => $quiz,
     );
     local_fliplearning_ajax_response($body);
+}
+
+function local_fliplearning_generate_dropout_data($courseid, $userid, $profile){
+    set_time_limit(300);
+    if($profile == "teacher"){
+        $dropout = new \local_fliplearning\dropout($courseid, $userid);
+        $dropout->generate_data();
+        local_fliplearning_ajax_response([], "ok", true, 200);
+    }else{
+        local_fliplearning_ajax_response([], "", false, 400);
+    }
 }
