@@ -26,14 +26,14 @@
                 </v-row>
 
                 <v-row>
-                    <v-col sm="12" md="6">
+                    <v-col cols="12" md="6">
                         <chart
                                 :container="'sessions1'"
                                 :chart="build_chart_session_by_hours()"
                                 :lang="strings.chart"
                         ></chart>
                     </v-col>
-                    <v-col sm="12" md="6">
+                    <v-col cols="12" md="6">
                         <chart
                                 :container="'sessions2'"
                                 :chart="build_chart_session_by_weeks()"

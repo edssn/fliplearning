@@ -55,7 +55,7 @@
                     <div v-if="selected_user">
 
                         <v-row>
-                            <v-col sm="12" md="6">
+                            <v-col cols="12" md="6">
                                 <v-row class="d-flex justify-center">
                                     <v-col sm="12">
                                         <v-card class="remove-shadow make-border vuetify-datatable">
@@ -93,16 +93,16 @@
                                 </v-row>
                             </v-col>
 
-                            <v-col sm="12" md="6">
+                            <v-col cols="12" md="6">
                                 <v-card class="mx-auto my-3">
                                     <v-spacer></v-spacer>
 
                                     <v-card-text>
                                         <v-row>
-                                            <v-col sm="3">
+                                            <v-col cols="12" sm="3">
                                                 <img :src="get_picture_url(selected_user.id)" height="100" width="100" class="round-avatar"/>
                                             </v-col>
-                                            <v-col sm="9">
+                                            <v-col cols="12" sm="9">
                                                 <h1 v-text="get_user_fullname()"></h1>
                                             </v-col>
                                         </v-row>
@@ -112,17 +112,17 @@
 
                                     <v-card-text>
                                         <v-row>
-                                            <v-col sm="12">
+                                            <v-col>
                                                 <span v-text="get_username()"></span>
                                             </v-col>
                                         </v-row>
                                         <v-row>
-                                            <v-col sm="12">
+                                            <v-col>
                                                 <span v-text="selected_user.email"></span>
                                             </v-col>
                                         </v-row>
                                         <v-row>
-                                            <v-col sm="12">
+                                            <v-col>
                                                 <span v-text="selected_user.course_lastaccess.label"></span>
                                             </v-col>
                                         </v-row>
@@ -158,7 +158,7 @@
                         </v-row>
 
                         <v-row>
-                            <v-col sm="12" md="6">
+                            <v-col cols="12" md="6">
                                 <v-card elevation="2">
                                     <v-card-title class="justify-center" v-text="strings.student_progress_title"></v-card-title>
                                     <v-card-text class=text-center>
@@ -204,7 +204,7 @@
                         </v-row>
 
                         <v-row>
-                            <v-col sm="12" md="6">
+                            <v-col cols="12" md="6">
                                 <chart
                                         :container="'modules_access'"
                                         :chart="build_modules_access_chart()"
@@ -212,7 +212,7 @@
                                 ></chart>
                             </v-col>
 
-                            <v-col sm="12" md="6">
+                            <v-col cols="12" md="6">
                                 <chart
                                         :container="'week_modules'"
                                         :chart="build_week_modules_chart()"
