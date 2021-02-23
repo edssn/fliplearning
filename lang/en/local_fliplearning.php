@@ -35,6 +35,7 @@ $string['pagination_title'] = 'Selección semana';
 $string['helplabel'] = 'Ayuda';
 $string['exitbutton'] = '¡Entendido!';
 $string['no_data'] = 'No hay datos que mostrar';
+$string['only_student'] = 'Este reporte es solo para estudiantes';
 $string["fml_send_mail"] = "(Clic para enviar correo)";
 
 /* Menú */

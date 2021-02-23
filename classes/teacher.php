@@ -78,60 +78,6 @@ class teacher extends report {
         return $response;
     }
 
-    private function get_sessions_by_hours($user_sessions) {
-        $schedules = array();
-        foreach($user_sessions as $sessions){
-            foreach($sessions as $session){
-                $start = (int) $session->start;
-                $day = strtolower(date("D", $start));
-                $hour = date("G", $start);
-
-                if(!isset($schedules[$day])){
-                    $schedules[$day] = array();
-                }
-                if(!isset($schedules[$day][$hour])){
-                    $schedules[$day][$hour] = 1;
-                } else {
-                    $schedules[$day][$hour]++;
-                }
-            }
-        }
-        return $schedules;
-    }
-
-    private function get_sessions_by_hours_summary($schedules) {
-        $summary = array();
-        if (!empty($schedules)) {
-            for ($x = 0; $x <= 6; $x++) {
-                $day_code = self::get_day_code($x);
-                if (isset($schedules[$day_code])) {
-                    $hours = $schedules[$day_code];
-                }
-                for ($y = 0; $y <= 23; $y++) {
-                    $value = 0;
-                    if(isset($hours)) {
-                        if (isset($hours[$y])) {
-                            $value=$hours[$y];
-                        }
-                    }
-                    $element = array(
-                        "x" => $x,
-                        "y" => $y,
-                        "value" => $value,
-                    );
-                    array_push($summary, $element);
-                }
-                $hours = null;
-            }
-        }
-        return $summary;
-    }
-
-    private function get_day_code($key) {
-        $days = array("mon", "tue", "wed", "thu", "fri", "sat", "sun");
-        return $days[$key];
-    }
-
     public function weeks_sessions(){
         if(!self::course_in_transit()){
             return null;
@@ -264,27 +210,6 @@ class teacher extends report {
         $resp->month = strtolower(date("M", $first_monday_month));
         $resp->week = $week_number;
         return $resp;
-    }
-
-    /**
-     * Verifica si el curso aún no ha terminado o si el tiempo transcurrido desde que ha terminado las
-     * semanas configuradas de Fliplearning es menor a una semana
-     *
-     * @return boolean valor booleano que indica si el curso aun sigue activo
-     */
-    protected function course_in_transit(){
-        $in_transit = isset($this->current_week) || isset($this->past_week) ? true : false;
-        return $in_transit;
-    }
-
-    /**
-     * Verifica si el curso tiene estudiantes
-     *
-     * @return boolean valor booleano que indica si el curso tiene estudiantes
-     */
-    protected function course_has_users(){
-        $has_users = count($this->users) > 0 ? true : false;
-        return $has_users;
     }
 
     /**
@@ -580,26 +505,6 @@ class teacher extends report {
         $inverted_time = self::calculate_average("added", $inverted_time);
 
         $response = self::get_inverted_time_summary($inverted_time, (int) $week->hours_dedications);
-        return $response;
-    }
-
-    public function get_inverted_time_summary($inverted_time, $expected_time){
-        $response = new stdClass();
-        $response->expected_time = $expected_time;
-        $response->expected_time_converted = self::convert_time("hours", $expected_time, "string");
-        $response->inverted_time = self::minutes_to_hours($inverted_time->average, -1);
-        $response->inverted_time_converted = self::convert_time("hours", $response->inverted_time, "string");
-
-        $inverted_time = new stdClass();
-        $inverted_time->name = get_string("fml_inverted_time","local_fliplearning");
-        $inverted_time->y = $response->inverted_time;
-        $data[] = $inverted_time;
-        $expected_time = new stdClass();
-        $expected_time->name = get_string("fml_expected_time","local_fliplearning");
-        $expected_time->y = $response->expected_time;
-        $data[] = $expected_time;
-
-        $response->data = $data;
         return $response;
     }
 

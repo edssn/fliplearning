@@ -25,7 +25,15 @@
 
 namespace local_fliplearning;
 
+use stdClass;
+
 class student extends report {
+
+    function __construct($courseid, $userid){
+        parent::__construct($courseid, $userid);
+        self::set_profile();
+        self::set_users();
+    }
 
     /**
      * Almacena el perfil de visualización de la clase en la variable $profile de clase
@@ -42,4 +50,29 @@ class student extends report {
         return $this->users;
     }
 
+    public function get_sessions($weekcode = null){
+        if(!self::course_in_transit()){
+            return null;
+        }
+        if(!self::course_has_users()){
+            return null;
+        }
+        $week = $this->current_week;
+        if(!empty($weekcode)){
+            $week = self::find_week($weekcode);
+        }
+
+        $work_sessions = self::get_work_sessions($week->weekstart, $week->weekend);
+        $sessions = array_map(function($user_sessions){ return $user_sessions->sessions;}, $work_sessions);
+        $sessions = self::get_sessions_by_hours($sessions);
+        $sessions = self::get_sessions_by_hours_summary($sessions);
+        $inverted_time = array_map(function($user_sessions){ return $user_sessions->summary;}, $work_sessions);
+        $inverted_time = self::calculate_average("added", $inverted_time);
+        $inverted_time = self::get_inverted_time_summary($inverted_time, (int) $week->hours_dedications);
+
+        $response = new stdClass();
+        $response->sessions = $sessions;
+        $response->time = $inverted_time;
+        return $response;
+    }
 }
