@@ -48,6 +48,7 @@ $string['menu_grades'] = 'Seguimiento de Calificaciones';
 $string['menu_quiz'] = 'Seguimiento de Evaluaciones';
 $string['menu_dropout'] = 'Deserción';
 $string['menu_logs'] = "Descargar registros";
+$string['menu_general'] = "Indicadores Generales";
 
 /* Nav Bar Menu */
 $string['togglemenu'] = 'Mostrar/Ocultar menú de FML';

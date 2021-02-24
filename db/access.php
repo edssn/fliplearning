@@ -123,7 +123,15 @@ $capabilities = array(
         )
     ),
 
-    'local/fliplearning:student_sessionss' => array(
+    'local/fliplearning:student_general' => array(
+        'captype'      => 'read',
+        'contextlevel' => CONTEXT_COURSE,
+        'archetypes'   => array(
+            'student'        => CAP_ALLOW,
+        )
+    ),
+
+    'local/fliplearning:student_sessions' => array(
         'captype'      => 'read',
         'contextlevel' => CONTEXT_COURSE,
         'archetypes'   => array(

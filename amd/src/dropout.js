@@ -45,7 +45,6 @@ define(["local_fliplearning/vue",
                         sessions_evolution_data: [],
                         user_grades_categories: [],
                         user_grades_data: [],
-                        course_grades_data: [],
                         modules_dialog: false,
 
                         email_users: [],
@@ -112,10 +111,9 @@ define(["local_fliplearning/vue",
 
                     change_user(user) {
                         this.selected_user = user;
-                        // console.log({user});
                         this.calculate_modules_access_by_week();
                         this.calculate_sessions_evolution();
-                        this.calculate_user_grades()
+                        this.calculate_user_grades();
                     },
 
                     calculate_modules_access_by_week() {
@@ -363,6 +361,10 @@ define(["local_fliplearning/vue",
                         };
                         chart.yAxis = {
                             allowDecimals: false,
+                            max: 100,
+                            labels: {
+                                format: '{value} %',
+                            },
                             title: { text: this.strings.user_grades_chart_yaxis }
                         };
                         chart.tooltip = {
@@ -391,7 +393,6 @@ define(["local_fliplearning/vue",
                                 point: {
                                     events: {
                                         click: function () {
-                                            console.log(this);
                                             let position = this.x;
                                             let item = vue.selected_user.gradeitems[position];
                                             let url = `${M.cfg.wwwroot}/mod/${item.itemmodule}/view.php?id=${item.coursemoduleid}`;

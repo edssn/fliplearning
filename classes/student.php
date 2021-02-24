@@ -50,6 +50,52 @@ class student extends report {
         return $this->users;
     }
 
+    public function get_general_indicators () {
+        if(!self::course_in_transit()){
+            return null;
+        }
+        if(!self::course_has_users()){
+            return null;
+        }
+
+        $start = null;
+        if(isset($this->course->startdate) && ((int)$this->course->startdate) > 0) {
+            $start = $this->course->startdate;
+        }
+        $end = null;
+        if(isset($this->course->enddate) && ((int)$this->course->enddate) > 0) {
+            $end = $this->course->enddate;
+        }
+        $enable_completion = false;
+        if(isset($this->course->enablecompletion) && ((int)$this->course->enablecompletion) == 1) {
+            $enable_completion = true;
+        }
+
+        $cms = self::get_course_modules();
+        $cms = array_filter($cms, function($cm){ return $cm['modname'] != 'label';});
+        $cms = array_values($cms);
+
+        $user_sessions = self::get_work_sessions($start, $end);
+
+        $user = self::get_progress_table($user_sessions, $cms, $enable_completion, true);
+        $user = $this->get_users_course_grade($user);
+        $user = $this->get_users_items_grades($user);
+
+        $sessions = array_map(function($user_sessions){ return $user_sessions->sessions;}, $user_sessions);
+        $sessions = self::get_sessions_by_weeks($sessions);
+        $sessions = self::get_sessions_by_weeks_summary($sessions, (int) $this->course->startdate);
+
+        $configweeks = new \local_fliplearning\configweeks($this->course->id, $this->user->id);
+
+        $response = new stdClass();
+        $response->cms = $cms;
+        $response->user = $user[0];
+        $response->sessions = $sessions;
+        $response->sections = $configweeks->current_sections;
+
+        return $response;
+    }
+
     public function get_sessions($weekcode = null){
         if(!self::course_in_transit()){
             return null;

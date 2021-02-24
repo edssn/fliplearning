@@ -176,10 +176,10 @@ trait lib_trait {
         return $name;
     }
 
-    public function get_course_modules($hidden_cms = false, $formatted = true){
+    public function get_course_modules($include_hidden_cms = false, $formatted = true){
         $modinfo = get_fast_modinfo($this->course->id);
         $modules = $modinfo->get_cms();
-        if (!$hidden_cms) {
+        if (!$include_hidden_cms) {
             $modules = array_filter($modules, function($module){ return $module->visible == 1;});
         }
         if ($formatted) {

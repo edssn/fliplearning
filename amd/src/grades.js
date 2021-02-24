@@ -137,6 +137,7 @@ define(["local_fliplearning/vue",
                         };
                         chart.yAxis = [{
                             allowDecimals: false,
+                            max: 100,
                             labels: {
                                 format: '{value} %',
                             },

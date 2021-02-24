@@ -34,7 +34,7 @@ local_fliplearning_set_page($course, $url);
 
 require_capability('local/fliplearning:usepluggin', $context);
 require_capability('local/fliplearning:view_as_student', $context);
-require_capability('local/fliplearning:student_sessionss', $context);
+require_capability('local/fliplearning:student_sessions', $context);
 
 if(is_siteadmin()){
     print_error(get_string("only_student","local_fliplearning"));

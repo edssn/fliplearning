@@ -38,19 +38,19 @@
                 </div>
                 <div v-else>
                     <v-row>
-                            <v-col sm="12">
-                                <v-select
-                                        attach
-                                        :items="dropout.clusters"
-                                        item-text="name"
-                                        item-value="users"
-                                        :label="strings.cluster_label"
-                                        v-model="selected_cluster"
-                                        v-on:change="change_cluster"
-                                        solo
-                                ></v-select>
-                            </v-col>
-                        </v-row>
+                        <v-col sm="12">
+                            <v-select
+                                    attach
+                                    :items="dropout.clusters"
+                                    item-text="name"
+                                    item-value="users"
+                                    :label="strings.cluster_label"
+                                    v-model="selected_cluster"
+                                    v-on:change="change_cluster"
+                                    solo
+                            ></v-select>
+                        </v-col>
+                    </v-row>
 
                     <div v-if="selected_user">
 
@@ -191,7 +191,7 @@
                                 <v-card elevation="2">
                                     <v-card-title v-text="selected_user.sessions_number">
                                     </v-card-title>
-                                    <v-card-text v-text="strings.inverted_sessions_title"></v-card-text>
+                                    <v-card-text v-text="strings.count_sessions_title"></v-card-text>
                                 </v-card>
                             </v-col>
                             <v-col sm="12" md="2">

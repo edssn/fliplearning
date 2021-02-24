@@ -201,7 +201,7 @@ define(["local_fliplearning/vue",
                                 let days = vue.weeks_sessions.weeks[this.point.y][this.point.x] || '';
                                 let xCategoryName = vue.get_point_category_name(this.point, 'x');
                                 let yCategoryName = vue.get_point_category_name(this.point, 'y');
-                                let label = vue.strings.sessions_text;;
+                                let label = vue.strings.sessions_text;
                                 if (this.point.value == 1) {
                                     label = vue.strings.session_text;;
                                 }
