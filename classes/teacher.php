@@ -100,23 +100,6 @@ class teacher extends report {
         return $response;
     }
 
-    /**
-     * Busca la semana con codigo igual al parametro $weekcode y lo retorna. En caso de no encontrar
-     * la semana con el codigo de paramtero, se imprime un error
-     *
-     * @param string $weekcode identificador de la semana que se desea obtener
-     *
-     * @return object objecto con la semana que hace match con el parametro
-     */
-    protected function find_week($weekcode){
-        foreach($this->weeks as $week){
-            if($weekcode == $week->weekcode){
-                return $week;
-            }
-        }
-        print_error("Weekcode not found");
-    }
-
     public function progress_table(){
         if(!self::course_in_transit()){
             return null;
@@ -756,13 +739,11 @@ class teacher extends report {
             $users = $this->get_users_course_grade($users);
             $users = $this->get_users_items_grades($users);
 
-            $configweeks = new \local_fliplearning\configweeks($this->course->id, $this->user->id);
-
             $response->users = $users;
             $response->total_cms = count($cms);
             $response->cms = $cms;
-            $response->weeks = $configweeks->weeks;
-            $response->sections = $configweeks->current_sections;
+            $response->weeks = $this->weeks;
+            $response->sections = $this->current_sections;
         }
         return $response;
     }

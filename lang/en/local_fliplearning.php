@@ -296,6 +296,7 @@ $string['fml_sun_dim'] = 'Dom.';
 /* Content Access */
 $string['fml_assign'] = 'Tarea';
 $string['fml_assignment'] = 'Tarea';
+$string['fml_attendance'] = 'Asistencia';
 $string['fml_book'] = 'Libro';
 $string['fml_chat'] = 'Chat';
 $string['fml_choice'] = 'Elección';
@@ -455,4 +456,16 @@ $string['fml_send_mail_to_user'] = 'Enviar Correo a';
 $string['fml_send_mail_to_group'] = 'Enviar Correo al Grupo';
 
 
+/* User Sessions*/
+$string['fml_student_time_inverted_title'] = 'Tu Tiempo Invertido';
+$string['fml_student_time_inverted_x_axis'] = 'Número de Horas';
+$string['fml_student_inverted_time'] = 'Tiempo Invertido';
+$string['fml_student_expected_time'] = 'Tiempo que se debería Invertir';
 
+$string['fml_resource_access_title'] = 'Interacción por Tipos de Recursos';
+$string['fml_resource_access_y_axis'] = 'Cantidad de Recursos';
+$string['fml_resource_access_x_axis'] = 'Tipos de Recursos';
+$string['fml_resource_access_legend1'] = 'Completos';
+$string['fml_resource_access_legend2'] = 'Pendientes';
+
+$string['fml_week_progress_title'] = 'Progreso de la Semana';

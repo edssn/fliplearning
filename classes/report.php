@@ -51,6 +51,7 @@ abstract class report {
     protected $current_week;
     protected $past_week;
     protected $weeks;
+    protected $current_sections;
     public $timezone;
 
     function __construct($courseid, $userid){
@@ -61,6 +62,7 @@ abstract class report {
         $this->users = array();
         $configweeks = new \local_fliplearning\configweeks($this->course->id, $this->user->id);
         $this->weeks = $configweeks->weeks;
+        $this->current_sections = $configweeks->current_sections;
         $this->current_week = $configweeks->get_current_week();
         $this->past_week = $configweeks->get_past_week();
     }
@@ -92,6 +94,23 @@ abstract class report {
     protected function course_has_users(){
         $has_users = count($this->users) > 0 ? true : false;
         return $has_users;
+    }
+
+    /**
+     * Busca la semana con codigo igual al parametro $weekcode y lo retorna. En caso de no encontrar
+     * la semana con el codigo de paramtero, se imprime un error
+     *
+     * @param string $weekcode identificador de la semana que se desea obtener
+     *
+     * @return object objecto con la semana que hace match con el parametro
+     */
+    protected function find_week($weekcode){
+        foreach($this->weeks as $week){
+            if($weekcode == $week->weekcode){
+                return $week;
+            }
+        }
+        print_error("Weekcode not found");
     }
 
     protected function get_progress_table($users, $cms, $enable_completion, $include_sessions = false) {
@@ -338,7 +357,7 @@ abstract class report {
         return $summary;
     }
 
-    public function get_inverted_time_summary($inverted_time, $expected_time){
+    public function get_inverted_time_summary($inverted_time, $expected_time, $average_time = true){
         $response = new stdClass();
         $response->expected_time = $expected_time;
         $response->expected_time_converted = self::convert_time("hours", $expected_time, "string");
@@ -348,10 +367,16 @@ abstract class report {
         $inverted_time = new stdClass();
         $inverted_time->name = get_string("fml_inverted_time","local_fliplearning");
         $inverted_time->y = $response->inverted_time;
-        $data[] = $inverted_time;
+
         $expected_time = new stdClass();
         $expected_time->name = get_string("fml_expected_time","local_fliplearning");
         $expected_time->y = $response->expected_time;
+
+        if (!$average_time) {
+            $inverted_time->name = get_string("fml_student_inverted_time","local_fliplearning");
+            $expected_time->name = get_string("fml_student_expected_time","local_fliplearning");
+        }
+        $data[] = $inverted_time;
         $data[] = $expected_time;
 
         $response->data = $data;

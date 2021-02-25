@@ -96,13 +96,14 @@ class student extends report {
         return $response;
     }
 
-    public function get_sessions($weekcode = null){
+    public function get_sessions($weekcode = null, $include_weeks = true){
         if(!self::course_in_transit()){
             return null;
         }
         if(!self::course_has_users()){
             return null;
         }
+
         $week = $this->current_week;
         if(!empty($weekcode)){
             $week = self::find_week($weekcode);
@@ -112,13 +113,41 @@ class student extends report {
         $sessions = array_map(function($user_sessions){ return $user_sessions->sessions;}, $work_sessions);
         $sessions = self::get_sessions_by_hours($sessions);
         $sessions = self::get_sessions_by_hours_summary($sessions);
+
         $inverted_time = array_map(function($user_sessions){ return $user_sessions->summary;}, $work_sessions);
         $inverted_time = self::calculate_average("added", $inverted_time);
-        $inverted_time = self::get_inverted_time_summary($inverted_time, (int) $week->hours_dedications);
+        $inverted_time = self::get_inverted_time_summary($inverted_time, (int) $week->hours_dedications, false);
 
         $response = new stdClass();
-        $response->sessions = $sessions;
-        $response->time = $inverted_time;
+        $response->hours_sessions = $sessions;
+        $response->inverted_time = $inverted_time;
+
+        if ($include_weeks) {
+            $start = null;
+            if(isset($this->course->startdate) && ((int)$this->course->startdate) > 0) {
+                $start = $this->course->startdate;
+            }
+            $end = null;
+            if(isset($this->course->enddate) && ((int)$this->course->enddate) > 0) {
+                $end = $this->course->enddate;
+            }
+            $enable_completion = false;
+            if(isset($this->course->enablecompletion) && ((int)$this->course->enablecompletion) == 1) {
+                $enable_completion = true;
+            }
+
+            $work_sessions = self::get_work_sessions($start, $end);
+            $cms = self::get_course_modules();
+            $cms = array_filter($cms, function($cm){ return $cm['modname'] != 'label';});
+            $cms = array_values($cms);
+            $user = self::get_progress_table($work_sessions, $cms, $enable_completion);
+
+            $response->course_cms = $cms;
+            $response->user_cms = $user[0]->cms->modules;
+//            $response->weeks = $this->weeks;
+//            $response->sections = $this->current_sections;
+        }
+        $response->sections = $week->sections;
         return $response;
     }
 }

@@ -122,6 +122,14 @@ if($action == 'saveconfigweek') {
     if($courseid && $userid && $profile){
         $func = "local_fliplearning_generate_dropout_data";
     }
+} elseif($action == 'studentsessions') {
+    array_push($params, $weekcode);
+    array_push($params, $courseid);
+    array_push($params, $userid);
+    array_push($params, $profile);
+    if($weekcode && $courseid && $userid && $profile){
+        $func = "local_fliplearning_get_student_sessions";
+    }
 }
 
 
@@ -244,4 +252,14 @@ function local_fliplearning_generate_dropout_data($courseid, $userid, $profile){
     }else{
         local_fliplearning_ajax_response([], "", false, 400);
     }
+}
+
+function local_fliplearning_get_student_sessions($weekcode, $courseid, $userid, $profile){
+    set_time_limit(300);
+    $reports = new \local_fliplearning\student($courseid, $userid);
+    $indicators = $reports->get_sessions($weekcode, false);
+    $body = array(
+        "indicators" => $indicators,
+    );
+    local_fliplearning_ajax_response($body);
 }

@@ -505,8 +505,8 @@ define(["local_fliplearning/vue",
                             });
                         });
 
-                        this.modules_dialog = true;
                         this.selected_sections = sections;
+                        this.modules_dialog = true;
                     },
 
                     sections_modules(sectionid) {

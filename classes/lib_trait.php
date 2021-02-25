@@ -213,17 +213,24 @@ trait lib_trait {
         return $full_modules;
     }
 
-    protected function get_course_modules_from_sections($sections){
-        $course_modules = array();
+    protected function get_course_modules_from_sections($sections, $include_hidden_cms = false, $formatted = false){
+        $cms = array();
         foreach($sections as $key => $section){
             if($section->visible != 1){
                 continue;
             }
             $modules = self::get_sequence_section($section->sectionid);
-            $modules = array_filter($modules, function($module){ return $module->visible == 1;});
-            $course_modules = array_merge($course_modules, $modules);
+            $cms = array_merge($cms, $modules);
         }
-        return $course_modules;
+        if (count($cms)) {
+            if (!$include_hidden_cms) {
+                $cms = array_filter($cms, function($module){ return $module->visible == 1;});
+            }
+            if ($formatted) {
+                $cms = self::format_course_module($cms);
+            }
+        }
+        return $cms;
     }
 
     public function get_sequence_section($sectionid) {
