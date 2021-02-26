@@ -73,16 +73,6 @@ $capabilities = array(
         )
     ),
 
-    'local/fliplearning:times' => array(
-        'captype'      => 'read',
-        'contextlevel' => CONTEXT_COURSE,
-        'archetypes'   => array(
-            'teacher'        => CAP_ALLOW,
-            'editingteacher' => CAP_ALLOW,
-            'manager'        => CAP_ALLOW,
-        )
-    ),
-
     'local/fliplearning:assignments' => array(
         'captype'      => 'read',
         'contextlevel' => CONTEXT_COURSE,
