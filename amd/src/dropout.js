@@ -6,9 +6,10 @@ define(["local_fliplearning/vue",
         "local_fliplearning/pagination",
         "local_fliplearning/chartdynamic",
         "local_fliplearning/pageheader",
-        "local_fliplearning/emailform"
+        "local_fliplearning/emailform",
+        "local_fliplearning/modulesform"
     ],
-    function(Vue, Vuetify, Axios, Moment, MomentTimezone, Pagination, ChartDynamic, Pageheader, Emailform) {
+    function(Vue, Vuetify, Axios, Moment, MomentTimezone, Pagination, ChartDynamic, Pageheader, Emailform, Modulesform) {
         "use strict";
 
         function init(content) {
@@ -18,6 +19,7 @@ define(["local_fliplearning/vue",
             Vue.component('chart', ChartDynamic);
             Vue.component('pageheader', Pageheader);
             Vue.component('emailform', Emailform);
+            Vue.component('modulesform', Modulesform);
             let vue = new Vue({
                 delimiters: ["[[", "]]"],
                 el: "#dropout",
@@ -416,7 +418,7 @@ define(["local_fliplearning/vue",
                                      ${sessions} ${sessions_suffix}<br/>`;
                         } else {
                             time_prefix = point.series.name;
-                            time = vue.convert_time(point.y * 60);
+                            time = this.convert_time(point.y * 60);
                             text = `<b style="color: ${point.color}">${time_prefix}: </b>
                                     ${time}<br/>`;
                         }
@@ -458,7 +460,7 @@ define(["local_fliplearning/vue",
                     },
 
                     convert_time(time) {
-                        time *= 3600; // pasar las horas a segundos
+                        time *= 60; // pasar los minutos a segundos
                         let h = this.strings.hours_short;
                         let m = this.strings.minutes_short;
                         let s = this.strings.seconds_short;
@@ -556,19 +558,6 @@ define(["local_fliplearning/vue",
                         return `${M.cfg.wwwroot}/user/pix.php?file=/${userid}/f1.jpg`;
                     },
 
-                    get_module_icon(modname){
-                        return `${M.cfg.wwwroot}/theme/image.php/boost/${modname}/1/icon`;
-                    },
-
-                    get_module_url(module){
-                        return `${M.cfg.wwwroot}/mod/${module.modname}/view.php?id=${module.id}`;
-                    },
-
-                    get_interactions_number(interactions){
-                        let interactions_text = (interactions == 1) ? this.strings.modules_interaction : this.strings.modules_interactions;
-                        return `(${interactions} ${interactions_text})`;
-                    },
-
                     get_user_fullname(){
                         return `${this.selected_user.firstname} ${this.selected_user.lastname}`;
                     },
@@ -625,6 +614,10 @@ define(["local_fliplearning/vue",
 
                     update_email_dialog (value) {
                         this.email_dialog = value;
+                    },
+
+                    update_modules_dialog (value) {
+                        this.modules_dialog = value;
                     },
 
                     isInt(n) {

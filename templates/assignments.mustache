@@ -30,7 +30,7 @@
                     </v-col>
                 </v-row>
 
-                <v-row>
+                <v-row class="justify-center">
                     <template v-for="(item, index, key) in access.types">
                         <v-checkbox
                                 v-model="item.show"
@@ -51,7 +51,7 @@
                     </v-col>
                 </v-row>
 
-                <v-row class="d-flex justify-center">
+                <v-row class="justify-center">
                     <span class="overline" v-text="get_timezone()"></span>
                 </v-row>
 

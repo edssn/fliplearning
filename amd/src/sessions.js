@@ -10,7 +10,7 @@ define(["local_fliplearning/vue",
         "use strict";
 
         function init(content) {
-            console.log(content);
+            // console.log(content);
             Vue.use(Vuetify);
             Vue.component('pagination', Pagination);
             Vue.component('chart', ChartStatic);
@@ -183,7 +183,6 @@ define(["local_fliplearning/vue",
                             shared:true,
                             useHTML:true,
                             formatter: function () {
-                                console.log(this);
                                 let category_name = this.points[0].key;
                                 let time = vue.convert_time(this.y);
                                 return `<b>${category_name}: </b>${time}`;

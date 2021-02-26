@@ -37,61 +37,6 @@
                     </v-col>
                 </v-row>
 
-<!--                <v-row class="d-flex justify-center">-->
-<!--                    <v-col sm="12">-->
-<!--                        <v-card class="remove-shadow make-border vuetify-datatable">-->
-<!--                            <v-card-title>-->
-<!--                                <span v-text="strings.table_title"></span>-->
-<!--                                <v-spacer></v-spacer>-->
-<!--                                <v-text-field-->
-<!--                                        v-model="search"-->
-<!--                                        append-icon="search"-->
-<!--                                        single-line-->
-<!--                                        hide-details-->
-<!--                                        class="txt_search"-->
-<!--                                ></v-text-field>-->
-<!--                            </v-card-title>-->
-<!--                            <v-data-table-->
-<!--                                    :headers="table_headers()"-->
-<!--                                    :items="progress_table"-->
-<!--                                    item-key="id"-->
-<!--                                    :search="search" dense multi-sort-->
-<!--                                    :items-per-page="10"-->
-<!--                                    class="elevation-3"-->
-<!--                            >-->
-<!--                                <template v-slot:item.id="{ item }">-->
-<!--                                    <img :src="get_picture_url(item.id)" width="35px" heigth="35px" class="round-avatar"/>-->
-<!--                                </template>-->
-<!--                                <template v-slot:item.inverted_time="{ item }">-->
-<!--                                    <span v-text="item.inverted_time_label"></span>-->
-<!--                                </template>-->
-<!--                                <template v-slot:item.progress_percentage="{ item }">-->
-<!--                                    <v-tooltip bottom>-->
-<!--                                        <template v-slot:activator="{ on, attrs }">-->
-<!--                                            <span-->
-<!--                                                  v-bind="attrs"-->
-<!--                                                  v-on="on"-->
-<!--                                            >-->
-<!--                                                <v-progress-circular-->
-<!--                                                        :rotate="-90"-->
-<!--                                                        :size="45"-->
-<!--                                                        :width="5"-->
-<!--                                                        :value="item.progress_percentage"-->
-<!--                                                        color="primary"-->
-<!--                                                >-->
-<!--                                                    <span v-text="get_percentage_progress(item.progress_percentage)"></span>-->
-<!--                                                </v-progress-circular>-->
-<!--                                          </span>-->
-<!--                                        </template>-->
-<!--                                        <span v-text="get_progress_tooltip(item)"></span>-->
-<!--                                    </v-tooltip>-->
-<!--                                </template>-->
-
-<!--                            </v-data-table>-->
-<!--                        </v-card>-->
-<!--                    </v-col>-->
-<!--                </v-row>-->
-
                 <v-row>
                     <v-col sm="12">
                         <chart

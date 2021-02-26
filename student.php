@@ -68,6 +68,15 @@ $content = [
             get_string("fml_week5", "local_fliplearning"),
             get_string("fml_week6", "local_fliplearning"),
         ),
+        "modules_strings" => array(
+            "title" => get_string("fml_modules_access_chart_title","local_fliplearning"),
+            "modules_no_viewed" => get_string("fml_modules_no_viewed","local_fliplearning"),
+            "modules_viewed" => get_string("fml_modules_viewed","local_fliplearning"),
+            "modules_complete" => get_string("fml_modules_complete","local_fliplearning"),
+            "close_button" => get_string("fml_close_button","local_fliplearning"),
+            "modules_interaction" => get_string("fml_modules_interaction","local_fliplearning"),
+            "modules_interactions" => get_string("fml_modules_interactions","local_fliplearning"),
+        ),
 
         "student_progress_title" => get_string("fml_dropout_student_progress_title", "local_fliplearning"),
         "see_profile" => get_string("fml_dropout_see_profile", "local_fliplearning"),

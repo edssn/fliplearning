@@ -6,16 +6,18 @@ define(["local_fliplearning/vue",
         "local_fliplearning/pagination",
         "local_fliplearning/chartstatic",
         "local_fliplearning/pageheader",
+        "local_fliplearning/modulesform"
     ],
-    function(Vue, Vuetify, Axios, Moment, MomentTimezone, Pagination, ChartStatic, Pageheader) {
+    function(Vue, Vuetify, Axios, Moment, MomentTimezone, Pagination, ChartStatic, Pageheader, Modulesform) {
         "use strict";
 
         function init(content) {
-            console.log(content);
+            // console.log(content);
             Vue.use(Vuetify);
             Vue.component('pagination', Pagination);
             Vue.component('chart', ChartStatic);
             Vue.component('pageheader', Pageheader);
+            Vue.component('modulesform', Modulesform);
             let vue = new Vue({
                 delimiters: ["[[", "]]"],
                 el: "#student",
@@ -441,9 +443,17 @@ define(["local_fliplearning/vue",
                         let seconds = Math.floor(time % 60);
                         let text;
                         if (hours >= 1) {
-                            text = `${hours}${h} ${minutes}${m}`;
+                            if (minutes >= 1) {
+                                text = `${hours}${h} ${minutes}${m}`;
+                            } else {
+                                text = `${hours}${h}`;
+                            }
                         } else if ((minutes >= 1)) {
-                            text = `${minutes}${m} ${seconds}${s}`;
+                            if (seconds >= 1) {
+                                text = `${minutes}${m} ${seconds}${s}`;
+                            } else {
+                                text = `${minutes}${m}`;
+                            }
                         } else {
                             text = `${seconds}${s}`;
                         }
@@ -459,17 +469,8 @@ define(["local_fliplearning/vue",
                         return `${student_grade}/${max_grade}`;
                     },
 
-                    get_module_icon(modname){
-                        return `${M.cfg.wwwroot}/theme/image.php/boost/${modname}/1/icon`;
-                    },
-
-                    get_module_url(module){
-                        return `${M.cfg.wwwroot}/mod/${module.modname}/view.php?id=${module.id}`;
-                    },
-
-                    get_interactions_number(interactions){
-                        let interactions_text = (interactions == 1) ? this.strings.modules_interaction : this.strings.modules_interactions;
-                        return `(${interactions} ${interactions_text})`;
+                    update_modules_dialog(value) {
+                        this.modules_dialog = value;
                     },
 
                     isInt(n) {
