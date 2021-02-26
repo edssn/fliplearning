@@ -192,6 +192,17 @@ abstract class report {
         return $interaction;
     }
 
+    private function finished_cm_by_conditions($userid, $cm_id){
+        global $DB;
+        $complete = false;
+        $item = $DB->get_record('course_modules_completion',
+            array('coursemoduleid' => $cm_id, 'userid' => $userid), 'id, timemodified');
+        if ($item) {
+            $complete = true;
+        }
+        return $complete;
+    }
+
     private function count_cm_interactions($user, $cm_id){
         $cm_logs = 0;
         foreach ($user->logs as $log) {
