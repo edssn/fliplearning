@@ -200,12 +200,19 @@ $content = [
 
         "session_text" => get_string("fml_session_text","local_fliplearning"),
         "sessions_text" => get_string("fml_sessions_text","local_fliplearning"),
+
+        "time_inverted_title" => get_string("fml_time_inverted_title","local_fliplearning"),
+        "time_inverted_x_axis" => get_string("fml_time_inverted_x_axis","local_fliplearning"),
+        "inverted_time" => get_string("fml_inverted_time","local_fliplearning"),
+        "expected_time" => get_string("fml_expected_time","local_fliplearning"),
+
+        "hours_short" => get_string("fml_hours_short", "local_fliplearning"),
+        "minutes_short" => get_string("fml_minutes_short", "local_fliplearning"),
+        "seconds_short" => get_string("fml_seconds_short", "local_fliplearning"),
     ],
     'courseid' => $COURSE->id,
     'userid' => $USER->id,
-    'sessions_by_hours' => $reports->hours_sessions(),
-    'sessions_by_weeks' => $reports->weeks_sessions(),
-    'progress_table' => $reports->progress_table(),
+    'indicators' => $reports->get_sessions(),
     'session_count' => $reports->count_sessions(),
     'pages' => $configweeks->get_weeks_paginator(),
     'profile_render' => $reports->render_has(),

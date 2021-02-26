@@ -102,7 +102,6 @@ trait lib_trait {
         $sql = "SELECT $fields FROM {user} WHERE id $in ORDER BY lastname ASC";
         $rows = $DB->get_recordset_sql($sql, $invalues);
         foreach($rows as $key => $row){
-//            array_push($users, $row);
             $users[$row->id] = $row;
         }
         $rows->close();

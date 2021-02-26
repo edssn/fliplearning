@@ -143,6 +143,10 @@ $content = [
         "sessions_text" => get_string("fml_sessions_text","local_fliplearning"),
         "modules_details" => get_string("fml_modules_details", "local_fliplearning"),
 
+        "hours_short" => get_string("fml_hours_short", "local_fliplearning"),
+        "minutes_short" => get_string("fml_minutes_short", "local_fliplearning"),
+        "seconds_short" => get_string("fml_seconds_short", "local_fliplearning"),
+
         "modules_access_chart_title" => get_string("fml_modules_access_chart_title", "local_fliplearning"),
         "modules_viewed" => get_string("fml_modules_viewed", "local_fliplearning"),
         "modules_no_viewed" => get_string("fml_modules_no_viewed", "local_fliplearning"),

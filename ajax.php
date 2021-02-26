@@ -78,7 +78,7 @@ if($action == 'saveconfigweek') {
     array_push($params, $userid);
     array_push($params, $profile);
     if($weekcode && $courseid && $userid && $profile){
-        $func = "local_fliplearning_get_work_sessions";
+        $func = "local_fliplearning_get_sessions";
     }
 } elseif($action == 'time') {
     array_push($params, $weekcode);
@@ -172,19 +172,11 @@ function local_fliplearning_change_group($courseid, $userid, $groupid){
     local_fliplearning_ajax_response(array("groups" => $groups));
 }
 
-function local_fliplearning_get_work_sessions($weekcode, $courseid, $userid, $profile){
+function local_fliplearning_get_sessions($weekcode, $courseid, $userid, $profile){
     set_time_limit(300);
-    if($profile == "teacher"){
-        $reports = new \local_fliplearning\teacher($courseid, $userid);
-    }else{
-        $reports = new \local_fliplearning\student($courseid, $userid);
-    }
-    $sessions = $reports->hours_sessions($weekcode);
-    $count = $reports->count_sessions($weekcode);
-    $body = array(
-        "sessions_by_hours" => $sessions,
-        "session_count" => $count
-    );
+    $reports = new \local_fliplearning\teacher($courseid, $userid);
+    $indicators = $reports->get_sessions($weekcode);
+    $body = array( "indicators" => $indicators );
     local_fliplearning_ajax_response($body);
 }
 

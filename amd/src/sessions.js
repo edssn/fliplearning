@@ -10,7 +10,7 @@ define(["local_fliplearning/vue",
         "use strict";
 
         function init(content) {
-            // console.log(content);
+            console.log(content);
             Vue.use(Vuetify);
             Vue.component('pagination', Pagination);
             Vue.component('chart', ChartStatic);
@@ -30,10 +30,9 @@ define(["local_fliplearning/vue",
                         loading : false,
                         errors : [],
                         pages : content.pages,
-                        hours_sessions: content.sessions_by_hours,
-                        weeks_sessions: content.sessions_by_weeks,
-                        progress_table: content.progress_table,
-                        session_count: content.session_count,
+                        hours_sessions: content.indicators.sessions,
+                        session_count: content.indicators.count,
+                        inverted_time: content.indicators.time,
                         search: null,
                     }
                 },
@@ -77,8 +76,9 @@ define(["local_fliplearning/vue",
                             params : data,
                         }).then((response) => {
                             if (response.status == 200 && response.data.ok) {
-                                this.hours_sessions = response.data.data.sessions_by_hours;
-                                this.session_count = response.data.data.session_count;
+                                this.hours_sessions = response.data.data.indicators.sessions;
+                                this.session_count = response.data.data.indicators.count;
+                                this.inverted_time = response.data.data.indicators.time;
                             } else {
                                 this.error_messages.push(this.strings.error_network);
                             }
@@ -97,7 +97,7 @@ define(["local_fliplearning/vue",
                         return axis.categories[point[isY ? 'y' : 'x']];
                     },
 
-                    build_chart_session_by_hours() {
+                    build_hours_sessions_chart() {
                         let chart = new Object();
                         chart.title = {
                             text: this.strings.hours_sessions_title,
@@ -161,69 +161,69 @@ define(["local_fliplearning/vue",
                         return chart;
                     },
 
-                    build_chart_session_by_weeks() {
+                    build_inverted_time_chart() {
                         let chart = new Object();
-                        chart.title = {
-                            text: this.strings.weeks_sessions_title,
-                        };
                         chart.chart = {
-                            type: 'heatmap',
-                            marginTop: 40,
-                            marginBottom: 80,
-                            plotBorderWidth: 0,
+                            type: 'bar',
                             backgroundColor: '#FAFAFA',
                         };
+                        chart.title = {
+                            text: this.strings.time_inverted_title,
+                        };
                         chart.xAxis = {
-                            categories: this.strings.weeks,
+                            type: 'category',
+                            crosshair: true,
                         };
                         chart.yAxis = {
-                            categories: this.weeks_sessions.categories,
-                            title: null,
-                            reversed: true,
-                        };
-                        chart.colorAxis = {
-                            min: 0,
-                            stops: [
-                                [0.0, '#E0E0E0'],
-                                [0.25, '#D6E7F9'],
-                                [0.50, '#9AC4EF'],
-                                [0.75, '#5DA1E5'],
-                                [1, '#3384D6'],
-                            ],
-                        };
-                        chart.legend = {
-                            layout: 'horizontal',
-                            margin: 30,
-                            verticalAlign: 'bottom',
+                            title: {
+                                text: this.strings.time_inverted_x_axis,
+                            }
                         };
                         chart.tooltip = {
+                            shared:true,
+                            useHTML:true,
                             formatter: function () {
-                                let days = vue.weeks_sessions.weeks[this.point.y][this.point.x] || '';
-                                let xCategoryName = vue.get_point_category_name(this.point, 'x');
-                                let yCategoryName = vue.get_point_category_name(this.point, 'y');
-                                let label = vue.strings.sessions_text;
-                                if (this.point.value == 1) {
-                                    label = vue.strings.session_text;;
-                                }
-                                return '<b>' + yCategoryName + ' ' + xCategoryName + '</b>: '
-                                    + this.point.value +' ' + label + '<br/>' + days;
+                                console.log(this);
+                                let category_name = this.points[0].key;
+                                let time = vue.convert_time(this.y);
+                                return `<b>${category_name}: </b>${time}`;
                             }
                         };
-                        chart.series = [{
-                            borderWidth: 2,
-                            borderColor: '#FAFAFA',
-                            data: this.weeks_sessions.data,
-                            dataLabels: {
-                                enabled: false,
-                            }
-                        }];
-                        chart.credits = {
+                        chart.legend = {
                             enabled: false
                         };
-                        chart.lang = {
-                            noData: this.strings.no_data,
-                        };
+                        chart.series = [{
+                            colorByPoint: true,
+                            data: this.inverted_time.data
+                        }];
                         return chart;
+                    },
+
+                    convert_time(time) {
+                        time *= 3600; // pasar las horas a segundos
+                        let h = this.strings.hours_short;
+                        let m = this.strings.minutes_short;
+                        let s = this.strings.seconds_short;
+                        let hours = Math.floor(time / 3600);
+                        let minutes = Math.floor((time % 3600) / 60);
+                        let seconds = Math.floor(time % 60);
+                        let text;
+                        if (hours >= 1) {
+                            if (minutes >= 1) {
+                                text = `${hours}${h} ${minutes}${m}`;
+                            } else {
+                                text = `${hours}${h}`;
+                            }
+                        } else if ((minutes >= 1)) {
+                            if (seconds >= 1) {
+                                text = `${minutes}${m} ${seconds}${s}`;
+                            } else {
+                                text = `${minutes}${m}`;
+                            }
+                        } else {
+                            text = `${seconds}${s}`;
+                        }
+                        return text;
                     },
 
                     build_chart_session_count() {
@@ -264,38 +264,6 @@ define(["local_fliplearning/vue",
                     get_timezone(){
                         let information = `${this.strings.ss_change_timezone} ${this.timezone}`
                         return information;
-                    },
-
-                    table_headers(){
-                        let headers = [
-                            { text: '', value : 'id', align : 'center', sortable : false},
-                            { text: this.strings.thead_name , value : 'firstname'},
-                            { text: this.strings.thead_lastname , value : 'lastname'},
-                            { text: this.strings.thead_email , value : 'email'},
-                            { text: this.strings.thead_progress , value : 'progress_percentage',  align : 'center'},
-                            { text: this.strings.thead_sessions , value : 'sessions_number',  align : 'center'},
-                            { text: this.strings.thead_time , value : 'inverted_time', align : 'center'},
-                        ];
-                        return headers;
-                    },
-
-                    get_picture_url(userid){
-                        let url = `${M.cfg.wwwroot}/user/pix.php?file=/${userid}/f1.jpg`;
-                        return url;
-                    },
-
-                    get_percentage_progress(value){
-                        return `${value} %`;
-                    },
-
-                    get_progress_tooltip(item){
-                        let module_label = this.strings.modules_label;
-                        let finished_label = this.strings.finisheds_label;
-                        if (item.cms.complete == 1) {
-                            module_label = this.strings.module_label;
-                            finished_label = this.strings.finished_label;
-                        }
-                        return `${item.cms.complete} ${module_label} ${finished_label} ${this.strings.of_conector} ${item.cms.total}`;
                     },
                 }
             })

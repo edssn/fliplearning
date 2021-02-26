@@ -469,3 +469,15 @@ $string['fml_resource_access_legend1'] = 'Completos';
 $string['fml_resource_access_legend2'] = 'Pendientes';
 
 $string['fml_week_progress_title'] = 'Progreso de la Semana';
+
+
+
+/*Teacher Indicators*/
+$string['fml_teacher_indicators_title'] = 'Indicadores Generales';
+$string['fml_teacher_indicators_student'] = 'estudiante';
+$string['fml_teacher_indicators_students'] = 'estudiantes';
+$string['fml_teacher_indicators_week'] = 'semana';
+$string['fml_teacher_indicators_weeks'] = 'semanas';
+$string["fml_teacher_indicators_student_progress"] = "Progreso del los Estudiantes";
+$string["fml_teacher_indicators_week_resources_chart_title"] = "Recursos por Semanas";
+$string["fml_teacher_indicators_week_resources_yaxis_title"] = "Cantidad de Recursos";

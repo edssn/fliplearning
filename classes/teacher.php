@@ -50,6 +50,73 @@ class teacher extends report {
         return $this->users;
     }
 
+    public function get_general_indicators(){
+        if(!self::course_is_valid()){
+            return null;
+        }
+        $start = null;
+        if(isset($this->course->startdate) && ((int)$this->course->startdate) > 0) {
+            $start = $this->course->startdate;
+        }
+        $end = null;
+        if(isset($this->course->enddate) && ((int)$this->course->enddate) > 0) {
+            $end = $this->course->enddate;
+        }
+        $enable_completion = false;
+        if(isset($this->course->enablecompletion) && ((int)$this->course->enablecompletion) == 1) {
+            $enable_completion = true;
+        }
+
+        $work_sessions = self::get_work_sessions($start, $end);
+
+        $sessions = array_map(function($user_sessions){ return $user_sessions->sessions;}, $work_sessions);
+        $sessions = self::get_sessions_by_weeks($sessions);
+        $sessions = self::get_sessions_by_weeks_summary($sessions, (int) $this->course->startdate);
+
+        $cms = self::get_course_modules();
+        $cms = array_filter($cms, function($cm){ return $cm['modname'] != 'label';});
+        $table = self::get_progress_table($work_sessions, $cms, $enable_completion);
+
+        $weeks_cms = $this->count_week_cms($cms);
+        $students = $this->get_student_ids(false);
+
+        $response = new stdClass();
+        $response->sessions = $sessions;
+        $response->table = $table;
+        $response->weeks = $weeks_cms;
+        $response->total_cms = count($cms);
+        $response->total_weeks = count($weeks_cms);
+        $response->total_students = count($students);
+        return $response;
+    }
+
+    private function count_week_cms ($cms) {
+        $sections_cms = array();
+        foreach ($cms as $cm) {
+            $sectionid = $cm['section'];
+            if (!isset($sections_cms[$sectionid])) {
+                $sections_cms[$sectionid] = 0;
+            }
+            $sections_cms[$sectionid]++;
+        }
+        $weeks = array();
+        foreach ($this->weeks as $week) {
+            $total_cms = 0;
+            foreach ($week->sections as $section) {
+                $sectionid = $section->sectionid;
+                if (isset($sections_cms[$sectionid])) {
+                    $total_cms += $sections_cms[$sectionid];
+                }
+            }
+            $element = new stdClass();
+            $element->name = $week->name;
+            $element->position = $week->position;
+            $element->cms = $total_cms;
+            array_push($weeks, $element);
+        }
+        return $weeks;
+    }
+
     /**
      * Obtiene un objeto con los datos para la visualizacion del gráfico
      * sesiones de estudiantes
@@ -59,11 +126,8 @@ class teacher extends report {
      *
      * @return object objeto con los datos para la visualizacion
      */
-    public function hours_sessions($weekcode = null){
-        if(!self::course_in_transit()){
-            return null;
-        }
-        if(!self::course_has_users()){
+    public function get_sessions($weekcode = null){
+        if(!self::course_is_valid()){
             return null;
         }
         $week = $this->current_week;
@@ -72,9 +136,23 @@ class teacher extends report {
         }
 
         $work_sessions = self::get_work_sessions($week->weekstart, $week->weekend);
-        $work_sessions = array_map(function($user_sessions){ return $user_sessions->sessions;}, $work_sessions);
-        $sessions = self::get_sessions_by_hours($work_sessions);
-        $response = self::get_sessions_by_hours_summary($sessions);
+        $sessions = array_map(function($user_sessions){ return $user_sessions->sessions;}, $work_sessions);
+
+        $sessions_count = self::count_sessions_by_duration($sessions);
+        $sessions_count = self::count_sessions_by_duration_summary($sessions_count, $week->weekstart, $week->weekend);
+
+        $sessions = self::get_sessions_by_hours($sessions);
+        $sessions = self::get_sessions_by_hours_summary($sessions);
+
+        $inverted_time = array_map(function($user_sessions){ return $user_sessions->summary;}, $work_sessions);
+        $inverted_time = self::calculate_average("added", $inverted_time);
+        $inverted_time = self::get_inverted_time_summary($inverted_time, (int) $week->hours_dedications);
+
+        $response = new stdClass();
+        $response->count = $sessions_count;
+        $response->sessions = $sessions;
+        $response->time = $inverted_time;
+
         return $response;
     }
 
@@ -243,7 +321,7 @@ class teacher extends report {
     }
 
     private function get_month_name ($month_code) {
-        $text = "fml_$month_code";
+        $text = "fml_".$month_code."_short";
         $month_name = get_string($text, "local_fliplearning");
         return $month_name;
     }

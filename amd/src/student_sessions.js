@@ -67,19 +67,24 @@ define(["local_fliplearning/vue",
                         };
                         chart.xAxis = {
                             type: 'category',
+                            crosshair: true,
                         };
                         chart.yAxis = {
                             title: {
-                                enabled: true,
                                 text: this.strings.inverted_time_chart_x_axis,
                             }
                         };
                         chart.tooltip = {
+                            shared:true,
+                            useHTML:true,
                             formatter: function () {
-                                return '<b>' + vue.strings.inverted_time + ': </b>'
-                                    + vue.inverted_time.inverted_time_converted + '<br/>'
-                                    + '<b>' + vue.strings.expected_time + ': </b>'
-                                    + vue.inverted_time.expected_time_converted + '<br/>';
+                                let category_name = this.points[0].key;
+                                let time = vue.convert_time(this.y);
+                                return `<b>${category_name}: </b>${time}`;
+                                // return '<b>' + vue.strings.inverted_time + ': </b>'
+                                //     + vue.inverted_time.inverted_time_converted + '<br/>'
+                                //     + '<b>' + vue.strings.expected_time + ': </b>'
+                                //     + vue.inverted_time.expected_time_converted + '<br/>';
                             }
                         };
                         chart.legend = {
@@ -315,6 +320,33 @@ define(["local_fliplearning/vue",
                     get_interactions_number(interactions){
                         let interactions_text = (interactions == 1) ? this.strings.modules_interaction : this.strings.modules_interactions;
                         return `(${interactions} ${interactions_text})`;
+                    },
+
+                    convert_time(time) {
+                        time *= 3600; // pasar las horas a segundos
+                        let h = this.strings.hours_short;
+                        let m = this.strings.minutes_short;
+                        let s = this.strings.seconds_short;
+                        let hours = Math.floor(time / 3600);
+                        let minutes = Math.floor((time % 3600) / 60);
+                        let seconds = Math.floor(time % 60);
+                        let text;
+                        if (hours >= 1) {
+                            if (minutes >= 1) {
+                                text = `${hours}${h} ${minutes}${m}`;
+                            } else {
+                                text = `${hours}${h}`;
+                            }
+                        } else if ((minutes >= 1)) {
+                            if (seconds >= 1) {
+                                text = `${minutes}${m} ${seconds}${s}`;
+                            } else {
+                                text = `${minutes}${m}`;
+                            }
+                        } else {
+                            text = `${seconds}${s}`;
+                        }
+                        return text;
                     },
 
                     get_timezone(){

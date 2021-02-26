@@ -458,7 +458,7 @@ define(["local_fliplearning/vue",
                     },
 
                     convert_time(time) {
-                        time *= 60; // pasar los minutos a segundos
+                        time *= 3600; // pasar las horas a segundos
                         let h = this.strings.hours_short;
                         let m = this.strings.minutes_short;
                         let s = this.strings.seconds_short;
@@ -467,9 +467,17 @@ define(["local_fliplearning/vue",
                         let seconds = Math.floor(time % 60);
                         let text;
                         if (hours >= 1) {
-                            text = `${hours}${h} ${minutes}${m}`;
+                            if (minutes >= 1) {
+                                text = `${hours}${h} ${minutes}${m}`;
+                            } else {
+                                text = `${hours}${h}`;
+                            }
                         } else if ((minutes >= 1)) {
-                            text = `${minutes}${m} ${seconds}${s}`;
+                            if (seconds >= 1) {
+                                text = `${minutes}${m} ${seconds}${s}`;
+                            } else {
+                                text = `${minutes}${m}`;
+                            }
                         } else {
                             text = `${seconds}${s}`;
                         }

@@ -75,6 +75,12 @@ abstract class report {
         return $this->profile;
     }
 
+    protected function course_is_valid(){
+        $in_transit = isset($this->current_week) || isset($this->past_week) ? true : false;
+        $has_users = count($this->users) > 0 ? true : false;
+        return $in_transit && $has_users;
+    }
+
     /**
      * Verifica si el curso aún no ha terminado o si el tiempo transcurrido desde que ha terminado las
      * semanas configuradas de Fliplearning es menor a una semana
