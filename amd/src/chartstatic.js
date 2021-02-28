@@ -3,9 +3,9 @@ define([
         'highcharts/highcharts-3d',
         'highcharts/highcharts-more',
         'highcharts/modules/heatmap',
-        'highcharts/modules/exporting',
-        'highcharts/modules/export-data',
-        'highcharts/modules/accessibility',
+        // 'highcharts/modules/exporting',
+        // 'highcharts/modules/export-data',
+        // 'highcharts/modules/accessibility',
         'highcharts/modules/no-data-to-display'],
     function(Highcharts) {
         return {

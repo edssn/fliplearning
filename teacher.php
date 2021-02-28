@@ -53,6 +53,7 @@ $content = [
         "exitbutton" => get_string("exitbutton","local_fliplearning"),
         "ss_change_timezone" => get_string("ss_change_timezone", "local_fliplearning"),
         "graph_generating" => get_string("graph_generating", "local_fliplearning"),
+        "about" => get_string("fml_about", "local_fliplearning"),
 
         "table_title" => get_string("table_title", "local_fliplearning"),
         "thead_name" => get_string("thead_name", "local_fliplearning"),

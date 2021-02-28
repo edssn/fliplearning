@@ -74,10 +74,10 @@ define(["local_fliplearning/vue",
                     build_week_resources_chart() {
                         let chart = new Object();
                         chart.chart = {
-                            type: 'bar'
+                            type: 'bar',
                         };
                         chart.title = {
-                            text: this.strings.teacher_indicators_week_resources_chart_title
+                            text: null
                         };
                         chart.xAxis = {
                             categories: this.week_resources_categories
@@ -97,15 +97,11 @@ define(["local_fliplearning/vue",
 
                     build_weeks_sessions_chart() {
                         let chart = new Object();
-                        chart.title = {
-                            text: this.strings.weeks_sessions_title,
-                        };
                         chart.chart = {
                             type: 'heatmap',
-                            marginTop: 40,
-                            marginBottom: 80,
-                            plotBorderWidth: 0,
-                            backgroundColor: '#FAFAFA',
+                        };
+                        chart.title = {
+                            text: null,
                         };
                         chart.xAxis = {
                             categories: this.strings.weeks,
@@ -127,7 +123,6 @@ define(["local_fliplearning/vue",
                         };
                         chart.legend = {
                             layout: 'horizontal',
-                            margin: 30,
                             verticalAlign: 'bottom',
                         };
                         chart.tooltip = {
@@ -195,6 +190,10 @@ define(["local_fliplearning/vue",
 
                     capitalizeFirstLetter(string) {
                         return string.charAt(0).toUpperCase() + string.slice(1);
+                    },
+
+                    info() {
+                      console.log('Open modal');
                     },
 
                     get_timezone(){

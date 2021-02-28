@@ -37,6 +37,7 @@ $string['exitbutton'] = '¡Entendido!';
 $string['no_data'] = 'No hay datos que mostrar';
 $string['only_student'] = 'Este reporte es solo para estudiantes';
 $string["fml_send_mail"] = "(Clic para enviar correo)";
+$string["fml_about"] = "Acerca de este Gráfico";
 
 /* Menú */
 $string['menu_main_title'] = "Dashboard Progreso";

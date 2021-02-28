@@ -642,12 +642,11 @@ a.fliplearning-navbar-menu-item .badge {
 .tooltips {
     position: relative;
     display: inline-block;
-    border-bottom: 1px dotted black;
 }
 
 .tooltips .tooltiptext {
     visibility: hidden;
-    width: 120px;
+    width: 190px;
     background-color: #555;
     color: #fff;
     text-align: center;
@@ -657,7 +656,7 @@ a.fliplearning-navbar-menu-item .badge {
     z-index: 1;
     bottom: 125%;
     left: 50%;
-    margin-left: -60px;
+    margin-left: -100px;
     opacity: 0;
     transition: opacity 0.3s;
 }
@@ -677,6 +676,7 @@ a.fliplearning-navbar-menu-item .badge {
     visibility: visible;
     opacity: 1;
 }
+
 
 /* Custom Dropdown */
 .dropdown {

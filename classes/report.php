@@ -267,7 +267,7 @@ abstract class report {
                     $month_number = 0;
                 }
 
-                $month_name = get_string("fml_$month_code", "local_fliplearning");
+                $month_name = get_string("fml_".$month_code."_short", "local_fliplearning");
                 $year = date("Y", $startdate);
                 $category_name = "$month_name $year";
                 array_push($categories, $category_name);
