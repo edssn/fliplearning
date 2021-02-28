@@ -376,7 +376,7 @@ $string['fml_workshop_url'] = '/mod/workshop/view.php?id=';
 $string['fml_course_url'] = '/course/view.php?id=';
 
 /* Grades */
-$string['fml_grades_select_label'] = 'Categoría de Evaluación';
+$string['fml_grades_select_label'] = 'Categoría de Calificación';
 $string['fml_grades_chart_title'] = 'Promedios de Actividades Evaluables';
 $string['fml_grades_yaxis_title'] = 'Promedio de Calificaciones (%)';
 $string['fml_grades_tooltip_average'] = 'Calificación Promedio';

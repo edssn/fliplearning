@@ -81,14 +81,14 @@ define(["local_fliplearning/vue",
                         this.update_detail_charts(item);
                     },
 
-                    build_chart_items_average() {
+                    build_grade_items_average_chart() {
                         let chart = new Object();
                         chart.chart = {
                             type: 'column',
-                            backgroundColor: '#FAFAFA',
+                            backgroundColor: null,
                         };
                         chart.title = {
-                            text: this.strings.grades_chart_title
+                            text: null
                         };
                         chart.xAxis = {
                             categories: this.average_categories
@@ -148,26 +148,20 @@ define(["local_fliplearning/vue",
                         chart.series = [{
                             data: this.average_data,
                         }];
-                        chart.credits = {
-                            enabled: false
-                        };
-                        chart.lang = {
-                            noData: this.strings.no_data,
-                        };
                         return chart;
                     },
 
-                    build_chart_item_grade_detail() {
+                    build_item_grades_details_chart() {
                         let chart = new Object();
                         chart.chart = {
                             type: 'bar',
-                            backgroundColor: '#FAFAFA',
+                            backgroundColor: null,
                         };
                         chart.title = {
-                            text: this.grade_item_title,
+                            text: null,
                         };
                         chart.subtitle = {
-                            text: this.strings.grades_details_subtitle,
+                            text: null,
                         };
                         chart.xAxis = {
                             type: 'category',
@@ -197,25 +191,19 @@ define(["local_fliplearning/vue",
                             colorByPoint: true,
                             data: this.grade_item_details_data,
                         }];
-                        chart.credits = {
-                            enabled: false
-                        };
-                        chart.lang = {
-                            noData: this.strings.no_data,
-                        };
                         return chart;
                     },
 
-                    build_chart_item_grades_distribution() {
+                    build_item_grades_distribution_chart() {
                         let chart = new Object();
                         chart.chart = {
-                            backgroundColor: '#FAFAFA',
+                            backgroundColor: null,
                         };
                         chart.title = {
-                            text: this.grade_item_title,
+                            text: null,
                         };
                         chart.subtitle = {
-                            text: this.strings.grades_distribution_subtitle,
+                            text: null,
                         };
                         chart.xAxis = {
                             categories: this.grade_item_distribution_categories
@@ -223,7 +211,8 @@ define(["local_fliplearning/vue",
                         chart.yAxis = [{
                             title: {
                                 text: this.strings.grades_distribution_yaxis_title,
-                            }
+                            },
+                            allowDecimals: false,
                         }];
                         chart.legend = {
                             enabled: false
@@ -268,22 +257,14 @@ define(["local_fliplearning/vue",
                         };
                         chart.series = [{
                             type: 'column',
-                            name: 'Jane',
                             data: this.grade_item_distribution_data
                         }, {
                             type: 'spline',
-                            name: 'Average',
                             data: this.grade_item_distribution_data,
                             marker: {
                                 lineWidth: 1,
                             }
                         }];
-                        chart.credits = {
-                            enabled: false
-                        };
-                        chart.lang = {
-                            noData: this.strings.no_data,
-                        };
                         return chart;
                     },
 
@@ -391,6 +372,10 @@ define(["local_fliplearning/vue",
 
                     update_dialog (value) {
                         this.dialog = value;
+                    },
+
+                    info() {
+                        console.log('Open modal');
                     },
 
                     get_timezone(){
