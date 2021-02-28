@@ -141,7 +141,7 @@ a.fliplearning-navbar-menu-item .badge {
 }
 
 .progressbar-fliplearning .indeterminate {
-    background-color: #00bcd4;
+    background-color: #118AB2;
 }
 
 .progressbar-fliplearning .indeterminate:before {
@@ -260,7 +260,7 @@ a.fliplearning-navbar-menu-item .badge {
 }
 
 #fliplearning-display-weeks .selected-page{
-    background: #0085C3 !important;
+    background: #118AB2 !important;
     color: white;
 }
 
@@ -379,7 +379,7 @@ a.fliplearning-navbar-menu-item .badge {
 .fliplearning-page-title{
     font-size: .875rem !important;
     color: white !important;
-    background-color: #0085C3 !important;
+    background-color: #118AB2 !important;
     text-transform: uppercase !important;
     border-bottom: 1px solid #d9d5d4 !important;
     padding: 0 !important;
@@ -594,7 +594,7 @@ a.fliplearning-navbar-menu-item .badge {
 }
 
 .help-dialog-title{
-    background: #0085c3 !important;
+    background: #118AB2 !important;
     color: white !important;
 }
 

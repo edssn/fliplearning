@@ -29,7 +29,7 @@ define([
                                                 <span v-text="get_interactions_number(module.interactions)"></span>
                                             </v-col>
                                             <v-col cols="6" class="text-right">
-                                                <v-chip v-if="!module.viewed" color="red" text-color="white">
+                                                <v-chip v-if="!module.viewed" color="#EF476F" text-color="white">
                                                     <v-avatar left>
                                                         <v-icon v-text="'mdi-eye-off'" small></v-icon>
                                                     </v-avatar>
@@ -38,7 +38,7 @@ define([
                                                     </span>
                                                 </v-chip>
     
-                                                <v-chip v-if="module.viewed" color="orange" text-color="white">
+                                                <v-chip v-if="module.viewed" color="#FFD166" text-color="white">
                                                     <v-avatar left>
                                                         <v-icon v-text="'mdi-eye'" small></v-icon>
                                                     </v-avatar>
@@ -47,7 +47,7 @@ define([
                                                     </span>
                                                 </v-chip>
     
-                                                <v-chip v-if="module.complete" color="green" text-color="white">
+                                                <v-chip v-if="module.complete" color="#06D6A0" text-color="white">
                                                     <v-avatar left>
                                                         <v-icon v-text="'mdi-checkbox-marked-circle-outline'" small>
                                                         </v-icon>

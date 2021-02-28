@@ -11,7 +11,7 @@ define(["local_fliplearning/vue",
         "use strict";
 
         function init(content) {
-            // console.log(content);
+            console.log(content);
             Vue.use(Vuetify);
             Vue.component('pagination', Pagination);
             Vue.component('chart', ChartStatic);
@@ -34,6 +34,8 @@ define(["local_fliplearning/vue",
                         pages : content.pages,
 
                         indicators: content.indicators,
+                        resources_access_colors: content.resources_access_colors,
+                        inverted_time_colors: content.inverted_time_colors,
                         inverted_time: content.indicators.inverted_time,
                         hours_sessions: content.indicators.hours_sessions,
                         sections: content.indicators.sections,
@@ -65,6 +67,7 @@ define(["local_fliplearning/vue",
                             backgroundColor: null,
                         };
                         chart.title = {text: null};
+                        chart.colors = this.inverted_time_colors;
                         chart.xAxis = {
                             type: 'category',
                             crosshair: true,
@@ -110,13 +113,8 @@ define(["local_fliplearning/vue",
                         };
                         chart.colorAxis = {
                             min: 0,
-                            stops: [
-                                [0.0, '#E0E0E0'],
-                                [0.25, '#D6E7F9'],
-                                [0.50, '#9AC4EF'],
-                                [0.75, '#5DA1E5'],
-                                [1, '#3384D6'],
-                            ],
+                            minColor: '#E0E0E0',
+                            maxColor: '#118AB2'
                         };
                         chart.legend = {
                             layout: 'horizontal',
@@ -149,6 +147,7 @@ define(["local_fliplearning/vue",
                             backgroundColor: null,
                         };
                         chart.title = {text: null};
+                        chart.colors = this.resources_access_colors;
                         chart.xAxis = {
                             categories: this.resource_access_categories,
                             crosshair: true,
