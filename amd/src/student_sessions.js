@@ -5,8 +5,9 @@ define(["local_fliplearning/vue",
         "local_fliplearning/pagination",
         "local_fliplearning/chartstatic",
         "local_fliplearning/pageheader",
+        "local_fliplearning/modulesform",
     ],
-    function(Vue, Vuetify, Axios, Moment, Pagination, ChartStatic, Pageheader) {
+    function(Vue, Vuetify, Axios, Moment, Pagination, ChartStatic, Pageheader, Modulesform) {
         "use strict";
 
         function init(content) {
@@ -15,6 +16,7 @@ define(["local_fliplearning/vue",
             Vue.component('pagination', Pagination);
             Vue.component('chart', ChartStatic);
             Vue.component('pageheader', Pageheader);
+            Vue.component('modulesform', Modulesform);
             let vue = new Vue({
                 delimiters: ["[[", "]]"],
                 el: "#work_sessions",
@@ -60,11 +62,9 @@ define(["local_fliplearning/vue",
                         let chart = new Object();
                         chart.chart = {
                             type: 'bar',
-                            backgroundColor: '#FAFAFA',
+                            backgroundColor: null,
                         };
-                        chart.title = {
-                            text: this.strings.inverted_time_chart_title,
-                        };
+                        chart.title = {text: null};
                         chart.xAxis = {
                             type: 'category',
                             crosshair: true,
@@ -81,10 +81,6 @@ define(["local_fliplearning/vue",
                                 let category_name = this.points[0].key;
                                 let time = vue.convert_time(this.y);
                                 return `<b>${category_name}: </b>${time}`;
-                                // return '<b>' + vue.strings.inverted_time + ': </b>'
-                                //     + vue.inverted_time.inverted_time_converted + '<br/>'
-                                //     + '<b>' + vue.strings.expected_time + ': </b>'
-                                //     + vue.inverted_time.expected_time_converted + '<br/>';
                             }
                         };
                         chart.legend = {
@@ -97,17 +93,12 @@ define(["local_fliplearning/vue",
                         return chart;
                     },
 
-                    build_session_by_hours_chart() {
+                    build_hours_session_chart() {
                         let chart = new Object();
-                        chart.title = {
-                            text: this.strings.hours_sessions_title,
-                        };
+                        chart.title = {text: null};
                         chart.chart = {
                             type: 'heatmap',
-                            marginTop: 40,
-                            marginBottom: 80,
-                            plotBorderWidth: 0,
-                            backgroundColor: '#FAFAFA',
+                            backgroundColor: null,
                         };
                         chart.xAxis = {
                             categories: this.strings.days,
@@ -129,7 +120,6 @@ define(["local_fliplearning/vue",
                         };
                         chart.legend = {
                             layout: 'horizontal',
-                            margin: 30,
                             verticalAlign: 'bottom',
                         };
                         chart.tooltip = {
@@ -148,9 +138,6 @@ define(["local_fliplearning/vue",
                             borderWidth: 2,
                             borderColor: '#FAFAFA',
                             data: this.hours_sessions,
-                            dataLabels: {
-                                enabled: false,
-                            }
                         }];
                         return chart;
                     },
@@ -159,11 +146,9 @@ define(["local_fliplearning/vue",
                         let chart = new Object();
                         chart.chart = {
                             type: 'column',
-                            backgroundColor: '#FAFAFA',
+                            backgroundColor: null,
                         };
-                        chart.title = {
-                            text: this.strings.resource_access_title,
-                        };
+                        chart.title = {text: null};
                         chart.xAxis = {
                             categories: this.resource_access_categories,
                             crosshair: true,
@@ -347,6 +332,14 @@ define(["local_fliplearning/vue",
                             text = `${seconds}${s}`;
                         }
                         return text;
+                    },
+
+                    update_modules_dialog (value) {
+                        this.modules_dialog = value;
+                    },
+
+                    info() {
+                        console.log('Open modal');
                     },
 
                     get_timezone(){

@@ -114,6 +114,15 @@ $content = [
             "wiki" => get_string("fml_wiki", "local_fliplearning"),
             "workshop" => get_string("fml_workshop", "local_fliplearning"),
         ),
+        "modules_strings" => array(
+            "title" => get_string("fml_modules_access_chart_title","local_fliplearning"),
+            "modules_no_viewed" => get_string("fml_modules_no_viewed","local_fliplearning"),
+            "modules_viewed" => get_string("fml_modules_viewed","local_fliplearning"),
+            "modules_complete" => get_string("fml_modules_complete","local_fliplearning"),
+            "close_button" => get_string("fml_close_button","local_fliplearning"),
+            "modules_interaction" => get_string("fml_modules_interaction","local_fliplearning"),
+            "modules_interactions" => get_string("fml_modules_interactions","local_fliplearning"),
+        ),
         "no_data" => get_string("no_data", "local_fliplearning"),
         "pagination" => get_string("pagination", "local_fliplearning"),
         "ss_change_timezone" => get_string("ss_change_timezone", "local_fliplearning"),
@@ -124,6 +133,7 @@ $content = [
         "pagination_title" => get_string("pagination_title","local_fliplearning"),
         "helplabel" => get_string("helplabel","local_fliplearning"),
         "exitbutton" => get_string("exitbutton","local_fliplearning"),
+        "about" => get_string("fml_about", "local_fliplearning"),
 
         "inverted_time_chart_title" => get_string("fml_student_time_inverted_title","local_fliplearning"),
         "inverted_time_chart_x_axis" => get_string("fml_student_time_inverted_x_axis","local_fliplearning"),

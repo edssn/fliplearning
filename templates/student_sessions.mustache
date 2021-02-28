@@ -20,135 +20,178 @@
                         :pages="pages" :name="strings.pagination_name" :nameseparator="strings.pagination_separator"
                         @changepage="update_interactions" :title="strings.pagination_title"></pagination>
 
+
                 <v-row>
                     <v-col cols="12" md="6">
-                        <chart
-                                :container="'time_inverted'"
-                                :chart="build_inverted_time_chart()"
-                                :lang="strings.chart"
-                        ></chart>
+                        <v-card elevation="2">
+                            <v-card-title class="justify-center" v-text="strings.inverted_time_chart_title"></v-card-title>
+                            <v-card-text>
+                                <chart
+                                        :container="'inverted_time'"
+                                        :chart="build_inverted_time_chart()"
+                                        :lang="strings.chart"
+                                ></chart>
+                                <span class="caption" @click="info">
+                                <v-icon small v-text="'mdi-help-circle-outline'"></v-icon>
+                                <span v-text="strings.about"></span>
+                            </span>
+                            </v-card-text>
+                        </v-card>
                     </v-col>
 
                     <v-col cols="12" md="6">
-                        <chart
-                                :container="'hours_sessions'"
-                                :chart="build_session_by_hours_chart()"
-                                :lang="strings.chart"
-                        ></chart>
+                        <v-card elevation="2">
+                            <v-card-title class="justify-center" v-text="strings.hours_sessions_title"></v-card-title>
+                            <v-card-text>
+                                <chart
+                                        :container="'hour_sessions'"
+                                        :chart="build_hours_session_chart()"
+                                        :lang="strings.chart"
+                                ></chart>
+                                <span class="caption" @click="info">
+                                <v-icon small v-text="'mdi-help-circle-outline'"></v-icon>
+                                <span v-text="strings.about"></span>
+                            </span>
+                            </v-card-text>
+                        </v-card>
                     </v-col>
                 </v-row>
 
                 <v-row>
                     <v-col cols="12">
-                        <span v-text="strings.week_progress_title" class="fliplearning-sub-title"></span>
-                        <v-progress-linear
-                                :value="week_progress"
-                                height="25"
-                                color="primary"
-                        >
-                            <strong v-text="get_progress_percentage()"></strong>
-                        </v-progress-linear>
+                        <v-card elevation="2">
+                            <v-card-title class="justify-center" v-text="strings.resource_access_title"></v-card-title>
+                            <v-card-subtitle class="text-center">
+                                <v-row class="justify-center">
+                                    <v-col cols="12" xs="10" md="4">
+                                        <span v-text="strings.week_progress_title" class="fliplearning-sub-title"></span>
+                                    </v-col>
+                                    <v-col cols="12" xs="10" md="7" class="mx-3">
+                                        <v-progress-linear
+                                                :value="week_progress"
+                                                height="25"
+                                                color="primary"
+                                                rounded
+                                        >
+                                            <strong class="white--text" v-text="get_progress_percentage()"></strong>
+                                        </v-progress-linear>
+                                    </v-col>
+                                </v-row>
+                            </v-card-subtitle>
+                            <v-card-text>
+                                <chart
+                                        :container="'resources_access'"
+                                        :chart="build_resources_access_chart()"
+                                        :lang="strings.chart"
+                                ></chart>
+                                <span class="caption" @click="info">
+                                <v-icon small v-text="'mdi-help-circle-outline'"></v-icon>
+                                <span v-text="strings.about"></span>
+                            </span>
+                            </v-card-text>
+                        </v-card>
                     </v-col>
                 </v-row>
 
-                <v-row class="d-flex justify-center">
+                <v-row class="justify-center">
                     <span class="overline" v-text="get_timezone()"></span>
                 </v-row>
 
-                <v-row>
-                    <v-col cols="12">
-                        <chart
-                                :container="'resources_access'"
-                                :chart="build_resources_access_chart()"
-                                :lang="strings.chart"
-                        ></chart>
+                <v-row justify="center">
+                    <v-col sm="12">
+                        <modulesform
+                                :dialog="modules_dialog"
+                                :sections="sections"
+                                :strings="strings.modules_strings"
+                                @update_dialog="update_modules_dialog"
+                        ></modulesform>
                     </v-col>
                 </v-row>
 
-                <v-row>
-                    <v-dialog
-                            v-model="modules_dialog"
-                            max-width="700px"
-                    >
-                        <v-card>
-                            <v-card-title v-text="strings.modules_access_chart_title"></v-card-title>
+<!--                <v-row>-->
+<!--                    <v-dialog-->
+<!--                            v-model="modules_dialog"-->
+<!--                            max-width="700px"-->
+<!--                    >-->
+<!--                        <v-card>-->
+<!--                            <v-card-title v-text="strings.modules_access_chart_title"></v-card-title>-->
 
-                            <v-card-text v-for="section in sections" :key="section.id">
-                                <v-divider></v-divider>
-                                <h4 v-text="section.name"></h4>
-                                <div v-for="module in section.modules" :key="module.id">
-                                    <img
-                                            :src="get_module_icon(module.modname)"
-                                            width="25" height="25"
-                                    >
-                                    <a :href="get_module_url(module)" target="_blank">
-                                        <span v-text="module.name"></span>
-                                    </a>
+<!--                            <v-card-text v-for="section in sections" :key="section.id">-->
+<!--                                <v-divider></v-divider>-->
+<!--                                <h4 v-text="section.name"></h4>-->
+<!--                                <div v-for="module in section.modules" :key="module.id">-->
+<!--                                    <img-->
+<!--                                            :src="get_module_icon(module.modname)"-->
+<!--                                            width="25" height="25"-->
+<!--                                    >-->
+<!--                                    <a :href="get_module_url(module)" target="_blank">-->
+<!--                                        <span v-text="module.name"></span>-->
+<!--                                    </a>-->
 
-                                    <span v-text="get_interactions_number(module.interactions)"></span>
+<!--                                    <span v-text="get_interactions_number(module.interactions)"></span>-->
 
-                                    <br/>
+<!--                                    <br/>-->
 
-                                    <v-chip
-                                            v-if="!module.viewed"
-                                            color="red"
-                                            text-color="white"
-                                    >
-                                        <v-avatar left>
-                                            <v-icon v-text="'mdi-eye-off'" small></v-icon>
-                                        </v-avatar>
-                                        <span
-                                                class="d-flex justify-space-between caption"
-                                                v-text="strings.modules_no_viewed"
-                                        >
-                                                </span>
-                                    </v-chip>
+<!--                                    <v-chip-->
+<!--                                            v-if="!module.viewed"-->
+<!--                                            color="red"-->
+<!--                                            text-color="white"-->
+<!--                                    >-->
+<!--                                        <v-avatar left>-->
+<!--                                            <v-icon v-text="'mdi-eye-off'" small></v-icon>-->
+<!--                                        </v-avatar>-->
+<!--                                        <span-->
+<!--                                                class="d-flex justify-space-between caption"-->
+<!--                                                v-text="strings.modules_no_viewed"-->
+<!--                                        >-->
+<!--                                                </span>-->
+<!--                                    </v-chip>-->
 
-                                    <v-chip
-                                            v-if="module.viewed"
-                                            color="orange"
-                                            text-color="white"
-                                    >
-                                        <v-avatar left>
-                                            <v-icon v-text="'mdi-eye'" small></v-icon>
-                                        </v-avatar>
-                                        <span
-                                                class="d-flex justify-space-between caption"
-                                                v-text="strings.modules_viewed"
-                                        >
-                                                </span>
-                                    </v-chip>
+<!--                                    <v-chip-->
+<!--                                            v-if="module.viewed"-->
+<!--                                            color="orange"-->
+<!--                                            text-color="white"-->
+<!--                                    >-->
+<!--                                        <v-avatar left>-->
+<!--                                            <v-icon v-text="'mdi-eye'" small></v-icon>-->
+<!--                                        </v-avatar>-->
+<!--                                        <span-->
+<!--                                                class="d-flex justify-space-between caption"-->
+<!--                                                v-text="strings.modules_viewed"-->
+<!--                                        >-->
+<!--                                                </span>-->
+<!--                                    </v-chip>-->
 
-                                    <v-chip
-                                            v-if="module.complete"
-                                            color="green"
-                                            text-color="white"
-                                    >
-                                        <v-avatar left>
-                                            <v-icon v-text="'mdi-checkbox-marked-circle-outline'" small></v-icon>
-                                        </v-avatar>
-                                        <span
-                                                class="d-flex justify-space-between caption"
-                                                v-text="strings.modules_complete"
-                                        >
-                                                </span>
-                                    </v-chip>
+<!--                                    <v-chip-->
+<!--                                            v-if="module.complete"-->
+<!--                                            color="green"-->
+<!--                                            text-color="white"-->
+<!--                                    >-->
+<!--                                        <v-avatar left>-->
+<!--                                            <v-icon v-text="'mdi-checkbox-marked-circle-outline'" small></v-icon>-->
+<!--                                        </v-avatar>-->
+<!--                                        <span-->
+<!--                                                class="d-flex justify-space-between caption"-->
+<!--                                                v-text="strings.modules_complete"-->
+<!--                                        >-->
+<!--                                                </span>-->
+<!--                                    </v-chip>-->
 
-                                </div>
-                            </v-card-text>
+<!--                                </div>-->
+<!--                            </v-card-text>-->
 
-                            <v-card-actions>
-                                <v-btn
-                                        color="primary darken-1"
-                                        text
-                                        @click="modules_dialog = false"
-                                        v-text="strings.close_button"
-                                >
-                                </v-btn>
-                            </v-card-actions>
-                        </v-card>
-                    </v-dialog>
-                </v-row>
+<!--                            <v-card-actions>-->
+<!--                                <v-btn-->
+<!--                                        color="primary darken-1"-->
+<!--                                        text-->
+<!--                                        @click="modules_dialog = false"-->
+<!--                                        v-text="strings.close_button"-->
+<!--                                >-->
+<!--                                </v-btn>-->
+<!--                            </v-card-actions>-->
+<!--                        </v-card>-->
+<!--                    </v-dialog>-->
+<!--                </v-row>-->
 
             </div>
 
