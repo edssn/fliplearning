@@ -100,14 +100,11 @@ define(["local_fliplearning/vue",
                     build_hours_sessions_chart() {
                         let chart = new Object();
                         chart.title = {
-                            text: this.strings.hours_sessions_title,
+                            text: null,
                         };
                         chart.chart = {
                             type: 'heatmap',
-                            marginTop: 40,
-                            marginBottom: 80,
-                            plotBorderWidth: 0,
-                            backgroundColor: '#FAFAFA',
+                            backgroundColor: null,
                         };
                         chart.xAxis = {
                             categories: this.strings.days,
@@ -119,17 +116,16 @@ define(["local_fliplearning/vue",
                         };
                         chart.colorAxis = {
                             min: 0,
-                                stops: [
-                                    [0.0, '#E0E0E0'],
-                                    [0.25, '#D6E7F9'],
-                                    [0.50, '#9AC4EF'],
-                                    [0.75, '#5DA1E5'],
-                                    [1, '#3384D6'],
+                            stops: [
+                                [0.0, '#E0E0E0'],
+                                [0.25, '#D6E7F9'],
+                                [0.50, '#9AC4EF'],
+                                [0.75, '#5DA1E5'],
+                                [1, '#3384D6'],
                             ],
                         };
                         chart.legend = {
                             layout: 'horizontal',
-                            margin: 30,
                             verticalAlign: 'bottom',
                         };
                         chart.tooltip = {
@@ -148,16 +144,7 @@ define(["local_fliplearning/vue",
                             borderWidth: 2,
                             borderColor: '#FAFAFA',
                             data: this.hours_sessions,
-                            dataLabels: {
-                                enabled: false,
-                            }
                         }];
-                        chart.credits = {
-                            enabled: false
-                        };
-                        chart.lang = {
-                            noData: this.strings.no_data,
-                        };
                         return chart;
                     },
 
@@ -165,10 +152,10 @@ define(["local_fliplearning/vue",
                         let chart = new Object();
                         chart.chart = {
                             type: 'bar',
-                            backgroundColor: '#FAFAFA',
+                            backgroundColor: null,
                         };
                         chart.title = {
-                            text: this.strings.time_inverted_title,
+                            text: null,
                         };
                         chart.xAxis = {
                             type: 'category',
@@ -195,6 +182,34 @@ define(["local_fliplearning/vue",
                             colorByPoint: true,
                             data: this.inverted_time.data
                         }];
+                        return chart;
+                    },
+
+                    build_chart_session_count() {
+                        let chart = new Object();
+                        chart.chart = {
+                            backgroundColor: null,
+                        };
+                        chart.title = {
+                            text: null,
+                        };
+                        chart.yAxis = {
+                            title: {
+                                text: this.strings.session_count_yaxis_title,
+                            },
+                            allowDecimals: false
+                        };
+                        chart.xAxis = {
+                            categories: this.session_count.categories,
+                        };
+                        chart.tooltip = {
+                            valueSuffix: this.strings.session_count_tooltip_suffix,
+                        };
+                        chart.legend = {
+                            layout: 'horizontal',
+                            verticalAlign: 'bottom',
+                        };
+                        chart.series = this.session_count.data
                         return chart;
                     },
 
@@ -225,39 +240,8 @@ define(["local_fliplearning/vue",
                         return text;
                     },
 
-                    build_chart_session_count() {
-                        let chart = new Object();
-                        chart.chart = {
-                            backgroundColor: '#FAFAFA',
-                        };
-                        chart.title = {
-                            text: this.strings.session_count_title,
-                        };
-                        chart.yAxis = {
-                            title: {
-                                text: this.strings.session_count_yaxis_title,
-                            },
-                            allowDecimals: false
-                        };
-                        chart.xAxis = {
-                            categories: this.session_count.categories,
-                        };
-                        chart.tooltip = {
-                            valueSuffix: this.strings.session_count_tooltip_suffix,
-                        };
-                        chart.legend = {
-                            layout: 'horizontal',
-                            margin: 10,
-                            verticalAlign: 'bottom',
-                        };
-                        chart.series = this.session_count.data,
-                        chart.credits = {
-                            enabled: false
-                        };
-                        chart.lang = {
-                            noData: this.strings.no_data,
-                        };
-                        return chart;
+                    info() {
+                        console.log('Open modal');
                     },
 
                     get_timezone(){

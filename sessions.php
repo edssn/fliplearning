@@ -165,6 +165,7 @@ $content = [
         "thead_progress" => get_string("thead_progress", "local_fliplearning"),
         "thead_sessions" => get_string("thead_sessions", "local_fliplearning"),
         "thead_time" => get_string("thead_time", "local_fliplearning"),
+        "about" => get_string("fml_about", "local_fliplearning"),
 
         "module_label" => get_string("fml_module_label", "local_fliplearning"),
         "modules_label" => get_string("fml_modules_label", "local_fliplearning"),

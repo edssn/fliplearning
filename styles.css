@@ -631,6 +631,10 @@ a.fliplearning-navbar-menu-item .badge {
     height: 600px;
 }
 
+#inverted_time, #hour_sessions, #sessions_count {
+    height: 500px;
+}
+
 
 
 

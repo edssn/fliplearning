@@ -22,56 +22,84 @@
 
                 <v-row>
                     <v-col cols="12" md="6">
-                        <chart
-                                :container="'inverted_time'"
-                                :chart="build_inverted_time_chart()"
-                                :lang="strings.chart"
-                        ></chart>
+                        <v-card elevation="2">
+                            <v-card-title class="justify-center" v-text="strings.time_inverted_title"></v-card-title>
+                            <v-card-text>
+                                <chart
+                                        :container="'inverted_time'"
+                                        :chart="build_inverted_time_chart()"
+                                        :lang="strings.chart"
+                                ></chart>
+                                <span class="caption" @click="info">
+                                <v-icon small v-text="'mdi-help-circle-outline'"></v-icon>
+                                <span v-text="strings.about"></span>
+                            </span>
+                            </v-card-text>
+                        </v-card>
                     </v-col>
+
                     <v-col cols="12" md="6">
-                        <chart
-                                :container="'hour_sessions'"
-                                :chart="build_hours_sessions_chart()"
-                                :lang="strings.chart"
-                        ></chart>
+                        <v-card elevation="2">
+                            <v-card-title class="justify-center" v-text="strings.hours_sessions_title"></v-card-title>
+                            <v-card-text>
+                                <chart
+                                        :container="'hour_sessions'"
+                                        :chart="build_hours_sessions_chart()"
+                                        :lang="strings.chart"
+                                ></chart>
+                                <span class="caption" @click="info">
+                                <v-icon small v-text="'mdi-help-circle-outline'"></v-icon>
+                                <span v-text="strings.about"></span>
+                            </span>
+                            </v-card-text>
+                        </v-card>
                     </v-col>
                 </v-row>
 
                 <v-row>
-                    <v-col sm="12">
-                        <chart
-                                :container="'session_count'"
-                                :chart="build_chart_session_count()"
-                                :lang="strings.chart"
-                        ></chart>
+                    <v-col cols="12">
+                        <v-card elevation="2">
+                            <v-card-title class="justify-center" v-text="strings.session_count_title"></v-card-title>
+                            <v-card-text>
+                                <chart
+                                        :container="'sessions_count'"
+                                        :chart="build_chart_session_count()"
+                                        :lang="strings.chart"
+                                ></chart>
+                                <span class="caption" @click="info">
+                                <v-icon small v-text="'mdi-help-circle-outline'"></v-icon>
+                                <span v-text="strings.about"></span>
+                            </span>
+                            </v-card-text>
+                        </v-card>
                     </v-col>
                 </v-row>
 
-                <v-row class="d-flex justify-center">
+                <v-row class="justify-center">
                     <span class="overline" v-text="get_timezone()"></span>
                 </v-row>
 
 
-                <div style="text-align:center;">
-                    <div class="tooltips">
-                        <p>Hover over me</p>
-                        <span class="tooltiptext">Tooltip text for question</span>
-                    </div>
+<!--                <div style="text-align:center;">-->
+<!--                    <div class="tooltips">-->
+<!--                        <p>Hover over me</p>-->
+<!--                        <span class="tooltiptext">Tooltip text for question</span>-->
+<!--                    </div>-->
 
-                    <div class="tooltips">
-                        <p>Hover over me</p>
-                        <span class="tooltiptext">Tooltip text 2</span>
-                    </div>
+<!--                    <div class="tooltips">-->
+<!--                        <p>Hover over me</p>-->
+<!--                        <span class="tooltiptext">Tooltip text 2</span>-->
+<!--                    </div>-->
 
-                    <br/>
+<!--                    <br/>-->
 
-                    <div class="dropdown">
-                        <span>Mouse over me</span>
-                        <div class="dropdown-content">
-                            <p>Hello World aaaaaaaaa!</p>
-                        </div>
-                    </div>
-                </div>
+<!--                    <div class="dropdown">-->
+<!--                        <span>Mouse over me</span>-->
+<!--                        <div class="dropdown-content">-->
+<!--                            <p>Hello World aaaaaaaaa!</p>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
 
 
             </div>

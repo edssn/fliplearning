@@ -68,9 +68,10 @@ define(["local_fliplearning/vue",
                         let chart = new Object();
                         chart.chart = {
                             type: 'bar',
+                            backgroundColor: null,
                         };
                         chart.title = {
-                            text: null
+                            text: null,
                         };
                         chart.xAxis = {
                             categories: this.week_resources_categories
@@ -92,6 +93,7 @@ define(["local_fliplearning/vue",
                         let chart = new Object();
                         chart.chart = {
                             type: 'heatmap',
+                            backgroundColor: null,
                         };
                         chart.title = {
                             text: null,
@@ -135,9 +137,6 @@ define(["local_fliplearning/vue",
                             borderWidth: 2,
                             borderColor: '#FAFAFA',
                             data: this.indicators.sessions.data,
-                            dataLabels: {
-                                enabled: false,
-                            }
                         }];
                         return chart;
                     },
