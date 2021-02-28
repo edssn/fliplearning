@@ -21,7 +21,10 @@
                         @changepage="update_interactions" :title="strings.pagination_title"></pagination>
 
                 <v-row>
-                    <v-col sm="12">
+                    <v-col cols="12" md="4">
+                        <v-subheader v-text="strings.quiz_label"></v-subheader>
+                    </v-col>
+                    <v-col cols="12" md="8">
                         <v-select
                                 attach
                                 :items="quiz"
@@ -35,24 +38,47 @@
                     </v-col>
                 </v-row>
 
-                <i v-text="get_quiz_info_text1()"></i>
-                <br/>
-                <i v-text="get_quiz_info_text2()"></i>
+                <v-row>
+                    <v-col cols="12">
+                        <small v-text="get_quiz_info_text1()"></small>
+                        <br/>
+                        <small v-text="get_quiz_info_text2()"></small>
+                    </v-col>
+                </v-row>
 
                 <v-row>
                     <v-col cols="12" md="6">
-                        <chart
-                                :container="'questions_attempts'"
-                                :chart="build_chart_questions_attempts()"
-                                :lang="strings.chart"
-                        ></chart>
+                        <v-card elevation="2">
+                            <v-card-title class="justify-center" v-text="strings.questions_attempts_chart_title"></v-card-title>
+                            <v-card-text>
+                                <chart
+                                        :container="'questions_attempts'"
+                                        :chart="build_questions_attempts_chart()"
+                                        :lang="strings.chart"
+                                ></chart>
+                                <span class="caption" @click="info">
+                                <v-icon small v-text="'mdi-help-circle-outline'"></v-icon>
+                                <span v-text="strings.about"></span>
+                            </span>
+                            </v-card-text>
+                        </v-card>
                     </v-col>
+
                     <v-col cols="12" md="6">
-                        <chart
-                                :container="'hardest_questions'"
-                                :chart="build_chart_hardest_questions()"
-                                :lang="strings.chart"
-                        ></chart>
+                        <v-card elevation="2">
+                            <v-card-title class="justify-center" v-text="strings.hardest_questions_chart_title"></v-card-title>
+                            <v-card-text>
+                                <chart
+                                        :container="'hardest_questions'"
+                                        :chart="build_hardest_questions_chart()"
+                                        :lang="strings.chart"
+                                ></chart>
+                                <span class="caption" @click="info">
+                                <v-icon small v-text="'mdi-help-circle-outline'"></v-icon>
+                                <span v-text="strings.about"></span>
+                            </span>
+                            </v-card-text>
+                        </v-card>
                     </v-col>
                 </v-row>
 

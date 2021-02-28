@@ -88,14 +88,14 @@ define(["local_fliplearning/vue",
                         return text;
                     },
 
-                    build_chart_questions_attempts() {
+                    build_questions_attempts_chart() {
                         let chart = new Object();
                         chart.chart = {
                             type: 'column',
-                            backgroundColor: '#FAFAFA',
+                            backgroundColor: null,
                         };
                         chart.title = {
-                            text: this.strings.questions_attempts_chart_title
+                            text: null
                         };
                         chart.xAxis = {
                             categories: this.attempts_categories
@@ -148,23 +148,17 @@ define(["local_fliplearning/vue",
                             }
                         };
                         chart.series = this.attempts_series;
-                        chart.credits = {
-                            enabled: false
-                        };
-                        chart.lang = {
-                            noData: this.strings.no_data,
-                        };
                         return chart;
                     },
 
-                    build_chart_hardest_questions() {
+                    build_hardest_questions_chart() {
                         let chart = new Object();
                         chart.chart = {
                             type: 'column',
-                            backgroundColor: '#FAFAFA',
+                            backgroundColor: null,
                         };
                         chart.title = {
-                            text: this.strings.hardest_questions_chart_title,
+                            text: null,
                         };
                         chart.xAxis = {
                             categories: this.hardest_categories,
@@ -217,12 +211,6 @@ define(["local_fliplearning/vue",
                             }
                         };
                         chart.series = this.hardest_series;
-                        chart.credits = {
-                            enabled: false
-                        };
-                        chart.lang = {
-                            noData: this.strings.no_data,
-                        };
                         return chart;
                     },
 
@@ -356,6 +344,10 @@ define(["local_fliplearning/vue",
                             return 1;
                         }
                         return 0;
+                    },
+
+                    info() {
+                        console.log('Open modal');
                     },
 
                     get_timezone(){
