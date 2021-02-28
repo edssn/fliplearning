@@ -38,7 +38,10 @@
                 </div>
                 <div v-else>
                     <v-row>
-                        <v-col sm="12">
+                        <v-col cols="12" md="4">
+                            <v-subheader>Grupos de estudiantes Clasificados</v-subheader>
+                        </v-col>
+                        <v-col cols="12" md="8">
                             <v-select
                                     attach
                                     :items="dropout.clusters"
@@ -59,16 +62,21 @@
                                 <v-row class="d-flex justify-center">
                                     <v-col sm="12">
                                         <v-card class="remove-shadow make-border vuetify-datatable">
-                                            <v-card-title>
-                                                <span v-text="strings.table_title"></span>
-                                                <v-spacer></v-spacer>
-                                                <v-text-field
-                                                        v-model="search"
-                                                        append-icon="search"
-                                                        single-line
-                                                        hide-details
-                                                        class="txt_search"
-                                                ></v-text-field>
+                                            <v-card-title class="mb-3">
+                                                <v-row class="d-flex justify-space-around">
+                                                    <v-col cols="12" sm="7" lg="7" class="mt-2">
+                                                        <h4><b v-text="strings.table_title"></b></h4>
+                                                    </v-col>
+                                                    <v-col cols="12" sm="5" lg="5">
+                                                        <v-text-field
+                                                            v-model="search"
+                                                            append-icon="search"
+                                                            single-line
+                                                            hide-details
+                                                            class="txt_search"
+                                                        ></v-text-field>
+                                                    </v-col>
+                                                </v-row>
                                             </v-card-title>
                                             <v-data-table
                                                     :headers="table_headers()"
@@ -97,109 +105,81 @@
                                 <v-card class="mx-auto my-3">
                                     <v-spacer></v-spacer>
 
-                                    <v-card-text>
-                                        <v-row>
-                                            <v-col cols="12" sm="3">
+                                    <v-card-text class="px-0 pb-0">
+                                        <v-row class="d-flex justify-center text-center">
+                                            <v-col cols="12" md="4">
                                                 <img :src="get_picture_url(selected_user.id)" height="100" width="100" class="round-avatar"/>
                                             </v-col>
-                                            <v-col cols="12" sm="9">
-                                                <h1 v-text="get_user_fullname()"></h1>
+                                            <v-col cols="12" md="10">
+                                                <v-btn text v-on:click="see_profile()" v-text="get_user_fullname()"></v-btn>
                                             </v-col>
                                         </v-row>
                                     </v-card-text>
 
-                                    <v-divider ></v-divider>
+                                    <v-card-text class="py-0">
+                                        <v-row class="d-flex justify-space-around">
+                                            <v-col cols="12" sm="4" md="4" class="text-center">
+                                                <h5><b v-text="strings.inverted_time_title"></b></h5>
+                                                <p v-text="convert_time(selected_user.inverted_time)"></p>
+                                            </v-col>
+                                            <v-col cols="12" sm="4" md="4" class="text-center">
+                                                <h5><b v-text="strings.count_sessions_title"></b></h5>
+                                                <p v-text="selected_user.sessions_number"></p>
+                                            </v-col>
+                                            <v-col cols="12" sm="4" md="4" class="text-center">
+                                                <h5><b v-text="strings.student_grade_title"></b></h5>
+                                                <p v-text="get_student_grade()"></p>
+                                            </v-col>
+                                        </v-row>
+                                    </v-card-text>
 
-                                    <v-card-text>
+                                    <v-card-text class="py-0">
                                         <v-row>
-                                            <v-col>
-                                                <span v-text="get_username()"></span>
+                                            <v-col cols="12" lg="8">
+                                                <p v-text="get_username()"></p>
+                                                <p v-text="selected_user.email"></p>
+                                                <p v-text="selected_user.course_lastaccess.label"></p>
                                             </v-col>
-                                        </v-row>
-                                        <v-row>
-                                            <v-col>
-                                                <span v-text="selected_user.email"></span>
-                                            </v-col>
-                                        </v-row>
-                                        <v-row>
-                                            <v-col>
-                                                <span v-text="selected_user.course_lastaccess.label"></span>
+                                            <v-col cols="12" lg="4" class="text-center">
+                                                <v-progress-circular
+                                                    :rotate="-90"
+                                                    :size="90"
+                                                    :width="15"
+                                                    :value="selected_user.progress_percentage"
+                                                    color="primary"
+                                                    >
+                                                    <span v-text="get_progress_percentage()"></span>
+                                                </v-progress-circular>
+                                                <small class="mt-2 d-block" v-text="get_progress_message()"></small>
                                             </v-col>
                                         </v-row>
                                     </v-card-text>
 
                                     <v-card-actions>
-                                        <v-btn
-                                                color="primary lighten"
-                                                v-text="strings.see_profile"
-                                                v-on:click="see_profile()"
-                                                text
-                                        >
-                                        </v-btn>
-                                        <v-btn
+                                        <v-row class="d-flex text-center">
+                                            <v-col cols="12" sm="6" md="12" lg="6">
+                                                <v-btn
                                                 color="primary lighten"
                                                 v-text="get_sendmail_user_text()"
                                                 v-on:click="sendmail(1)"
                                                 text
-                                        >
-                                        </v-btn>
-                                        <v-btn
+                                            >
+                                            </v-btn>
+                                            </v-col>
+                                            <v-col cols="12" sm="6" md="12" lg="6">
+                                                <v-btn
                                                 color="primary lighten"
                                                 v-text="strings.send_mail_to_group"
                                                 v-on:click="sendmail(2)"
                                                 text
-                                        >
-                                        </v-btn>
+                                            >
+                                            </v-btn>
+                                            </v-col>
+                                        </v-row>
                                     </v-card-actions>
                                 </v-card>
 
 
-                            </v-col>
-                        </v-row>
-
-                        <v-row>
-                            <v-col cols="12" md="6">
-                                <v-card elevation="2">
-                                    <v-card-title class="justify-center" v-text="strings.student_progress_title"></v-card-title>
-                                    <v-card-text class=text-center>
-                                        <v-progress-circular
-                                                :rotate="-90"
-                                                :size="100"
-                                                :width="15"
-                                                :value="selected_user.progress_percentage"
-                                                color="primary"
-
-                                        >
-                                            <span v-text="get_progress_percentage()"></span>
-                                        </v-progress-circular>
-                                    </v-card-text>
-                                    <v-card-text class=text-center>
-                                        <span v-text="get_progress_message()"></span>
-                                    </v-card-text>
-                                    <br/>
-                                </v-card>
-                            </v-col>
-
-                            <v-col sm="12" md="2">
-                                <v-card elevation="2">
-                                    <v-card-title v-text="convert_time(selected_user.inverted_time)">
-                                    </v-card-title>
-                                    <v-card-text v-text="strings.inverted_time_title"></v-card-text>
-                                </v-card>
-                            </v-col>
-                            <v-col sm="12" md="2">
-                                <v-card elevation="2">
-                                    <v-card-title v-text="selected_user.sessions_number">
-                                    </v-card-title>
-                                    <v-card-text v-text="strings.count_sessions_title"></v-card-text>
-                                </v-card>
-                            </v-col>
-                            <v-col sm="12" md="2">
-                                <v-card elevation="2">
-                                    <v-card-title v-text="get_student_grade()">
-                                    </v-card-title>
-                                    <v-card-text v-text="strings.student_grade_title"></v-card-text>
-                                </v-card>
                             </v-col>
                         </v-row>
 
