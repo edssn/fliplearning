@@ -39,7 +39,7 @@
                 <div v-else>
                     <v-row>
                         <v-col cols="12" md="4">
-                            <v-subheader>Grupos de estudiantes Clasificados</v-subheader>
+                            <v-subheader v-text="strings.cluster_select"></v-subheader>
                         </v-col>
                         <v-col cols="12" md="8">
                             <v-select
@@ -83,7 +83,7 @@
                                                     :items="cluster_users"
                                                     item-key="id"
                                                     :search="search" dense multi-sort
-                                                    :items-per-page="10"
+                                                    :items-per-page="8"
                                                     class="elevation-3"
                                                     @click:row="change_user"
                                             >
@@ -178,46 +178,84 @@
                                         </v-row>
                                     </v-card-actions>
                                 </v-card>
-
-
                             </v-col>
                         </v-row>
 
                         <v-row>
                             <v-col cols="12" md="6">
-                                <chart
-                                        :container="'modules_access'"
-                                        :chart="build_modules_access_chart()"
-                                        :lang="strings.chart"
-                                ></chart>
+                                <v-card elevation="2">
+                                    <v-card-title class="justify-center" v-text="strings.modules_access_chart_title"></v-card-title>
+                                    <v-card-subtitle class="text-center" v-text="get_user_fullname()"></v-card-subtitle>
+                                    <v-card-text>
+                                        <chart
+                                                :container="'modules_access'"
+                                                :chart="build_modules_access_chart()"
+                                                :lang="strings.chart"
+                                        ></chart>
+                                        <span class="caption" @click="info">
+                                            <v-icon small v-text="'mdi-help-circle-outline'"></v-icon>
+                                            <span v-text="strings.about"></span>
+                                        </span>
+                                    </v-card-text>
+                                </v-card>
                             </v-col>
 
                             <v-col cols="12" md="6">
-                                <chart
-                                        :container="'week_modules'"
-                                        :chart="build_week_modules_chart()"
-                                        :lang="strings.chart"
-                                ></chart>
+                                <v-card elevation="2">
+                                    <v-card-title class="justify-center" v-text="strings.week_modules_chart_title"></v-card-title>
+                                    <v-card-subtitle class="text-center" v-text="get_user_fullname()"></v-card-subtitle>
+                                    <v-card-text>
+                                        <chart
+                                                :container="'week_modules'"
+                                                :chart="build_week_modules_chart()"
+                                                :lang="strings.chart"
+                                        ></chart>
+                                        <span class="caption" @click="info">
+                                            <v-icon small v-text="'mdi-help-circle-outline'"></v-icon>
+                                            <span v-text="strings.about"></span>
+                                        </span>
+                                    </v-card-text>
+                                </v-card>
                             </v-col>
                         </v-row>
 
                         <v-row>
-                            <v-col sm="12">
-                                <chart
-                                        :container="'sessions_evolution'"
-                                        :chart="build_sessions_evolution_chart()"
-                                        :lang="strings.chart"
-                                ></chart>
+                            <v-col cols="12">
+                                <v-card elevation="2">
+                                    <v-card-title class="justify-center" v-text="strings.sessions_evolution_chart_title"></v-card-title>
+                                    <v-card-subtitle class="text-center" v-text="get_user_fullname()"></v-card-subtitle>
+                                    <v-card-text>
+                                        <chart
+                                                :container="'sessions_evolution'"
+                                                :chart="build_sessions_evolution_chart()"
+                                                :lang="strings.chart"
+                                        ></chart>
+                                        <span class="caption" @click="info">
+                                            <v-icon small v-text="'mdi-help-circle-outline'"></v-icon>
+                                            <span v-text="strings.about"></span>
+                                        </span>
+                                    </v-card-text>
+                                </v-card>
                             </v-col>
                         </v-row>
 
                         <v-row>
-                            <v-col sm="12">
-                                <chart
-                                        :container="'user_grades'"
-                                        :chart="build_user_grades_chart()"
-                                        :lang="strings.chart"
-                                ></chart>
+                            <v-col cols="12">
+                                <v-card elevation="2">
+                                    <v-card-title class="justify-center" v-text="strings.user_grades_chart_title"></v-card-title>
+                                    <v-card-subtitle class="text-center" v-text="get_user_fullname()"></v-card-subtitle>
+                                    <v-card-text>
+                                        <chart
+                                                :container="'user_grades'"
+                                                :chart="build_user_grades_chart()"
+                                                :lang="strings.chart"
+                                        ></chart>
+                                        <span class="caption" @click="info">
+                                            <v-icon small v-text="'mdi-help-circle-outline'"></v-icon>
+                                            <span v-text="strings.about"></span>
+                                        </span>
+                                    </v-card-text>
+                                </v-card>
                             </v-col>
                         </v-row>
 
@@ -254,13 +292,8 @@
                     <div v-else>
                         <span v-text="strings.dropout_no_users_cluster"></span>
                     </div>
-
-
                 </div>
-
             </span>
-
-
         </v-container>
     </v-main>
 </v-app>

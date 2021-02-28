@@ -890,11 +890,11 @@ class teacher extends report {
         $rows = array_values($rows);
 
         $clusters = array();
-        $cluster_text = get_string("fml_cluster_text", "local_fliplearning");
+        $cluster_text = get_string("fml_cluster_label", "local_fliplearning");
         foreach ($rows as $row) {
             if (!isset($clusters[$row->cluster])) {
                 $cluster = new stdClass();
-                $cluster->name = $cluster_text." ".$row->cluster;
+                $cluster->name = $cluster_text." ".($row->cluster+1);
                 $cluster->number = $row->cluster;
                 $cluster->users = array();
                 array_push($cluster->users, $row->userid);

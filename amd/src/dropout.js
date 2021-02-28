@@ -196,14 +196,9 @@ define(["local_fliplearning/vue",
                         let chart = new Object();
                         chart.chart = {
                             type: 'bar',
-                            backgroundColor: '#FAFAFA',
+                            backgroundColor: null,
                         };
-                        chart.subtitle = {
-                            text: `${this.selected_user.firstname} ${this.selected_user.lastname}`,
-                        };
-                        chart.title = {
-                            text: this.strings.modules_access_chart_title,
-                        };
+                        chart.title = { text: null};
                         chart.xAxis = {
                             type: 'category',
                         };
@@ -252,14 +247,9 @@ define(["local_fliplearning/vue",
                         let chart = new Object();
                         chart.chart = {
                             type: 'column',
-                            backgroundColor: '#FAFAFA',
+                            backgroundColor: null,
                         };
-                        chart.subtitle = {
-                            text: `${this.selected_user.firstname} ${this.selected_user.lastname}`,
-                        };
-                        chart.title = {
-                            text: this.strings.week_modules_chart_title,
-                        };
+                        chart.title = {text: null};
                         chart.xAxis = {
                             categories: this.week_modules_chart_categories,
                             title: {
@@ -313,14 +303,9 @@ define(["local_fliplearning/vue",
                         let chart = new Object();
                         chart.chart = {
                             zoomType: 'x',
-                            backgroundColor: '#FAFAFA',
+                            backgroundColor: null,
                         };
-                        chart.subtitle = {
-                            text: `${this.selected_user.firstname} ${this.selected_user.lastname}`,
-                        };
-                        chart.title = {
-                            text: this.strings.sessions_evolution_chart_title,
-                        };
+                        chart.title = {text: null};
                         chart.xAxis = {
                             type: 'datetime'
                         };
@@ -349,14 +334,9 @@ define(["local_fliplearning/vue",
                         let chart = new Object();
                         chart.chart = {
                             type: 'column',
-                            backgroundColor: '#FAFAFA',
+                            backgroundColor: null,
                         };
-                        chart.title = {
-                            text: this.strings.user_grades_chart_title,
-                        };
-                        chart.subtitle = {
-                            text: `${this.selected_user.firstname} ${this.selected_user.lastname}`,
-                        };
+                        chart.title = {text: null};
                         chart.xAxis = {
                             crosshair: true,
                             categories: this.user_grades_categories,
@@ -650,6 +630,10 @@ define(["local_fliplearning/vue",
                             this.loading = false;
                         });
                         return this.data;
+                    },
+
+                    info() {
+                        console.log('Open modal');
                     },
 
                     get_timezone(){

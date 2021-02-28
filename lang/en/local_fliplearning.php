@@ -422,8 +422,8 @@ $string["fml_review_question"] = "(Clic para revisar la pregunta)";
 
 
 /* Deserción */
-$string["fml_cluster_text"] = "Clúster";
 $string["fml_cluster_label"] = "Grupo";
+$string["fml_cluster_select"] = "Grupo de Estudiantes";
 $string["fml_dropout_table_title"] = "Estudiantes del Grupo";
 $string["fml_dropout_see_profile"] = "Ver Perfil";
 $string["fml_dropout_user_never_access"] = "Nunca Accedido";
