@@ -46,16 +46,9 @@ define(["local_fliplearning/vue",
                         return '';
                     },
 
-                    get_students_message(){
-                        return (this.indicators.total_students == 1) ? this.strings.teacher_indicators_student : this.strings.teacher_indicators_students;
-                    },
-
-                    get_resources_message(){
-                        return (this.indicators.total_cms == 1) ? this.strings.teacher_indicators_module : this.strings.teacher_indicators_modules;
-                    },
-
-                    get_weeks_message(){
-                        return (this.indicators.total_weeks == 1) ? this.strings.teacher_indicators_week : this.strings.teacher_indicators_weeks;
+                    get_course_grade(){
+                        let grade = Number(this.indicators.course.grademax);
+                        return (this.isInt(grade)) ? grade : grade.toFixed(2);
                     },
 
                     calculate_week_resources() {
@@ -190,6 +183,10 @@ define(["local_fliplearning/vue",
 
                     capitalizeFirstLetter(string) {
                         return string.charAt(0).toUpperCase() + string.slice(1);
+                    },
+
+                    isInt(n) {
+                        return n % 1 === 0;
                     },
 
                     info() {

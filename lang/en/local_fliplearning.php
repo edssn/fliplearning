@@ -38,6 +38,9 @@ $string['no_data'] = 'No hay datos que mostrar';
 $string['only_student'] = 'Este reporte es solo para estudiantes';
 $string["fml_send_mail"] = "(Clic para enviar correo)";
 $string["fml_about"] = "Acerca de este Gráfico";
+$string["fml_not_configured"] = "No Configurado";
+$string["fml_activated"] = "Activado";
+$string["fml_disabled"] = "Desactivado";
 
 /* Menú */
 $string['menu_main_title'] = "Dashboard Progreso";
@@ -453,8 +456,8 @@ $string["fml_user_grades_chart_xaxis"] = "Actividades Evaluables";
 $string["fml_user_grades_chart_legend"] = "Curso (Media)";
 $string["fml_user_grades_chart_tooltip_no_graded"] = "Sin Calificaciones";
 $string["fml_user_grades_chart_view_activity"] = "Clic para ver la actividad";
-$string['fml_send_mail_to_user'] = 'Enviar Correo a';
-$string['fml_send_mail_to_group'] = 'Enviar Correo al Grupo';
+$string['fml_send_mail_to_user'] = 'Correo a';
+$string['fml_send_mail_to_group'] = 'Correo al Grupo';
 
 
 /* User Sessions*/
@@ -475,10 +478,13 @@ $string['fml_week_progress_title'] = 'Progreso de la Semana';
 
 /*Teacher Indicators*/
 $string['fml_teacher_indicators_title'] = 'Indicadores Generales';
-$string['fml_teacher_indicators_student'] = 'estudiante';
-$string['fml_teacher_indicators_students'] = 'estudiantes';
-$string['fml_teacher_indicators_week'] = 'semana';
-$string['fml_teacher_indicators_weeks'] = 'semanas';
+$string['fml_teacher_indicators_students'] = 'Estudiantes';
+$string['fml_teacher_indicators_weeks'] = 'Semanas';
+$string['fml_teacher_indicators_grademax'] = 'Calificación';
+$string['fml_teacher_indicators_course_start'] = 'Inicio';
+$string['fml_teacher_indicators_course_end'] = 'Fin';
+$string['fml_teacher_indicators_course_format'] = 'Formato';
+$string['fml_teacher_indicators_course_completion'] = 'Completitud de Módulos';
 $string["fml_teacher_indicators_student_progress"] = "Progreso del los Estudiantes";
 $string["fml_teacher_indicators_week_resources_chart_title"] = "Recursos por Semanas";
 $string["fml_teacher_indicators_week_resources_yaxis_title"] = "Cantidad de Recursos";

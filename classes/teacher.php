@@ -84,6 +84,7 @@ class teacher extends report {
         $response->sessions = $sessions;
         $response->table = $table;
         $response->weeks = $weeks_cms;
+        $response->course = $this->get_course_details();
         $response->total_cms = count($cms);
         $response->total_weeks = count($weeks_cms);
         $response->total_students = count($students);
@@ -115,6 +116,62 @@ class teacher extends report {
             array_push($weeks, $element);
         }
         return $weeks;
+    }
+
+    private function get_course_details() {
+        $course = new stdClass();
+        $course->fullname = $this->course->fullname;
+        $course->shortname = $this->course->shortname;
+
+        $startdate = get_string("fml_not_configured", "local_fliplearning");
+        if (!empty($this->course->startdate)) {
+            $startdate = $this->format_date($this->course->startdate);
+        }
+        $enddate = get_string("fml_not_configured", "local_fliplearning");
+        if (!empty($this->course->enddate)) {
+            $enddate = $this->format_date($this->course->enddate);
+        }
+        $completion = get_string("fml_disabled", "local_fliplearning");
+        if ($this->course->enablecompletion == "1") {
+            $completion = get_string("fml_activated", "local_fliplearning");
+        }
+        $format = $this->course->format;
+        $identifier = "course_format_$format";
+        if (get_string_manager()->string_exists($identifier, "local_fliplearning")) {
+            $format = get_string($identifier, "local_fliplearning");
+        }
+
+        $course->startdate = $startdate;
+        $course->enddate = $enddate;
+        $course->completion = $completion;
+        $course->format = $format;
+        $course->grademax = $this->get_course_grade();
+        return $course;
+    }
+
+    private function format_date($date) {
+        $date = (int) $date;
+        $year = date("Y", $date);
+        $month = strtolower(date("M", $date));
+        $month = get_string("fml_$month", "local_fliplearning");
+        $day = strtolower(date("D", $date));
+        $day = get_string("fml_$day", "local_fliplearning");
+        $day_number = date("j", $date);
+        $hour = date("G", $date);
+        $min = date("i", $date);
+        $date = "$day, $month $day_number $year, $hour:$min";
+        return $date;
+    }
+
+    protected function get_course_grade() {
+        global $DB;
+        $item = $DB->get_record('grade_items',
+            array('courseid' => $this->course->id, 'itemtype' => 'course'), 'id, grademax');
+        $grade = 0;
+        if ($item) {
+            $grade = $item->grademax;
+        }
+        return $grade;
     }
 
     /**
@@ -156,54 +213,54 @@ class teacher extends report {
         return $response;
     }
 
-    public function weeks_sessions(){
-        if(!self::course_in_transit()){
-            return null;
-        }
-        if(!self::course_has_users()){
-            return null;
-        }
-        $start = null;
-        if(isset($this->course->startdate) && ((int)$this->course->startdate) > 0) {
-            $start = $this->course->startdate;
-        }
-        $end = null;
-        if(isset($this->course->enddate) && ((int)$this->course->enddate) > 0) {
-            $end = $this->course->enddate;
-        }
-        $work_sessions = self::get_work_sessions($start, $end);
-        $work_sessions = array_map(function($user_sessions){ return $user_sessions->sessions;}, $work_sessions);
-        $months = self::get_sessions_by_weeks($work_sessions);
-        $response = self::get_sessions_by_weeks_summary($months, (int) $this->course->startdate);
-        return $response;
-    }
-
-    public function progress_table(){
-        if(!self::course_in_transit()){
-            return null;
-        }
-        if(!self::course_has_users()){
-            return null;
-        }
-        $start = null;
-        if(isset($this->course->startdate) && ((int)$this->course->startdate) > 0) {
-            $start = $this->course->startdate;
-        }
-        $end = null;
-        if(isset($this->course->enddate) && ((int)$this->course->enddate) > 0) {
-            $end = $this->course->enddate;
-        }
-
-        $enable_completion = false;
-        if(isset($this->course->enablecompletion) && ((int)$this->course->enablecompletion) == 1) {
-            $enable_completion = true;
-        }
-
-        $users_sessions = self::get_work_sessions($start, $end);
-        $cms = self::get_course_modules();
-        $table = self::get_progress_table($users_sessions, $cms, $enable_completion);
-        return $table;
-    }
+//    public function weeks_sessions(){
+//        if(!self::course_in_transit()){
+//            return null;
+//        }
+//        if(!self::course_has_users()){
+//            return null;
+//        }
+//        $start = null;
+//        if(isset($this->course->startdate) && ((int)$this->course->startdate) > 0) {
+//            $start = $this->course->startdate;
+//        }
+//        $end = null;
+//        if(isset($this->course->enddate) && ((int)$this->course->enddate) > 0) {
+//            $end = $this->course->enddate;
+//        }
+//        $work_sessions = self::get_work_sessions($start, $end);
+//        $work_sessions = array_map(function($user_sessions){ return $user_sessions->sessions;}, $work_sessions);
+//        $months = self::get_sessions_by_weeks($work_sessions);
+//        $response = self::get_sessions_by_weeks_summary($months, (int) $this->course->startdate);
+//        return $response;
+//    }
+//
+//    public function progress_table(){
+//        if(!self::course_in_transit()){
+//            return null;
+//        }
+//        if(!self::course_has_users()){
+//            return null;
+//        }
+//        $start = null;
+//        if(isset($this->course->startdate) && ((int)$this->course->startdate) > 0) {
+//            $start = $this->course->startdate;
+//        }
+//        $end = null;
+//        if(isset($this->course->enddate) && ((int)$this->course->enddate) > 0) {
+//            $end = $this->course->enddate;
+//        }
+//
+//        $enable_completion = false;
+//        if(isset($this->course->enablecompletion) && ((int)$this->course->enablecompletion) == 1) {
+//            $enable_completion = true;
+//        }
+//
+//        $users_sessions = self::get_work_sessions($start, $end);
+//        $cms = self::get_course_modules();
+//        $table = self::get_progress_table($users_sessions, $cms, $enable_completion);
+//        return $table;
+//    }
 
     public function count_sessions($weekcode = null){
         if(!self::course_in_transit()){
@@ -320,7 +377,7 @@ class teacher extends report {
         return $summary;
     }
 
-    private function get_month_name ($month_code) {
+    private function get_month_name($month_code) {
         $text = "fml_".$month_code."_short";
         $month_name = get_string($text, "local_fliplearning");
         return $month_name;

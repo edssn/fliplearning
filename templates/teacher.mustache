@@ -10,32 +10,76 @@
                     :helpcontents="get_help_content()" :groups="groups" :courseid="courseid" :userid="userid"></pageheader>
         <v-container pa-8>
 
-            <v-row class="justify-center">
-                <v-col cols="12" md="3">
-                    <v-card elevation="2">
-                        <v-card-title v-text="indicators.total_students">
-                        </v-card-title>
-                        <v-card-text v-text="get_students_message()"></v-card-text>
+            <v-row>
+                <v-col cols="12" md="6">
+                    <v-card elevation="2" class="mx-auto my-3">
+                        <v-card-title class="justify-center" v-text="indicators.course.shortname"></v-card-title>
+                        <v-card-text>
+
+                            <v-list
+                                    three-line
+                            >
+                                <v-list-item>
+                                    <v-list-item-content>
+                                        <v-list-item-title v-text="strings.teacher_indicators_course_start"></v-list-item-title>
+                                        <v-list-item-subtitle v-text="indicators.course.startdate"></v-list-item-subtitle>
+                                    </v-list-item-content>
+                                </v-list-item>
+                                <v-list-item>
+                                    <v-list-item-content>
+                                        <v-list-item-title v-text="strings.teacher_indicators_course_end"></v-list-item-title>
+                                        <v-list-item-subtitle v-text="indicators.course.enddate"></v-list-item-subtitle>
+                                    </v-list-item-content>
+                                </v-list-item>
+                                <v-list-item>
+                                    <v-list-item-content>
+                                        <v-list-item-title v-text="strings.teacher_indicators_course_format"></v-list-item-title>
+                                        <v-list-item-subtitle v-text="indicators.course.format"></v-list-item-subtitle>
+                                    </v-list-item-content>
+                                </v-list-item>
+                                <v-list-item>
+                                    <v-list-item-content>
+                                        <v-list-item-title v-text="strings.teacher_indicators_course_completion"></v-list-item-title>
+                                        <v-list-item-subtitle v-text="indicators.course.completion"></v-list-item-subtitle>
+                                    </v-list-item-content>
+                                </v-list-item>
+                            </v-list>
+                        </v-card-text>
                     </v-card>
                 </v-col>
-                <v-col cols="12" md="3">
-                    <v-card elevation="2">
-                        <v-card-title v-text="indicators.total_cms">
-                        </v-card-title>
-                        <v-card-text v-text="get_resources_message()"></v-card-text>
-                    </v-card>
-                </v-col>
-                <v-col cols="12" md="3">
-                    <v-card elevation="2">
-                        <v-card-title v-text="indicators.total_weeks">
-                        </v-card-title>
-                        <v-card-text v-text="get_weeks_message()"></v-card-text>
-                    </v-card>
+                <v-col cols="12" md="6">
+                    <v-col cols="12">
+                        <v-card elevation="2">
+                            <v-card-title v-text="indicators.total_students">
+                            </v-card-title>
+                            <v-card-text v-text="strings.teacher_indicators_students"></v-card-text>
+                        </v-card>
+                    </v-col>
+                    <v-col cols="12">
+                        <v-card elevation="2">
+                            <v-card-title v-text="indicators.total_cms">
+                            </v-card-title>
+                            <v-card-text v-text="strings.teacher_indicators_modules"></v-card-text>
+                        </v-card>
+                    </v-col>
+                    <v-col cols="12">
+                        <v-card elevation="2">
+                            <v-card-title v-text="indicators.total_weeks">
+                            </v-card-title>
+                            <v-card-text v-text="strings.teacher_indicators_weeks"></v-card-text>
+                        </v-card>
+                    </v-col>
+                    <v-col cols="12">
+                        <v-card elevation="2">
+                            <v-card-title v-text="get_course_grade()">
+                            </v-card-title>
+                            <v-card-text v-text="strings.teacher_indicators_grademax"></v-card-text>
+                        </v-card>
+                    </v-col>
                 </v-col>
             </v-row>
 
             <v-row>
-
                 <v-col cols="12" md="6">
                     <v-card elevation="2">
                         <v-card-title class="justify-center" v-text="strings.teacher_indicators_week_resources_chart_title"></v-card-title>
@@ -73,9 +117,9 @@
                 </v-col>
             </v-row>
 
-            <v-row class="justify-center">
+            <v-row>
                 <v-col sm="12">
-                    <v-card class="remove-shadow make-border vuetify-datatable">
+                    <v-card class="make-border vuetify-datatable" elevation="2">
                         <v-card-title>
                             <span v-text="strings.teacher_indicators_student_progress"></span>
                             <v-spacer></v-spacer>
@@ -84,63 +128,63 @@
                                     append-icon="search"
                                     single-line
                                     hide-details
-                                    class="txt_search"
                             ></v-text-field>
                         </v-card-title>
-                        <v-data-table
-                                :headers="table_headers()"
-                                :items="indicators.table"
-                                item-key="id"
-                                :search="search" dense multi-sort
-                                :items-per-page="10"
-                                class="elevation-3"
-                        >
-                            <template v-slot:item.id="{ item }">
-                                <img :src="get_picture_url(item.id)" width="35px" heigth="35px" class="round-avatar"/>
-                            </template>
-                            <template v-slot:item.inverted_time="{ item }">
-                                <span v-text="item.inverted_time_label"></span>
-                            </template>
-                            <template v-slot:item.progress_percentage="{ item }">
-<!--                                <v-tooltip bottom>-->
-<!--                                    <template v-slot:activator="{ on, attrs }">-->
-<!--                                            <span-->
-<!--                                                    v-bind="attrs"-->
-<!--                                                    v-on="on"-->
-<!--                                            >-->
-<!--                                                <v-progress-circular-->
-<!--                                                        :rotate="-90"-->
-<!--                                                        :size="45"-->
-<!--                                                        :width="5"-->
-<!--                                                        :value="item.progress_percentage"-->
-<!--                                                        color="primary"-->
-<!--                                                >-->
-<!--                                                    <span v-text="get_percentage_progress(item.progress_percentage)"></span>-->
-<!--                                                </v-progress-circular>-->
-<!--                                          </span>-->
-<!--                                    </template>-->
-<!--                                    <span v-text="get_progress_tooltip(item)"></span>-->
-<!--                                </v-tooltip>-->
+                        <v-card-text>
+                            <v-data-table
+                                    :headers="table_headers()"
+                                    :items="indicators.table"
+                                    item-key="id"
+                                    :search="search" dense multi-sort
+                                    :items-per-page="10"
+                            >
+                                <template v-slot:item.id="{ item }">
+                                    <img :src="get_picture_url(item.id)" width="35px" heigth="35px" class="round-avatar"/>
+                                </template>
+                                <template v-slot:item.inverted_time="{ item }">
+                                    <span v-text="item.inverted_time_label"></span>
+                                </template>
+                                <template v-slot:item.progress_percentage="{ item }">
+                                    <!--                                <v-tooltip bottom>-->
+                                    <!--                                    <template v-slot:activator="{ on, attrs }">-->
+                                    <!--                                            <span-->
+                                    <!--                                                    v-bind="attrs"-->
+                                    <!--                                                    v-on="on"-->
+                                    <!--                                            >-->
+                                    <!--                                                <v-progress-circular-->
+                                    <!--                                                        :rotate="-90"-->
+                                    <!--                                                        :size="45"-->
+                                    <!--                                                        :width="5"-->
+                                    <!--                                                        :value="item.progress_percentage"-->
+                                    <!--                                                        color="primary"-->
+                                    <!--                                                >-->
+                                    <!--                                                    <span v-text="get_percentage_progress(item.progress_percentage)"></span>-->
+                                    <!--                                                </v-progress-circular>-->
+                                    <!--                                          </span>-->
+                                    <!--                                    </template>-->
+                                    <!--                                    <span v-text="get_progress_tooltip(item)"></span>-->
+                                    <!--                                </v-tooltip>-->
 
-                                <span class="tooltips">
+                                    <span class="tooltips">
                                     <v-progress-circular
-                                        :rotate="-90"
-                                        :size="45"
-                                        :width="5"
-                                        :value="item.progress_percentage"
-                                        color="primary"
+                                            :rotate="-90"
+                                            :size="45"
+                                            :width="5"
+                                            :value="item.progress_percentage"
+                                            color="primary"
                                     >
                                         <span v-text="get_percentage_progress(item.progress_percentage)"></span>
                                     </v-progress-circular>
                                     <span class="tooltiptext" v-text="get_progress_tooltip(item)"></span>
                                 </span>
-                            </template>
+                                </template>
 
-                        </v-data-table>
+                            </v-data-table>
+                        </v-card-text>
+
                     </v-card>
                 </v-col>
             </v-row>
-
 
             <v-row class="justify-center">
                 <span class="overline" v-text="get_timezone()"></span>
