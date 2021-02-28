@@ -60,6 +60,7 @@ $content = [
         "api_error_network" => get_string("api_error_network", "local_fliplearning"),
         "helplabel" => get_string("helplabel", "local_fliplearning"),
         "exitbutton" => get_string("exitbutton", "local_fliplearning"),
+        "about" => get_string("fml_about", "local_fliplearning"),
         "weeks" => array(
             get_string("fml_week1", "local_fliplearning"),
             get_string("fml_week2", "local_fliplearning"),

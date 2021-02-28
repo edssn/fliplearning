@@ -80,14 +80,9 @@ define(["local_fliplearning/vue",
                         let chart = new Object();
                         chart.chart = {
                             type: 'bar',
-                            backgroundColor: '#FAFAFA',
+                            backgroundColor: null,
                         };
-                        chart.subtitle = {
-                            text: `${this.user.firstname} ${this.user.lastname}`,
-                        };
-                        chart.title = {
-                            text: this.strings.modules_access_chart_title,
-                        };
+                        chart.title = {text: null};
                         chart.xAxis = {
                             type: 'category',
                         };
@@ -132,17 +127,12 @@ define(["local_fliplearning/vue",
                         return chart;
                     },
 
-                    build_session_by_weeks_chart() {
+                    build_weeks_session_chart() {
                         let chart = new Object();
-                        chart.title = {
-                            text: this.strings.weeks_sessions_title,
-                        };
+                        chart.title = {text: null};
                         chart.chart = {
                             type: 'heatmap',
-                            marginTop: 40,
-                            marginBottom: 80,
-                            plotBorderWidth: 0,
-                            backgroundColor: '#FAFAFA',
+                            backgroundColor: null,
                         };
                         chart.xAxis = {
                             categories: this.strings.weeks,
@@ -164,7 +154,6 @@ define(["local_fliplearning/vue",
                         };
                         chart.legend = {
                             layout: 'horizontal',
-                            margin: 30,
                             verticalAlign: 'bottom',
                         };
                         chart.tooltip = {
@@ -184,9 +173,6 @@ define(["local_fliplearning/vue",
                             borderWidth: 2,
                             borderColor: '#FAFAFA',
                             data: this.weeks_sessions.data,
-                            dataLabels: {
-                                enabled: false,
-                            }
                         }];
                         return chart;
                     },
@@ -195,14 +181,9 @@ define(["local_fliplearning/vue",
                         let chart = new Object();
                         chart.chart = {
                             zoomType: 'x',
-                            backgroundColor: '#FAFAFA',
+                            backgroundColor: null,
                         };
-                        chart.subtitle = {
-                            text: `${this.user.firstname} ${this.user.lastname}`,
-                        };
-                        chart.title = {
-                            text: this.strings.sessions_evolution_chart_title,
-                        };
+                        chart.title = {text: null};
                         chart.xAxis = {
                             type: 'datetime'
                         };
@@ -231,14 +212,9 @@ define(["local_fliplearning/vue",
                         let chart = new Object();
                         chart.chart = {
                             type: 'column',
-                            backgroundColor: '#FAFAFA',
+                            backgroundColor: null,
                         };
-                        chart.title = {
-                            text: this.strings.user_grades_chart_title,
-                        };
-                        chart.subtitle = {
-                            text: `${this.user.firstname} ${this.user.lastname}`,
-                        };
+                        chart.title = {text: null};
                         chart.xAxis = {
                             crosshair: true,
                             categories: this.user_grades_categories,
@@ -475,6 +451,10 @@ define(["local_fliplearning/vue",
 
                     isInt(n) {
                         return n % 1 === 0;
+                    },
+
+                    info() {
+                        console.log('Open modal');
                     },
 
                     get_timezone(){
