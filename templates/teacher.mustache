@@ -9,75 +9,78 @@
         <pageheader :pagetitle="strings.title" :helptitle="strings.helplabel" :exitbutton="strings.exitbutton"
                     :helpcontents="get_help_content()" :groups="groups" :courseid="courseid" :userid="userid"></pageheader>
         <v-container pa-8>
+            
+            <v-card elevation="2">
+                <v-row>
+                    <v-col cols="12" md="12">
+                        <v-card-title class="py-0" v-text="indicators.course.shortname"></v-card-title>
+                    </v-col>
+                    <v-col cols="12" md="6" lg="3">
+                        <v-list-item>
+                            <v-list-item-content>
+                                <v-list-item-title v-text="strings.teacher_indicators_course_start"></v-list-item-title>
+                                <v-list-item-subtitle v-text="indicators.course.startdate"></v-list-item-subtitle>
+                            </v-list-item-content>
+                        </v-list-item>
+                    </v-col>
+                    <v-col cols="12" md="6" lg="3">
+                        <v-list-item>
+                            <v-list-item-content>
+                                <v-list-item-title v-text="strings.teacher_indicators_course_end"></v-list-item-title>
+                                <v-list-item-subtitle v-text="indicators.course.enddate"></v-list-item-subtitle>
+                            </v-list-item-content>
+                        </v-list-item>
+                    </v-col>
+                    <v-col cols="12" md="6" lg="3">
+                        <v-list-item>
+                            <v-list-item-content>
+                                <v-list-item-title v-text="strings.teacher_indicators_course_format"></v-list-item-title>
+                                <v-list-item-subtitle v-text="indicators.course.format"></v-list-item-subtitle>
+                            </v-list-item-content>
+                        </v-list-item>
+                    </v-col>
+                    <v-col cols="12" md="6" lg="3">
+                        <v-list-item>
+                            <v-list-item-content>
+                                <v-list-item-title v-text="strings.teacher_indicators_course_completion"></v-list-item-title>
+                                <v-list-item-subtitle v-text="indicators.course.completion"></v-list-item-subtitle>
+                            </v-list-item-content>
+                        </v-list-item>
+                    </v-col>
+                </v-row>
+            </v-card>
 
             <v-row>
-                <v-col cols="12" md="6">
-                    <v-card elevation="2" class="mx-auto my-3">
-                        <v-card-title class="justify-center" v-text="indicators.course.shortname"></v-card-title>
-                        <v-card-text>
-
-                            <v-list
-                                    three-line
-                            >
-                                <v-list-item>
-                                    <v-list-item-content>
-                                        <v-list-item-title v-text="strings.teacher_indicators_course_start"></v-list-item-title>
-                                        <v-list-item-subtitle v-text="indicators.course.startdate"></v-list-item-subtitle>
-                                    </v-list-item-content>
-                                </v-list-item>
-                                <v-list-item>
-                                    <v-list-item-content>
-                                        <v-list-item-title v-text="strings.teacher_indicators_course_end"></v-list-item-title>
-                                        <v-list-item-subtitle v-text="indicators.course.enddate"></v-list-item-subtitle>
-                                    </v-list-item-content>
-                                </v-list-item>
-                                <v-list-item>
-                                    <v-list-item-content>
-                                        <v-list-item-title v-text="strings.teacher_indicators_course_format"></v-list-item-title>
-                                        <v-list-item-subtitle v-text="indicators.course.format"></v-list-item-subtitle>
-                                    </v-list-item-content>
-                                </v-list-item>
-                                <v-list-item>
-                                    <v-list-item-content>
-                                        <v-list-item-title v-text="strings.teacher_indicators_course_completion"></v-list-item-title>
-                                        <v-list-item-subtitle v-text="indicators.course.completion"></v-list-item-subtitle>
-                                    </v-list-item-content>
-                                </v-list-item>
-                            </v-list>
-                        </v-card-text>
+                <v-col cols="12" xs="12" sm="6" lg="3">
+                    <v-card elevation="2">
+                        <v-card-title v-text="indicators.total_students">
+                        </v-card-title>
+                        <v-card-text v-text="strings.teacher_indicators_students"></v-card-text>
                     </v-card>
                 </v-col>
-                <v-col cols="12" md="6">
-                    <v-col cols="12">
-                        <v-card elevation="2">
-                            <v-card-title v-text="indicators.total_students">
-                            </v-card-title>
-                            <v-card-text v-text="strings.teacher_indicators_students"></v-card-text>
-                        </v-card>
-                    </v-col>
-                    <v-col cols="12">
-                        <v-card elevation="2">
-                            <v-card-title v-text="indicators.total_cms">
-                            </v-card-title>
-                            <v-card-text v-text="strings.teacher_indicators_modules"></v-card-text>
-                        </v-card>
-                    </v-col>
-                    <v-col cols="12">
-                        <v-card elevation="2">
-                            <v-card-title v-text="indicators.total_weeks">
-                            </v-card-title>
-                            <v-card-text v-text="strings.teacher_indicators_weeks"></v-card-text>
-                        </v-card>
-                    </v-col>
-                    <v-col cols="12">
-                        <v-card elevation="2">
-                            <v-card-title v-text="get_course_grade()">
-                            </v-card-title>
-                            <v-card-text v-text="strings.teacher_indicators_grademax"></v-card-text>
-                        </v-card>
-                    </v-col>
+                <v-col cols="12" xs="12" sm="6" lg="3">
+                    <v-card elevation="2">
+                        <v-card-title v-text="indicators.total_cms">
+                        </v-card-title>
+                        <v-card-text v-text="strings.teacher_indicators_modules"></v-card-text>
+                    </v-card>
+                </v-col>
+                <v-col cols="12" xs="12" sm="6" lg="3">
+                    <v-card elevation="2">
+                        <v-card-title v-text="indicators.total_weeks">
+                        </v-card-title>
+                        <v-card-text v-text="strings.teacher_indicators_weeks"></v-card-text>
+                    </v-card>
+                </v-col>
+                <v-col cols="12" xs="12" sm="6" lg="3">
+                    <v-card elevation="2">
+                        <v-card-title v-text="get_course_grade()">
+                        </v-card-title>
+                        <v-card-text v-text="strings.teacher_indicators_grademax"></v-card-text>
+                    </v-card>
                 </v-col>
             </v-row>
+            
 
             <v-row>
                 <v-col cols="12" md="6">
