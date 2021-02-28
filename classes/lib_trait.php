@@ -547,16 +547,15 @@ trait lib_trait {
         date_default_timezone_set($tz);
         $day_number = date('d', $date);
         $day_code = strtolower(date('D',$date));
-        $day_name = get_string("fml_{$day_code}_dim", 'local_fliplearning');
+        $day_name = get_string("fml_{$day_code}_short", 'local_fliplearning');
         $month_code = strtolower(date('M',$date));
-        $month_name = get_string("fml_{$month_code}_dim", 'local_fliplearning');
+        $month_name = get_string("fml_{$month_code}_short", 'local_fliplearning');
         $year = date('Y', $date);
         $hour = date('g', $date);
         $min = date('i', $date);
         $format = date('A', $date);
-        $label = "$day_name, $day_number $month_name $year, $hour:$min $format";
+        $label = "$day_name, $month_name $day_number $year, $hour:$min $format";
         return $label;
-
     }
 
     /**

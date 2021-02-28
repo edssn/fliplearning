@@ -21,43 +21,58 @@
                         @changepage="update_interactions" :title="strings.pagination_title"></pagination>
 
                 <v-row>
-                    <v-col sm="12">
-                        <chart
-                                :container="'assignsubs'"
-                                :chart="build_chart_submissions()"
-                                :lang="strings.chart"
-                        ></chart>
+                    <v-col cols="12">
+                        <v-card elevation="2">
+                            <v-card-title class="justify-center" v-text="strings.assignsubs_chart_title"></v-card-title>
+                            <v-card-text>
+                                <chart
+                                        :container="'assigns_subsmissions'"
+                                        :chart="build_assigns_submissions_chart()"
+                                        :lang="strings.chart"
+                                ></chart>
+                                <span class="caption" @click="info">
+                                <v-icon small v-text="'mdi-help-circle-outline'"></v-icon>
+                                <span v-text="strings.about"></span>
+                            </span>
+                            </v-card-text>
+                        </v-card>
                     </v-col>
                 </v-row>
 
-                <v-row class="justify-center">
-                    <template v-for="(item, index, key) in access.types">
-                        <v-checkbox
-                                v-model="item.show"
-                                :label="item.name"
-                                class="mr-2 checkbox-filter"
-                                @change="generate_access_content_data"
-                        ></v-checkbox>
-                    </template>
-                </v-row>
-
                 <v-row>
-                    <v-col sm="12">
-                        <chart
-                                :container="'access_content'"
-                                :chart="build_chart_access_content()"
-                                :lang="strings.chart"
-                        ></chart>
+                    <v-col cols="12">
+                        <v-card elevation="2">
+                            <v-card-title class="justify-center" v-text="strings.access_chart_title"></v-card-title>
+                            <h3 class="text-center">
+                                <v-row class="justify-center">
+                                <span v-for="(item, index, key) in access.types">
+                                    <v-checkbox
+                                            v-model="item.show"
+                                            :label="item.name"
+                                            class="mr-2 checkbox-filter"
+                                            @change="generate_access_content_data"
+                                    ></v-checkbox>
+                                </span>
+                                </v-row>
+                            </h3>
+                            <v-card-text>
+                                <chart
+                                        :container="'access_content'"
+                                        :chart="build_access_content_chart()"
+                                        :lang="strings.chart"
+                                ></chart>
+                                <span class="caption" @click="info">
+                                <v-icon small v-text="'mdi-help-circle-outline'"></v-icon>
+                                <span v-text="strings.about"></span>
+                            </span>
+                            </v-card-text>
+                        </v-card>
                     </v-col>
                 </v-row>
 
                 <v-row class="justify-center">
                     <span class="overline" v-text="get_timezone()"></span>
                 </v-row>
-
-
-
-
 
                 <v-row justify="center">
                     <v-col sm="12">

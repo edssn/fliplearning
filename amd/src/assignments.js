@@ -88,14 +88,14 @@ define(["local_fliplearning/vue",
                         return this.data;
                     },
 
-                    build_chart_submissions() {
+                    build_assigns_submissions_chart() {
                         let chart = new Object();
                         chart.chart = {
                             type: 'column',
-                            backgroundColor: '#FAFAFA',
+                            backgroundColor: null,
                         };
                         chart.title = {
-                            text: this.strings.assignsubs_chart_title,
+                            text: null,
                         };
                         chart.xAxis = {
                             categories: this.submissions.categories,
@@ -150,33 +150,19 @@ define(["local_fliplearning/vue",
                             }
                         };
                         chart.series = this.submissions.data;
-                        chart.credits = {
-                            enabled: false
-                        };
-                        chart.lang = {
-                            noData: this.strings.no_data,
-                        };
                         return chart;
                     },
 
-                    build_chart_access_content() {
+                    build_access_content_chart() {
                         let chart = new Object();
                         chart.chart = {
                             type: 'bar',
-                            backgroundColor: '#FAFAFA',
-                            scrollablePlotArea: {
-                                minHeight: 500,
-                                scrollPositionX: 1
-                            }
+                            backgroundColor: null,
                         };
-                        chart.title = {
-                            text: this.strings.access_chart_title,
-                        };
+                        chart.title = {text: null};
                         chart.xAxis = {
                             categories: this.access_chart_categories,
-                            title: {
-                                text: null
-                            },
+                            title: { text: null },
                             crosshair: true,
                         };
                         chart.yAxis = {
@@ -229,12 +215,6 @@ define(["local_fliplearning/vue",
                                     }
                                 }
                             }
-                        };
-                        chart.credits = {
-                            enabled: false
-                        };
-                        chart.lang = {
-                            noData: this.strings.no_data,
                         };
                         chart.series = this.access_chart_series;
                         return chart;
@@ -301,6 +281,10 @@ define(["local_fliplearning/vue",
                             }
                         });
                         return mod;
+                    },
+
+                    info() {
+                        console.log('Open modal');
                     },
 
                     get_timezone(){

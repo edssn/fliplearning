@@ -5,7 +5,7 @@ define([
         'highcharts/modules/heatmap',
         // 'highcharts/modules/exporting',
         // 'highcharts/modules/export-data',
-        // 'highcharts/modules/accessibility',
+        'highcharts/modules/accessibility',
         'highcharts/modules/no-data-to-display'],
     function(Highcharts) {
         return {

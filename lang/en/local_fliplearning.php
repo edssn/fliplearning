@@ -276,26 +276,26 @@ $string['fml_assign_nodue'] = 'Sin fecha límite';
 $string['fml_assignsubs_title'] = 'Envíos de Tareas';
 $string['fml_assignsubs_yaxis'] = 'Número de Estudiantes';
 
-$string['fml_jan_dim'] = 'Ene.';
-$string['fml_feb_dim'] = 'Feb.';
-$string['fml_mar_dim'] = 'Mar.';
-$string['fml_apr_dim'] = 'Abr.';
-$string['fml_may_dim'] = 'May.';
-$string['fml_jun_dim'] = 'Jun.';
-$string['fml_jul_dim'] = 'Jul.';
-$string['fml_aug_dim'] = 'Ago.';
-$string['fml_sep_dim'] = 'Sep.';
-$string['fml_oct_dim'] = 'Oct.';
-$string['fml_nov_dim'] = 'Nov.';
-$string['fml_dec_dim'] = 'Dic.';
-
-$string['fml_mon_dim'] = 'Lun.';
-$string['fml_tue_dim'] = 'Mar.';
-$string['fml_wed_dim'] = 'Mié.';
-$string['fml_thu_dim'] = 'Jue.';
-$string['fml_fri_dim'] = 'Vie.';
-$string['fml_sat_dim'] = 'Sáb.';
-$string['fml_sun_dim'] = 'Dom.';
+//$string['fml_jan_dim'] = 'Ene.';
+//$string['fml_feb_dim'] = 'Feb.';
+//$string['fml_mar_dim'] = 'Mar.';
+//$string['fml_apr_dim'] = 'Abr.';
+//$string['fml_may_dim'] = 'May.';
+//$string['fml_jun_dim'] = 'Jun.';
+//$string['fml_jul_dim'] = 'Jul.';
+//$string['fml_aug_dim'] = 'Ago.';
+//$string['fml_sep_dim'] = 'Sep.';
+//$string['fml_oct_dim'] = 'Oct.';
+//$string['fml_nov_dim'] = 'Nov.';
+//$string['fml_dec_dim'] = 'Dic.';
+//
+//$string['fml_mon_dim'] = 'Lun.';
+//$string['fml_tue_dim'] = 'Mar.';
+//$string['fml_wed_dim'] = 'Mié.';
+//$string['fml_thu_dim'] = 'Jue.';
+//$string['fml_fri_dim'] = 'Vie.';
+//$string['fml_sat_dim'] = 'Sáb.';
+//$string['fml_sun_dim'] = 'Dom.';
 
 /* Content Access */
 $string['fml_assign'] = 'Tarea';
