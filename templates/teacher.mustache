@@ -147,33 +147,13 @@
                                     <span v-text="item.inverted_time_label"></span>
                                 </template>
                                 <template v-slot:item.progress_percentage="{ item }">
-                                    <!--                                <v-tooltip bottom>-->
-                                    <!--                                    <template v-slot:activator="{ on, attrs }">-->
-                                    <!--                                            <span-->
-                                    <!--                                                    v-bind="attrs"-->
-                                    <!--                                                    v-on="on"-->
-                                    <!--                                            >-->
-                                    <!--                                                <v-progress-circular-->
-                                    <!--                                                        :rotate="-90"-->
-                                    <!--                                                        :size="45"-->
-                                    <!--                                                        :width="5"-->
-                                    <!--                                                        :value="item.progress_percentage"-->
-                                    <!--                                                        color="primary"-->
-                                    <!--                                                >-->
-                                    <!--                                                    <span v-text="get_percentage_progress(item.progress_percentage)"></span>-->
-                                    <!--                                                </v-progress-circular>-->
-                                    <!--                                          </span>-->
-                                    <!--                                    </template>-->
-                                    <!--                                    <span v-text="get_progress_tooltip(item)"></span>-->
-                                    <!--                                </v-tooltip>-->
-
                                     <span class="tooltips">
                                     <v-progress-circular
                                             :rotate="-90"
                                             :size="45"
                                             :width="5"
                                             :value="item.progress_percentage"
-                                            color="primary"
+                                            color="#118AB2"
                                     >
                                         <span v-text="get_percentage_progress(item.progress_percentage)"></span>
                                     </v-progress-circular>

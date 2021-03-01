@@ -91,6 +91,7 @@ $content = [
             get_string("fml_week6", "local_fliplearning"),
         ),
     ],
+    'week_resources_colors' => array('#118AB2'),
     'courseid' => $COURSE->id,
     'userid' => $USER->id,
     'indicators' => $reports->get_general_indicators(),

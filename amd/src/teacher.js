@@ -28,10 +28,10 @@ define(["local_fliplearning/vue",
                         render_has : content.profile_render,
 
                         indicators: content.indicators,
+                        week_resources_colors: content.week_resources_colors,
                         search: null,
                         week_resources_categories: [],
                         week_resources_data: []
-
                     }
                 },
                 beforeMount(){
@@ -73,6 +73,7 @@ define(["local_fliplearning/vue",
                         chart.title = {
                             text: null,
                         };
+                        chart.colors = this.week_resources_colors;
                         chart.xAxis = {
                             categories: this.week_resources_categories
                         };
@@ -108,13 +109,8 @@ define(["local_fliplearning/vue",
                         };
                         chart.colorAxis = {
                             min: 0,
-                            stops: [
-                                [0.0, '#E0E0E0'],
-                                [0.25, '#D6E7F9'],
-                                [0.50, '#9AC4EF'],
-                                [0.75, '#5DA1E5'],
-                                [1, '#3384D6'],
-                            ],
+                            minColor: '#E0E0E0',
+                            maxColor: '#118AB2'
                         };
                         chart.legend = {
                             layout: 'horizontal',
