@@ -35,6 +35,9 @@ define(["local_fliplearning/vue",
                         errors : [],
 
                         indicators: content.indicators,
+                        modules_access_colors: content.modules_access_colors,
+                        sessions_evolution_colors: content.sessions_evolution_colors,
+                        user_grades_colors: content.user_grades_colors,
                         user: content.indicators.user,
                         weeks_sessions: content.indicators.sessions,
                         sessions_evolution_data: [],
@@ -83,6 +86,7 @@ define(["local_fliplearning/vue",
                             backgroundColor: null,
                         };
                         chart.title = {text: null};
+                        chart.colors = this.modules_access_colors,
                         chart.xAxis = {
                             type: 'category',
                         };
@@ -144,13 +148,8 @@ define(["local_fliplearning/vue",
                         };
                         chart.colorAxis = {
                             min: 0,
-                            stops: [
-                                [0.0, '#E0E0E0'],
-                                [0.25, '#D6E7F9'],
-                                [0.50, '#9AC4EF'],
-                                [0.75, '#5DA1E5'],
-                                [1, '#3384D6'],
-                            ],
+                            minColor: '#E0E0E0',
+                            maxColor: '#118AB2'
                         };
                         chart.legend = {
                             layout: 'horizontal',
@@ -184,6 +183,7 @@ define(["local_fliplearning/vue",
                             backgroundColor: null,
                         };
                         chart.title = {text: null};
+                        chart.colors = this.sessions_evolution_colors,
                         chart.xAxis = {
                             type: 'datetime'
                         };
@@ -215,6 +215,7 @@ define(["local_fliplearning/vue",
                             backgroundColor: null,
                         };
                         chart.title = {text: null};
+                        chart.colors = this.user_grades_colors,
                         chart.xAxis = {
                             crosshair: true,
                             categories: this.user_grades_categories,
