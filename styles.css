@@ -285,22 +285,36 @@ a.fliplearning-navbar-menu-item .badge {
     flex-grow: 0 !important;
 }
 
-.ajs-primary .ajs-buttons{
-    display: flex !important;
-    justify-content: flex-end !important;
+.ajs-header{
+    font-weight: bold;
+    border-bottom: 1px solid #eeeeee;
+}
+
+.alertify-notifier .ajs-message.ajs-error,
+.alertify-notifier .ajs-message.ajs-success,
+.alertify-notifier .ajs-message.ajs-warning{
+    font-family: poppins,Roboto,sans-serif !important;
+    color: #ffffff;
+    font-size: 1rem;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    padding: .7rem;
+}
+
+.fml-btn-primary:hover, .fml-btn-secondary:hover, .ajs-button:hover{
+    opacity: .75;
 }
 
 .fml-btn-primary, .ajs-button{
     font-size: .8rem !important;
     height: 35px !important;
-    display: flex !important;
     align-items: center !important;
     background-color: #0086c4 !important;
     background: #0086c4 !important;
     color: white !important;
     text-shadow: none !important;
     border-radius: 2px !important;
-    /*font-family: poppins,Roboto,sans-serif !important;*/
     text-decoration: none !important;
     padding: .5rem 1rem !important;
     text-transform: uppercase !important;
@@ -309,54 +323,8 @@ a.fliplearning-navbar-menu-item .badge {
     transition: all .3s ease !important;
 }
 
-.fml-btn-secondary, .ajs-cancel{
-    font-size: .8rem !important;
-    height: 35px !important;
-    display: flex !important;
-    align-items: center !important;
-    background: transparent !important;
-    background-color: transparent !important;
-    border: 1px solid #444444 !important;
-    color: #444444 !important;
-    text-shadow: none !important;
-    border-radius: 2px !important;
-    /*font-family: poppins,Roboto,sans-serif !important;*/
-    text-decoration: none !important;
-    padding: .5rem 1rem !important;
-    text-transform: uppercase;
-    box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12) !important;
-    letter-spacing: .0892857143em !important;
-    transition: all .3s ease !important;
-}
-
-.ajs-button{
-    height: 30px !important;
-    min-height: 30px !important;
-    padding: 0 .8rem!important;
-    display: flex !important;
-    justify-content: center;
-    align-items: center !important;
-}
-
-.fml-btn-primary:hover, .fml-btn-secondary:hover, .ajs-ok:hover{
-    opacity: .85;
-}
-
-.ajs-cancel:hover{
-    background: #ededed !important;
-    background-color: #ededed !important;
-}
-
-.alertify-notifier .ajs-message.ajs-error,
-.alertify-notifier .ajs-message.ajs-success,
-.alertify-notifier .ajs-message.ajs-warning{
-    /*font-family: poppins,Roboto,sans-serif !important;*/
-    color: #ffffff;
-    font-size: 1rem;
-    display: flex;
-    justify-content: center;
-    align-content: center;
-    padding: .7rem;
+.ajs-primary .ajs-buttons{
+    justify-content: flex-end !important;
 }
 
 .alertify-notifier .ajs-message.ajs-error{
@@ -373,12 +341,6 @@ a.fliplearning-navbar-menu-item .badge {
     background: #ffa533;
     border: 1px solid #ab5f00;
 }
-
-.ajs-header{
-    font-weight: bold;
-    border-bottom: 1px solid #eeeeee;
-}
-
 
 /*Setweeks*/
 .fliplearning *,.fliplearning *:focus{
