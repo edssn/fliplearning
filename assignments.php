@@ -89,6 +89,8 @@ $content = [
         "assignsubs_chart_title" => get_string("fml_assignsubs_title", "local_fliplearning"),
         "assignsubs_chart_yaxis" => get_string("fml_assignsubs_yaxis", "local_fliplearning"),
     ],
+    'assigns_submissions_colors' => array('#06D6A0', '#FFD166', '#EF476F'),
+    'access_content_colors' => array('#06D6A0', '#EF476F'),
     'courseid' => $COURSE->id,
     'userid' => $USER->id,
     'submissions' => $reports->assignments_submissions(),

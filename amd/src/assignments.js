@@ -40,6 +40,8 @@ define(["local_fliplearning/vue",
                         email_strings: content.strings.email_strings,
 
                         access: content.access,
+                        assigns_submissions_colors: content.assigns_submissions_colors,
+                        access_content_colors: content.access_content_colors,
                         access_chart_categories: [],
                         access_chart_series: [],
                         access_chart_users: [],
@@ -97,6 +99,7 @@ define(["local_fliplearning/vue",
                         chart.title = {
                             text: null,
                         };
+                        chart.colors = this.assigns_submissions_colors;
                         chart.xAxis = {
                             categories: this.submissions.categories,
                             crosshair: true,
@@ -160,6 +163,7 @@ define(["local_fliplearning/vue",
                             backgroundColor: null,
                         };
                         chart.title = {text: null};
+                        chart.colors = this.access_content_colors;
                         chart.xAxis = {
                             categories: this.access_chart_categories,
                             title: { text: null },
