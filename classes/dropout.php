@@ -33,7 +33,7 @@ use stdClass;
 class dropout extends report {
     use \lib_trait;
 
-    function    __construct($courseid, $userid){
+    function __construct($courseid, $userid){
         parent::__construct($courseid, $userid);
         self::set_profile();
         self::set_users();

@@ -82,7 +82,7 @@ define(["local_fliplearning/vue",
 
                     set_modules_in_sections() {
                         let sectionsMap = new Map();
-                        let sectionid = 0;
+                        let sectionid = 0, modules = [];
                         this.dropout.cms.forEach(cm => {
                             sectionid = Number(cm.section);
                             if (!sectionsMap.has(sectionid)) {
@@ -94,7 +94,7 @@ define(["local_fliplearning/vue",
                         this.dropout.sections.forEach(section => {
                             sectionid = Number(section.sectionid);
                             section.sectionid = sectionid;
-                            section.modules = sectionsMap.get(sectionid);
+                            section.modules = (sectionsMap.has(sectionid)) ? sectionsMap.get(sectionid) : [];
                         });
                     },
 
