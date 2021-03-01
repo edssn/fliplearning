@@ -34,6 +34,9 @@ define(["local_fliplearning/vue",
                         pages : content.pages,
 
                         grades: content.grades,
+                        grade_items_average_colors: content.grade_items_average_colors,
+                        item_grades_details_colors: content.item_grades_details_colors,
+                        item_grades_distribution_colors: content.item_grades_distribution_colors,
                         default_category: null,
                         average_categories: [],
                         average_data: [],
@@ -90,6 +93,7 @@ define(["local_fliplearning/vue",
                         chart.title = {
                             text: null
                         };
+                        chart.colors = this.grade_items_average_colors;
                         chart.xAxis = {
                             categories: this.average_categories
                         };
@@ -160,9 +164,7 @@ define(["local_fliplearning/vue",
                         chart.title = {
                             text: null,
                         };
-                        chart.subtitle = {
-                            text: null,
-                        };
+                        chart.colors = this.item_grades_details_colors;
                         chart.xAxis = {
                             type: 'category',
                         };
@@ -202,9 +204,7 @@ define(["local_fliplearning/vue",
                         chart.title = {
                             text: null,
                         };
-                        chart.subtitle = {
-                            text: null,
-                        };
+                        chart.colors = this.item_grades_distribution_colors;
                         chart.xAxis = {
                             categories: this.grade_item_distribution_categories
                         };

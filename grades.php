@@ -105,6 +105,9 @@ $content = [
         "send_mail" => get_string("fml_send_mail", "local_fliplearning"),
 
     ],
+    'grade_items_average_colors' => array('#118AB2'),
+    'item_grades_details_colors' => array('#06D6A0', '#FFD166', '#EF476F'),
+    'item_grades_distribution_colors' => array('#118AB2', '#073B4C'),
     'courseid' => $COURSE->id,
     'userid' => $USER->id,
     'grades' => $reports->grade_items(),
