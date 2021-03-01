@@ -240,7 +240,7 @@ define(["local_fliplearning/vue",
                         this.sections.forEach(section => {
                             sectionid = Number(section.sectionid);
                             section.sectionid = sectionid;
-                            section.modules = this.sections_map.get(sectionid);
+                            section.modules = (this.sections_map.has(sectionid)) ? this.sections_map.get(sectionid) : [];
                         });
                     },
 
@@ -282,7 +282,7 @@ define(["local_fliplearning/vue",
                             { name: this.strings.resource_access_legend1, data: complete_data },
                             { name: this.strings.resource_access_legend2, data: pending_data },
                         ];
-                        this.week_progress = Math.floor((access_modules*100)/total_modules);
+                        this.week_progress = Math.floor((access_modules*100)/total_modules) || 0;
                     },
 
                     get_progress_percentage() {

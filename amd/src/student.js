@@ -291,17 +291,19 @@ define(["local_fliplearning/vue",
                     calculate_user_grades() {
                         let categories = [], course_grades = [], user_grades = [];
                         let user_grade = 0, user_name = this.user.firstname;
-                        this.user.gradeitems.forEach(item => {
-                            user_grade = (Number(item.finalgrade) * 100) / Number(item.grademax);
-                            categories.push(item.itemname);
-                            course_grades.push(item.average_percentage);
-                            user_grades.push(user_grade);
-                        });
-                        this.user_grades_data = [
-                            { name: user_name, data: user_grades },
-                            { name: this.strings.user_grades_chart_legend, data: course_grades },
-                        ];
-                        this.user_grades_categories = categories;
+                        if (this.user.gradeitems) {
+                            this.user.gradeitems.forEach(item => {
+                                user_grade = (Number(item.finalgrade) * 100) / Number(item.grademax);
+                                categories.push(item.itemname);
+                                course_grades.push(item.average_percentage);
+                                user_grades.push(user_grade);
+                            });
+                            this.user_grades_data = [
+                                { name: user_name, data: user_grades },
+                                { name: this.strings.user_grades_chart_legend, data: course_grades },
+                            ];
+                            this.user_grades_categories = categories;
+                        }
                     },
 
                     calculate_timezone_date_string(timestamp) {
