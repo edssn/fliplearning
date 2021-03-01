@@ -90,7 +90,7 @@ define([
                                         persistent
                                         width="300"
                                 >
-                                    <v-card color="primary" dark>
+                                    <v-card color="#118AB2" dark>
                                         <v-card-text>
                                             <span v-text="sending_text"></span>
                                             <v-progress-linear
