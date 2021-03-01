@@ -201,6 +201,7 @@ define(["local_fliplearning/vue",
                         chart.chart = {
                             type: 'bar',
                             backgroundColor: null,
+                            style: {fontFamily: 'poppins'},
                         };
                         chart.title = { text: null};
                         chart.colors = this.modules_access_colors;
@@ -253,6 +254,7 @@ define(["local_fliplearning/vue",
                         chart.chart = {
                             type: 'column',
                             backgroundColor: null,
+                            style: {fontFamily: 'poppins'},
                         };
                         chart.title = {text: null};
                         chart.colors = this.week_modules_colors;
@@ -310,6 +312,7 @@ define(["local_fliplearning/vue",
                         chart.chart = {
                             zoomType: 'x',
                             backgroundColor: null,
+                            style: {fontFamily: 'poppins'},
                         };
                         chart.title = {text: null};
                         chart.colors = this.sessions_evolution_colors;
@@ -342,6 +345,7 @@ define(["local_fliplearning/vue",
                         chart.chart = {
                             type: 'column',
                             backgroundColor: null,
+                            style: {fontFamily: 'poppins'},
                         };
                         chart.title = {text: null};
                         chart.colors = this.user_grades_colors;

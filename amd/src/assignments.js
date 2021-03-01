@@ -95,6 +95,7 @@ define(["local_fliplearning/vue",
                         chart.chart = {
                             type: 'column',
                             backgroundColor: null,
+                            style: {fontFamily: 'poppins'},
                         };
                         chart.title = {
                             text: null,
@@ -161,6 +162,7 @@ define(["local_fliplearning/vue",
                         chart.chart = {
                             type: 'bar',
                             backgroundColor: null,
+                            style: {fontFamily: 'poppins'},
                         };
                         chart.title = {text: null};
                         chart.colors = this.access_content_colors;
@@ -228,7 +230,7 @@ define(["local_fliplearning/vue",
                         this.dialog = value;
                     },
 
-                    generate_access_content_data () {
+                    generate_access_content_data() {
                         let usersIds = [];
                         this.access.users.forEach(user => {
                             usersIds.push(Number(user.id));

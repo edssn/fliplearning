@@ -65,6 +65,7 @@ define(["local_fliplearning/vue",
                         chart.chart = {
                             type: 'bar',
                             backgroundColor: null,
+                            style: {fontFamily: 'poppins'},
                         };
                         chart.title = {text: null};
                         chart.colors = this.inverted_time_colors;
@@ -102,6 +103,7 @@ define(["local_fliplearning/vue",
                         chart.chart = {
                             type: 'heatmap',
                             backgroundColor: null,
+                            style: {fontFamily: 'poppins'},
                         };
                         chart.xAxis = {
                             categories: this.strings.days,
@@ -145,6 +147,7 @@ define(["local_fliplearning/vue",
                         chart.chart = {
                             type: 'column',
                             backgroundColor: null,
+                            style: {fontFamily: 'poppins'},
                         };
                         chart.title = {text: null};
                         chart.colors = this.resources_access_colors;

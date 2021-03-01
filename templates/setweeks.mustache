@@ -130,8 +130,8 @@
                         <draggable class="set-weeks-list" tag="ul" v-model="sections" group="sections">
                             <li class="set-weeks-list-item" v-for="section in sections" :key="section.section">
                             <span v-if="section_exist(section)">
-                                <v-icon left v-if="section.visible == 1" class="visibility">visibility</v-icon>
-                                <v-icon left v-else class="visibility">visibility_off</v-icon>
+                                <v-icon left v-if="section.visible == 1" class="visibility" color="#118AB2">visibility</v-icon>
+                                <v-icon left v-else class="visibility" color="#118AB2">visibility_off</v-icon>
                             </span>
                             <span v-else>
                                 <v-chip small class="ma-1" color="red" text-color="white" v-text="strings.label_section_removed"></v-chip>
@@ -148,7 +148,7 @@
             </v-row>
 
             <v-row class="justify-center">
-                <v-btn @click="save_changes()" v-text="strings.save" class="mt-5 mb-5 fml-btn-primary"></v-btn>
+                <v-btn @click="save_changes()" v-text="strings.save" class="white--text" color="#118AB2"></v-btn>
                 <v-progress-linear v-if="saving_loader" indeterminate color="cyan" ></v-progress-linear>
             </v-row>
 

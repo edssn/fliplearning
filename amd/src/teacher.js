@@ -69,6 +69,7 @@ define(["local_fliplearning/vue",
                         chart.chart = {
                             type: 'bar',
                             backgroundColor: null,
+                            style: {fontFamily: 'poppins'},
                         };
                         chart.title = {
                             text: null,
@@ -95,6 +96,7 @@ define(["local_fliplearning/vue",
                         chart.chart = {
                             type: 'heatmap',
                             backgroundColor: null,
+                            style: {fontFamily: 'poppins'},
                         };
                         chart.title = {
                             text: null,

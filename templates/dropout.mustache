@@ -65,7 +65,7 @@
                                             <v-card-title class="mb-3">
                                                 <v-row class="d-flex justify-space-around">
                                                     <v-col cols="12" sm="7" lg="7" class="mt-2">
-                                                        <h4><b v-text="strings.table_title"></b></h4>
+                                                        <h5 v-text="strings.table_title"></h5>
                                                     </v-col>
                                                     <v-col cols="12" sm="5" lg="5">
                                                         <v-text-field
@@ -111,7 +111,7 @@
                                                 <img :src="get_picture_url(selected_user.id)" height="100" width="100" class="round-avatar"/>
                                             </v-col>
                                             <v-col cols="12" md="10">
-                                                <v-btn text v-on:click="see_profile()" v-text="get_user_fullname()"></v-btn>
+                                                <v-btn color="#118AB2" class="lighten" text v-on:click="see_profile()" v-text="get_user_fullname()"></v-btn>
                                             </v-col>
                                         </v-row>
                                     </v-card-text>
@@ -119,15 +119,15 @@
                                     <v-card-text class="py-0">
                                         <v-row class="d-flex justify-space-around">
                                             <v-col cols="12" sm="4" md="4" class="text-center">
-                                                <h5><b v-text="strings.inverted_time_title"></b></h5>
+                                                <h6><b v-text="strings.inverted_time_title"></b></h6>
                                                 <p v-text="convert_time(selected_user.inverted_time)"></p>
                                             </v-col>
                                             <v-col cols="12" sm="4" md="4" class="text-center">
-                                                <h5><b v-text="strings.count_sessions_title"></b></h5>
+                                                <h6><b v-text="strings.count_sessions_title"></b></h6>
                                                 <p v-text="selected_user.sessions_number"></p>
                                             </v-col>
                                             <v-col cols="12" sm="4" md="4" class="text-center">
-                                                <h5><b v-text="strings.student_grade_title"></b></h5>
+                                                <h6><b v-text="strings.student_grade_title"></b></h6>
                                                 <p v-text="get_student_grade()"></p>
                                             </v-col>
                                         </v-row>
@@ -135,12 +135,12 @@
 
                                     <v-card-text class="py-0">
                                         <v-row>
-                                            <v-col cols="12" lg="8">
+                                            <v-col cols="12" lg="7">
                                                 <p v-text="get_username()"></p>
                                                 <p v-text="selected_user.email"></p>
                                                 <p v-text="selected_user.course_lastaccess.label"></p>
                                             </v-col>
-                                            <v-col cols="12" lg="4" class="text-center">
+                                            <v-col cols="12" lg="5" class="text-center">
                                                 <v-progress-circular
                                                     :rotate="-90"
                                                     :size="90"
@@ -186,8 +186,12 @@
                         <v-row>
                             <v-col cols="12" md="6">
                                 <v-card elevation="2">
-                                    <v-card-title class="justify-center" v-text="strings.modules_access_chart_title"></v-card-title>
-                                    <v-card-subtitle class="text-center" v-text="get_user_fullname()"></v-card-subtitle>
+                                    <v-card-title class="justify-center">
+                                        <h5 v-text="strings.modules_access_chart_title"></h5>
+                                    </v-card-title>
+                                    <v-card-subtitle class="text-center">
+                                        <h6 v-text="get_user_fullname()"></h6>
+                                    </v-card-subtitle>
                                     <v-card-text>
                                         <chart
                                                 :container="'modules_access'"
@@ -204,8 +208,12 @@
 
                             <v-col cols="12" md="6">
                                 <v-card elevation="2">
-                                    <v-card-title class="justify-center" v-text="strings.week_modules_chart_title"></v-card-title>
-                                    <v-card-subtitle class="text-center" v-text="get_user_fullname()"></v-card-subtitle>
+                                    <v-card-title class="justify-center">
+                                        <h5 v-text="strings.week_modules_chart_title"></h5>
+                                    </v-card-title>
+                                    <v-card-subtitle class="text-center">
+                                        <h6 v-text="get_user_fullname()"></h6>
+                                    </v-card-subtitle>
                                     <v-card-text>
                                         <chart
                                                 :container="'week_modules'"
@@ -224,8 +232,12 @@
                         <v-row>
                             <v-col cols="12">
                                 <v-card elevation="2">
-                                    <v-card-title class="justify-center" v-text="strings.sessions_evolution_chart_title"></v-card-title>
-                                    <v-card-subtitle class="text-center" v-text="get_user_fullname()"></v-card-subtitle>
+                                    <v-card-title class="justify-center">
+                                        <h5 v-text="strings.sessions_evolution_chart_title"></h5>
+                                    </v-card-title>
+                                    <v-card-subtitle class="text-center">
+                                        <h6 v-text="get_user_fullname()"></h6>
+                                    </v-card-subtitle>
                                     <v-card-text>
                                         <chart
                                                 :container="'sessions_evolution'"
@@ -244,8 +256,12 @@
                         <v-row>
                             <v-col cols="12">
                                 <v-card elevation="2">
-                                    <v-card-title class="justify-center" v-text="strings.user_grades_chart_title"></v-card-title>
-                                    <v-card-subtitle class="text-center" v-text="get_user_fullname()"></v-card-subtitle>
+                                    <v-card-title class="justify-center">
+                                        <h5 v-text="strings.user_grades_chart_title"></h5>
+                                    </v-card-title>
+                                    <v-card-subtitle class="text-center">
+                                        <h6 v-text="get_user_fullname()"></h6>
+                                    </v-card-subtitle>
                                     <v-card-text>
                                         <chart
                                                 :container="'user_grades'"
@@ -287,8 +303,8 @@
                             </v-col>
                         </v-row>
 
-                        <v-row class="d-flex justify-center">
-                            <span class="overline" v-text="get_timezone()"></span>
+                        <v-row class="justify-center">
+                            <span v-text="get_timezone()"></span>
                         </v-row>
                     </div>
                     <div v-else>

@@ -37,8 +37,9 @@
                 <v-row>
                     <v-col cols="12">
                         <v-card elevation="2">
-                            <v-card-title class="justify-center" v-text="strings.grades_chart_title"></v-card-title>
-                            <v-card-subtitle class="text-center" v-text=""></v-card-subtitle>
+                            <v-card-title class="justify-center">
+                                <h5 v-text="strings.grades_chart_title"></h5>
+                            </v-card-title>
                             <v-card-text>
                                 <chart
                                         :container="'grade_items_average'"
@@ -57,8 +58,12 @@
                 <v-row>
                     <v-col cols="12" md="6">
                         <v-card elevation="2">
-                            <v-card-title class="justify-center" v-text="grade_item_title"></v-card-title>
-                            <v-card-subtitle class="text-center" v-text="strings.grades_details_subtitle"></v-card-subtitle>
+                            <v-card-title class="justify-center">
+                                <h5 v-text="grade_item_title"></h5>
+                            </v-card-title>
+                            <v-card-subtitle class="text-center">
+                                <h6 v-text="strings.grades_details_subtitle"></h6>
+                            </v-card-subtitle>
                             <v-card-text>
                                 <chart
                                         :container="'item_grades_details'"
@@ -75,8 +80,12 @@
 
                     <v-col cols="12" md="6">
                         <v-card elevation="2">
-                            <v-card-title class="justify-center" v-text="grade_item_title"></v-card-title>
-                            <v-card-subtitle class="text-center" v-text="strings.grades_distribution_subtitle"></v-card-subtitle>
+                            <v-card-title class="justify-center">
+                                <h5 v-text="grade_item_title"></h5>
+                            </v-card-title>
+                            <v-card-subtitle class="text-center">
+                                <h6 v-text="strings.grades_distribution_subtitle"></h6>
+                            </v-card-subtitle>
                             <v-card-text>
                                 <chart
                                         :container="'item_grades_distribution'"
@@ -92,8 +101,8 @@
                     </v-col>
                 </v-row>
 
-                <v-row class="d-flex justify-center">
-                    <span class="overline" v-text="get_timezone()"></span>
+                <v-row class="justify-center">
+                    <span v-text="get_timezone()"></span>
                 </v-row>
 
                 <v-row justify="center">

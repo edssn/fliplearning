@@ -89,6 +89,7 @@ define(["local_fliplearning/vue",
                         chart.chart = {
                             type: 'column',
                             backgroundColor: null,
+                            style: {fontFamily: 'poppins'},
                         };
                         chart.title = {
                             text: null
@@ -160,6 +161,7 @@ define(["local_fliplearning/vue",
                         chart.chart = {
                             type: 'bar',
                             backgroundColor: null,
+                            style: {fontFamily: 'poppins'},
                         };
                         chart.title = {
                             text: null,
@@ -200,6 +202,7 @@ define(["local_fliplearning/vue",
                         let chart = new Object();
                         chart.chart = {
                             backgroundColor: null,
+                            style: {fontFamily: 'poppins'},
                         };
                         chart.title = {
                             text: null,

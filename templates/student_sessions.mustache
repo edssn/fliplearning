@@ -24,7 +24,9 @@
                 <v-row>
                     <v-col cols="12" md="6">
                         <v-card elevation="2">
-                            <v-card-title class="justify-center" v-text="strings.inverted_time_chart_title"></v-card-title>
+                            <v-card-title class="justify-center">
+                                <h5 v-text="strings.inverted_time_chart_title"></h5>
+                            </v-card-title>
                             <v-card-text>
                                 <chart
                                         :container="'inverted_time'"
@@ -41,7 +43,9 @@
 
                     <v-col cols="12" md="6">
                         <v-card elevation="2">
-                            <v-card-title class="justify-center" v-text="strings.hours_sessions_title"></v-card-title>
+                            <v-card-title class="justify-center">
+                                <h5 v-text="strings.hours_sessions_title"></h5>
+                            </v-card-title>
                             <v-card-text>
                                 <chart
                                         :container="'hour_sessions'"
@@ -60,7 +64,9 @@
                 <v-row>
                     <v-col cols="12">
                         <v-card elevation="2">
-                            <v-card-title class="justify-center" v-text="strings.resource_access_title"></v-card-title>
+                            <v-card-title class="justify-center">
+                                <h5 v-text="strings.resource_access_title"></h5>
+                            </v-card-title>
                             <v-card-subtitle class="text-center">
                                 <v-row class="justify-center">
                                     <v-col cols="12" xs="10" md="4">
@@ -94,7 +100,7 @@
                 </v-row>
 
                 <v-row class="justify-center">
-                    <span class="overline" v-text="get_timezone()"></span>
+                    <span v-text="get_timezone()"></span>
                 </v-row>
 
                 <v-row justify="center">

@@ -84,8 +84,9 @@
             <v-row>
                 <v-col cols="12" md="6">
                     <v-card elevation="2">
-                        <v-card-title class="justify-center" v-text="strings.teacher_indicators_week_resources_chart_title"></v-card-title>
-                        <v-card-subtitle class="text-center" v-text=""></v-card-subtitle>
+                        <v-card-title class="justify-center">
+                            <h5 v-text="strings.teacher_indicators_week_resources_chart_title"></h5>
+                        </v-card-title>
                         <v-card-text>
                             <chart
                                     :container="'week_resourcess'"
@@ -102,8 +103,9 @@
 
                 <v-col cols="12" md="6">
                     <v-card elevation="2">
-                        <v-card-title class="justify-center" v-text="strings.weeks_sessions_title"></v-card-title>
-                        <v-card-subtitle class="text-center" v-text=""></v-card-subtitle>
+                        <v-card-title class="justify-center">
+                            <h5 v-text="strings.weeks_sessions_title"></h5>
+                        </v-card-title>
                         <v-card-text>
                             <chart
                                     :container="'week_sessions'"
@@ -123,7 +125,7 @@
                 <v-col sm="12">
                     <v-card class="make-border vuetify-datatable" elevation="2">
                         <v-card-title>
-                            <span v-text="strings.teacher_indicators_student_progress"></span>
+                            <h5 v-text="strings.teacher_indicators_student_progress"></h5>
                             <v-spacer></v-spacer>
                             <v-text-field
                                     v-model="search"
@@ -169,7 +171,7 @@
             </v-row>
 
             <v-row class="justify-center">
-                <span class="overline" v-text="get_timezone()"></span>
+                <span v-text="get_timezone()"></span>
             </v-row>
 
         </v-container>

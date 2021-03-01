@@ -9,13 +9,13 @@ define([
                     <v-row>
                         <v-col sm="12">
                             <v-dialog
-                            v-model="dialog"
-                            width="800"
-                            @click:outside="closeDialog()"
-                            @keydown.esc="closeDialog()"
+                                v-model="dialog"
+                                width="800"
+                                @click:outside="closeDialog()"
+                                @keydown.esc="closeDialog()"
                             >
                                 <v-card>
-                                    <v-toolbar color="primary" dark >
+                                    <v-toolbar color="#118AB2" dark>
                                         <span v-text="emailform_title"></span>
                                         <v-spacer></v-spacer>
                                         <v-btn icon @click="reset">
@@ -27,7 +27,7 @@ define([
                                         <v-row>
                                             <v-col cols="12" sm="12">
     
-                                                <v-chip class="ma-2" color="primary" label>
+                                                <v-chip class="ma-2" color="#118AB2" label dark>
                                                     <span v-text="recipients"></span>
                                                 </v-chip>
     

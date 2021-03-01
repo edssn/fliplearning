@@ -23,7 +23,9 @@
                 <v-row>
                     <v-col cols="12">
                         <v-card elevation="2">
-                            <v-card-title class="justify-center" v-text="strings.assignsubs_chart_title"></v-card-title>
+                            <v-card-title class="justify-center">
+                                <h5 v-text="strings.assignsubs_chart_title"></h5>
+                            </v-card-title>
                             <v-card-text>
                                 <chart
                                         :container="'assigns_subsmissions'"
@@ -42,7 +44,9 @@
                 <v-row>
                     <v-col cols="12">
                         <v-card elevation="2">
-                            <v-card-title class="justify-center" v-text="strings.access_chart_title"></v-card-title>
+                            <v-card-title class="justify-center">
+                                <h5 v-text="strings.access_chart_title"></h5>
+                            </v-card-title>
                             <h3 class="text-center">
                                 <v-row class="justify-center">
                                 <span v-for="(item, index, key) in access.types">
@@ -72,7 +76,7 @@
                 </v-row>
 
                 <v-row class="justify-center">
-                    <span class="overline" v-text="get_timezone()"></span>
+                    <span v-text="get_timezone()"></span>
                 </v-row>
 
                 <v-row justify="center">

@@ -23,7 +23,10 @@
                 <v-row>
                     <v-col cols="12" md="6">
                         <v-card elevation="2">
-                            <v-card-title class="justify-center" v-text="strings.time_inverted_title"></v-card-title>
+
+                            <v-card-title class="justify-center">
+                                <h5 v-text="strings.time_inverted_title"></h5>
+                            </v-card-title>
                             <v-card-text>
                                 <chart
                                         :container="'inverted_time'"
@@ -40,7 +43,9 @@
 
                     <v-col cols="12" md="6">
                         <v-card elevation="2">
-                            <v-card-title class="justify-center" v-text="strings.hours_sessions_title"></v-card-title>
+                            <v-card-title class="justify-center">
+                                <h5 v-text="strings.hours_sessions_title"></h5>
+                            </v-card-title>
                             <v-card-text>
                                 <chart
                                         :container="'hour_sessions'"
@@ -59,7 +64,9 @@
                 <v-row>
                     <v-col cols="12">
                         <v-card elevation="2">
-                            <v-card-title class="justify-center" v-text="strings.session_count_title"></v-card-title>
+                            <v-card-title class="justify-center">
+                                <h5 v-text="strings.session_count_title"></h5>
+                            </v-card-title>
                             <v-card-text>
                                 <chart
                                         :container="'sessions_count'"
@@ -76,32 +83,8 @@
                 </v-row>
 
                 <v-row class="justify-center">
-                    <span class="overline" v-text="get_timezone()"></span>
+                    <span v-text="get_timezone()"></span>
                 </v-row>
-
-
-<!--                <div style="text-align:center;">-->
-<!--                    <div class="tooltips">-->
-<!--                        <p>Hover over me</p>-->
-<!--                        <span class="tooltiptext">Tooltip text for question</span>-->
-<!--                    </div>-->
-
-<!--                    <div class="tooltips">-->
-<!--                        <p>Hover over me</p>-->
-<!--                        <span class="tooltiptext">Tooltip text 2</span>-->
-<!--                    </div>-->
-
-<!--                    <br/>-->
-
-<!--                    <div class="dropdown">-->
-<!--                        <span>Mouse over me</span>-->
-<!--                        <div class="dropdown-content">-->
-<!--                            <p>Hello World aaaaaaaaa!</p>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-
-
             </div>
 
         </v-container>

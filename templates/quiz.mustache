@@ -49,7 +49,9 @@
                 <v-row>
                     <v-col cols="12" md="6">
                         <v-card elevation="2">
-                            <v-card-title class="justify-center" v-text="strings.questions_attempts_chart_title"></v-card-title>
+                            <v-card-title class="justify-center">
+                                <h5 v-text="strings.questions_attempts_chart_title"></h5>
+                            </v-card-title>
                             <v-card-text>
                                 <chart
                                         :container="'questions_attempts'"
@@ -66,7 +68,9 @@
 
                     <v-col cols="12" md="6">
                         <v-card elevation="2">
-                            <v-card-title class="justify-center" v-text="strings.hardest_questions_chart_title"></v-card-title>
+                            <v-card-title class="justify-center">
+                                <h5 v-text="strings.hardest_questions_chart_title"></h5>
+                            </v-card-title>
                             <v-card-text>
                                 <chart
                                         :container="'hardest_questions'"
@@ -82,8 +86,8 @@
                     </v-col>
                 </v-row>
 
-                <v-row class="d-flex justify-center">
-                    <span class="overline" v-text="get_timezone()"></span>
+                <v-row class="justify-center">
+                    <span v-text="get_timezone()"></span>
                 </v-row>
             </div>
 
