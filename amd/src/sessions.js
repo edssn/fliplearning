@@ -29,10 +29,13 @@ define(["local_fliplearning/vue",
                         render_has : content.profile_render,
                         loading : false,
                         errors : [],
+
                         pages : content.pages,
                         hours_sessions: content.indicators.sessions,
                         session_count: content.indicators.count,
                         inverted_time: content.indicators.time,
+                        inverted_time_colors: content.inverted_time_colors,
+                        sessions_count_colors: content.sessions_count_colors,
                         search: null,
                     }
                 },
@@ -116,13 +119,8 @@ define(["local_fliplearning/vue",
                         };
                         chart.colorAxis = {
                             min: 0,
-                            stops: [
-                                [0.0, '#E0E0E0'],
-                                [0.25, '#D6E7F9'],
-                                [0.50, '#9AC4EF'],
-                                [0.75, '#5DA1E5'],
-                                [1, '#3384D6'],
-                            ],
+                            minColor: '#E0E0E0',
+                            maxColor: '#118AB2'
                         };
                         chart.legend = {
                             layout: 'horizontal',
@@ -157,6 +155,7 @@ define(["local_fliplearning/vue",
                         chart.title = {
                             text: null,
                         };
+                        chart.colors = this.inverted_time_colors;
                         chart.xAxis = {
                             type: 'category',
                             crosshair: true,
@@ -193,6 +192,7 @@ define(["local_fliplearning/vue",
                         chart.title = {
                             text: null,
                         };
+                        chart.colors = this.sessions_count_colors;
                         chart.yAxis = {
                             title: {
                                 text: this.strings.session_count_yaxis_title,
