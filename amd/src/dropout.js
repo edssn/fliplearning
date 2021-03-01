@@ -127,35 +127,27 @@ define(["local_fliplearning/vue",
                         let modules = [], completecms = [], viewedcms = [], categories = [];
                         let user_cm;
                         this.dropout.weeks.forEach(week => {
-                            // console.log({week});
                             weekcompletecms = 0, weekviewedcms = 0;
                             week.sections.forEach(section => {
-                                // console.log({section});
                                 sectionid = Number(section.sectionid);
                                 section.sectionid = sectionid;
 
                                 modules = this.sections_modules(sectionid);
                                 modules.forEach(module => {
-                                    // console.log({module});
                                     moduleid = Number(module.id);
                                     module.id = moduleid;
 
-                                    // user_cm = this.get_user_module(moduleid);
                                     user_cm = this.selected_user.cms.modules[`cm${module.id}`];
-                                    // console.log({user_cm});
                                     if (user_cm) {
                                         (user_cm.complete) && weekcompletecms++;
                                         (user_cm.viewed) && weekviewedcms++;
                                     }
-
                                 });
-
                             });
                             completecms.push(weekcompletecms);
                             viewedcms.push(weekviewedcms);
                             categories.push(`${week.name} ${(week.position + 1)}`);
                         });
-                        // console.log({completecms, viewedcms});
                         this.week_modules_chart_categories = categories;
                         this.week_modules_chart_data = [
                             { name: this.strings.modules_access_chart_series_viewed, data: viewedcms },
@@ -183,17 +175,19 @@ define(["local_fliplearning/vue",
                     calculate_user_grades() {
                         let categories = [], course_grades = [], user_grades = [];
                         let user_grade = 0, user_name = this.selected_user.firstname;
-                        this.selected_user.gradeitems.forEach(item => {
-                            user_grade = (Number(item.finalgrade) * 100) / Number(item.grademax);
-                            categories.push(item.itemname);
-                            course_grades.push(item.average_percentage);
-                            user_grades.push(user_grade);
-                        });
-                        this.user_grades_data = [
-                            { name: user_name, data: user_grades },
-                            { name: this.strings.user_grades_chart_legend, data: course_grades },
-                        ];
-                        this.user_grades_categories = categories;
+                        if (this.selected_user.gradeitems) {
+                            this.selected_user.gradeitems.forEach(item => {
+                                user_grade = (Number(item.finalgrade) * 100) / Number(item.grademax);
+                                categories.push(item.itemname);
+                                course_grades.push(item.average_percentage);
+                                user_grades.push(user_grade);
+                            });
+                            this.user_grades_data = [
+                                { name: user_name, data: user_grades },
+                                { name: this.strings.user_grades_chart_legend, data: course_grades },
+                            ];
+                            this.user_grades_categories = categories;
+                        }
                     },
 
                     build_modules_access_chart() {
@@ -516,7 +510,9 @@ define(["local_fliplearning/vue",
                         let sections = this.dropout.sections;
                         for (let i = 0; i < sections.length; i++) {
                             if (sections[i].sectionid == sectionid) {
-                                modules = sections[i].modules;
+                                if (sections[i].modules) {
+                                    modules = sections[i].modules;
+                                }
                                 break;
                             }
                         }
@@ -618,7 +614,6 @@ define(["local_fliplearning/vue",
 
                     generate_dropout_data(){
                         this.loading = true;
-                        console.log('generate_dropout_data');
                         this.errors = [];
                         let data = {
                             action : "dropoutdata",

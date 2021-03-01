@@ -978,7 +978,7 @@ class dropout extends report {
                 array_push($userdata, $cm->social);
             }
             $data[$user->userid] = $userdata;
-//            array_push($data, $userdata);
+
         }
         return $data;
     }
@@ -989,8 +989,14 @@ class dropout extends report {
             $keys = array_keys($data);
             $normalizer = new \local_fliplearning\phpml\Preprocessing\Normalizer();
             $data = self::transpose($data);
+            if (count($keys) == 1) {
+                $data = array($data);
+            }
             $normalizer->transform($data);
             $data = self::transpose($data);
+            if (count($keys) == 1) {
+                $data = array($data);
+            }
             foreach ($data as $index => $record) {
                 $normalized[$keys[$index]] = $record;
             }

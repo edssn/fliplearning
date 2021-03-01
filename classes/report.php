@@ -579,23 +579,32 @@ abstract class report {
     protected function get_users_course_grade($users) {
         global $DB;
         $item = $DB->get_record('grade_items',
-            array('courseid' => $this->course->id, 'itemtype' => 'course'), 'id, courseid, grademax', MUST_EXIST);
-        $sql = "SELECT id, userid, rawgrademax, finalgrade FROM {grade_grades} 
+            array('courseid' => $this->course->id, 'itemtype' => 'course'), 'id, courseid, grademax');
+        if ($item) {
+            $sql = "SELECT id, userid, rawgrademax, finalgrade FROM {grade_grades} 
                 WHERE itemid = {$item->id} AND finalgrade IS NOT NULL";
-        $rows = $DB->get_records_sql($sql);
-        $grades = array();
-        foreach ($rows as $row) {
-            $grades[$row->userid] = $row;
-        }
-
-        foreach ($users as $user) {
-            $grade = new stdClass();
-            $grade->finalgrade = 0;
-            $grade->maxgrade = $item->grademax;
-            if (isset($grades[$user->id])) {
-                $grade->finalgrade = $grades[$user->id]->finalgrade;
+            $rows = $DB->get_records_sql($sql);
+            $grades = array();
+            foreach ($rows as $row) {
+                $grades[$row->userid] = $row;
             }
-            $user->coursegrade = $grade;
+
+            foreach ($users as $user) {
+                $grade = new stdClass();
+                $grade->finalgrade = 0;
+                $grade->maxgrade = $item->grademax;
+                if (isset($grades[$user->id])) {
+                    $grade->finalgrade = $grades[$user->id]->finalgrade;
+                }
+                $user->coursegrade = $grade;
+            }
+        } else {
+            foreach ($users as $user) {
+                $grade = new stdClass();
+                $grade->finalgrade = 0;
+                $grade->maxgrade = 0;
+                $user->coursegrade = $grade;
+            }
         }
         return $users;
     }
@@ -607,41 +616,43 @@ abstract class report {
         $items = $this->set_average_max_min_grade($items, $users);
 
         $itemsids = $this->extract_elements_field($items, 'id');
-        list($in, $invalues) = $DB->get_in_or_equal($itemsids);
-        $sql = "SELECT id, itemid, userid, finalgrade FROM {grade_grades} 
+        if (count($itemsids) > 0) {
+            list($in, $invalues) = $DB->get_in_or_equal($itemsids);
+            $sql = "SELECT id, itemid, userid, finalgrade FROM {grade_grades} 
                 WHERE itemid $in AND finalgrade IS NOT NULL ORDER BY itemid, userid";
-        $rows = $DB->get_recordset_sql($sql, $invalues);
+            $rows = $DB->get_recordset_sql($sql, $invalues);
 
-        $itemsgraded = array();
-        foreach($rows as $row){
-            $itemsgraded[$row->itemid][$row->userid] = $row;
-        }
-        $rows->close();
-
-        foreach ($users as $user) {
-            $useritems = array();
-            foreach ($items as $item) {
-                $useritem = new stdClass();
-                $useritem->average = $item->average;
-                $useritem->average_percentage = $item->average_percentage;
-                $useritem->categoryid = $item->categoryid;
-                $useritem->coursemoduleid = $item->coursemoduleid;
-                $useritem->finalgrade = 0;
-                $useritem->gradecount = $item->gradecount;
-                $useritem->grademax = $item->grademax;
-                $useritem->grademin = $item->grademin;
-                $useritem->id = $item->id;
-                $useritem->iteminstance = $item->iteminstance;
-                $useritem->itemmodule = $item->itemmodule;
-                $useritem->itemname = $item->itemname;
-                $useritem->maxrating = $item->maxrating;
-                $useritem->minrating = $item->minrating;
-                if (isset($itemsgraded[$item->id][$user->id])) {
-                    $useritem->finalgrade = $itemsgraded[$item->id][$user->id]->finalgrade;
-                }
-                array_push($useritems, $useritem);
+            $itemsgraded = array();
+            foreach($rows as $row){
+                $itemsgraded[$row->itemid][$row->userid] = $row;
             }
-            $user->gradeitems = $useritems;
+            $rows->close();
+
+            foreach ($users as $user) {
+                $useritems = array();
+                foreach ($items as $item) {
+                    $useritem = new stdClass();
+                    $useritem->average = $item->average;
+                    $useritem->average_percentage = $item->average_percentage;
+                    $useritem->categoryid = $item->categoryid;
+                    $useritem->coursemoduleid = $item->coursemoduleid;
+                    $useritem->finalgrade = 0;
+                    $useritem->gradecount = $item->gradecount;
+                    $useritem->grademax = $item->grademax;
+                    $useritem->grademin = $item->grademin;
+                    $useritem->id = $item->id;
+                    $useritem->iteminstance = $item->iteminstance;
+                    $useritem->itemmodule = $item->itemmodule;
+                    $useritem->itemname = $item->itemname;
+                    $useritem->maxrating = $item->maxrating;
+                    $useritem->minrating = $item->minrating;
+                    if (isset($itemsgraded[$item->id][$user->id])) {
+                        $useritem->finalgrade = $itemsgraded[$item->id][$user->id]->finalgrade;
+                    }
+                    array_push($useritems, $useritem);
+                }
+                $user->gradeitems = $useritems;
+            }
         }
         return $users;
     }
@@ -656,10 +667,16 @@ abstract class report {
 
     protected function get_grade_items () {
         global $DB;
-        $sql = "SELECT * FROM {grade_items} WHERE courseid = {$this->course->id} AND itemtype = 'mod' and gradetype = 1";
-        $result = $DB->get_records_sql($sql);
-        $result = array_values($result);
-        return $result;
+        $items = $DB->get_records('grade_items',
+            array('courseid' => $this->course->id, 'itemtype' => 'mod'));
+        if (!$items) {
+            $items = array();
+        }
+
+//        $sql = "SELECT * FROM {grade_items} WHERE courseid = {$this->course->id} AND itemtype = 'mod' and gradetype = 1";
+//        $result = $DB->get_records_sql($sql);
+//        $result = array_values($result);
+        return $items;
     }
 
     protected function format_items ($items) {

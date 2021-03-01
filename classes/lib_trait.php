@@ -223,7 +223,7 @@ trait lib_trait {
         }
         if (count($cms)) {
             if (!$include_hidden_cms) {
-                $cms = array_filter($cms, function($module){ return $module->visible == 1;});
+                $cms = array_filter($cms, function($module){ return ($module && $module->visible == 1);});
             }
             if ($formatted) {
                 $cms = self::format_course_module($cms);
@@ -429,7 +429,7 @@ trait lib_trait {
 
     public function extract_ids ($elements){
         $ids = array();
-        if(gettype($elements) == 'array'){
+        if(gettype($elements) == 'array' && count($elements)>0){
             foreach($elements as $key => $element){
                 if(gettype($element) == "array"){
                     if(isset($element['id'])){
