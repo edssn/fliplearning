@@ -85,6 +85,8 @@ $content = [
         "review_question" => get_string("fml_review_question", "local_fliplearning"),
 
     ],
+    'questions_attempts_colors' => array('#06D6A0', '#FFD166', '#EF476F', '#118AB2', '#264653'),
+    'hardest_questions_colors' => array('#118AB2'),
     'courseid' => $COURSE->id,
     'userid' => $USER->id,
     'quiz' => $reports->quiz_attempts(),

@@ -32,6 +32,8 @@ define(["local_fliplearning/vue",
                         pages : content.pages,
 
                         quiz : content.quiz,
+                        questions_attempts_colors: content.questions_attempts_colors,
+                        hardest_questions_colors: content.hardest_questions_colors,
                         default_quiz: null,
                         attempts_categories: [],
                         attempts_series: [],
@@ -97,6 +99,7 @@ define(["local_fliplearning/vue",
                         chart.title = {
                             text: null
                         };
+                        chart.colors = this.questions_attempts_colors;
                         chart.xAxis = {
                             categories: this.attempts_categories
                         };
@@ -160,6 +163,7 @@ define(["local_fliplearning/vue",
                         chart.title = {
                             text: null,
                         };
+                        chart.colors = this.hardest_questions_colors;
                         chart.xAxis = {
                             categories: this.hardest_categories,
                         };
