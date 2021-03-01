@@ -75,7 +75,7 @@ define(["local_fliplearning/vue",
                         this.indicators.sections.forEach(section => {
                             sectionid = Number(section.sectionid);
                             section.sectionid = sectionid;
-                            section.modules = sectionsMap.get(sectionid);
+                            section.modules = (sectionsMap.has(sectionid)) ? sectionsMap.get(sectionid) : [];
                         });
                     },
 
