@@ -26,7 +26,7 @@
                         <v-col sm="12">
                             <v-btn
                                 depressed
-                                color="primary"
+                                color="#118AB2"
                             >
                                 <span
                                     v-text="strings.generate_data_manually"
@@ -92,7 +92,7 @@
                                                 </template>
 
                                                 <template v-slot:item.progress_percentage="{ item }">
-                                                    <v-progress-linear :value="item.progress_percentage" height="8"></v-progress-linear>
+                                                    <v-progress-linear color="#118AB2" :value="item.progress_percentage" height="8"></v-progress-linear>
                                                 </template>
 
                                             </v-data-table>
@@ -146,7 +146,7 @@
                                                     :size="90"
                                                     :width="15"
                                                     :value="selected_user.progress_percentage"
-                                                    color="primary"
+                                                    color="#118AB2"
                                                     >
                                                     <span v-text="get_progress_percentage()"></span>
                                                 </v-progress-circular>
@@ -159,21 +159,23 @@
                                         <v-row class="d-flex text-center">
                                             <v-col cols="12" sm="6" md="12" lg="6">
                                                 <v-btn
-                                                color="primary lighten"
-                                                v-text="get_sendmail_user_text()"
-                                                v-on:click="sendmail(1)"
-                                                text
-                                            >
-                                            </v-btn>
+                                                    color="#118AB2"
+                                                    class="lighten"
+                                                    v-text="get_sendmail_user_text()"
+                                                    v-on:click="sendmail(1)"
+                                                    text
+                                                >
+                                                </v-btn>
                                             </v-col>
                                             <v-col cols="12" sm="6" md="12" lg="6">
                                                 <v-btn
-                                                color="primary lighten"
-                                                v-text="strings.send_mail_to_group"
-                                                v-on:click="sendmail(2)"
-                                                text
-                                            >
-                                            </v-btn>
+                                                    color="#118AB2"
+                                                    class="lighten"
+                                                    v-text="strings.send_mail_to_group"
+                                                    v-on:click="sendmail(2)"
+                                                    text
+                                                >
+                                                </v-btn>
                                             </v-col>
                                         </v-row>
                                     </v-card-actions>

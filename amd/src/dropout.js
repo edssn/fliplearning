@@ -37,6 +37,10 @@ define(["local_fliplearning/vue",
                         pages : content.pages,
 
                         dropout: content.dropout,
+                        modules_access_colors: content.modules_access_colors,
+                        week_modules_colors: content.week_modules_colors,
+                        sessions_evolution_colors: content.sessions_evolution_colors,
+                        user_grades_colors: content.user_grades_colors,
                         selected_cluster: [],
                         cluster_users: [],
                         selected_user: null,
@@ -199,6 +203,7 @@ define(["local_fliplearning/vue",
                             backgroundColor: null,
                         };
                         chart.title = { text: null};
+                        chart.colors = this.modules_access_colors;
                         chart.xAxis = {
                             type: 'category',
                         };
@@ -250,6 +255,7 @@ define(["local_fliplearning/vue",
                             backgroundColor: null,
                         };
                         chart.title = {text: null};
+                        chart.colors = this.week_modules_colors;
                         chart.xAxis = {
                             categories: this.week_modules_chart_categories,
                             title: {
@@ -306,6 +312,7 @@ define(["local_fliplearning/vue",
                             backgroundColor: null,
                         };
                         chart.title = {text: null};
+                        chart.colors = this.sessions_evolution_colors;
                         chart.xAxis = {
                             type: 'datetime'
                         };
@@ -337,6 +344,7 @@ define(["local_fliplearning/vue",
                             backgroundColor: null,
                         };
                         chart.title = {text: null};
+                        chart.colors = this.user_grades_colors;
                         chart.xAxis = {
                             crosshair: true,
                             categories: this.user_grades_categories,
