@@ -317,6 +317,12 @@ trait lib_trait {
         return $timezone;
     }
 
+    public function get_server_timezone(){
+        $date = new DateTime();
+        $timeZone = $date->getTimezone();
+        return $timeZone->getName();
+    }
+
     /**
      * Reemplaza los acentos de una cadena de texto que contiene una zona horaria
      *
