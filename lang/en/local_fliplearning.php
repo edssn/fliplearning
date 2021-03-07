@@ -388,6 +388,22 @@ $string['fml_wiki_url'] = '/mod/wiki/view.php?id=';
 $string['fml_workshop_url'] = '/mod/workshop/view.php?id=';
 $string['fml_course_url'] = '/course/view.php?id=';
 
+
+/* Teacher Rating*/
+$string['tr_section_help_title'] = 'Seguimiento de Calificaciones';
+$string['tr_section_help_description'] = 'Esta sección contiene indicadores relacionados a los promedios de calificaciones en las actividades evaluables. Las diferentes unidades didácticas (Categorías de Calificación) creadas por el docente se muestran en el selector <i>Categoría de Calificación</i>. Este selector permitirá cambiar entre las diferentes unidades definidas y mostrar las actividades evaluables en cada una.';
+$string['tr_grade_items_average_help_title'] = 'Promedio de Actividades Evaluables';
+$string['tr_grade_items_average_help_description_p1'] = 'Este gráfico presenta el promedio (en porcentaje) de calificaciones de los estudiantes en cada una de las actividades evaluables del curso. El promedio en porcentaje se calcula en base a la calificación máxima de la actividad evaluable (ejemplo: una actividad evaluable con calificación máxima de 80 y calificación promedio de 26 presentará una barra con una altura igual al 33%, ya que 26 es el 33% de la calificación total). Se ha expresado el promedio de calificaciones en base a porcentajes para conservar la simetría del gráfico, puesto que Moodle permite crear actividades y asignar calificaciones personalizadas.';
+$string['tr_grade_items_average_help_description_p2'] = 'En el eje x del gráfico se encuentran las distintas actividades evaluables del curso. En el eje y se encuentra el promedio de calificaciones expresado en porcentaje.';
+$string['tr_grade_items_average_help_description_p3'] = 'Al hacer clic sobre la barra correspondiente a una actividad evaluable, los datos de los dos gráficos inferiores se actualizarán para mostrar información adicional de la actividad evaluable seleccionada.';
+$string['tr_item_grades_details_help_title'] = 'Mejor, Peor y Calificación Promedio';
+$string['tr_item_grades_details_help_description_p1'] = 'Este gráfico muestra la mejor calificación, la calificación promedio y la peor calificación en una actividad evaluable (la actividad seleccionada del gráfico Promedio de Actividades Evaluables).';
+$string['tr_item_grades_details_help_description_p2'] = 'En el eje x del gráfico se encuentra el puntaje para la calificación de la actividad, siendo la nota máxima de la actividad el máximo valor en este eje. En el eje y se encuentran las etiquetas de Mejor Calificación, Calificación Promedio y Peor Calificación.';
+$string['tr_item_grades_distribution_help_title'] = 'Distribución de Calificaciones';
+$string['tr_item_grades_distribution_help_description_p1'] = 'Este gráfico muestra la distribución de los estudiantes en diferentes rangos de calificación. Los rangos de calificación se calculan en base a porcentajes. Se toman en cuenta los siguientes rangos: menor al 50%, mayor al 50%, mayor al 60%, mayor al 70%, mayor al 80% y mayor al 90%. Estos rangos se calculan en base a la ponderación máxima que el docente asignó a una actividad evaluable.';
+$string['tr_item_grades_distribution_help_description_p2'] = 'En el eje x están los rangos de calificación de la actividad. En el eje y está la cantidad de estudiantes que pertenecen a un determinado rango.';
+$string['tr_item_grades_distribution_help_description_p3'] = 'Al hacer clic sobre la barra correspondiente a un rango se puede enviar un correo electrónico a los estudiantes dentro del rango de calificación.';
+
 /* Grades */
 $string['fml_grades_select_label'] = 'Categoría de Calificación';
 $string['fml_grades_chart_title'] = 'Promedios de Actividades Evaluables';

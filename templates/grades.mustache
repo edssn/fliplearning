@@ -46,7 +46,7 @@
                                         :chart="build_grade_items_average_chart()"
                                         :lang="strings.chart"
                                 ></chart>
-                                <span class="caption" @click="info">
+                                <span class="caption" @click="open_chart_help('grade_items_average')">
                                 <v-icon small v-text="'mdi-help-circle-outline'"></v-icon>
                                 <span v-text="strings.about"></span>
                             </span>
@@ -70,7 +70,7 @@
                                         :chart="build_item_grades_details_chart()"
                                         :lang="strings.chart"
                                 ></chart>
-                                <span class="caption" @click="info">
+                                <span class="caption" @click="open_chart_help('item_grades_details')">
                                 <v-icon small v-text="'mdi-help-circle-outline'"></v-icon>
                                 <span v-text="strings.about"></span>
                             </span>
@@ -92,7 +92,7 @@
                                         :chart="build_item_grades_distribution_chart()"
                                         :lang="strings.chart"
                                 ></chart>
-                                <span class="caption" @click="info">
+                                <span class="caption" @click="open_chart_help('item_grades_distribution')">
                                 <v-icon small v-text="'mdi-help-circle-outline'"></v-icon>
                                 <span v-text="strings.about"></span>
                             </span>
@@ -118,7 +118,18 @@
                                 @update_dialog="update_dialog"
                         ></emailform>
                     </v-col>
+                </v-row>
 
+                <v-row justify="center">
+                    <v-col sm="12">
+                        <helpdialog
+                                :dialog="help_dialog"
+                                :title="strings.helplabel"
+                                :contents="help_contents"
+                                :exit="strings.exitbutton"
+                                @update_dialog="update_help_dialog"
+                        ></helpdialog>
+                    </v-col>
                 </v-row>
             </div>
         </v-container>
