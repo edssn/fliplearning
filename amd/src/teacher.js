@@ -6,7 +6,7 @@ define(["local_fliplearning/vue",
         "local_fliplearning/pageheader",
         "local_fliplearning/helpdialog",
     ],
-    function(Vue, Vuetify, Axios, Pagination, ChartStatic, Pageheader, HelpDialog) {
+    function(Vue, Vuetify, Axios, Pagination, ChartStatic, PageHeader, HelpDialog) {
         "use strict";
 
         function init(content) {
@@ -14,7 +14,7 @@ define(["local_fliplearning/vue",
             Vue.use(Vuetify);
             Vue.component('pagination', Pagination);
             Vue.component('chart', ChartStatic);
-            Vue.component('pageheader', Pageheader);
+            Vue.component('pageheader', PageHeader);
             Vue.component('helpdialog', HelpDialog);
             let vue = new Vue({
                 delimiters: ["[[", "]]"],
@@ -48,12 +48,12 @@ define(["local_fliplearning/vue",
                 },
                 methods : {
                     get_help_content(){
-                        let helpcontents = [];
-                        helpcontents.push({
+                        let contents = [];
+                        contents.push({
                             title: this.strings.section_help_title,
                             description: this.strings.section_help_description,
                         });
-                        return helpcontents;
+                        return contents;
                     },
 
                     get_course_grade(){

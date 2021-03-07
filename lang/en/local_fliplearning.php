@@ -62,6 +62,18 @@ $string['togglemenu'] = 'Mostrar/Ocultar menú de FML';
 $string['pagination_component_to'] = 'al';
 $string['pagination_component_name'] = 'Semana';
 
+/* Goups */
+$string['group_allstudent'] = 'Todos los estudiantes';
+
+/* General Errors */
+$string['api_error_network'] = "Ha ocurrido un error en la comunicación con el servidor.";
+$string['api_invalid_data'] = 'Datos incorrectos';
+$string['api_save_successful'] = 'Se han guardado los datos correctamente en el servidor';
+$string['api_cancel_action'] = 'Has cancelado la acción';
+
+/* Admin Task Screen*/
+$string['generate_data_task'] = 'Proceso para generar datos para Flip my Learning Plugin';
+
 /* Chart*/
 $string['chart_loading'] = 'Cargando...';
 $string['chart_exportButtonTitle'] = "Exportar";
@@ -202,8 +214,7 @@ $string['tg_weeks_sessions_help_title'] = 'Sesiones por Semana';
 $string['tg_week_sessions_help_description_p1'] = 'Este gráfico muestra la cantidad de sesiones de estudio realizadas por los estudiantes en cada semana a partir de la fecha de inicio del curso. Se considera el acceso al curso por parte del estudiante como el inicio de una sesión de estudio. Una sesión se considera finalizada cuando el tiempo transcurrido entre dos interacciones de un estudiante supera los 30 minutos.';
 $string['tg_week_sessions_help_description_p2'] = 'En el eje x del gráfico se encuentran las semanas de cada mes. En el eje y del gráfico se encuentran los diferentes meses del año partiendo del mes de creación del curso. Para mantener la simetría del gráfico se ha colocado un total de cinco semanas para cada mes, sin embargo, no todos los meses tiene tal cantidad de semanas. Dichos meses, solo sumarán sesiones hasta la semana cuatro.';
 $string['tg_progress_table_help_title'] = 'Progreso de los estudiantes';
-$string['tg_progress_table_help_description'] = 'Este tabla muestra una lista con todos los estudiantes matriculados en el curso junto con su progreso, cantidad de sesiones y tiempo invertido. Para el cálculo del progreso se han considerado todos los recursos del curso a excepción de los de tipo Label. Para determinar si un estudiante ha finalizado un recurso se verifica en primer lugar si el recurso tiene habilitada la configuración de completitud. En caso de ser así, se busca si el estudiante ya ha completado la actividad en base a esa configuración. De lo contrario, la actividad se considera completa si el estudiante la ha visto al menos una vez.';
-
+$string['tg_progress_table_help_description'] = 'Este tabla muestra una lista con todos los estudiantes matriculados en el curso junto con su progreso, cantidad de sesiones y tiempo invertido. Para el cálculo del progreso se han considerado todos los recursos del curso a excepción de los de tipo <i>Label</i>. Para determinar si un estudiante ha finalizado un recurso se verifica en primer lugar si el recurso tiene habilitada la configuración de completitud. En caso de ser así, se busca si el estudiante ya ha completado la actividad en base a esa configuración. De lo contrario, la actividad se considera completa si el estudiante la ha visto al menos una vez.';
 
 $string['fml_title'] = 'Sesiones de Trabajo';
 $string['table_title'] = 'Progreso del Curso';
@@ -235,34 +246,33 @@ $string["fml_session_text"] = "sesión";
 $string["fml_sessions_text"] = "sesiones";
 
 $string['ss_change_timezone'] = 'Zona horaria:';
-$string['ss_activity_inside_plataform_student'] = 'Mi actividad en la plataforma';
-$string['ss_activity_inside_plataform_teacher'] = 'Actividad de los estudiantes en la plataforma';
-$string['ss_time_inside_plataform_student'] = 'Mi tiempo en la plataforma';
-$string['ss_time_inside_plataform_teacher'] = 'Tiempo invertido en promedio de los estudiantes en la plataforma en esta semana';
-$string['ss_time_inside_plataform_description_teacher'] = 'Tiempo que el estudiante ha invertido en la semana seleccionada, en comparación al tiempo que el/la docente planificó que se debería invertir. El tiempo invertido que se visualiza corresponde al promedio de todos los estudiantes. El tiempo planificado por el/la docente es el asignado en por el/la docente en <i>Configurar Semanas</i>.';
-$string['ss_time_inside_plataform_description_student'] = 'Tiempo que ha invertido esta semana en relación al tiempo que el profesor planificó que se debería invertir.';
-$string['ss_activity_inside_plataform_description_teacher'] = 'En el eje Y se indican las las horas del día y en el eje X los días de la semana. Dentro del gráfico podrá encontrar múltiples puntos, los cuales, al pasar el cursor sobre estos, ofrecen información detallada sobre las interacciones de los estudiantes, agrupadas por tipo de recurso (número de interacciones, número de estudiantes que interactuaron con el recurso y promedio de interacciones). <br/><br/><b>Al hacer click en las etiquetas, podrá filtrar por tipo de recurso, dejando visible sólo aquellos que no se encuentren tachados.</b>';
-$string['ss_activity_inside_plataform_description_student'] = 'Presenta las interacciones por tipo de recurso y horario. Al pasar el cursor sobre un punto visible en el gráfico, verá el número de interacciones agrupadas por tipo de recurso. Al hacer click en las etiquetas, podrá filtrar por tipo de recurso.';
+//$string['ss_activity_inside_plataform_student'] = 'Mi actividad en la plataforma';
+//$string['ss_activity_inside_plataform_teacher'] = 'Actividad de los estudiantes en la plataforma';
+//$string['ss_time_inside_plataform_student'] = 'Mi tiempo en la plataforma';
+//$string['ss_time_inside_plataform_teacher'] = 'Tiempo invertido en promedio de los estudiantes en la plataforma en esta semana';
+//$string['ss_time_inside_plataform_description_teacher'] = 'Tiempo que el estudiante ha invertido en la semana seleccionada, en comparación al tiempo que el/la docente planificó que se debería invertir. El tiempo invertido que se visualiza corresponde al promedio de todos los estudiantes. El tiempo planificado por el/la docente es el asignado en por el/la docente en <i>Configurar Semanas</i>.';
+//$string['ss_time_inside_plataform_description_student'] = 'Tiempo que ha invertido esta semana en relación al tiempo que el profesor planificó que se debería invertir.';
+//$string['ss_activity_inside_plataform_description_teacher'] = 'En el eje Y se indican las las horas del día y en el eje X los días de la semana. Dentro del gráfico podrá encontrar múltiples puntos, los cuales, al pasar el cursor sobre estos, ofrecen información detallada sobre las interacciones de los estudiantes, agrupadas por tipo de recurso (número de interacciones, número de estudiantes que interactuaron con el recurso y promedio de interacciones). <br/><br/><b>Al hacer click en las etiquetas, podrá filtrar por tipo de recurso, dejando visible sólo aquellos que no se encuentren tachados.</b>';
+//$string['ss_activity_inside_plataform_description_student'] = 'Presenta las interacciones por tipo de recurso y horario. Al pasar el cursor sobre un punto visible en el gráfico, verá el número de interacciones agrupadas por tipo de recurso. Al hacer click en las etiquetas, podrá filtrar por tipo de recurso.';
 
-/* Time */
+/* Teacher Sessions */
+$string['ts_section_help_title'] = 'Sesiones de Estudio';
+$string['ts_section_help_description'] = 'Esta sección contiene visualizaciones con indicadores relacionados a la actividad de los estudiantes en el curso medida en términos de sesiones realizadas, tiempo promedio invertido en el curso por semana y sesiones de estudio en intervalos de tiempo. Los datos presentados en esta sección varían dependiendo de la semana de estudio seleccionada.';
+$string['ts_inverted_time_help_title'] = 'Tiempo Invertido de los Estudiantes';
+$string['ts_inverted_time_help_description_p1'] = 'Este gráfico muestra el tiempo promedio invertido por parte de los estudiantes en la semana en comparación del tiempo promedio planificado por parte del docente.';
+$string['ts_inverted_time_help_description_p2'] = 'En el eje x del gráfico se encuentra el número de horas que el docente ha planificado para una semana específica. En el eje y se encuentran las etiquetas de tiempo promedio invertido y tiempo promedio que se debería invertir.';
+$string['ts_hours_sessions_help_title'] = 'Sesiones por Día y Hora';
+$string['ts_hours_sessions_help_description_p1'] = 'Este gráfico muestra las sesiones de estudio por día y hora de la semana seleccionada. Se considera el acceso al curso por parte del estudiante como el inicio de una sesión de estudio. Una sesión se considera finalizada cuando el tiempo transcurrido entre dos interacciones de un estudiante supera los 30 minutos.';
+$string['ts_hours_sessions_help_description_p2'] = 'En el eje x del gráfico se encuentran los días de la semana. En el eje y se encuentran las horas del día empezando por las 12am y terminando a las 11pm o 23 horas.';
+$string['ts_sessions_count_help_title'] = 'Sesiones de la Semana';
+$string['ts_sessions_count_help_description_p1'] = 'Este gráfico muestra el número de sesiones clasificadas por su duración en rangos de tiempo: menores a 30 minutos, mayores a 30 minutos y mayores a 60 minutos. Se considera el acceso al curso por parte del estudiante como el inicio de una sesión de estudio. Una sesión se considera finalizada cuando el tiempo transcurrido entre dos interacciones de un estudiante supera los 30 minutos.';
+$string['ts_sessions_count_help_description_p2'] = 'En el eje x del gráfico están los días de la semana configurada. En el eje y está la cantidad de sesiones realizadas.';
+
 $string['fml_time_inverted_title'] = 'Tiempo invertido de los Estudiantes';
 $string['fml_time_inverted_x_axis'] = 'Número de Horas';
 $string['fml_inverted_time'] = 'Tiempo Promedio Invertido';
 $string['fml_expected_time'] = 'Tiempo Promedio que se debería Invertir';
 
-/* Goups */
-$string['group_allstudent'] = 'Todos los estudiantes';
-
-/* General Errors */
-$string['api_error_network'] = "Ha ocurrido un error en la comunicación con el servidor.";
-$string['api_invalid_data'] = 'Datos incorrectos';
-$string['api_save_successful'] = 'Se han guardado los datos correctamente en el servidor';
-$string['api_cancel_action'] = 'Has cancelado la acción';
-
-/* Admin Task Screen*/
-$string['generate_data_task'] = 'Proceso para generar datos para Flip my Learning Plugin';
-
-/* Time */
 $string['fml_year'] = 'año';
 $string['fml_years'] = 'años';
 $string['fml_month'] = 'mes';
@@ -289,26 +299,6 @@ $string['fml_assign_nodue'] = 'Sin fecha límite';
 $string['fml_assignsubs_title'] = 'Envíos de Tareas';
 $string['fml_assignsubs_yaxis'] = 'Número de Estudiantes';
 
-//$string['fml_jan_dim'] = 'Ene.';
-//$string['fml_feb_dim'] = 'Feb.';
-//$string['fml_mar_dim'] = 'Mar.';
-//$string['fml_apr_dim'] = 'Abr.';
-//$string['fml_may_dim'] = 'May.';
-//$string['fml_jun_dim'] = 'Jun.';
-//$string['fml_jul_dim'] = 'Jul.';
-//$string['fml_aug_dim'] = 'Ago.';
-//$string['fml_sep_dim'] = 'Sep.';
-//$string['fml_oct_dim'] = 'Oct.';
-//$string['fml_nov_dim'] = 'Nov.';
-//$string['fml_dec_dim'] = 'Dic.';
-//
-//$string['fml_mon_dim'] = 'Lun.';
-//$string['fml_tue_dim'] = 'Mar.';
-//$string['fml_wed_dim'] = 'Mié.';
-//$string['fml_thu_dim'] = 'Jue.';
-//$string['fml_fri_dim'] = 'Vie.';
-//$string['fml_sat_dim'] = 'Sáb.';
-//$string['fml_sun_dim'] = 'Dom.';
 
 /* Content Access */
 $string['fml_assign'] = 'Tarea';

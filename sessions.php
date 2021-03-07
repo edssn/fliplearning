@@ -46,6 +46,18 @@ if(!$configweeks->is_set()){
 
 $content = [
     'strings' =>[
+        "section_help_title" => get_string("ts_section_help_title", "local_fliplearning"),
+        "section_help_description" => get_string("ts_section_help_description", "local_fliplearning"),
+        "inverted_time_help_title" => get_string("ts_inverted_time_help_title", "local_fliplearning"),
+        "inverted_time_help_description_p1" => get_string("ts_inverted_time_help_description_p1", "local_fliplearning"),
+        "inverted_time_help_description_p2" => get_string("ts_inverted_time_help_description_p2", "local_fliplearning"),
+        "hours_sessions_help_title" => get_string("ts_hours_sessions_help_title", "local_fliplearning"),
+        "hours_sessions_help_description_p1" => get_string("ts_hours_sessions_help_description_p1", "local_fliplearning"),
+        "hours_sessions_help_description_p2" => get_string("ts_hours_sessions_help_description_p2", "local_fliplearning"),
+        "sessions_count_help_title" => get_string("ts_sessions_count_help_title", "local_fliplearning"),
+        "sessions_count_help_description_p1" => get_string("ts_sessions_count_help_description_p1", "local_fliplearning"),
+        "sessions_count_help_description_p2" => get_string("ts_sessions_count_help_description_p2", "local_fliplearning"),
+
         "title" => get_string("fml_title", "local_fliplearning"),
         "chart" => $reports->get_chart_langs(),
         "days" => array(
@@ -117,17 +129,9 @@ $content = [
         "pagination" => get_string("pagination", "local_fliplearning"),
         "ss_change_timezone" => get_string("ss_change_timezone", "local_fliplearning"),
         "graph_generating" => get_string("graph_generating", "local_fliplearning"),
-        "time_inside_plataform_teacher" => get_string("ss_time_inside_plataform_teacher", "local_fliplearning"),
-        "time_inside_plataform_student" => get_string("ss_time_inside_plataform_student", "local_fliplearning"),
-        "activity_inside_plataform_student" => get_string("ss_activity_inside_plataform_student", "local_fliplearning"),
-        "activity_inside_plataform_teacher" => get_string("ss_activity_inside_plataform_teacher", "local_fliplearning"),
         "api_error_network" => get_string("api_error_network", "local_fliplearning"),
         "pagination_name" => get_string("pagination_component_name","local_fliplearning"),
         "pagination_separator" => get_string("pagination_component_to","local_fliplearning"),
-        "time_inside_plataform_description_teacher" => get_string("ss_time_inside_plataform_description_teacher","local_fliplearning"),
-        "time_inside_plataform_description_student" => get_string("ss_time_inside_plataform_description_student","local_fliplearning"),
-        "activity_inside_plataform_description_teacher" => get_string("ss_activity_inside_plataform_description_teacher","local_fliplearning"),
-        "activity_inside_plataform_description_student" => get_string("ss_activity_inside_plataform_description_student","local_fliplearning"),
         "pagination_title" => get_string("pagination_title","local_fliplearning"),
         "helplabel" => get_string("helplabel","local_fliplearning"),
         "exitbutton" => get_string("exitbutton","local_fliplearning"),

@@ -5,8 +5,9 @@ define(["local_fliplearning/vue",
         "local_fliplearning/pagination",
         "local_fliplearning/chartstatic",
         "local_fliplearning/pageheader",
+        "local_fliplearning/helpdialog",
     ],
-    function(Vue, Vuetify, Axios, Moment, Pagination, ChartStatic, Pageheader) {
+    function(Vue, Vuetify, Axios, Moment, Pagination, ChartStatic, PageHeader, HelpDialog) {
         "use strict";
 
         function init(content) {
@@ -14,7 +15,8 @@ define(["local_fliplearning/vue",
             Vue.use(Vuetify);
             Vue.component('pagination', Pagination);
             Vue.component('chart', ChartStatic);
-            Vue.component('pageheader', Pageheader);
+            Vue.component('pageheader', PageHeader);
+            Vue.component('helpdialog', HelpDialog);
             let vue = new Vue({
                 delimiters: ["[[", "]]"],
                 el: "#work_sessions",
@@ -37,6 +39,9 @@ define(["local_fliplearning/vue",
                         inverted_time_colors: content.inverted_time_colors,
                         sessions_count_colors: content.sessions_count_colors,
                         search: null,
+
+                        help_dialog: false,
+                        help_contents: [],
                     }
                 },
                 mounted(){
@@ -45,18 +50,12 @@ define(["local_fliplearning/vue",
                 },
                 methods : {
                     get_help_content(){
-                        let helpcontents = [];
-                        let time = this.strings.time_inside_plataform_description_teacher;
-                        let activity = this.strings.activity_inside_plataform_description_teacher;
-                        helpcontents.push({
-                            title: this.strings.time_inside_plataform_teacher,
-                            description: time,
+                        let contents = [];
+                        contents.push({
+                            title: this.strings.section_help_title,
+                            description: this.strings.section_help_description,
                         });
-                        helpcontents.push({
-                            title: this.strings.activity_inside_plataform_teacher,
-                            description: activity,
-                        });
-                        return helpcontents;
+                        return contents;
                     },
 
                     update_interactions(week){
@@ -182,7 +181,7 @@ define(["local_fliplearning/vue",
                         return chart;
                     },
 
-                    build_chart_session_count() {
+                    build_sessions_count_chart() {
                         let chart = new Object();
                         chart.chart = {
                             backgroundColor: null,
@@ -239,8 +238,41 @@ define(["local_fliplearning/vue",
                         return text;
                     },
 
-                    info() {
-                        console.log('Open modal');
+                    open_chart_help(chart) {
+                        let contents = [];
+                        if (chart == "inverted_time") {
+                            contents.push({
+                                title: this.strings.inverted_time_help_title,
+                                description: this.strings.inverted_time_help_description_p1,
+                            });
+                            contents.push({
+                                description: this.strings.inverted_time_help_description_p2,
+                            });
+                        } else if (chart == "hours_sessions") {
+                            contents.push({
+                                title: this.strings.hours_sessions_help_title,
+                                description: this.strings.hours_sessions_help_description_p1,
+                            });
+                            contents.push({
+                                description: this.strings.hours_sessions_help_description_p2,
+                            });
+                        } else if (chart == "sessions_count") {
+                            contents.push({
+                                title: this.strings.sessions_count_help_title,
+                                description: this.strings.sessions_count_help_description_p1,
+                            });
+                            contents.push({
+                                description: this.strings.sessions_count_help_description_p2,
+                            });
+                        }
+                        this.help_contents = contents;
+                        if (this.help_contents.length) {
+                            this.help_dialog = true;
+                        }
+                    },
+
+                    update_help_dialog (value) {
+                        this.help_dialog = value;
                     },
 
                     get_timezone(){
