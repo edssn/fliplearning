@@ -291,6 +291,16 @@ $string['fml_seconds_short'] = 's';
 $string['fml_ago'] = 'atrás';
 $string['fml_now'] = 'justo ahora';
 
+/*Teacher Assignments*/
+$string['ta_section_help_title'] = 'Seguimiento de Tareas';
+$string['ta_section_help_description'] = 'Esta sección contiene indicadores relacionados a la entrega de tareas y acceso a recursos. Los datos presentados en esta sección varían dependiendo de la semana de estudio seleccionada.';
+$string['ta_assigns_submissions_help_title'] = 'Envíos de Tareas';
+$string['ta_assigns_submissions_help_description_p1'] = 'Este gráfico presenta la distribución de la cantidad de estudiantes, respecto al estado de entrega de una tarea.';
+$string['ta_assigns_submissions_help_description_p2'] = 'En el eje x del gráfico se encuentran las tareas de las secciones asignadas a la semana junto con la fecha y hora de entrega. En el eje y se encuentra la distribución del número de estudiantes según el estado de entrega. El gráfico cuenta con la opción de enviar un correo electrónico a los estudiantes en alguna distribución (envío a tiempo, envíos tardíos, sin envío) al dar clic sobre el gráfico.';
+$string['ta_access_content_help_title'] = 'Acceso a los contenidos del curso';
+$string['ta_access_content_help_description_p1'] = 'Este gráfico presenta la cantidad de estudiantes que han accedido y no han accedido a los recursos del curso. En la parte superior se tienen los distintos tipos de recursos de Moodle, con la posibilidad de filtrar la información del gráfico según el tipo de recurso seleccionado.';
+$string['ta_access_content_help_description_p2'] = 'En el eje x del gráfico se encuentran la cantidad de estudiantes matriculados en el curso. En el eje y del gráfico se encuentran los recursos de las secciones asignadas a la semana. Además, este gráfico permite enviar un correo electrónico a los estudiantes que han accedido al recurso o bien a aquellos que no han accedido al dar clic sobre el gráfico.';
+
 /* Assign Submissions */
 $string['fml_intime_sub'] = 'Envíos a tiempo';
 $string['fml_late_sub'] = 'Envíos tardíos';

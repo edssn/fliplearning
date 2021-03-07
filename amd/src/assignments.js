@@ -6,8 +6,9 @@ define(["local_fliplearning/vue",
         "local_fliplearning/chartdynamic",
         "local_fliplearning/pageheader",
         "local_fliplearning/emailform",
+        "local_fliplearning/helpdialog",
     ],
-    function(Vue, Vuetify, Axios, Moment, Pagination, ChartDynamic, Pageheader, Emailform) {
+    function(Vue, Vuetify, Axios, Moment, Pagination, ChartDynamic, PageHeader, EmailForm, HelpDialog) {
         "use strict";
 
         function init(content) {
@@ -15,8 +16,9 @@ define(["local_fliplearning/vue",
             Vue.use(Vuetify)
             Vue.component('pagination', Pagination);
             Vue.component('chart', ChartDynamic);
-            Vue.component('pageheader', Pageheader);
-            Vue.component('emailform', Emailform);
+            Vue.component('pageheader', PageHeader);
+            Vue.component('emailform', EmailForm);
+            Vue.component('helpdialog', HelpDialog);
             let vue = new Vue({
                 delimiters: ["[[", "]]"],
                 el: "#submissions",
@@ -45,6 +47,9 @@ define(["local_fliplearning/vue",
                         access_chart_categories: [],
                         access_chart_series: [],
                         access_chart_users: [],
+
+                        help_dialog: false,
+                        help_contents: [],
                     }
                 },
                 beforeMount(){
@@ -56,8 +61,12 @@ define(["local_fliplearning/vue",
                 },
                 methods : {
                     get_help_content(){
-                        let helpcontents = `Texto de Ayuda`;
-                        return helpcontents;
+                        let contents = [];
+                        contents.push({
+                            title: this.strings.section_help_title,
+                            description: this.strings.section_help_description,
+                        });
+                        return contents;
                     },
 
                     update_interactions(week){
@@ -289,8 +298,33 @@ define(["local_fliplearning/vue",
                         return mod;
                     },
 
-                    info() {
-                        console.log('Open modal');
+                    open_chart_help(chart) {
+                        let contents = [];
+                        if (chart == "assigns_submissions") {
+                            contents.push({
+                                title: this.strings.assigns_submissions_help_title,
+                                description: this.strings.assigns_submissions_help_description_p1,
+                            });
+                            contents.push({
+                                description: this.strings.assigns_submissions_help_description_p2,
+                            });
+                        } else if (chart == "access_content") {
+                            contents.push({
+                                title: this.strings.access_content_help_title,
+                                description: this.strings.access_content_help_description_p1,
+                            });
+                            contents.push({
+                                description: this.strings.access_content_help_description_p2,
+                            });
+                        }
+                        this.help_contents = contents;
+                        if (this.help_contents.length) {
+                            this.help_dialog = true;
+                        }
+                    },
+
+                    update_help_dialog (value) {
+                        this.help_dialog = value;
                     },
 
                     get_timezone(){
