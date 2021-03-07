@@ -38,6 +38,7 @@ $string['no_data'] = 'No hay datos que mostrar';
 $string['only_student'] = 'Este reporte es solo para estudiantes';
 $string["fml_send_mail"] = "(Clic para enviar correo)";
 $string["fml_about"] = "Acerca de este Gráfico";
+$string["fml_about_table"] = "Acerca de esta Tabla";
 $string["fml_not_configured"] = "No Configurado";
 $string["fml_activated"] = "Activado";
 $string["fml_disabled"] = "Desactivado";
@@ -118,7 +119,7 @@ $string['plugin_visible'] = 'Reportes visibles.';
 $string['plugin_hidden'] = 'Reportes ocultos.';
 $string['title_conditions'] = 'Condiciones de uso';
 
-/* Time Names */
+/* Time */
 $string['fml_mon'] = 'Lunes';
 $string['fml_tue'] = 'Martes';
 $string['fml_wed'] = 'Miércoles';
@@ -191,7 +192,19 @@ $string['fml_21'] = '9pm';
 $string['fml_22'] = '10pm';
 $string['fml_23'] = '11pm';
 
-/* Sessions */
+/* Teacher General */
+$string['tg_section_help_title'] = 'Indicadores Generales';
+$string['tg_section_help_description'] = 'Esta sección contiene visualizaciones con indicadores generales relacionados a la configuración del curso, recursos asignados por semanas, sesiones de estudio y progreso de los estudiantes a lo largo del curso. Las visualizaciones de esta sección muestran los indicadores desde la fecha de inicio hasta la de finalización del curso (o hasta la fecha actual en caso de que el curso aún no ha terminado).';
+$string['tg_week_resources_help_title'] = 'Recursos por Semanas';
+$string['tg_week_resources_help_description_p1'] = 'Este gráfico visualiza la cantidad de recursos de cada una de las secciones del curso asignadas a cada semana de estudio configurada en la sección <i>Configurar Semanas</i>. Si una semana tiene asignada dos o más secciones del curso, los recursos de dichas secciones se suman para el cálculo del total de recursos de una semana.';
+$string['tg_week_resources_help_description_p2'] = 'En el eje x del gráfico se encuentran el total de recursos y actividades de las secciones asignadas a cada semana configurada de Flip My Learning. En el eje y se encuentran las semanas de estudio configuradas.';
+$string['tg_weeks_sessions_help_title'] = 'Sesiones por Semana';
+$string['tg_week_sessions_help_description_p1'] = 'Este gráfico muestra la cantidad de sesiones de estudio realizadas por los estudiantes en cada semana a partir de la fecha de inicio del curso. Se considera el acceso al curso por parte del estudiante como el inicio de una sesión de estudio. Una sesión se considera finalizada cuando el tiempo transcurrido entre dos interacciones de un estudiante supera los 30 minutos.';
+$string['tg_week_sessions_help_description_p2'] = 'En el eje x del gráfico se encuentran las semanas de cada mes. En el eje y del gráfico se encuentran los diferentes meses del año partiendo del mes de creación del curso. Para mantener la simetría del gráfico se ha colocado un total de cinco semanas para cada mes, sin embargo, no todos los meses tiene tal cantidad de semanas. Dichos meses, solo sumarán sesiones hasta la semana cuatro.';
+$string['tg_progress_table_help_title'] = 'Progreso de los estudiantes';
+$string['tg_progress_table_help_description'] = 'Este tabla muestra una lista con todos los estudiantes matriculados en el curso junto con su progreso, cantidad de sesiones y tiempo invertido. Para el cálculo del progreso se han considerado todos los recursos del curso a excepción de los de tipo Label. Para determinar si un estudiante ha finalizado un recurso se verifica en primer lugar si el recurso tiene habilitada la configuración de completitud. En caso de ser así, se busca si el estudiante ya ha completado la actividad en base a esa configuración. De lo contrario, la actividad se considera completa si el estudiante la ha visto al menos una vez.';
+
+
 $string['fml_title'] = 'Sesiones de Trabajo';
 $string['table_title'] = 'Progreso del Curso';
 $string['thead_name'] = 'Nombre';

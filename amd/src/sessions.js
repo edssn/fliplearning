@@ -46,18 +46,14 @@ define(["local_fliplearning/vue",
                 methods : {
                     get_help_content(){
                         let helpcontents = [];
-                        let time = (this.render_has == 'teacher')
-                            ? this.strings.time_inside_plataform_description_teacher
-                            : this.strings.time_inside_plataform_description_student;
-                        let activity = (this.render_has == 'teacher')
-                            ? this.strings.activity_inside_plataform_description_teacher
-                            : this.strings.activity_inside_plataform_description_student;
+                        let time = this.strings.time_inside_plataform_description_teacher;
+                        let activity = this.strings.activity_inside_plataform_description_teacher;
                         helpcontents.push({
-                            title: this.strings.time_inside_plataform,
+                            title: this.strings.time_inside_plataform_teacher,
                             description: time,
                         });
                         helpcontents.push({
-                            title: this.strings.activity_inside_plataform,
+                            title: this.strings.activity_inside_plataform_teacher,
                             description: activity,
                         });
                         return helpcontents;

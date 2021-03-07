@@ -47,6 +47,17 @@ if (!$configweeks->is_set()) {
 
 $content = [
     'strings' => [
+        "section_help_title" => get_string("tg_section_help_title", "local_fliplearning"),
+        "section_help_description" => get_string("tg_section_help_description", "local_fliplearning"),
+        "week_resources_help_title" => get_string("tg_week_resources_help_title", "local_fliplearning"),
+        "week_resources_help_description_p1" => get_string("tg_week_resources_help_description_p1", "local_fliplearning"),
+        "week_resources_help_description_p2" => get_string("tg_week_resources_help_description_p2", "local_fliplearning"),
+        "weeks_sessions_help_title" => get_string("tg_weeks_sessions_help_title", "local_fliplearning"),
+        "week_sessions_help_description_p1" => get_string("tg_week_sessions_help_description_p1", "local_fliplearning"),
+        "week_sessions_help_description_p2" => get_string("tg_week_sessions_help_description_p2", "local_fliplearning"),
+        "progress_table_help_title" => get_string("tg_progress_table_help_title", "local_fliplearning"),
+        "progress_table_help_description" => get_string("tg_progress_table_help_description", "local_fliplearning"),
+
         "title" => get_string("fml_teacher_indicators_title", "local_fliplearning"),
         "chart" => $reports->get_chart_langs(),
         "helplabel" => get_string("helplabel","local_fliplearning"),
@@ -54,6 +65,7 @@ $content = [
         "ss_change_timezone" => get_string("ss_change_timezone", "local_fliplearning"),
         "graph_generating" => get_string("graph_generating", "local_fliplearning"),
         "about" => get_string("fml_about", "local_fliplearning"),
+        "about_table" => get_string("fml_about_table", "local_fliplearning"),
 
         "table_title" => get_string("table_title", "local_fliplearning"),
         "thead_name" => get_string("thead_name", "local_fliplearning"),

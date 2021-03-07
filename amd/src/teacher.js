@@ -4,8 +4,9 @@ define(["local_fliplearning/vue",
         "local_fliplearning/pagination",
         "local_fliplearning/chartstatic",
         "local_fliplearning/pageheader",
+        "local_fliplearning/helpdialog",
     ],
-    function(Vue, Vuetify, Axios, Pagination, ChartStatic, Pageheader) {
+    function(Vue, Vuetify, Axios, Pagination, ChartStatic, Pageheader, HelpDialog) {
         "use strict";
 
         function init(content) {
@@ -14,6 +15,7 @@ define(["local_fliplearning/vue",
             Vue.component('pagination', Pagination);
             Vue.component('chart', ChartStatic);
             Vue.component('pageheader', Pageheader);
+            Vue.component('helpdialog', HelpDialog);
             let vue = new Vue({
                 delimiters: ["[[", "]]"],
                 el: "#teacher",
@@ -31,7 +33,10 @@ define(["local_fliplearning/vue",
                         week_resources_colors: content.week_resources_colors,
                         search: null,
                         week_resources_categories: [],
-                        week_resources_data: []
+                        week_resources_data: [],
+
+                        help_dialog: false,
+                        help_contents: [],
                     }
                 },
                 beforeMount(){
@@ -43,7 +48,12 @@ define(["local_fliplearning/vue",
                 },
                 methods : {
                     get_help_content(){
-                        return '';
+                        let helpcontents = [];
+                        helpcontents.push({
+                            title: this.strings.section_help_title,
+                            description: this.strings.section_help_description,
+                        });
+                        return helpcontents;
                     },
 
                     get_course_grade(){
@@ -186,8 +196,38 @@ define(["local_fliplearning/vue",
                         return n % 1 === 0;
                     },
 
-                    info() {
-                      console.log('Open modal');
+                    open_chart_help(chart) {
+                        let contents = [];
+                        if (chart == "week_resources") {
+                            contents.push({
+                                title: this.strings.week_resources_help_title,
+                                description: this.strings.week_resources_help_description_p1,
+                            });
+                            contents.push({
+                                description: this.strings.week_resources_help_description_p2,
+                            });
+                        } else if (chart == "weeks_sessions") {
+                            contents.push({
+                                title: this.strings.weeks_sessions_help_title,
+                                description: this.strings.week_sessions_help_description_p1,
+                            });
+                            contents.push({
+                                description: this.strings.week_sessions_help_description_p2,
+                            });
+                        } else if (chart == "progress_table") {
+                            contents.push({
+                                title: this.strings.progress_table_help_title,
+                                description: this.strings.progress_table_help_description,
+                            });
+                        }
+                        this.help_contents = contents;
+                        if (this.help_contents.length) {
+                            this.help_dialog = true;
+                        }
+                    },
+
+                    update_help_dialog (value) {
+                        this.help_dialog = value;
                     },
 
                     get_timezone(){
