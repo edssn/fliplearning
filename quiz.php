@@ -46,6 +46,17 @@ if(!$configweeks->is_set()){
 
 $content = [
     'strings' =>[
+        "section_help_title" => get_string("tq_section_help_title", "local_fliplearning"),
+        "section_help_description" => get_string("tq_section_help_description", "local_fliplearning"),
+        "questions_attempts_help_title" => get_string("tq_questions_attempts_help_title", "local_fliplearning"),
+        "questions_attempts_help_description_p1" => get_string("tq_questions_attempts_help_description_p1", "local_fliplearning"),
+        "questions_attempts_help_description_p2" => get_string("tq_questions_attempts_help_description_p2", "local_fliplearning"),
+        "questions_attempts_help_description_p3" => get_string("tq_questions_attempts_help_description_p3", "local_fliplearning"),
+        "hardest_questions_help_title" => get_string("tq_hardest_questions_help_title", "local_fliplearning"),
+        "hardest_questions_help_description_p1" => get_string("tq_hardest_questions_help_description_p1", "local_fliplearning"),
+        "hardest_questions_help_description_p2" => get_string("tq_hardest_questions_help_description_p2", "local_fliplearning"),
+        "hardest_questions_help_description_p3" => get_string("tq_hardest_questions_help_description_p3", "local_fliplearning"),
+
         "chart" => $reports->get_chart_langs(),
         "title" => get_string("menu_quiz","local_fliplearning"),
         "no_data" => get_string("no_data", "local_fliplearning"),
@@ -86,7 +97,7 @@ $content = [
 
     ],
     'questions_attempts_colors' => array('#06D6A0', '#FFD166', '#EF476F', '#118AB2', '#264653'),
-    'hardest_questions_colors' => array('#118AB2'),
+    'hardest_questions_colors' => array('#EF476F'),
     'courseid' => $COURSE->id,
     'userid' => $USER->id,
     'quiz' => $reports->quiz_attempts(),

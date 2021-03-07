@@ -427,7 +427,18 @@ $string['fml_grades_distribution_tooltip_suffix'] = 'en este rango';
 $string["fml_view_details"] = "(Clic para ver detalles)";
 
 
-/* Quiz */
+/* Teacher Quiz  */
+$string['tq_section_help_title'] = 'Seguimiento de Evaluaciones';
+$string['tq_section_help_description'] = 'Esta sección contiene indicadores relacionados al resumen de intentos en las diferentes evaluaciones del curso y análisis de las preguntas de una evaluación. Los datos presentados en esta sección varían dependiendo de la semana de estudio seleccionada y de un selector que contiene todas las actividades de tipo Evaluación de las secciones del curso asignadas a la semana seleccionada.';
+$string['tq_questions_attempts_help_title'] = 'Intentos de Preguntas';
+$string['tq_questions_attempts_help_description_p1'] = 'Este gráfico muestra la distribución de intentos de resolución de cada una de las preguntas de una evaluación junto con el estado de revisión en el que se encuentran.';
+$string['tq_questions_attempts_help_description_p2'] = 'En el eje x del gráfico se encuentran las preguntas de la evaluación. En el eje y se encuentra la cantidad de intentos de resolución para cada una de dichas preguntas. La simetría del gráfico se verá afectada por la configuración de la evaluación (ejemplo: en una evaluación que tenga siempre las mismas preguntas, el gráfico presentará la misma cantidad de intentos para cada barra correspondiente a una pregunta. En una evaluación que tenga preguntas aleatorias (de un banco de preguntas), el gráfico presentará en la barra de cada pregunta la suma de los intentos de evaluaciones en los que apareció, pudiendo no ser la misma para cada pregunta de la evaluación).';
+$string['tq_questions_attempts_help_description_p3'] = 'Al hacer clic en alguna de las barras correspondiente a una pregunta es posible ver la pregunta de la evaluación en una ventana emergente.';
+$string['tq_hardest_questions_help_title'] = 'Preguntas más difíciles';
+$string['tq_hardest_questions_help_description_p1'] = 'Este gráfico muestra las preguntas de la evaluación ordenadas por su nivel de dificultad. Se considera incorrecto a un intento de resolución de una pregunta con el estado de Parcialmente Correcto, Incorrecto o En Blanco, de manera que la cantidad total de intentos incorrectos de una pregunta es la suma de los intentos con los estados antes mencionados. El nivel de dificultad se representa en porcentaje calculado en base a la cantidad total de intentos.';
+$string['tq_hardest_questions_help_description_p2'] = 'En el eje x del gráfico se encuentran las preguntas de la evaluación identificadas por el nombre. En el eje y se encuentran el porcentaje de intentos incorrectos del total de intentos de la pregunta. Este eje permite identificar cuáles han sido las preguntas que han representado mayor dificultad para los estudiantes que rindieron la evaluación.';
+$string['tq_hardest_questions_help_description_p3'] = 'Al hacer clic en alguna de las barras correspondiente a una pregunta es posible ver la pregunta de la evaluación en una ventana emergente.';
+
 $string["fml_quiz_info_text"] = "Esta Evaluación tiene";
 $string["fml_question_text"] = "pregunta";
 $string["fml_questions_text"] = "preguntas";

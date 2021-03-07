@@ -58,7 +58,7 @@
                                         :chart="build_questions_attempts_chart()"
                                         :lang="strings.chart"
                                 ></chart>
-                                <span class="caption" @click="info">
+                                <span class="caption" @click="open_chart_help('questions_attempts')">
                                 <v-icon small v-text="'mdi-help-circle-outline'"></v-icon>
                                 <span v-text="strings.about"></span>
                             </span>
@@ -77,12 +77,24 @@
                                         :chart="build_hardest_questions_chart()"
                                         :lang="strings.chart"
                                 ></chart>
-                                <span class="caption" @click="info">
+                                <span class="caption" @click="open_chart_help('hardest_questions')">
                                 <v-icon small v-text="'mdi-help-circle-outline'"></v-icon>
                                 <span v-text="strings.about"></span>
                             </span>
                             </v-card-text>
                         </v-card>
+                    </v-col>
+                </v-row>
+
+                <v-row justify="center">
+                    <v-col sm="12">
+                        <helpdialog
+                                :dialog="help_dialog"
+                                :title="strings.helplabel"
+                                :contents="help_contents"
+                                :exit="strings.exitbutton"
+                                @update_dialog="update_help_dialog"
+                        ></helpdialog>
                     </v-col>
                 </v-row>
 

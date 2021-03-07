@@ -5,8 +5,9 @@ define(["local_fliplearning/vue",
         "local_fliplearning/pagination",
         "local_fliplearning/chartdynamic",
         "local_fliplearning/pageheader",
+        "local_fliplearning/helpdialog",
     ],
-    function(Vue, Vuetify, Axios, Moment, Pagination, ChartDynamic, Pageheader) {
+    function(Vue, Vuetify, Axios, Moment, Pagination, ChartDynamic, PageHeader, HelpDialog) {
         "use strict";
 
         function init(content) {
@@ -14,7 +15,8 @@ define(["local_fliplearning/vue",
             Vue.use(Vuetify);
             Vue.component('pagination', Pagination);
             Vue.component('chart', ChartDynamic);
-            Vue.component('pageheader', Pageheader);
+            Vue.component('pageheader', PageHeader);
+            Vue.component('helpdialog', HelpDialog);
             let vue = new Vue({
                 delimiters: ["[[", "]]"],
                 el: "#quiz",
@@ -41,6 +43,9 @@ define(["local_fliplearning/vue",
                         hardest_categories: [],
                         hardest_series: [],
                         hardest_questions: [],
+
+                        help_dialog: false,
+                        help_contents: [],
                     }
                 },
                 beforeMount(){
@@ -55,8 +60,12 @@ define(["local_fliplearning/vue",
                 },
                 methods : {
                     get_help_content(){
-                        let helpcontents = `Texto de Ayuda`;
-                        return helpcontents;
+                        let contents = [];
+                        contents.push({
+                            title: this.strings.section_help_title,
+                            description: this.strings.section_help_description,
+                        });
+                        return contents;
                     },
 
                     get_quiz_info_text1() {
@@ -352,8 +361,39 @@ define(["local_fliplearning/vue",
                         return 0;
                     },
 
-                    info() {
-                        console.log('Open modal');
+                    open_chart_help(chart) {
+                        let contents = [];
+                        if (chart == "questions_attempts") {
+                            contents.push({
+                                title: this.strings.questions_attempts_help_title,
+                                description: this.strings.questions_attempts_help_description_p1,
+                            });
+                            contents.push({
+                                description: this.strings.questions_attempts_help_description_p2,
+                            });
+                            contents.push({
+                                description: this.strings.questions_attempts_help_description_p3,
+                            });
+                        } else if (chart == "hardest_questions") {
+                            contents.push({
+                                title: this.strings.hardest_questions_help_title,
+                                description: this.strings.hardest_questions_help_description_p1,
+                            });
+                            contents.push({
+                                description: this.strings.hardest_questions_help_description_p2,
+                            });
+                            contents.push({
+                                description: this.strings.hardest_questions_help_description_p3,
+                            });
+                        }
+                        this.help_contents = contents;
+                        if (this.help_contents.length) {
+                            this.help_dialog = true;
+                        }
+                    },
+
+                    update_help_dialog (value) {
+                        this.help_dialog = value;
                     },
 
                     get_timezone(){
