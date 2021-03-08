@@ -7,9 +7,10 @@ define(["local_fliplearning/vue",
         "local_fliplearning/chartdynamic",
         "local_fliplearning/pageheader",
         "local_fliplearning/emailform",
-        "local_fliplearning/modulesform"
+        "local_fliplearning/modulesform",
+        "local_fliplearning/helpdialog",
     ],
-    function(Vue, Vuetify, Axios, Moment, MomentTimezone, Pagination, ChartDynamic, Pageheader, Emailform, Modulesform) {
+    function(Vue, Vuetify, Axios, Moment, MomentTimezone, Pagination, ChartDynamic, PageHeader, EmailForm, ModulesForm, HelpDialog) {
         "use strict";
 
         function init(content) {
@@ -17,9 +18,10 @@ define(["local_fliplearning/vue",
             Vue.use(Vuetify);
             Vue.component('pagination', Pagination);
             Vue.component('chart', ChartDynamic);
-            Vue.component('pageheader', Pageheader);
-            Vue.component('emailform', Emailform);
-            Vue.component('modulesform', Modulesform);
+            Vue.component('pageheader', PageHeader);
+            Vue.component('emailform', EmailForm);
+            Vue.component('modulesform', ModulesForm);
+            Vue.component('helpdialog', HelpDialog);
             let vue = new Vue({
                 delimiters: ["[[", "]]"],
                 el: "#dropout",
@@ -58,6 +60,9 @@ define(["local_fliplearning/vue",
                         modulename : "",
                         moduleid : false,
                         email_strings: content.strings.email_strings,
+
+                        help_dialog: false,
+                        help_contents: [],
                     }
                 },
                 beforeMount(){
@@ -76,8 +81,12 @@ define(["local_fliplearning/vue",
                 },
                 methods : {
                     get_help_content(){
-                        let helpcontents = `Texto de Ayuda`;
-                        return helpcontents;
+                        let contents = [];
+                        contents.push({
+                            title: this.strings.section_help_title,
+                            description: this.strings.section_help_description,
+                        });
+                        return contents;
                     },
 
                     set_modules_in_sections() {
@@ -117,12 +126,12 @@ define(["local_fliplearning/vue",
 
                     change_user(user) {
                         this.selected_user = user;
-                        this.calculate_modules_access_by_week();
+                        this.calculate_week_modules_access();
                         this.calculate_sessions_evolution();
                         this.calculate_user_grades();
                     },
 
-                    calculate_modules_access_by_week() {
+                    calculate_week_modules_access() {
                         let sectionid = 0, moduleid = 0, weekcompletecms = 0, weekviewedcms = 0;
                         let modules = [], completecms = [], viewedcms = [], categories = [];
                         let user_cm;
@@ -639,8 +648,69 @@ define(["local_fliplearning/vue",
                         return this.data;
                     },
 
-                    info() {
-                        console.log('Open modal');
+                    open_chart_help(chart) {
+                        let contents = [];
+                        if (chart == "group_students") {
+                            contents.push({
+                                title: this.strings.group_students_help_title,
+                                description: this.strings.group_students_help_description_p1,
+                            });
+                            contents.push({
+                                description: this.strings.group_students_help_description_p2,
+                            });
+                        } else if (chart == "modules_access") {
+                            contents.push({
+                                title: this.strings.modules_access_help_title,
+                                description: this.strings.modules_access_help_description_p1,
+                            });
+                            contents.push({
+                                description: this.strings.modules_access_help_description_p2,
+                            });
+                            contents.push({
+                                description: this.strings.modules_access_help_description_p3,
+                            });
+                        } else if (chart == "week_modules") {
+                            contents.push({
+                                title: this.strings.week_modules_help_title,
+                                description: this.strings.week_modules_help_description_p1,
+                            });
+                            contents.push({
+                                description: this.strings.week_modules_help_description_p2,
+                            });
+                            contents.push({
+                                description: this.strings.week_modules_help_description_p3,
+                            });
+                        } else if (chart == "sessions_evolution") {
+                            contents.push({
+                                title: this.strings.sessions_evolution_help_title,
+                                description: this.strings.sessions_evolution_help_description_p1,
+                            });
+                            contents.push({
+                                description: this.strings.sessions_evolution_help_description_p2,
+                            });
+                            contents.push({
+                                description: this.strings.sessions_evolution_help_description_p3,
+                            });
+                        } else if (chart == "user_grades") {
+                            contents.push({
+                                title: this.strings.user_grades_help_title,
+                                description: this.strings.user_grades_help_description_p1,
+                            });
+                            contents.push({
+                                description: this.strings.user_grades_help_description_p2,
+                            });
+                            contents.push({
+                                description: this.strings.user_grades_help_description_p3,
+                            });
+                        }
+                        this.help_contents = contents;
+                        if (this.help_contents.length) {
+                            this.help_dialog = true;
+                        }
+                    },
+
+                    update_help_dialog (value) {
+                        this.help_dialog = value;
                     },
 
                     get_timezone(){

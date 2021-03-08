@@ -47,6 +47,28 @@ if (!$configweeks->is_set()) {
 
 $content = [
     'strings' => [
+        "section_help_title" => get_string("td_section_help_title", "local_fliplearning"),
+        "section_help_description" => get_string("td_section_help_description", "local_fliplearning"),
+        "group_students_help_title" => get_string("td_group_students_help_title", "local_fliplearning"),
+        "group_students_help_description_p1" => get_string("td_group_students_help_description_p1", "local_fliplearning"),
+        "group_students_help_description_p2" => get_string("td_group_students_help_description_p2", "local_fliplearning"),
+        "modules_access_help_title" => get_string("td_modules_access_help_title", "local_fliplearning"),
+        "modules_access_help_description_p1" => get_string("td_modules_access_help_description_p1", "local_fliplearning"),
+        "modules_access_help_description_p2" => get_string("td_modules_access_help_description_p2", "local_fliplearning"),
+        "modules_access_help_description_p3" => get_string("td_modules_access_help_description_p3", "local_fliplearning"),
+        "week_modules_help_title" => get_string("td_week_modules_help_title", "local_fliplearning"),
+        "week_modules_help_description_p1" => get_string("td_week_modules_help_description_p1", "local_fliplearning"),
+        "week_modules_help_description_p2" => get_string("td_week_modules_help_description_p2", "local_fliplearning"),
+        "week_modules_help_description_p3" => get_string("td_week_modules_help_description_p3", "local_fliplearning"),
+        "sessions_evolution_help_title" => get_string("td_sessions_evolution_help_title", "local_fliplearning"),
+        "sessions_evolution_help_description_p1" => get_string("td_sessions_evolution_help_description_p1", "local_fliplearning"),
+        "sessions_evolution_help_description_p2" => get_string("td_sessions_evolution_help_description_p2", "local_fliplearning"),
+        "sessions_evolution_help_description_p3" => get_string("td_sessions_evolution_help_description_p3", "local_fliplearning"),
+        "user_grades_help_title" => get_string("td_user_grades_help_title", "local_fliplearning"),
+        "user_grades_help_description_p1" => get_string("td_user_grades_help_description_p1", "local_fliplearning"),
+        "user_grades_help_description_p2" => get_string("td_user_grades_help_description_p2", "local_fliplearning"),
+        "user_grades_help_description_p3" => get_string("td_user_grades_help_description_p3", "local_fliplearning"),
+
         "chart" => $reports->get_chart_langs(),
         "title" => get_string("menu_dropout","local_fliplearning"),
         "no_data" => get_string("no_data", "local_fliplearning"),
@@ -64,6 +86,7 @@ $content = [
         "generate_data_manually" => get_string("fml_dropout_generate_data_manually", "local_fliplearning"),
         "generating_data" => get_string("fml_dropout_generating_data", "local_fliplearning"),
         "about" => get_string("fml_about", "local_fliplearning"),
+        "about_table" => get_string("fml_about_table", "local_fliplearning"),
 
         "cluster_label" => get_string("fml_cluster_label", "local_fliplearning"),
         "cluster_select" => get_string("fml_cluster_select", "local_fliplearning"),

@@ -79,24 +79,28 @@
                                                     </v-col>
                                                 </v-row>
                                             </v-card-title>
-                                            <v-data-table
-                                                    :headers="table_headers()"
-                                                    :items="cluster_users"
-                                                    item-key="id"
-                                                    :search="search" dense multi-sort
-                                                    :items-per-page="8"
-                                                    class="elevation-3"
-                                                    @click:row="change_user"
-                                            >
-                                                <template v-slot:item.id="{ item }">
-                                                    <img :src="get_picture_url(item.id)" width="35px" heigth="35px" class="round-avatar"/>
-                                                </template>
+                                            <v-card-text>
+                                                <v-data-table
+                                                        :headers="table_headers()"
+                                                        :items="cluster_users"
+                                                        item-key="id"
+                                                        :search="search" dense multi-sort
+                                                        :items-per-page="7"
+                                                        @click:row="change_user"
+                                                >
+                                                    <template v-slot:item.id="{ item }">
+                                                        <img :src="get_picture_url(item.id)" width="35px" heigth="35px" class="round-avatar"/>
+                                                    </template>
 
-                                                <template v-slot:item.progress_percentage="{ item }">
-                                                    <v-progress-linear color="#118AB2" :value="item.progress_percentage" height="8"></v-progress-linear>
-                                                </template>
-
-                                            </v-data-table>
+                                                    <template v-slot:item.progress_percentage="{ item }">
+                                                        <v-progress-linear color="#118AB2" :value="item.progress_percentage" height="8"></v-progress-linear>
+                                                    </template>
+                                                </v-data-table>
+                                                <span class="caption" @click="open_chart_help('group_students')">
+                                                    <v-icon small v-text="'mdi-help-circle-outline'"></v-icon>
+                                                    <span v-text="strings.about_table"></span>
+                                                </span>
+                                            </v-card-text>
                                         </v-card>
                                     </v-col>
                                 </v-row>
@@ -199,7 +203,7 @@
                                                 :chart="build_modules_access_chart()"
                                                 :lang="strings.chart"
                                         ></chart>
-                                        <span class="caption" @click="info">
+                                        <span class="caption" @click="open_chart_help('modules_access')">
                                             <v-icon small v-text="'mdi-help-circle-outline'"></v-icon>
                                             <span v-text="strings.about"></span>
                                         </span>
@@ -221,7 +225,7 @@
                                                 :chart="build_week_modules_chart()"
                                                 :lang="strings.chart"
                                         ></chart>
-                                        <span class="caption" @click="info">
+                                        <span class="caption" @click="open_chart_help('week_modules')">
                                             <v-icon small v-text="'mdi-help-circle-outline'"></v-icon>
                                             <span v-text="strings.about"></span>
                                         </span>
@@ -245,7 +249,7 @@
                                                 :chart="build_sessions_evolution_chart()"
                                                 :lang="strings.chart"
                                         ></chart>
-                                        <span class="caption" @click="info">
+                                        <span class="caption" @click="open_chart_help('sessions_evolution')">
                                             <v-icon small v-text="'mdi-help-circle-outline'"></v-icon>
                                             <span v-text="strings.about"></span>
                                         </span>
@@ -269,7 +273,7 @@
                                                 :chart="build_user_grades_chart()"
                                                 :lang="strings.chart"
                                         ></chart>
-                                        <span class="caption" @click="info">
+                                        <span class="caption" @click="open_chart_help('user_grades')">
                                             <v-icon small v-text="'mdi-help-circle-outline'"></v-icon>
                                             <span v-text="strings.about"></span>
                                         </span>
@@ -301,6 +305,18 @@
                                         :strings="strings.modules_strings"
                                         @update_dialog="update_modules_dialog"
                                 ></modulesform>
+                            </v-col>
+                        </v-row>
+
+                        <v-row justify="center">
+                            <v-col sm="12">
+                                <helpdialog
+                                        :dialog="help_dialog"
+                                        :title="strings.helplabel"
+                                        :contents="help_contents"
+                                        :exit="strings.exitbutton"
+                                        @update_dialog="update_help_dialog"
+                                ></helpdialog>
                             </v-col>
                         </v-row>
 
