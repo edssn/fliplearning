@@ -52,6 +52,24 @@ if (!$configweeks->is_set()) {
 
 $content = [
     'strings' => [
+        "section_help_title" => get_string("sg_section_help_title", "local_fliplearning"),
+        "section_help_description" => get_string("sg_section_help_description", "local_fliplearning"),
+        "modules_access_help_title" => get_string("sg_modules_access_help_title", "local_fliplearning"),
+        "modules_access_help_description_p1" => get_string("sg_modules_access_help_description_p1", "local_fliplearning"),
+        "modules_access_help_description_p2" => get_string("sg_modules_access_help_description_p2", "local_fliplearning"),
+        "modules_access_help_description_p3" => get_string("sg_modules_access_help_description_p3", "local_fliplearning"),
+        "weeks_session_help_title" => get_string("sg_weeks_session_help_title", "local_fliplearning"),
+        "weeks_session_help_description_p1" => get_string("sg_weeks_session_help_description_p1", "local_fliplearning"),
+        "weeks_session_help_description_p2" => get_string("sg_weeks_session_help_description_p2", "local_fliplearning"),
+        "sessions_evolution_help_title" => get_string("sg_sessions_evolution_help_title", "local_fliplearning"),
+        "sessions_evolution_help_description_p1" => get_string("sg_sessions_evolution_help_description_p1", "local_fliplearning"),
+        "sessions_evolution_help_description_p2" => get_string("sg_sessions_evolution_help_description_p2", "local_fliplearning"),
+        "sessions_evolution_help_description_p3" => get_string("sg_sessions_evolution_help_description_p3", "local_fliplearning"),
+        "user_grades_help_title" => get_string("sg_user_grades_help_title", "local_fliplearning"),
+        "user_grades_help_description_p1" => get_string("sg_user_grades_help_description_p1", "local_fliplearning"),
+        "user_grades_help_description_p2" => get_string("sg_user_grades_help_description_p2", "local_fliplearning"),
+        "user_grades_help_description_p3" => get_string("sg_user_grades_help_description_p3", "local_fliplearning"),
+
         "title" => get_string("menu_general", "local_fliplearning"),
         "chart" => $reports->get_chart_langs(),
         "no_data" => get_string("no_data", "local_fliplearning"),

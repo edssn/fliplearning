@@ -6,9 +6,10 @@ define(["local_fliplearning/vue",
         "local_fliplearning/pagination",
         "local_fliplearning/chartstatic",
         "local_fliplearning/pageheader",
-        "local_fliplearning/modulesform"
+        "local_fliplearning/modulesform",
+        "local_fliplearning/helpdialog",
     ],
-    function(Vue, Vuetify, Axios, Moment, MomentTimezone, Pagination, ChartStatic, Pageheader, Modulesform) {
+    function(Vue, Vuetify, Axios, Moment, MomentTimezone, Pagination, ChartStatic, PageHeader, ModulesForm, HelpDialog) {
         "use strict";
 
         function init(content) {
@@ -16,8 +17,9 @@ define(["local_fliplearning/vue",
             Vue.use(Vuetify);
             Vue.component('pagination', Pagination);
             Vue.component('chart', ChartStatic);
-            Vue.component('pageheader', Pageheader);
-            Vue.component('modulesform', Modulesform);
+            Vue.component('pageheader', PageHeader);
+            Vue.component('modulesform', ModulesForm);
+            Vue.component('helpdialog', HelpDialog);
             let vue = new Vue({
                 delimiters: ["[[", "]]"],
                 el: "#student",
@@ -45,6 +47,9 @@ define(["local_fliplearning/vue",
                         user_grades_data: [],
                         course_grades_data: [],
                         selected_sections: [],
+
+                        help_dialog: false,
+                        help_contents: [],
                     }
                 },
                 beforeMount(){
@@ -58,7 +63,12 @@ define(["local_fliplearning/vue",
                 },
                 methods : {
                     get_help_content(){
-                        return '';
+                        let contents = [];
+                        contents.push({
+                            title: this.strings.section_help_title,
+                            description: this.strings.section_help_description,
+                        });
+                        return contents;
                     },
 
                     set_modules_in_sections() {
@@ -460,8 +470,58 @@ define(["local_fliplearning/vue",
                         return n % 1 === 0;
                     },
 
-                    info() {
-                        console.log('Open modal');
+                    open_chart_help(chart) {
+                        let contents = [];
+                        if (chart == "modules_access") {
+                            contents.push({
+                                title: this.strings.modules_access_help_title,
+                                description: this.strings.modules_access_help_description_p1,
+                            });
+                            contents.push({
+                                description: this.strings.modules_access_help_description_p2,
+                            });
+                            contents.push({
+                                description: this.strings.modules_access_help_description_p3,
+                            });
+                        } else if (chart == "weeks_session") {
+                            contents.push({
+                                title: this.strings.weeks_session_help_title,
+                                description: this.strings.weeks_session_help_description_p1,
+                            });
+                            contents.push({
+                                description: this.strings.weeks_session_help_description_p2,
+                            });
+                        } else if (chart == "sessions_evolution") {
+                            contents.push({
+                                title: this.strings.sessions_evolution_help_title,
+                                description: this.strings.sessions_evolution_help_description_p1,
+                            });
+                            contents.push({
+                                description: this.strings.sessions_evolution_help_description_p2,
+                            });
+                            contents.push({
+                                description: this.strings.sessions_evolution_help_description_p3,
+                            });
+                        } else if (chart == "user_grades") {
+                            contents.push({
+                                title: this.strings.user_grades_help_title,
+                                description: this.strings.user_grades_help_description_p1,
+                            });
+                            contents.push({
+                                description: this.strings.user_grades_help_description_p2,
+                            });
+                            contents.push({
+                                description: this.strings.user_grades_help_description_p3,
+                            });
+                        }
+                        this.help_contents = contents;
+                        if (this.help_contents.length) {
+                            this.help_dialog = true;
+                        }
+                    },
+
+                    update_help_dialog (value) {
+                        this.help_dialog = value;
                     },
 
                     get_timezone(){

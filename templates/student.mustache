@@ -67,7 +67,7 @@
                                         :chart="build_modules_access_chart()"
                                         :lang="strings.chart"
                                 ></chart>
-                                <span class="caption" @click="info">
+                                <span class="caption" @click="open_chart_help('modules_access')">
                                             <v-icon small v-text="'mdi-help-circle-outline'"></v-icon>
                                             <span v-text="strings.about"></span>
                                         </span>
@@ -86,7 +86,7 @@
                                         :chart="build_weeks_session_chart()"
                                         :lang="strings.chart"
                                 ></chart>
-                                <span class="caption" @click="info">
+                                <span class="caption" @click="open_chart_help('weeks_session')">
                                             <v-icon small v-text="'mdi-help-circle-outline'"></v-icon>
                                             <span v-text="strings.about"></span>
                                         </span>
@@ -107,7 +107,7 @@
                                         :chart="build_sessions_evolution_chart()"
                                         :lang="strings.chart"
                                 ></chart>
-                                <span class="caption" @click="info">
+                                <span class="caption" @click="open_chart_help('sessions_evolution')">
                                             <v-icon small v-text="'mdi-help-circle-outline'"></v-icon>
                                             <span v-text="strings.about"></span>
                                         </span>
@@ -129,7 +129,7 @@
                                         :chart="build_user_grades_chart()"
                                         :lang="strings.chart"
                                 ></chart>
-                                <span class="caption" @click="info">
+                                <span class="caption" @click="open_chart_help('user_grades')">
                                             <v-icon small v-text="'mdi-help-circle-outline'"></v-icon>
                                             <span v-text="strings.about"></span>
                                         </span>
@@ -146,6 +146,18 @@
                                 :strings="strings.modules_strings"
                                 @update_dialog="update_modules_dialog"
                         ></modulesform>
+                    </v-col>
+                </v-row>
+
+                <v-row justify="center">
+                    <v-col sm="12">
+                        <helpdialog
+                                :dialog="help_dialog"
+                                :title="strings.helplabel"
+                                :contents="help_contents"
+                                :exit="strings.exitbutton"
+                                @update_dialog="update_help_dialog"
+                        ></helpdialog>
                     </v-col>
                 </v-row>
 

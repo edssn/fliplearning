@@ -522,7 +522,26 @@ $string['fml_send_mail_to_user'] = 'Correo a';
 $string['fml_send_mail_to_group'] = 'Correo al Grupo';
 
 
-/* User Sessions*/
+/*Student General*/
+$string['sg_section_help_title'] = 'Indicadores Generales';
+$string['sg_section_help_description'] = 'Esta sección contiene indicadores relacionados a tu información, progreso, indicadores generales, recursos del curso, sesiones a lo largo del curso y calificaciones obtenidas. Las visualizaciones de esta sección muestran los indicadores durante todo el curso (hasta la fecha actual).';
+$string['sg_modules_access_help_title'] = 'Recursos del Curso';
+$string['sg_modules_access_help_description_p1'] = 'Este gráfico muestra la cantidad de recursos que has accedido y completado. Para determinar la cantidad de recursos que has completado se hace uso de la configuración de Moodle denominada Finalización de Actividad. En caso de que el docente no haya configurado la completitud para las actividades del curso, la cantidad de actividades accedidas y completas siempre será la misma, ya que sin tal configuración, un recurso se considera finalizado cuando accedes a él.';
+$string['sg_modules_access_help_description_p2'] = 'En el eje x se encuentran la cantidad de recursos del curso. En el eje y se encuentran las etiquetas de Accedidos, Completos y Total de recursos en referencia a tus interacciones con los recursos del curso.';
+$string['sg_modules_access_help_description_p3'] = 'Al hacer clic sobre alguna barra es posible ver los recursos y actividades disponibles en el curso (en una ventana emergente) junto con la cantidad de interacciones que has realizado con cada recurso y una etiqueta de no accedido, accedido o completado.';
+$string['sg_weeks_session_help_title'] = 'Sesiones por Semana';
+$string['sg_weeks_session_help_description_p1'] = 'Este gráfico muestra la cantidad de sesiones de estudio que has realizado cada semana a partir de la fecha de inicio del curso. Se considera el acceso al curso como el inicio de una sesión de estudio. Una sesión se considera finalizada cuando el tiempo transcurrido entre dos interacciones supera los 30 minutos.';
+$string['sg_weeks_session_help_description_p2'] = 'En el eje x del gráfico se encuentran las semanas de cada mes. En el eje y del gráfico se encuentran los diferentes meses del año partiendo del mes de creación del curso. Para mantener la simetría del gráfico se ha colocado un total de cinco semanas para cada mes, sin embargo, no todos los meses tiene tal cantidad de semanas. Dichos meses, solo sumarán sesiones hasta la semana cuatro.';
+$string['sg_sessions_evolution_help_title'] = 'Sesiones y Tiempo Invertido';
+$string['sg_sessions_evolution_help_description_p1'] = 'Este gráfico permite conocer cómo han evolucionado tus sesiones de estudio desde que se registró tu primera sesión en el curso.';
+$string['sg_sessions_evolution_help_description_p2'] = 'En el eje x del gráfico se muestra una línea temporal con los días que han transcurrido desde que realizaste tu primera sesión de estudio hasta el día de tu última sesión registrada. En el eje y muestran 2 valores, en el lado izquierdo tu cantidad de sesiones y en el lado derecho tu cantidad de tiempo invertido en horas. Entre dichos ejes se dibujan tu cantidad de sesiones y tu tiempo invertido del estudiante como una serie de tiempo.';
+$string['sg_sessions_evolution_help_description_p3'] = 'Esta visualización permite hacer un acercamiento sobre una región seleccionada.';
+$string['sg_user_grades_help_title'] = 'Calificaciones';
+$string['sg_user_grades_help_description_p1'] = 'Este gráfico muestra una comparación de tus calificaciones con los promedios de calificaciones (media en porcentaje) de tus compañeros en las distintas actividades evaluables del curso.';
+$string['sg_user_grades_help_description_p2'] = 'En el eje x del gráfico se muestran las diferentes actividades evaluables. En el eje y se encuentra tus calificaciones y la media de calificaciones de tus compañeros. Tanto tu calificación como la media del curso se muestran en porcentaje para mantener la simetría del gráfico.';
+$string['sg_user_grades_help_description_p3'] = 'Con un clic en la barra correspondiente a alguna actividad es posible dirigirse a dicha analizada.';
+
+    /* User Sessions*/
 $string['fml_student_time_inverted_title'] = 'Tu Tiempo Invertido';
 $string['fml_student_time_inverted_x_axis'] = 'Número de Horas';
 $string['fml_student_inverted_time'] = 'Tiempo Invertido';
