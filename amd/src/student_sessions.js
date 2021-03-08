@@ -6,8 +6,9 @@ define(["local_fliplearning/vue",
         "local_fliplearning/chartstatic",
         "local_fliplearning/pageheader",
         "local_fliplearning/modulesform",
+        "local_fliplearning/helpdialog",
     ],
-    function(Vue, Vuetify, Axios, Moment, Pagination, ChartStatic, Pageheader, Modulesform) {
+    function(Vue, Vuetify, Axios, Moment, Pagination, ChartStatic, PageHeader, ModulesForm, HelpDialog) {
         "use strict";
 
         function init(content) {
@@ -15,8 +16,9 @@ define(["local_fliplearning/vue",
             Vue.use(Vuetify);
             Vue.component('pagination', Pagination);
             Vue.component('chart', ChartStatic);
-            Vue.component('pageheader', Pageheader);
-            Vue.component('modulesform', Modulesform);
+            Vue.component('pageheader', PageHeader);
+            Vue.component('modulesform', ModulesForm);
+            Vue.component('helpdialog', HelpDialog);
             let vue = new Vue({
                 delimiters: ["[[", "]]"],
                 el: "#work_sessions",
@@ -44,6 +46,9 @@ define(["local_fliplearning/vue",
                         resource_access_categories: [],
                         resource_access_data: [],
                         modules_dialog: false,
+
+                        help_dialog: false,
+                        help_contents: [],
                     }
                 },
                 beforeMount(){
@@ -57,7 +62,12 @@ define(["local_fliplearning/vue",
                 },
                 methods : {
                     get_help_content(){
-                        return '';
+                        let contents = [];
+                        contents.push({
+                            title: this.strings.section_help_title,
+                            description: this.strings.section_help_description,
+                        });
+                        return contents;
                     },
 
                     build_inverted_time_chart() {
@@ -340,8 +350,44 @@ define(["local_fliplearning/vue",
                         this.modules_dialog = value;
                     },
 
-                    info() {
-                        console.log('Open modal');
+                    open_chart_help(chart) {
+                        let contents = [];
+                        if (chart == "inverted_time") {
+                            contents.push({
+                                title: this.strings.inverted_time_help_title,
+                                description: this.strings.inverted_time_help_description_p1,
+                            });
+                            contents.push({
+                                description: this.strings.inverted_time_help_description_p2,
+                            });
+                        } else if (chart == "hours_session") {
+                            contents.push({
+                                title: this.strings.hours_session_help_title,
+                                description: this.strings.hours_session_help_description_p1,
+                            });
+                            contents.push({
+                                description: this.strings.hours_session_help_description_p2,
+                            });
+                        } else if (chart == "resources_access") {
+                            contents.push({
+                                title: this.strings.resources_access_help_title,
+                                description: this.strings.resources_access_help_description_p1,
+                            });
+                            contents.push({
+                                description: this.strings.resources_access_help_description_p2,
+                            });
+                            contents.push({
+                                description: this.strings.resources_access_help_description_p3,
+                            });
+                        }
+                        this.help_contents = contents;
+                        if (this.help_contents.length) {
+                            this.help_dialog = true;
+                        }
+                    },
+
+                    update_help_dialog (value) {
+                        this.help_dialog = value;
                     },
 
                     get_timezone(){

@@ -51,6 +51,19 @@ if (!$configweeks->is_set()) {
 
 $content = [
     'strings' => [
+        "section_help_title" => get_string("ss_section_help_title", "local_fliplearning"),
+        "section_help_description" => get_string("ss_section_help_description", "local_fliplearning"),
+        "inverted_time_help_title" => get_string("ss_inverted_time_help_title", "local_fliplearning"),
+        "inverted_time_help_description_p1" => get_string("ss_inverted_time_help_description_p1", "local_fliplearning"),
+        "inverted_time_help_description_p2" => get_string("ss_inverted_time_help_description_p2", "local_fliplearning"),
+        "hours_session_help_title" => get_string("ss_hours_session_help_title", "local_fliplearning"),
+        "hours_session_help_description_p1" => get_string("ss_hours_session_help_description_p1", "local_fliplearning"),
+        "hours_session_help_description_p2" => get_string("ss_hours_session_help_description_p2", "local_fliplearning"),
+        "resources_access_help_title" => get_string("ss_resources_access_help_title", "local_fliplearning"),
+        "resources_access_help_description_p1" => get_string("ss_resources_access_help_description_p1", "local_fliplearning"),
+        "resources_access_help_description_p2" => get_string("ss_resources_access_help_description_p2", "local_fliplearning"),
+        "resources_access_help_description_p3" => get_string("ss_resources_access_help_description_p3", "local_fliplearning"),
+
         "title" => get_string("fml_title", "local_fliplearning"),
         "chart" => $reports->get_chart_langs(),
         "days" => array(

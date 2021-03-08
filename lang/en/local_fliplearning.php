@@ -541,7 +541,21 @@ $string['sg_user_grades_help_description_p1'] = 'Este gráfico muestra una compa
 $string['sg_user_grades_help_description_p2'] = 'En el eje x del gráfico se muestran las diferentes actividades evaluables. En el eje y se encuentra tus calificaciones y la media de calificaciones de tus compañeros. Tanto tu calificación como la media del curso se muestran en porcentaje para mantener la simetría del gráfico.';
 $string['sg_user_grades_help_description_p3'] = 'Con un clic en la barra correspondiente a alguna actividad es posible dirigirse a dicha analizada.';
 
-    /* User Sessions*/
+/* User Sessions*/
+$string['ss_section_help_title'] = 'Sesiones de Estudio';
+$string['ss_section_help_description'] = 'Esta sección contiene visualizaciones con indicadores relacionados a tu actividad en el curso medida en términos de sesiones de estudio, tiempo invertido y progreso en cada una de las semanas configuradas por el docente. Las visualizaciones de esta sección varían dependiendo de la semana de estudio seleccionada.';
+$string['ss_inverted_time_help_title'] = 'Tu tiempo invertido';
+$string['ss_inverted_time_help_description_p1'] = 'Este gráfico muestra tu tiempo invertido en la semana en comparación del tiempo planificado por parte del docente.';
+$string['ss_inverted_time_help_description_p2'] = 'En el eje x del gráfico se encuentra el número de horas que el docente ha planificado para una semana específica. En el eje y se encuentran las etiquetas de tiempo invertido y tiempo que se debería invertir.';
+$string['ss_hours_session_help_title'] = 'Sesiones por Día y Hora';
+$string['ss_hours_session_help_description_p1'] = 'Este gráfico muestra tus sesiones de estudio por día y hora de la semana seleccionada. Se considera el acceso al curso como el inicio de una sesión de estudio. Una sesión se considera finalizada cuando el tiempo transcurrido entre dos interacciones supera los 30 minutos.';
+$string['ss_hours_session_help_description_p2'] = 'En el eje x del gráfico se encuentran los días de la semana. En el eje y se encuentran las horas del día empezando por las 12am y terminando a las 11pm o 23 horas.';
+$string['ss_resources_access_help_title'] = 'Interacción por Tipos de Recursos';
+$string['ss_resources_access_help_description_p1'] = 'Este gráfico muestra cuántos recursos tienes pendientes y cuáles ya has completado en la semana seleccionada. Los recursos se agrupan por su tipo en este gráfico. Además, en la parte superior se muestra una barra que representa el porcentaje de recursos accedidos del total de recursos asignados a la semana seleccionada.';
+$string['ss_resources_access_help_description_p2'] = 'En el eje x del gráfico se encuentran los diferentes tipos de recursos. En el eje y se encuentran la cantidad de recursos accedidos de la semana.';
+$string['ss_resources_access_help_description_p3'] = 'Al hacer clic sobre alguna barra es posible ver los recursos y actividades disponibles en el curso (en una ventana emergente) junto con la cantidad de interacciones que has realizado con cada recurso y una etiqueta de no accedido, accedido o completado.';
+
+
 $string['fml_student_time_inverted_title'] = 'Tu Tiempo Invertido';
 $string['fml_student_time_inverted_x_axis'] = 'Número de Horas';
 $string['fml_student_inverted_time'] = 'Tiempo Invertido';

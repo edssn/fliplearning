@@ -33,7 +33,7 @@
                                         :chart="build_inverted_time_chart()"
                                         :lang="strings.chart"
                                 ></chart>
-                                <span class="caption" @click="info">
+                                <span class="caption" @click="open_chart_help('inverted_time')">
                                 <v-icon small v-text="'mdi-help-circle-outline'"></v-icon>
                                 <span v-text="strings.about"></span>
                             </span>
@@ -52,7 +52,7 @@
                                         :chart="build_hours_session_chart()"
                                         :lang="strings.chart"
                                 ></chart>
-                                <span class="caption" @click="info">
+                                <span class="caption" @click="open_chart_help('hours_session')">
                                 <v-icon small v-text="'mdi-help-circle-outline'"></v-icon>
                                 <span v-text="strings.about"></span>
                             </span>
@@ -90,17 +90,13 @@
                                         :chart="build_resources_access_chart()"
                                         :lang="strings.chart"
                                 ></chart>
-                                <span class="caption" @click="info">
+                                <span class="caption" @click="open_chart_help('resources_access')">
                                 <v-icon small v-text="'mdi-help-circle-outline'"></v-icon>
                                 <span v-text="strings.about"></span>
                             </span>
                             </v-card-text>
                         </v-card>
                     </v-col>
-                </v-row>
-
-                <v-row class="justify-center">
-                    <span v-text="get_timezone()"></span>
                 </v-row>
 
                 <v-row justify="center">
@@ -112,6 +108,22 @@
                                 @update_dialog="update_modules_dialog"
                         ></modulesform>
                     </v-col>
+                </v-row>
+
+                <v-row justify="center">
+                    <v-col sm="12">
+                        <helpdialog
+                                :dialog="help_dialog"
+                                :title="strings.helplabel"
+                                :contents="help_contents"
+                                :exit="strings.exitbutton"
+                                @update_dialog="update_help_dialog"
+                        ></helpdialog>
+                    </v-col>
+                </v-row>
+
+                <v-row class="justify-center">
+                    <span v-text="get_timezone()"></span>
                 </v-row>
             </div>
 
