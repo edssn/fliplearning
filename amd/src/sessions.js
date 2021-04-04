@@ -36,6 +36,7 @@ define(["local_fliplearning/vue",
                         hours_sessions: content.indicators.sessions,
                         session_count: content.indicators.count,
                         inverted_time: content.indicators.time,
+                        hours_sessions_colors: content.hours_sessions_colors,
                         inverted_time_colors: content.inverted_time_colors,
                         sessions_count_colors: content.sessions_count_colors,
                         search: null,
@@ -115,8 +116,8 @@ define(["local_fliplearning/vue",
                         };
                         chart.colorAxis = {
                             min: 0,
-                            minColor: this.sessions_count_colors[3],
-                            maxColor: this.sessions_count_colors[2]
+                            minColor: this.hours_sessions_colors[0],
+                            maxColor: this.hours_sessions_colors[1]
                         };
                         chart.legend = {
                             layout: 'horizontal',
@@ -128,7 +129,7 @@ define(["local_fliplearning/vue",
                                 let xCategoryName = vue.get_point_category_name(this.point, 'x');
                                 let yCategoryName = vue.get_point_category_name(this.point, 'y');
                                 return '<small>' + xCategoryName + ' ' + yCategoryName +'</small><br/>'
-                                    + '<b style="color: ' + vue.sessions_count_colors[2] + ';">• </b>'
+                                    + '<b style="color: ' + vue.hours_sessions_colors[1] + ';">• </b>'
                                     + vue.capitalizeFirstLetter(vue.strings.sessions_text) + ': '
                                     + this.point.value + '<br/>';
                             }

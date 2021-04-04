@@ -30,6 +30,7 @@ define(["local_fliplearning/vue",
                         render_has : content.profile_render,
 
                         indicators: content.indicators,
+                        weeks_sessions_colors: content.weeks_sessions_colors,
                         week_resources_colors: content.week_resources_colors,
                         search: null,
                         week_resources_categories: [],
@@ -121,8 +122,8 @@ define(["local_fliplearning/vue",
                         };
                         chart.colorAxis = {
                             min: 0,
-                            minColor: '#E0E0E0',
-                            maxColor: '#118AB2'
+                            minColor: this.weeks_sessions_colors[0],
+                            maxColor: this.weeks_sessions_colors[1],
                         };
                         chart.legend = {
                             layout: 'horizontal',
@@ -135,7 +136,7 @@ define(["local_fliplearning/vue",
                                 let xCategoryName = vue.get_point_category_name(this.point, 'x');
                                 let yCategoryName = vue.get_point_category_name(this.point, 'y');
                                 return '<small>' + yCategoryName + ' ' + xCategoryName +'</small><br/>'
-                                    + '<b style="color: ' + vue.week_resources_colors + ';">• </b>'
+                                    + '<b style="color: ' + vue.weeks_sessions_colors[1] + ';">• </b>'
                                     + vue.strings.sessions_text + ': ' + this.point.value + '<br/>'
                                     + '<small>' + days + '</small>';
                             }

@@ -58,7 +58,7 @@ $content = [
         "progress_table_help_title" => get_string("tg_progress_table_help_title", "local_fliplearning"),
         "progress_table_help_description" => get_string("tg_progress_table_help_description", "local_fliplearning"),
 
-        "finished_resources" => get_string("tg_finished_resources", "local_fliplearning"),
+        "finished_resources" => get_string("fml_finished_resources", "local_fliplearning"),
         "sessions_text" => get_string("fml_sessions", "local_fliplearning"),
 
         "title" => get_string("fml_teacher_indicators_title", "local_fliplearning"),
@@ -106,6 +106,7 @@ $content = [
             get_string("fml_week6", "local_fliplearning"),
         ),
     ],
+    'weeks_sessions_colors' => array('#E0E0E0', '#118AB2'),
     'week_resources_colors' => array('#118AB2'),
     'courseid' => $COURSE->id,
     'userid' => $USER->id,

@@ -37,6 +37,7 @@ define(["local_fliplearning/vue",
                         errors : [],
 
                         indicators: content.indicators,
+                        weeks_session_colors: content.weeks_session_colors,
                         modules_access_colors: content.modules_access_colors,
                         sessions_evolution_colors: content.sessions_evolution_colors,
                         user_grades_colors: content.user_grades_colors,
@@ -110,10 +111,14 @@ define(["local_fliplearning/vue",
                         };
                         chart.tooltip = {
                             shared: true,
+                            useHTML: true,
                             formatter: function () {
-                                let module_text = (this.y == 1) ? vue.strings.module_label : vue.strings.modules_label;
-                                return '<b>' + this.points[0].key + '</b>: ' + this.y + ' ' + module_text + '<br/>'
-                                    + '<i>'+ vue.strings.modules_details + '<i/>';
+                                // let module_text = (this.y == 1) ? vue.strings.module_label : vue.strings.modules_label;
+                                let module_text = vue.capitalizeFirstLetter(vue.strings.modules_label);
+                                return '<small>' + module_text + '</small><br/>'
+                                    + '<b style="color:' + this.points[0].color + ';">• </b>'
+                                    + '<b>' + this.points[0].key + '</b>: ' + this.y + '<br/>'
+                                    + '<small>'+ vue.strings.modules_details + '</small>';
                             }
                         };
                         chart.plotOptions = {
@@ -160,24 +165,24 @@ define(["local_fliplearning/vue",
                         };
                         chart.colorAxis = {
                             min: 0,
-                            minColor: '#E0E0E0',
-                            maxColor: '#118AB2'
+                            minColor: this.weeks_session_colors[0],
+                            maxColor: this.weeks_session_colors[1],
                         };
                         chart.legend = {
                             layout: 'horizontal',
                             verticalAlign: 'bottom',
                         };
                         chart.tooltip = {
+                            useHTML:true,
                             formatter: function () {
                                 let days = vue.weeks_sessions.weeks[this.point.y][this.point.x] || '';
                                 let xCategoryName = vue.get_point_category_name(this.point, 'x');
                                 let yCategoryName = vue.get_point_category_name(this.point, 'y');
-                                let label = vue.strings.sessions_text;
-                                if (this.point.value == 1) {
-                                    label = vue.strings.session_text;;
-                                }
-                                return '<b>' + yCategoryName + ' ' + xCategoryName + '</b>: '
-                                    + this.point.value +' ' + label + '<br/>' + days;
+                                let label = vue.capitalizeFirstLetter(vue.strings.sessions_text);
+                                return '<small>' + yCategoryName + ' ' + xCategoryName + '</small><br/>'
+                                    + '<b style="color: ' + vue.weeks_session_colors[1] + ';">• </b>'
+                                    + label + ': ' + this.point.value + '<br/>'
+                                    + '<small>' + days + '</small>';
                             }
                         };
                         chart.series = [{
@@ -250,7 +255,7 @@ define(["local_fliplearning/vue",
                                 let position = this.points[0].point.x;
                                 let item = vue.user.gradeitems[position];
                                 let header = `<small>${itemname}</small><br/>`;
-                                let footer = `<i>(${vue.strings.user_grades_chart_view_activity})</i><br/>`;
+                                let footer = `<small>(${vue.strings.user_grades_chart_view_activity})</small><br/>`;
                                 let body = '';
                                 if (item.gradecount == 0) {
                                     body = vue.strings.user_grades_chart_tooltip_no_graded;
@@ -345,17 +350,17 @@ define(["local_fliplearning/vue",
                     },
 
                     get_sessions_evolution_tooltip (point) {
-                        let text = '', sessions, sessions_suffix, sessions_prefix, time_prefix, time;
+                        let text = '', sessions, sessions_prefix, time_prefix, time;
                         if (point.colorIndex == 0) {
                             sessions = point.y;
-                            sessions_suffix = (sessions == 1) ? vue.strings.session_text : vue.strings.sessions_text;
                             sessions_prefix = point.series.name;
-                            text = `<b style="color: ${point.color}">${sessions_prefix}: </b>
-                                     ${sessions} ${sessions_suffix}<br/>`;
+                            text = `<b style="color: ${point.color};">• </b>
+                                    <b>${sessions_prefix}: </b>${sessions}<br/>`;
                         } else {
                             time_prefix = point.series.name;
-                            time = vue.convert_time(point.y * 60);
-                            text = `<b style="color: ${point.color}">${time_prefix}: </b>
+                            time = this.convert_time(point.y * 60);
+                            text = `<b style="color: ${point.color};">• </b>
+                                    <b>${time_prefix}: </b>
                                     ${time}<br/>`;
                         }
                         return text;
@@ -370,8 +375,8 @@ define(["local_fliplearning/vue",
                         } else {
                             user_grade = this.isInt(average) ? average : average.toFixed(2);
                         }
-                        return `<b style="color: ${point.color}">${serie_name}: </b>
-                                     ${user_grade}/${grademax}<br/>`;
+                        return `<b style="color: ${point.color};">• </b>
+                                <b>${serie_name}: </b>${user_grade}/${grademax}<br/>`;
                     },
 
                     open_modules_modal(){
@@ -417,13 +422,8 @@ define(["local_fliplearning/vue",
                     },
 
                     get_progress_message(){
-                        let module_label = this.strings.modules_label;
-                        let finished_label = this.strings.finisheds_label;
-                        if (this.user.cms.complete == 1) {
-                            module_label = this.strings.module_label;
-                            finished_label = this.strings.finished_label;
-                        }
-                        return `${this.user.cms.complete} ${module_label} ${finished_label} ${this.strings.of_conector} ${this.user.cms.total}`;
+                        let finished_label = this.strings.finished_resources;
+                        return `${finished_label}: ${this.user.cms.complete} ${this.strings.of_conector} ${this.user.cms.total}`;
                     },
 
                     convert_time(time) {
@@ -468,6 +468,10 @@ define(["local_fliplearning/vue",
 
                     isInt(n) {
                         return n % 1 === 0;
+                    },
+
+                    capitalizeFirstLetter (string) {
+                        return string.charAt(0).toUpperCase() + string.slice(1);
                     },
 
                     open_chart_help(chart) {

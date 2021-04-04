@@ -572,13 +572,8 @@ define(["local_fliplearning/vue",
                     },
 
                     get_progress_message(){
-                        let module_label = this.strings.modules_label;
-                        let finished_label = this.strings.finisheds_label;
-                        if (this.selected_user.cms.complete == 1) {
-                            module_label = this.strings.module_label;
-                            finished_label = this.strings.finished_label;
-                        }
-                        return `${this.selected_user.cms.complete} ${module_label} ${finished_label} ${this.strings.of_conector} ${this.dropout.total_cms}`;
+                        let finished_label = this.strings.finished_resources;
+                        return `${finished_label}: ${this.selected_user.cms.complete} ${this.strings.of_conector} ${this.selected_user.cms.total}`;
                     },
 
                     get_progress_percentage() {

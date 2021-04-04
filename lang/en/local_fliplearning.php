@@ -43,6 +43,8 @@ $string["fml_not_configured"] = "No Configurado";
 $string["fml_activated"] = "Activado";
 $string["fml_disabled"] = "Desactivado";
 $string["fml_sessions"] = "Sesiones";
+$string['fml_finished_resources'] = 'Recursos Finalizados';
+
 
 /* Menú */
 $string['menu_main_title'] = "Dashboard Progreso";
@@ -216,7 +218,7 @@ $string['tg_week_sessions_help_description_p1'] = 'Este gráfico muestra la cant
 $string['tg_week_sessions_help_description_p2'] = 'En el eje x del gráfico se encuentran las semanas de cada mes. En el eje y del gráfico se encuentran los diferentes meses del año partiendo del mes de creación del curso. Para mantener la simetría del gráfico se ha colocado un total de cinco semanas para cada mes, sin embargo, no todos los meses tiene tal cantidad de semanas. Dichos meses, solo sumarán sesiones hasta la semana cuatro.';
 $string['tg_progress_table_help_title'] = 'Progreso de los estudiantes';
 $string['tg_progress_table_help_description'] = 'Este tabla muestra una lista con todos los estudiantes matriculados en el curso junto con su progreso, cantidad de sesiones y tiempo invertido. Para el cálculo del progreso se han considerado todos los recursos del curso a excepción de los de tipo <i>Label</i>. Para determinar si un estudiante ha finalizado un recurso se verifica en primer lugar si el recurso tiene habilitada la configuración de completitud. En caso de ser así, se busca si el estudiante ya ha completado la actividad en base a esa configuración. De lo contrario, la actividad se considera completa si el estudiante la ha visto al menos una vez.';
-$string['tg_finished_resources'] = 'Recursos Finalizados';
+
 
 $string['fml_title'] = 'Sesiones de Trabajo';
 $string['table_title'] = 'Progreso del Curso';

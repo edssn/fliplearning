@@ -178,6 +178,7 @@ $content = [
         "modules_interactions" => get_string("fml_modules_interactions", "local_fliplearning"),
         "close_button" => get_string("fml_close_button", "local_fliplearning"),
     ],
+    'hours_session_colors' => array('#E0E0E0', '#118AB2'),
     'resources_access_colors' => array('#06D6A0', '#FFD166', '#EF476F'),
     'inverted_time_colors' => array('#118AB2', '#06D6A0'),
     'courseid' => $COURSE->id,

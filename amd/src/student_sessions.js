@@ -36,6 +36,7 @@ define(["local_fliplearning/vue",
                         pages : content.pages,
 
                         indicators: content.indicators,
+                        hours_session_colors: content.hours_session_colors,
                         resources_access_colors: content.resources_access_colors,
                         inverted_time_colors: content.inverted_time_colors,
                         inverted_time: content.indicators.inverted_time,
@@ -94,7 +95,7 @@ define(["local_fliplearning/vue",
                             formatter: function () {
                                 let category_name = this.points[0].key;
                                 let time = vue.convert_time(this.y);
-                                return `<b>${category_name}: </b>${time}`;
+                                return `<small>${category_name}</small></br><b>${time}</b>`;
                             }
                         };
                         chart.legend = {
@@ -125,23 +126,28 @@ define(["local_fliplearning/vue",
                         };
                         chart.colorAxis = {
                             min: 0,
-                            minColor: '#E0E0E0',
-                            maxColor: '#118AB2'
+                            minColor: this.hours_session_colors[0],
+                            maxColor: this.hours_session_colors[1],
                         };
                         chart.legend = {
                             layout: 'horizontal',
                             verticalAlign: 'bottom',
                         };
                         chart.tooltip = {
+                            useHTML:true,
                             formatter: function () {
                                 let xCategoryName = vue.get_point_category_name(this.point, 'x');
                                 let yCategoryName = vue.get_point_category_name(this.point, 'y');
-                                let label = vue.strings.sessions_text;
-                                if (this.point.value == 1) {
-                                    label = vue.strings.session_text;
-                                }
-                                return '<b>' + xCategoryName + ' ' + yCategoryName + '</b>: '
-                                    + this.point.value +' ' + label;
+                                // let label = vue.strings.sessions_text;
+                                // if (this.point.value == 1) {
+                                //     label = vue.strings.session_text;
+                                // }
+                                // return '<b>' + xCategoryName + ' ' + yCategoryName + '</b>: '
+                                //     + this.point.value +' ' + label;
+                                return '<small>' + xCategoryName + ' ' + yCategoryName +'</small><br/>'
+                                    + '<b style="color: ' + vue.hours_session_colors[1] + ';">• </b>'
+                                    + vue.capitalizeFirstLetter(vue.strings.sessions_text) + ': '
+                                    + this.point.value + '<br/>';
                             }
                         };
                         chart.series = [{
@@ -192,7 +198,7 @@ define(["local_fliplearning/vue",
                         chart.tooltip = {
                             shared: true,
                             useHTML: true,
-                            footerFormat: `<i>${this.strings.modules_details}</i>`,
+                            footerFormat: `<small>${this.strings.modules_details}</small>`,
                         };
                         chart.series = this.resource_access_data;
                         return chart;
@@ -388,6 +394,10 @@ define(["local_fliplearning/vue",
 
                     update_help_dialog (value) {
                         this.help_dialog = value;
+                    },
+
+                    capitalizeFirstLetter (string) {
+                        return string.charAt(0).toUpperCase() + string.slice(1);
                     },
 
                     get_timezone(){

@@ -88,6 +88,8 @@ $content = [
         "about" => get_string("fml_about", "local_fliplearning"),
         "about_table" => get_string("fml_about_table", "local_fliplearning"),
 
+        "finished_resources" => get_string("fml_finished_resources", "local_fliplearning"),
+
         "cluster_label" => get_string("fml_cluster_label", "local_fliplearning"),
         "cluster_select" => get_string("fml_cluster_select", "local_fliplearning"),
         "thead_name" => get_string("thead_name", "local_fliplearning"),
