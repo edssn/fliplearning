@@ -149,7 +149,7 @@ $content = [
         "seconds_short" => get_string("fml_seconds_short", "local_fliplearning"),
     ],
     'inverted_time_colors' => array('#118AB2', '#06D6A0'),
-    'sessions_count_colors' => array('#FFD166', '#06D6A0', '#118AB2'),
+    'sessions_count_colors' => array('#FFD166', '#06D6A0', '#118AB2', "#E0E0E0"),
     'courseid' => $COURSE->id,
     'userid' => $USER->id,
     'indicators' => $reports->get_sessions(),

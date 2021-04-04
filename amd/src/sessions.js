@@ -115,23 +115,22 @@ define(["local_fliplearning/vue",
                         };
                         chart.colorAxis = {
                             min: 0,
-                            minColor: '#E0E0E0',
-                            maxColor: '#118AB2'
+                            minColor: this.sessions_count_colors[3],
+                            maxColor: this.sessions_count_colors[2]
                         };
                         chart.legend = {
                             layout: 'horizontal',
                             verticalAlign: 'bottom',
                         };
                         chart.tooltip = {
+                            useHTML: true,
                             formatter: function () {
                                 let xCategoryName = vue.get_point_category_name(this.point, 'x');
                                 let yCategoryName = vue.get_point_category_name(this.point, 'y');
-                                let label = vue.strings.sessions_text;
-                                if (this.point.value == 1) {
-                                    label = vue.strings.session_text;
-                                }
-                                return '<b>' + xCategoryName + ' ' + yCategoryName + '</b>: '
-                                    + this.point.value +' ' + label;
+                                return '<small>' + xCategoryName + ' ' + yCategoryName +'</small><br/>'
+                                    + '<b style="color: ' + vue.sessions_count_colors[2] + ';">• </b>'
+                                    + vue.capitalizeFirstLetter(vue.strings.sessions_text) + ': '
+                                    + this.point.value + '<br/>';
                             }
                         };
                         chart.series = [{
@@ -168,7 +167,7 @@ define(["local_fliplearning/vue",
                             formatter: function () {
                                 let category_name = this.points[0].key;
                                 let time = vue.convert_time(this.y);
-                                return `<b>${category_name}: </b>${time}`;
+                                return `<small>${category_name}</small></br><b>${time}</b>`;
                             }
                         };
                         chart.legend = {
@@ -236,6 +235,10 @@ define(["local_fliplearning/vue",
                             text = `${seconds}${s}`;
                         }
                         return text;
+                    },
+
+                    capitalizeFirstLetter (string) {
+                        return string.charAt(0).toUpperCase() + string.slice(1);
                     },
 
                     open_chart_help(chart) {

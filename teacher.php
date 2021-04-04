@@ -58,6 +58,9 @@ $content = [
         "progress_table_help_title" => get_string("tg_progress_table_help_title", "local_fliplearning"),
         "progress_table_help_description" => get_string("tg_progress_table_help_description", "local_fliplearning"),
 
+        "finished_resources" => get_string("tg_finished_resources", "local_fliplearning"),
+        "sessions_text" => get_string("fml_sessions", "local_fliplearning"),
+
         "title" => get_string("fml_teacher_indicators_title", "local_fliplearning"),
         "chart" => $reports->get_chart_langs(),
         "helplabel" => get_string("helplabel","local_fliplearning"),

@@ -125,7 +125,8 @@ define(["local_fliplearning/vue",
                             }
                         };
                         chart.tooltip = {
-                            shared: true,
+                            shared:true,
+                            useHTML:true,
                             formatter: function() {
                                 let position = this.points[0].point.x;
                                 let value = this.y;
@@ -134,19 +135,17 @@ define(["local_fliplearning/vue",
                                 let name = this.x;
                                 let view_details = vue.strings.view_details;
                                 let average = Number(item.average);
-                                let students_label = vue.strings.grades_tooltip_students;
-                                if (count == 1) {
-                                    students_label = vue.strings.grades_tooltip_student;
-                                }
+                                let color = this.points[0].color;
                                 value = vue.isInt(value) ? value : value.toFixed(2);
                                 average = vue.isInt(average) ? average : average.toFixed(2);
                                 let grademax = item.grademax;
-                                let text = '<b>' + name + '<b> <br/>' +
-                                    vue.strings.grades_tooltip_average + ': ' + average + ' (' + value + ' %)<br/>' +
-                                    vue.strings.grades_tooltip_grade + ': ' + grademax + '<br/>' +
-                                    count + ' ' + students_label + ' ' + vue.grades.student_count + '<br/>' +
-                                    '<i>' + view_details + '</i>';
-                                return text;
+                                return '<small>' + name + '</small><br/>'
+                                    + '<b style="color: ' + color + ';">• </b>'
+                                    + vue.strings.grades_tooltip_average + ': ' + average + '/' + grademax + ' (' + value + ' %)<br/>'
+                                    + '<b style="color: ' + color + ';">• </b>'
+                                    + vue.strings.graded_students + ': ' + count + ' '
+                                    + vue.strings.of_conector + ' ' + vue.grades.student_count + '<br/>' +
+                                    '<small>' + view_details + '</small>';
                             }
                         };
                         chart.yAxis = [{
@@ -184,15 +183,17 @@ define(["local_fliplearning/vue",
                         };
                         chart.tooltip = {
                             shared: true,
+                            useHTML:true,
                             formatter: function() {
                                 let category = this.points[0].key;
                                 let name = vue.selected_item.itemname;
                                 let maxgrade = vue.selected_item.grademax;
                                 let grade = this.y;
+                                let color = this.points[0].color;
                                 grade = vue.isInt(grade) ? grade : grade.toFixed(2);
-                                let text = '<b>' + name + '<b> <br/>' +
-                                    category + ': ' + grade + '/' + maxgrade + '<br/>';
-                                return text;
+                                return '<small>' + name + '</small> <br/>'
+                                    + '<b style="color: ' + color + ';">• </b>'
+                                    + category + ': ' + grade + '/' + maxgrade + '<br/>';
                             }
                         };
                         chart.yAxis = [{
@@ -230,20 +231,17 @@ define(["local_fliplearning/vue",
                             enabled: false
                         };
                         chart.tooltip = {
+                            useHTML:true,
                             formatter: function() {
                                 let prefix = vue.strings.grades_distribution_tooltip_prefix;
-                                let suffix = vue.strings.grades_distribution_tooltip_suffix;
                                 let send_mail = vue.strings.send_mail;
-                                let name = this.x;
+                                let name = this.x.split('<br/>')[0] || 'Rango';
                                 let value = this.y;
-                                let students_label = vue.strings.students_text;
-                                if (value == 1) {
-                                    students_label = vue.strings.student_text;
-                                }
-                                let text = '<b>' + prefix + ': </b> '+ name + ' <br/>'
-                                    + value + ' ' + students_label + ' ' + suffix + ' <br/>'
-                                    + '<i>' + send_mail + '</i>';
-                                return text;
+                                let students_label = vue.capitalizeFirstLetter(vue.strings.students_text);
+                                return '<small>' + prefix + ': '+ name + '</small><br/>'
+                                    + '<b style="color: ' + this.color + ';">• </b>'
+                                    + students_label + ': ' + value + ' <br/>'
+                                    + '<small>' + send_mail + '</small>';
                             }
                         };
                         chart.plotOptions = {
@@ -380,6 +378,10 @@ define(["local_fliplearning/vue",
 
                     isInt(n) {
                         return n % 1 === 0;
+                    },
+
+                    capitalizeFirstLetter (string) {
+                        return string.charAt(0).toUpperCase() + string.slice(1);
                     },
 
                     update_dialog (value) {

@@ -42,6 +42,7 @@ $string["fml_about_table"] = "Acerca de esta Tabla";
 $string["fml_not_configured"] = "No Configurado";
 $string["fml_activated"] = "Activado";
 $string["fml_disabled"] = "Desactivado";
+$string["fml_sessions"] = "Sesiones";
 
 /* Menú */
 $string['menu_main_title'] = "Dashboard Progreso";
@@ -215,6 +216,7 @@ $string['tg_week_sessions_help_description_p1'] = 'Este gráfico muestra la cant
 $string['tg_week_sessions_help_description_p2'] = 'En el eje x del gráfico se encuentran las semanas de cada mes. En el eje y del gráfico se encuentran los diferentes meses del año partiendo del mes de creación del curso. Para mantener la simetría del gráfico se ha colocado un total de cinco semanas para cada mes, sin embargo, no todos los meses tiene tal cantidad de semanas. Dichos meses, solo sumarán sesiones hasta la semana cuatro.';
 $string['tg_progress_table_help_title'] = 'Progreso de los estudiantes';
 $string['tg_progress_table_help_description'] = 'Este tabla muestra una lista con todos los estudiantes matriculados en el curso junto con su progreso, cantidad de sesiones y tiempo invertido. Para el cálculo del progreso se han considerado todos los recursos del curso a excepción de los de tipo <i>Label</i>. Para determinar si un estudiante ha finalizado un recurso se verifica en primer lugar si el recurso tiene habilitada la configuración de completitud. En caso de ser así, se busca si el estudiante ya ha completado la actividad en base a esa configuración. De lo contrario, la actividad se considera completa si el estudiante la ha visto al menos una vez.';
+$string['tg_finished_resources'] = 'Recursos Finalizados';
 
 $string['fml_title'] = 'Sesiones de Trabajo';
 $string['table_title'] = 'Progreso del Curso';
@@ -246,14 +248,6 @@ $string["fml_session_text"] = "sesión";
 $string["fml_sessions_text"] = "sesiones";
 
 $string['ss_change_timezone'] = 'Zona horaria:';
-//$string['ss_activity_inside_plataform_student'] = 'Mi actividad en la plataforma';
-//$string['ss_activity_inside_plataform_teacher'] = 'Actividad de los estudiantes en la plataforma';
-//$string['ss_time_inside_plataform_student'] = 'Mi tiempo en la plataforma';
-//$string['ss_time_inside_plataform_teacher'] = 'Tiempo invertido en promedio de los estudiantes en la plataforma en esta semana';
-//$string['ss_time_inside_plataform_description_teacher'] = 'Tiempo que el estudiante ha invertido en la semana seleccionada, en comparación al tiempo que el/la docente planificó que se debería invertir. El tiempo invertido que se visualiza corresponde al promedio de todos los estudiantes. El tiempo planificado por el/la docente es el asignado en por el/la docente en <i>Configurar Semanas</i>.';
-//$string['ss_time_inside_plataform_description_student'] = 'Tiempo que ha invertido esta semana en relación al tiempo que el profesor planificó que se debería invertir.';
-//$string['ss_activity_inside_plataform_description_teacher'] = 'En el eje Y se indican las las horas del día y en el eje X los días de la semana. Dentro del gráfico podrá encontrar múltiples puntos, los cuales, al pasar el cursor sobre estos, ofrecen información detallada sobre las interacciones de los estudiantes, agrupadas por tipo de recurso (número de interacciones, número de estudiantes que interactuaron con el recurso y promedio de interacciones). <br/><br/><b>Al hacer click en las etiquetas, podrá filtrar por tipo de recurso, dejando visible sólo aquellos que no se encuentren tachados.</b>';
-//$string['ss_activity_inside_plataform_description_student'] = 'Presenta las interacciones por tipo de recurso y horario. Al pasar el cursor sobre un punto visible en el gráfico, verá el número de interacciones agrupadas por tipo de recurso. Al hacer click en las etiquetas, podrá filtrar por tipo de recurso.';
 
 /* Teacher Sessions */
 $string['ts_section_help_title'] = 'Sesiones de Estudio';
@@ -404,11 +398,13 @@ $string['tr_item_grades_distribution_help_description_p1'] = 'Este gráfico mues
 $string['tr_item_grades_distribution_help_description_p2'] = 'En el eje x están los rangos de calificación de la actividad. En el eje y está la cantidad de estudiantes que pertenecen a un determinado rango.';
 $string['tr_item_grades_distribution_help_description_p3'] = 'Al hacer clic sobre la barra correspondiente a un rango se puede enviar un correo electrónico a los estudiantes dentro del rango de calificación.';
 
+$string['tr_graded_students'] = 'Estudiantes Calificados';
+
 /* Grades */
 $string['fml_grades_select_label'] = 'Categoría de Calificación';
 $string['fml_grades_chart_title'] = 'Promedios de Actividades Evaluables';
 $string['fml_grades_yaxis_title'] = 'Promedio de Calificaciones (%)';
-$string['fml_grades_tooltip_average'] = 'Calificación Promedio';
+$string['fml_grades_tooltip_average'] = 'Promedio';
 $string['fml_grades_tooltip_grade'] = 'Calificación Máxima';
 $string['fml_grades_tooltip_student'] = 'estudiante calificado de';
 $string['fml_grades_tooltip_students'] = 'estudiantes calificados de';
@@ -510,7 +506,7 @@ $string["fml_modules_complete"] = "Completado";
 $string["fml_sessions_evolution_chart_title"] = "Sesiones y Tiempo Invertido";
 $string["fml_sessions_evolution_chart_xaxis1"] = "Número de Sesiones";
 $string["fml_sessions_evolution_chart_xaxis2"] = "Cantidad de Horas";
-$string["fml_sessions_evolution_chart_legend1"] = "Cantidad de Sesiones";
+$string["fml_sessions_evolution_chart_legend1"] = "Sesiones";
 $string["fml_sessions_evolution_chart_legend2"] = "Tiempo Invertido";
 $string["fml_user_grades_chart_title"] = "Calificaciones";
 $string["fml_user_grades_chart_yaxis"] = "Calificación en Porcentaje";

@@ -220,10 +220,13 @@ define(["local_fliplearning/vue",
                         };
                         chart.tooltip = {
                             shared: true,
+                            useHTML:true,
                             formatter: function () {
-                                let module_text = (this.y == 1) ? vue.strings.module_label : vue.strings.modules_label;
-                                return '<b>' + this.points[0].key + '</b>: ' + this.y + ' ' + module_text + '<br/>'
-                                    + '<i>'+ vue.strings.modules_details + '<i/>';
+                                let module_text = vue.capitalizeFirstLetter(vue.strings.modules_label);
+                                return '<small>' + this.points[0].key + ' </small><br/>'
+                                    + '<b style="color: ' + this.points[0].color + ';">• </b>'
+                                    + '<b>' +module_text + '</b>: ' + this.y + '<br/>'
+                                    + '<small>'+ vue.strings.modules_details + '</small>';
                             }
                         };
                         chart.plotOptions = {
@@ -280,18 +283,17 @@ define(["local_fliplearning/vue",
                             formatter: function () {
                                 let text1 = '', text2 = '';
                                 if (this.points[0]) {
-                                    let module_text_viewed = (this.points[0].y == 1) ? vue.strings.module_label : vue.strings.modules_label;
                                     let viewed_series_name = this.points[0].series.name;
-                                    text1 = `<b style="color: ${this.points[0].color}">${viewed_series_name}: </b>
-                                            ${this.points[0].y} ${module_text_viewed}<br/>`;
+                                    text1 = `<b style="color: ${this.points[0].color};">• </b>
+                                            <b>${viewed_series_name}: </b>${this.points[0].y}<br/>`;
                                 }
                                 if (this.points[1]) {
-                                    let module_text_completed = (this.points[1].y == 1) ? vue.strings.module_label : vue.strings.modules_label;
                                     let completed_series_name = this.points[1].series.name;
-                                    text2 = `<b style="color: ${this.points[1].color}">${completed_series_name}: </b>
-                                            ${this.points[1].y} ${module_text_completed}<br/>`;
+                                    text2 = `<b style="color: ${this.points[1].color};">• </b>
+                                            <b>${completed_series_name}: </b>${this.points[1].y}<br/>`;
                                 }
-                                return `${this.x} <br/> ${text1}${text2} <i>${vue.strings.modules_details}<i/>`;
+                                return `<small>${this.x}</small><br/> ${text1}${text2} 
+                                        <small>${vue.strings.modules_details}</small>`;
                             }
                         };
                         chart.plotOptions = {
@@ -372,7 +374,7 @@ define(["local_fliplearning/vue",
                                 let position = this.points[0].point.x;
                                 let item = vue.selected_user.gradeitems[position];
                                 let header = `<small>${itemname}</small><br/>`;
-                                let footer = `<i>(${vue.strings.user_grades_chart_view_activity})</i><br/>`;
+                                let footer = `<small>(${vue.strings.user_grades_chart_view_activity})</small><br/>`;
                                 let body = '';
                                 if (item.gradecount == 0) {
                                     body = vue.strings.user_grades_chart_tooltip_no_graded;
@@ -404,17 +406,17 @@ define(["local_fliplearning/vue",
                     },
 
                     get_sessions_evolution_tooltip (point) {
-                        let text = '', sessions, sessions_suffix, sessions_prefix, time_prefix, time;
+                        let text = '', sessions, sessions_prefix, time_prefix, time;
                         if (point.colorIndex == 0) {
                             sessions = point.y;
-                            sessions_suffix = (sessions == 1) ? vue.strings.session_text : vue.strings.sessions_text;
                             sessions_prefix = point.series.name;
-                            text = `<b style="color: ${point.color}">${sessions_prefix}: </b>
-                                     ${sessions} ${sessions_suffix}<br/>`;
+                            text = `<b style="color: ${point.color};">• </b>
+                                    <b>${sessions_prefix}: </b>${sessions}<br/>`;
                         } else {
                             time_prefix = point.series.name;
                             time = this.convert_time(point.y * 60);
-                            text = `<b style="color: ${point.color}">${time_prefix}: </b>
+                            text = `<b style="color: ${point.color};">• </b>
+                                    <b>${time_prefix}: </b>
                                     ${time}<br/>`;
                         }
                         return text;
@@ -429,8 +431,8 @@ define(["local_fliplearning/vue",
                         } else {
                             user_grade = this.isInt(average) ? average : average.toFixed(2);
                         }
-                        return `<b style="color: ${point.color}">${serie_name}: </b>
-                                     ${user_grade}/${grademax}<br/>`;
+                        return `<b style="color: ${point.color};">• </b>
+                                <b>${serie_name}: </b>${user_grade}/${grademax}<br/>`;
                     },
 
                     calculate_timezone_date_string(timestamp) {
@@ -619,6 +621,10 @@ define(["local_fliplearning/vue",
 
                     isInt(n) {
                         return n % 1 === 0;
+                    },
+
+                    capitalizeFirstLetter (string) {
+                        return string.charAt(0).toUpperCase() + string.slice(1);
                     },
 
                     generate_dropout_data(){

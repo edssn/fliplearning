@@ -61,6 +61,9 @@ $content = [
         "item_grades_distribution_help_description_p2" => get_string("tr_item_grades_distribution_help_description_p2", "local_fliplearning"),
         "item_grades_distribution_help_description_p3" => get_string("tr_item_grades_distribution_help_description_p3", "local_fliplearning"),
 
+        "graded_students" => get_string("tr_graded_students", "local_fliplearning"),
+        "of_conector" => get_string("fml_of_conector", "local_fliplearning"),
+
         "chart" => $reports->get_chart_langs(),
         "title" => get_string("menu_grades","local_fliplearning"),
         "no_data" => get_string("no_data", "local_fliplearning"),

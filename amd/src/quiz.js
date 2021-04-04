@@ -121,25 +121,20 @@ define(["local_fliplearning/vue",
                             }
                         }];
                         chart.tooltip = {
+                            useHTML:true,
                             formatter: function() {
                                 let question_name = this.x;
                                 let attemps = this.y;
                                 let total_attemps = this.total;
                                 let percentage = Math.round(Number(this.percentage));
                                 let series_name = this.series.name;
-                                let attempt_preffix = vue.strings.attempts_text;
-                                attempt_preffix = attempt_preffix.charAt(0).toUpperCase() + attempt_preffix.slice(1);
-                                let attempt_label = vue.strings.attempts_text;
                                 let of_conector = vue.strings.of_conector;
                                 let review_question = vue.strings.review_question;
-                                if (attemps == 1) {
-                                    attempt_label = vue.strings.attempt_text;
-                                }
-                                let text = '<b>' + question_name + ': </b>' + attempt_preffix + ' ' + series_name + '<br/>' +
-                                           attemps + ' ' + attempt_label + ' ' + of_conector + ' ' + total_attemps +
-                                            ' (' + percentage + '%)' + '<br/>' + review_question;
-
-                                return text;
+                                return '<small>' + question_name + '</small></br>'
+                                    + '<b style="color: ' + this.color + ';">• </b>'
+                                    + series_name + ': ' + attemps + ' ' + of_conector + ' ' +total_attemps
+                                    + ' (' + percentage + '%)' + '<br/>'
+                                    + '<small>' + review_question + '</small>';
                             }
                         };
                         chart.plotOptions = {
@@ -182,22 +177,20 @@ define(["local_fliplearning/vue",
                             enabled: false
                         };
                         chart.tooltip = {
+                            useHTML:true,
                             formatter: function() {
                                 let position = this.point.x;
                                 let question_info = vue.hardest_questions[position];
                                 let question_name = this.x;
                                 let serie_name = this.series.name;
                                 let value = this.y;
-                                let attempt_label = vue.strings.attempts_text;
                                 let of_conector = vue.strings.of_conector;
                                 let review_question = vue.strings.review_question;
-                                if (question_info.ha == 1) {
-                                    attempt_label = vue.strings.attempt_text;
-                                }
-                                let text = '<b>' + question_name + ': </b>' + serie_name + '<br/>' +
-                                            question_info.ha + ' ' + attempt_label + ' ' + of_conector + ' '
-                                            + question_info.to + ' (' + value + '%)' + '<br/>' + review_question;
-                                return text;
+                                return '<small>' + question_name + '</small></br>'
+                                    + '<b style="color: ' + this.color + ';">• </b>'
+                                    + serie_name + ': ' + question_info.ha + ' ' + of_conector + ' '
+                                    + question_info.to + ' (' + value + '%)' + '<br/>'
+                                    + '<small>' + review_question + '</small>';
                             }
                         };
                         chart.yAxis = [{

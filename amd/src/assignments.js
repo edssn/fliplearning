@@ -122,6 +122,7 @@ define(["local_fliplearning/vue",
                             allowDecimals: false,
                         };
                         chart.tooltip = {
+                            useHTML:true,
                             formatter: function () {
                                 let label = this.x.split('</b>');
                                 label = label[0] || '';
@@ -134,9 +135,8 @@ define(["local_fliplearning/vue",
                                 if (value == 1) {
                                     students_label = vue.strings.student_text;
                                 }
-                                let text = '<b>' + label +'</b><br/>' + '<b>' + serie_name +': </b>' +
-                                            value + ' ' + students_label + '<br/>' + send_mail;
-                                return text;
+                                return '<small>' + label +'</small><br/>' + '<b>' + serie_name +': </b>' +
+                                        value + ' ' + students_label + '<br/>' + '<small>' + send_mail + '</small>';
                             }
                         };
                         chart.plotOptions = {
@@ -191,6 +191,7 @@ define(["local_fliplearning/vue",
                             allowDecimals: false,
                         };
                         chart.tooltip = {
+                            useHTML:true,
                             formatter: function () {
                                 let label = this.x;
                                 let serie_name = this.series.name;
@@ -200,8 +201,8 @@ define(["local_fliplearning/vue",
                                 if (value == 1) {
                                     students_label = vue.strings.student_text;
                                 }
-                                let text = '<b>' + label +'</b><br/>' + '<b>' + serie_name +': </b>' +
-                                    value + ' ' + students_label + '<br/>' + send_mail;
+                                let text = '<small>' + label +'</small><br/>' + '<b>' + serie_name +': </b>' +
+                                    value + ' ' + students_label + '<br/>' + '<small>' + send_mail + '</small>';
                                 return text;
                             }
                         };

@@ -129,16 +129,15 @@ define(["local_fliplearning/vue",
                             verticalAlign: 'bottom',
                         };
                         chart.tooltip = {
+                            useHTML: true,
                             formatter: function () {
                                 let days = vue.indicators.sessions.weeks[this.point.y][this.point.x] || '';
                                 let xCategoryName = vue.get_point_category_name(this.point, 'x');
                                 let yCategoryName = vue.get_point_category_name(this.point, 'y');
-                                let label = vue.strings.teacher_indicators_sessions;
-                                if (this.point.value == 1) {
-                                    label = vue.strings.teacher_indicators_session;
-                                }
-                                return '<b>' + yCategoryName + ' ' + xCategoryName + '</b>: '
-                                    + this.point.value +' ' + label + '<br/>' + days;
+                                return '<small>' + yCategoryName + ' ' + xCategoryName +'</small><br/>'
+                                    + '<b style="color: ' + vue.week_resources_colors + ';">• </b>'
+                                    + vue.strings.sessions_text + ': ' + this.point.value + '<br/>'
+                                    + '<small>' + days + '</small>';
                             }
                         };
                         chart.series = [{
@@ -178,7 +177,8 @@ define(["local_fliplearning/vue",
                             module_label = this.strings.teacher_indicators_module;
                             finished_label = this.strings.teacher_indicators_finalized;
                         }
-                        return `${item.cms.complete} ${module_label} ${finished_label} ${this.strings.of_conector} ${item.cms.total}`;
+                        return this.strings.finished_resources +': ' + item.cms.complete + ' '
+                            + this.strings.of_conector + ' ' + item.cms.total;
                     },
 
                     get_point_category_name(point, dimension) {
