@@ -1029,7 +1029,6 @@ class dropout extends report {
         $kmeans = new \local_fliplearning\phpml\Clustering\KMeans(3);
         $clusters = $kmeans->cluster($data);
 
-        $clusters_averages = array();
         foreach ($clusters as $index => $users) {
             $list = array();
             $userids = "";
@@ -1038,38 +1037,19 @@ class dropout extends report {
                 $userids = $userids.$userid.",";
             }
             $userids = rtrim($userids, ",");
-
-//            $average = new stdClass();
-//            $average->cluster = $index;
-//            $average->userids = $userids;
             $active_days_avg = self::calculate_average('active_days', $list)->average;
             $inverted_time_avg = self::calculate_average('inverted_time', $list)->average;
             $sessions_number_avg = self::calculate_average('sessions_number', $list)->average;
-//            $clusters_averages[$index] = $average;
 
             $record = new stdClass();
             $record->courseid = $this->course->id;
             $record->cluster = $index;
             $record->userids = $userids;
-            $record->active = 1;
             $record->activedaysaverage = $active_days_avg;
             $record->invertedtimeaverage = $inverted_time_avg;
             $record->sessionsnumberaverage = $sessions_number_avg;
             $record->timecreated = time();
-//            $DB->insert_record("fliplearning_clustering", $record);
+            $DB->insert_record("fliplearning_clustering", $record);
         }
-
-//        foreach ($clusters as $index => $users) {
-//            $record = new stdClass();
-//            $record->courseid = $this->course->id;
-//            $record->cluster = $index;
-//            $record->userids = $clusters_averages[$index]->userids;
-//            $record->active = 1;
-//            $record->activedaysaverage = $clusters_averages[$index]->active_days;
-//            $record->invertedtimeaverage = $clusters_averages[$index]->inverted_time;
-//            $record->sessionsnumberaverage = $clusters_averages[$index]->sessions_number;
-//            $record->timecreated = time();
-//            $DB->insert_record("fliplearning_clustering", $record);
-//        }
     }
 }

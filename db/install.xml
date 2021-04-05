@@ -87,7 +87,6 @@
             </KEYS>
             <INDEXES>
                 <INDEX NAME="courseid" UNIQUE="false" FIELDS="courseid" HINTS="courseid" COMMENT="courseid index"/>
-                <INDEX NAME="userid" UNIQUE="false" FIELDS="userid" HINTS="userid" COMMENT="userid index"/>
             </INDEXES>
         </TABLE>
     </TABLES>

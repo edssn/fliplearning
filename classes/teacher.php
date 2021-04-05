@@ -885,23 +885,23 @@ class teacher extends report {
 
     public function get_clusters() {
         global $DB;
-        $sql = "SELECT * FROM {fliplearning_clustering} WHERE courseid = {$this->course->id} AND active = 1";
+        $sql = "SELECT * FROM {fliplearning_clustering} WHERE courseid = {$this->course->id} 
+                ORDER BY invertedtimeaverage";
         $rows = $DB->get_records_sql($sql);
         $rows = array_values($rows);
 
         $clusters = array();
         $cluster_text = get_string("fml_cluster_label", "local_fliplearning");
         foreach ($rows as $row) {
-            if (!isset($clusters[$row->cluster])) {
-                $cluster = new stdClass();
-                $cluster->name = $cluster_text." ".($row->cluster+1);
-                $cluster->number = $row->cluster;
-                $cluster->users = array();
-                array_push($cluster->users, $row->userid);
-                array_push($clusters, $cluster);
-            } else {
-                array_push($clusters[$row->cluster]->users, $row->userid);
-            }
+            $cluster = new stdClass();
+            $cluster->name = $cluster_text." ".($row->cluster+1);
+            $cluster->number = $row->cluster;
+            $b = explode(",", $row->userids);
+            $cluster->users = explode(",", $row->userids);
+            $cluster->days = $row->activedaysaverage;
+            $cluster->time = $row->invertedtimeaverage;
+            $cluster->sessiones = $row->sessionsnumberaverage;
+            array_push($clusters, $cluster);
         }
         return $clusters;
     }
