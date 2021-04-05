@@ -891,12 +891,14 @@ class teacher extends report {
         $rows = array_values($rows);
 
         $clusters = array();
-        $cluster_text = get_string("fml_cluster_label", "local_fliplearning");
-        foreach ($rows as $row) {
+        $clusters_names = array();
+        array_push($clusters_names, get_string("fml_cluster_best", "local_fliplearning"));
+        array_push($clusters_names, get_string("fml_cluster_middle", "local_fliplearning"));
+        array_push($clusters_names, get_string("fml_cluster_worst", "local_fliplearning"));
+        foreach ($rows as $index => $row) {
             $cluster = new stdClass();
-            $cluster->name = $cluster_text." ".($row->cluster+1);
+            $cluster->name = $clusters_names[$index];
             $cluster->number = $row->cluster;
-            $b = explode(",", $row->userids);
             $cluster->users = explode(",", $row->userids);
             $cluster->days = $row->activedaysaverage;
             $cluster->time = $row->invertedtimeaverage;

@@ -483,6 +483,9 @@ $string['td_user_grades_help_description_p2'] = 'En el eje x del gráfico se mue
 $string['td_user_grades_help_description_p3'] = 'Con un clic en la barra correspondiente a alguna actividad es posible dirigirse a dicha analizada.';
 
 $string["fml_cluster_label"] = "Grupo";
+$string["fml_cluster_best"] = "Riesgo Alto de Abandono";
+$string["fml_cluster_middle"] = "Riesgo Medio de Abandono";
+$string["fml_cluster_worst"] = "Riesgo Bajo de Abandono";
 $string["fml_cluster_select"] = "Grupo de Estudiantes";
 $string["fml_dropout_table_title"] = "Estudiantes del Grupo";
 $string["fml_dropout_see_profile"] = "Ver Perfil";
