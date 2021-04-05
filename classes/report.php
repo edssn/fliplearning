@@ -526,7 +526,7 @@ abstract class report {
         return $interval;
     }
 
-    protected function calculate_average($field , $values, $consider_zero_elements = true){
+    protected function calculate_average($field, $values, $consider_zero_elements = true){
         $counter = 0;
         $total = 0;
         foreach($values as $value){
