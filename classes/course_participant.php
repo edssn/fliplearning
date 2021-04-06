@@ -78,16 +78,16 @@ class course_participant{
         return $has_student;
     }
 
-    public function current_user_groups_with_all_group($groupmode, $exclude_witout_student = true){
+    public function current_user_groups_with_all_group($groupmode, $exclude_without_student = true){
         $context = context_course::instance($this->course->id);
         $groups = new stdClass();
         $groups->all = groups_get_all_groups($this->course->id);
-        if(self::current_user_is_admin()){
+        if(self::current_user_is_admin() || self::current_user_is_teacher()){
             if(has_capability('local/fliplearning:seegroupwithallstudent', $context)){
                 array_unshift($groups->all, self::default_group());
             }
-            if($exclude_witout_student){
-                $groups->all = self::exclude_witout_student($groups->all);
+            if($exclude_without_student){
+                $groups->all = self::exclude_without_student($groups->all);
             }
             return $groups->all;
         }
@@ -105,8 +105,8 @@ class course_participant{
         if((self::is_student() && $groupmode != SEPARATEGROUPS) || (self::is_student() && $groupmode == SEPARATEGROUPS && empty($groups->current_user_is_member))){
             $groups->current_user_is_member = array(self::default_group());
         }
-        if($exclude_witout_student){
-            $groups->current_user_is_member = self::exclude_witout_student($groups->current_user_is_member);
+        if($exclude_without_student){
+            $groups->current_user_is_member = self::exclude_without_student($groups->current_user_is_member);
         }
         return $groups->current_user_is_member;
     }
@@ -148,7 +148,7 @@ class course_participant{
         $groups = new stdClass();
         $groups->all = $all_groups;
         $groups->is_member = array();
-        if(self::current_user_is_admin()){
+        if(self::current_user_is_admin() || self::current_user_is_teacher()){
             return $groups->all;
         }
         if(self::separated_group()){
@@ -161,6 +161,21 @@ class course_participant{
         $admins = get_admins();
         $is_admin = isset($admins[$this->user->id]);
         return $is_admin;
+    }
+
+    private function current_user_is_teacher(){
+        $editingteachers_role = 3;
+        $teacher_role = 4;
+        $is_teacher = false;
+        $editingteachers = get_role_users($editingteachers_role, $this->context);
+        $teachers = get_role_users($teacher_role, $this->context);
+        if(!empty($editingteachers) && isset($editingteachers[$this->user->id])){
+            $is_teacher = true;
+        }
+        if(!empty($teachers) && isset($teachers[$this->user->id])){
+            $is_teacher = true;
+        }
+        return $is_teacher;
     }
 
     private function separated_group(){
@@ -216,7 +231,7 @@ class course_participant{
         return $result;
     }
 
-    private function exclude_witout_student($groups){
+    private function exclude_without_student($groups){
         $filtered = array();
         foreach($groups as $group){
             if($group->id == 0){
