@@ -27,10 +27,101 @@ defined('MOODLE_INTERNAL') || die;
 
 require_once($CFG->dirroot . '/local/fliplearning/locallib.php');
 
-function local_fliplearning_render_navbar_output(\renderer_base $renderer) {
+function local_fliplearning_extend_navigation($root) {
+    $use_navbar = get_config("local_fliplearning", "use_navbar_menu");
+    if($use_navbar){
+        return;
+    }
 
     global $CFG, $COURSE, $PAGE, $SESSION, $SITE, $USER;
+    $items = [];
 
+    if (isset($COURSE) && $COURSE->id <= 1 ) {
+        return null;
+    }
+
+    $context = context_course::instance($COURSE->id);
+
+    $configweeks = new \local_fliplearning\configweeks($COURSE, $USER);
+    $configuration_is_set = $configweeks->is_set();
+
+    if(!has_capability('local/fliplearning:usepluggin', $context)){
+        return null;
+    }
+
+    $hidden_for_student = !$configuration_is_set && !is_siteadmin();
+    if(has_capability('local/fliplearning:view_as_student', $context) && $hidden_for_student){
+        return null;
+    }
+
+    $main_title = get_string('pluginname', 'local_fliplearning');
+    $node = navigation_node::create($main_title, null, navigation_node::TYPE_COURSE);
+    $child = $root->add_node($node, 'mycourses');
+    $child->add_class('mail_root');
+
+    if(has_capability('local/fliplearning:setweeks', $context)){
+        $text = get_string('menu_setweek', 'local_fliplearning');
+        $url = new moodle_url('/local/fliplearning/setweeks.php?courseid='.$COURSE->id);
+        $child = $node->add(s($text), $url);
+    }
+
+    if(has_capability('local/fliplearning:teacher_general', $context) && $configuration_is_set){
+        $text = get_string('menu_general', 'local_fliplearning');
+        $url = new moodle_url('/local/fliplearning/teacher.php?courseid='.$COURSE->id);
+        $child = $node->add(s($text), $url);
+    }
+
+    if(has_capability('local/fliplearning:teacher_sessions', $context) && $configuration_is_set){
+        $text = get_string('menu_sessions', 'local_fliplearning');
+        $url = new moodle_url('/local/fliplearning/sessions.php?courseid='.$COURSE->id);
+        $child = $node->add(s($text), $url);
+    }
+
+    if(has_capability('local/fliplearning:assignments', $context) && $configuration_is_set){
+        $text = get_string('menu_assignments', 'local_fliplearning');
+        $url = new moodle_url('/local/fliplearning/assignments.php?courseid='.$COURSE->id);
+        $child = $node->add(s($text), $url);
+    }
+
+    if(has_capability('local/fliplearning:grades', $context) && $configuration_is_set){
+        $text = get_string('menu_grades', 'local_fliplearning');
+        $url = new moodle_url('/local/fliplearning/grades.php?courseid='.$COURSE->id);
+        $child = $node->add(s($text), $url);
+    }
+
+    if(has_capability('local/fliplearning:quiz', $context) && $configuration_is_set){
+        $text = get_string('menu_quiz', 'local_fliplearning');
+        $url = new moodle_url('/local/fliplearning/quiz.php?courseid='.$COURSE->id);
+        $child = $node->add(s($text), $url);
+    }
+
+    if(has_capability('local/fliplearning:dropout', $context) && $configuration_is_set){
+        $text = get_string('menu_dropout', 'local_fliplearning');
+        $url = new moodle_url('/local/fliplearning/dropout.php?courseid='.$COURSE->id);
+        $child = $node->add(s($text), $url);
+    }
+
+
+    if(has_capability('local/fliplearning:student_general', $context) && !is_siteadmin() && $configuration_is_set){
+        $text = get_string('menu_general', 'local_fliplearning');
+        $url = new moodle_url('/local/fliplearning/student.php?courseid='.$COURSE->id);
+        $child = $node->add(s($text), $url);
+    }
+
+    if(has_capability('local/fliplearning:student_sessions', $context) && !is_siteadmin() && $configuration_is_set){
+        $text = get_string('menu_sessions', 'local_fliplearning');
+        $url = new moodle_url('/local/fliplearning/student_sessions.php?courseid='.$COURSE->id);
+        $child = $node->add(s($text), $url);
+    }
+}
+
+function local_fliplearning_render_navbar_output(\renderer_base $renderer) {
+    $use_navbar = get_config("local_fliplearning", "use_navbar_menu");
+    if(!$use_navbar){
+        return;
+    }
+
+    global $CFG, $COURSE, $PAGE, $SESSION, $SITE, $USER;
     $items = [];
 
     if (isset($COURSE) && $COURSE->id <= 1 ) {

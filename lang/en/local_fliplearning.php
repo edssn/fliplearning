@@ -45,6 +45,9 @@ $string["fml_disabled"] = "Desactivado";
 $string["fml_sessions"] = "Sesiones";
 $string['fml_finished_resources'] = 'Recursos Finalizados';
 
+/* Admin Settings */
+$string['fml_use_navbar_menu'] = 'Habilitar menú desplegable';
+$string['fml_use_navbar_menu_desc'] = 'Desplegar el menú del plugin en la barra de navegación (parte superior derecha). De lo contrario, el menú del plugin estará en el bloque de navegación.';
 
 /* Menú */
 $string['menu_main_title'] = "Dashboard Progreso";
