@@ -34,7 +34,6 @@ $string['weeks_not_config'] = 'El curso no ha sido configurado por el profesor, 
 $string['pagination_title'] = 'Selección semana';
 $string['helplabel'] = 'Ayuda';
 $string['exitbutton'] = '¡Entendido!';
-$string['no_data'] = 'No hay datos que mostrar';
 $string['only_student'] = 'Este reporte es solo para estudiantes';
 $string["fml_send_mail"] = "(Clic para enviar correo)";
 $string["fml_about"] = "Acerca de este Gráfico";

@@ -125,7 +125,6 @@ $content = [
         "hours_sessions_title" => get_string("fml_hours_sessions_title", "local_fliplearning"),
         "weeks_sessions_title" => get_string("fml_weeks_sessions_title", "local_fliplearning"),
 
-        "no_data" => get_string("no_data", "local_fliplearning"),
         "pagination" => get_string("pagination", "local_fliplearning"),
         "ss_change_timezone" => get_string("ss_change_timezone", "local_fliplearning"),
         "graph_generating" => get_string("graph_generating", "local_fliplearning"),

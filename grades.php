@@ -66,7 +66,6 @@ $content = [
 
         "chart" => $reports->get_chart_langs(),
         "title" => get_string("menu_grades","local_fliplearning"),
-        "no_data" => get_string("no_data", "local_fliplearning"),
         "ss_change_timezone" => get_string("ss_change_timezone", "local_fliplearning"),
         "graph_generating" => get_string("graph_generating", "local_fliplearning"),
         "api_error_network" => get_string("api_error_network", "local_fliplearning"),

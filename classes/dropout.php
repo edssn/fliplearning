@@ -34,24 +34,20 @@ class dropout {
     use \lib_trait;
 
     const MINUTES_TO_NEW_SESSION = 30;
-    const USER_FIELDS = "id, username, firstname, lastname, email, lastaccess, picture, deleted";
     protected $course;
-    protected $user;
-    protected $profile;
+    protected $instance;
     protected $users;
     protected $current_week;
-    protected $past_week;
     protected $weeks;
-    protected $current_sections;
     public $timezone;
 
     function __construct($courseid){
         $this->course = self::get_course($courseid);
         $this->instance = self::last_instance();
         $this->weeks = self::get_weeks();
-        self::get_weeks_with_sections();
+        self::set_sections_in_weeks();
         $this->current_week = self::get_current_week();
-        self::set_users();
+        $this->users = self::set_users();
     }
 
     private function last_instance(){
@@ -82,33 +78,10 @@ class dropout {
         return $current;
     }
 
-    public function get_weeks_with_sections(){
-//        $weeks = $this->weeks;
-//        $course_sections = self::get_course_sections();
+    public function set_sections_in_weeks(){
         foreach($this->weeks as $position => $week){
-//            $week->removable = true;
-//            if($position == 0){
-//                $week->removable = false;
-//            }
-//            $week->sections = array();
-//            $week->name = get_string('setweeks_week', 'local_fliplearning');
-//            if(!isset($week->date_format)) {
-//                $week->date_format = "Y-m-d";
-//                $week->weekstartlabel = self::to_format("Y-m-d", $week->weekstart);
-//                $week->weekendlabel = self::to_format("Y-m-d", $week->weekend);
-//            }
-//            $week->weekstart = intval($week->weekstart);
-//            $week->weekend = intval($week->weekend);
-//            $week->position = $position;
-//            $week->delete_confirm = false;
             $sections = self::get_week_sections($week->weekcode);
             $week->sections = $sections;
-//            foreach($sections as $key => $section){
-//                $section->name = $section->section_name;
-//                $section->visible = self::get_current_visibility($section->sectionid);
-//                $section = self::validate_section($section, $course_sections);
-//                $week->sections[] = $sections;
-//            }
         }
     }
 
@@ -121,8 +94,8 @@ class dropout {
 
 
     public function set_users(){
-        $this->users = self::get_student_ids(false);
-        return $this->users;
+        $users = self::get_student_ids(false);
+        return $users;
     }
 
     public function generate_data(){
@@ -159,7 +132,7 @@ class dropout {
 
     private function course_is_active(){
         $in_transit = isset($this->current_week) ? true : false;
-        $has_sections = (count($this->current_week->sections) > 0) ? true : false;
+        $has_sections = (isset($this->current_week) && count($this->current_week->sections) > 0) ? true : false;
         $has_users = count($this->users) > 0 ? true : false;
         return $in_transit && $has_sections && $has_users;
     }

@@ -94,7 +94,6 @@ $content = [
         "student_text" => get_string("fml_student_text", "local_fliplearning"),
         "students_text" => get_string("fml_students_text", "local_fliplearning"),
 
-        "no_data" => get_string("no_data", "local_fliplearning"),
         "assignsubs_chart_title" => get_string("fml_assignsubs_title", "local_fliplearning"),
         "assignsubs_chart_yaxis" => get_string("fml_assignsubs_yaxis", "local_fliplearning"),
     ],

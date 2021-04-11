@@ -269,12 +269,6 @@ trait lib_trait {
         return $date;
     }
 
-//    protected function course_is_valid(){
-//        $in_transit = isset($this->current_week) || isset($this->past_week) ? true : false;
-//        $has_users = count($this->users) > 0 ? true : false;
-//        return $in_transit && $has_users;
-//    }
-
     /**
      * Retorna un entero que representa la cantidad de segundos desde la Época Unix (January 1 1970 00:00:00 GMT)
      * hasta la fecha actual. La fecha actual se calcula en base a la zona horaria obtenida con la función
@@ -618,6 +612,15 @@ trait lib_trait {
         return $users;
     }
 
+    /**
+     * Obtiene una lista indexada por el id de usuario que contiene en cada posicion los logs
+     * del usuario.
+     *
+     * @param array $filters lista de condiciones para la busqueda de los logs, en caso de no especificarse,
+     *                       se toma como una lista vacía
+     *
+     * @return array lista de usuarios con sus logs
+     */
     protected function get_logs($filters = array()){
         global $DB;
         $users = array();
@@ -641,6 +644,16 @@ trait lib_trait {
         return $users;
     }
 
+    /**
+     * Obtiene una cadena de texto que representa una condicion 'where' de busqueda en lenguaje sql
+     * cuyos campos se concatenan en base al parámetro $filters con el prefijo $prefix
+     *
+     * @param array $filters lista de condiciones para la cadena de texto que representa la condicion
+     * @param string $prefix prefijo con el que se une cada condicion de la variable $filters. Si se
+     *                       omite, por defecto toma el valor de and
+     *
+     * @return string cadena de texto que representa una condicional 'where' el lenguaje sql
+     */
     protected function get_query_from_conditions($filters = array(), $prefix = "and"){
         $conditions = "";
         foreach($filters as $filter){

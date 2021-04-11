@@ -51,10 +51,7 @@ class student extends report {
     }
 
     public function get_general_indicators () {
-        if(!self::course_in_transit()){
-            return null;
-        }
-        if(!self::course_has_users()){
+        if(!self::course_is_valid()){
             return null;
         }
 
@@ -97,10 +94,7 @@ class student extends report {
     }
 
     public function get_sessions($weekcode = null, $include_weeks = true){
-        if(!self::course_in_transit()){
-            return null;
-        }
-        if(!self::course_has_users()){
+        if(!self::course_is_valid()){
             return null;
         }
 

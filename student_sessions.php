@@ -136,7 +136,6 @@ $content = [
             "modules_interaction" => get_string("fml_modules_interaction","local_fliplearning"),
             "modules_interactions" => get_string("fml_modules_interactions","local_fliplearning"),
         ),
-        "no_data" => get_string("no_data", "local_fliplearning"),
         "pagination" => get_string("pagination", "local_fliplearning"),
         "ss_change_timezone" => get_string("ss_change_timezone", "local_fliplearning"),
         "graph_generating" => get_string("graph_generating", "local_fliplearning"),

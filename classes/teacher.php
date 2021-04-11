@@ -213,60 +213,8 @@ class teacher extends report {
         return $response;
     }
 
-//    public function weeks_sessions(){
-//        if(!self::course_in_transit()){
-//            return null;
-//        }
-//        if(!self::course_has_users()){
-//            return null;
-//        }
-//        $start = null;
-//        if(isset($this->course->startdate) && ((int)$this->course->startdate) > 0) {
-//            $start = $this->course->startdate;
-//        }
-//        $end = null;
-//        if(isset($this->course->enddate) && ((int)$this->course->enddate) > 0) {
-//            $end = $this->course->enddate;
-//        }
-//        $work_sessions = self::get_work_sessions($start, $end);
-//        $work_sessions = array_map(function($user_sessions){ return $user_sessions->sessions;}, $work_sessions);
-//        $months = self::get_sessions_by_weeks($work_sessions);
-//        $response = self::get_sessions_by_weeks_summary($months, (int) $this->course->startdate);
-//        return $response;
-//    }
-//
-//    public function progress_table(){
-//        if(!self::course_in_transit()){
-//            return null;
-//        }
-//        if(!self::course_has_users()){
-//            return null;
-//        }
-//        $start = null;
-//        if(isset($this->course->startdate) && ((int)$this->course->startdate) > 0) {
-//            $start = $this->course->startdate;
-//        }
-//        $end = null;
-//        if(isset($this->course->enddate) && ((int)$this->course->enddate) > 0) {
-//            $end = $this->course->enddate;
-//        }
-//
-//        $enable_completion = false;
-//        if(isset($this->course->enablecompletion) && ((int)$this->course->enablecompletion) == 1) {
-//            $enable_completion = true;
-//        }
-//
-//        $users_sessions = self::get_work_sessions($start, $end);
-//        $cms = self::get_course_modules();
-//        $table = self::get_progress_table($users_sessions, $cms, $enable_completion);
-//        return $table;
-//    }
-
     public function count_sessions($weekcode = null){
-        if(!self::course_in_transit()){
-            return null;
-        }
-        if(!self::course_has_users()){
+        if(!self::course_is_valid()){
             return null;
         }
         $week = $this->current_week;
@@ -384,10 +332,7 @@ class teacher extends report {
     }
 
     public function inverted_time($weekcode = null){
-        if(!self::course_in_transit()){
-            return null;
-        }
-        if(!self::course_has_users()){
+        if(!self::course_is_valid()){
             return null;
         }
         $week = $this->current_week;
@@ -404,10 +349,7 @@ class teacher extends report {
     }
 
     public function assignments_submissions($weekcode = null){
-        if(!self::course_in_transit()){
-            return null;
-        }
-        if(!self::course_has_users()){
+        if(!self::course_is_valid()){
             return null;
         }
         $week = $this->current_week;
@@ -569,10 +511,7 @@ class teacher extends report {
     }
 
     public function resources_access($weekcode = null){
-        if(!self::course_in_transit()){
-            return null;
-        }
-        if(!self::course_has_users()){
+        if(!self::course_is_valid()){
             return null;
         }
         $week = $this->current_week;
@@ -708,10 +647,7 @@ class teacher extends report {
     }
 
     public function quiz_attempts($weekcode = null){
-        if(!self::course_in_transit()){
-            return null;
-        }
-        if(!self::course_has_users()){
+        if(!self::course_is_valid()){
             return null;
         }
         $week = $this->current_week;
@@ -837,10 +773,7 @@ class teacher extends report {
     }
 
     public function get_dropout_clusters() {
-        if(!self::course_in_transit()){
-            return null;
-        }
-        if(!self::course_has_users()){
+        if(!self::course_is_valid()){
             return null;
         }
 
