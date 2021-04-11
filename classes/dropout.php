@@ -49,6 +49,7 @@ class dropout {
         $this->course = self::get_course($courseid);
         $this->instance = self::last_instance();
         $this->weeks = self::get_weeks();
+        self::get_weeks_with_sections();
         $this->current_week = self::get_current_week();
         self::set_users();
     }
@@ -79,6 +80,43 @@ class dropout {
             }
         }
         return $current;
+    }
+
+    public function get_weeks_with_sections(){
+//        $weeks = $this->weeks;
+//        $course_sections = self::get_course_sections();
+        foreach($this->weeks as $position => $week){
+//            $week->removable = true;
+//            if($position == 0){
+//                $week->removable = false;
+//            }
+//            $week->sections = array();
+//            $week->name = get_string('setweeks_week', 'local_fliplearning');
+//            if(!isset($week->date_format)) {
+//                $week->date_format = "Y-m-d";
+//                $week->weekstartlabel = self::to_format("Y-m-d", $week->weekstart);
+//                $week->weekendlabel = self::to_format("Y-m-d", $week->weekend);
+//            }
+//            $week->weekstart = intval($week->weekstart);
+//            $week->weekend = intval($week->weekend);
+//            $week->position = $position;
+//            $week->delete_confirm = false;
+            $sections = self::get_week_sections($week->weekcode);
+            $week->sections = $sections;
+//            foreach($sections as $key => $section){
+//                $section->name = $section->section_name;
+//                $section->visible = self::get_current_visibility($section->sectionid);
+//                $section = self::validate_section($section, $course_sections);
+//                $week->sections[] = $sections;
+//            }
+        }
+    }
+
+    private function get_week_sections($weekcode){
+        global $DB;
+        $sql = "select id from {fliplearning_sections} where weekcode = ? and timedeleted IS NULL order by position asc";
+        $week_sections = $DB->get_records_sql($sql, array($weekcode));
+        return $week_sections;
     }
 
 
@@ -121,8 +159,9 @@ class dropout {
 
     private function course_is_active(){
         $in_transit = isset($this->current_week) ? true : false;
+        $has_sections = (count($this->current_week->sections) > 0) ? true : false;
         $has_users = count($this->users) > 0 ? true : false;
-        return $in_transit && $has_users;
+        return $in_transit && $has_sections && $has_users;
     }
 
     private function calculate_indicators($cms, $users){
