@@ -32,17 +32,17 @@ $url = '/local/fliplearning/prueba.php';
 local_fliplearning_set_page($course, $url);
 
 //$samples = [ 'Label1' => [1, 1], 'Label2' => [8, 7], 'Label3' => [1, 2]];
-$kmeans = new \local_fliplearning\phpml\Clustering\KMeans(2);
+//$kmeans = new \local_fliplearning\phpml\Clustering\KMeans(2);
 
-$dropout = new \local_fliplearning\dropout($COURSE->id, $USER->id);
-$samples = $dropout->generate_data();
+$dropout = new \local_fliplearning\dropout($COURSE->id);
+$dropout->generate_data();
 
 //$normalizer = new \local_fliplearning\phpml\Preprocessing\Normalizer();
 //$normalizer->transform($samples);
 
 $content = [
-    'data' => $samples,
-    'clusters' => $kmeans->cluster($samples)
+//    'data' => $samples,
+//    'clusters' => $kmeans->cluster($samples)
 ];
 
 

@@ -32,10 +32,12 @@ class generate_data extends \core\task\scheduled_task {
 
     public function execute() {
         global $DB;
-        $instance = new \stdClass();
-        $instance->courseid = 1;
-        $instance->year = date("Y");
-        $DB->insert_record("fliplearning_test", $instance, true);
+        $sql = "SELECT id, fullname FROM {course} WHERE id > 1 AND VISIBLE = 1 ORDER BY ID DESC";
+        $rows = $DB->get_records_sql($sql);
+        foreach ($rows as $row) {
+            $dropout = new \local_fliplearning\dropout($row->id);
+            $dropout->generate_data();
+        }
         return true;
     }
 }

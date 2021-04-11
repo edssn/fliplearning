@@ -30,18 +30,57 @@ require_once("lib_trait.php");
 
 use stdClass;
 
-class dropout extends report {
+class dropout {
     use \lib_trait;
 
-    function __construct($courseid, $userid){
-        parent::__construct($courseid, $userid);
-        self::set_profile();
+    const MINUTES_TO_NEW_SESSION = 30;
+    const USER_FIELDS = "id, username, firstname, lastname, email, lastaccess, picture, deleted";
+    protected $course;
+    protected $user;
+    protected $profile;
+    protected $users;
+    protected $current_week;
+    protected $past_week;
+    protected $weeks;
+    protected $current_sections;
+    public $timezone;
+
+    function __construct($courseid){
+        $this->course = self::get_course($courseid);
+        $this->instance = self::last_instance();
+        $this->weeks = self::get_weeks();
+        $this->current_week = self::get_current_week();
         self::set_users();
     }
 
-    public function set_profile(){
-        $this->profile = "teacher";
+    private function last_instance(){
+        global $DB;
+        $sql = "select * from {fliplearning_instances} where courseid = ? order by id desc LIMIT 1";
+        $instance = $DB->get_record_sql($sql, array($this->course->id));
+        return $instance;
     }
+
+    private function get_weeks(){
+        global $DB;
+        $sql = "SELECT * FROM {fliplearning_weeks} 
+                WHERE courseid = ? AND instanceid = ? AND timedeleted IS NULL ORDER BY POSITION ASC";
+        $weeks = $DB->get_records_sql($sql, array($this->course->id, $this->instance->id));
+        $weeks = array_values($weeks);
+        return $weeks;
+    }
+
+    public function get_current_week(){
+        $current = null;
+        $now = time();
+        foreach($this->weeks as $week){
+            if($now >= $week->weekstart  && $now <= $week->weekend){
+                $current = $week;
+                break;
+            }
+        }
+        return $current;
+    }
+
 
     public function set_users(){
         $this->users = self::get_student_ids(false);
@@ -49,6 +88,19 @@ class dropout extends report {
     }
 
     public function generate_data(){
+
+//        global $DB;
+//        $sql = "SELECT id FROM {course} WHERE id > 1 AND VISIBLE = 1 ORDER BY ID DESC";
+//        $rows = $DB->get_records_sql($sql);
+//
+//        foreach ($rows as $row) {
+//            $dropout = new \local_fliplearning\dropout($row->id);
+//            $dropout->generate_data();
+//        }
+
+        if(!self::course_is_active()){
+            return null;
+        }
         $start = $this->course->startdate;
         $end = null;
         if(isset($this->course->enddate) && ((int)$this->course->enddate) > 0) {
@@ -65,6 +117,12 @@ class dropout extends report {
         $cms = self::normalize_data($cms);
         self::clustering($cms, $time_indicators);
         return $cms;
+    }
+
+    private function course_is_active(){
+        $in_transit = isset($this->current_week) ? true : false;
+        $has_users = count($this->users) > 0 ? true : false;
+        return $in_transit && $has_users;
     }
 
     private function calculate_indicators($cms, $users){

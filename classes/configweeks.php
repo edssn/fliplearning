@@ -40,7 +40,6 @@ class configweeks {
     public $startin;
 
     function __construct($course, $userid){
-        global $DB;
         $this->course = self::get_course($course);
         $this->user = self::get_user($userid);
         $this->instance = self::last_instance();

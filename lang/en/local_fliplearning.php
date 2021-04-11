@@ -75,7 +75,7 @@ $string['api_save_successful'] = 'Se han guardado los datos correctamente en el 
 $string['api_cancel_action'] = 'Has cancelado la acción';
 
 /* Admin Task Screen*/
-$string['generate_data_task'] = 'Proceso para generar datos para Flip my Learning Plugin';
+$string['generate_data_task'] = 'Proceso para generar datos de Deserción para Flip My Learning';
 
 /* Chart*/
 $string['chart_loading'] = 'Cargando...';
