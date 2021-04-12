@@ -116,7 +116,7 @@ class course_participant{
         $group->id = self::ALL_STUDENT;
         $group->courseid = $this->course->id;
         $group->idnumber = 'allstudent';
-        $group->name = get_string("group_allstudent", "local_fliplearning");
+        $group->name = get_string("fml_group_allstudent", "local_fliplearning");
         $group->description = "";
         $group->descriptionformat = 1;
         $group->enrolmentkey = "";

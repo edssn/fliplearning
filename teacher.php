@@ -61,7 +61,7 @@ $content = [
         "finished_resources" => get_string("fml_finished_resources", "local_fliplearning"),
         "sessions_text" => get_string("fml_sessions", "local_fliplearning"),
 
-        "title" => get_string("menu_general", "local_fliplearning"),
+        "title" => get_string("fml_menu_general", "local_fliplearning"),
         "chart" => $reports->get_chart_langs(),
         "helplabel" => get_string("fml_helplabel","local_fliplearning"),
         "exitbutton" => get_string("fml_exitbutton","local_fliplearning"),

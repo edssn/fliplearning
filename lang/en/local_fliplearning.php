@@ -25,7 +25,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$string['pluginname'] = 'Flip My Learning';
+$string['fml_pluginname'] = 'Flip My Learning';
 
 /* Global */
 $string['fml_graph_generating'] = 'Estamos construyendo el reporte, por favor espere un momento.';
@@ -44,6 +44,8 @@ $string["fml_resources"] = "Recursos";
 $string['fml_finished_resources'] = 'Recursos Finalizados';
 $string["fml_session_text"] = "sesión";
 $string["fml_sessions_text"] = "sesiones";
+$string["fml_student_text"] = "estudiante";
+$string["fml_students_text"] = "estudiantes";
 $string['fml_change_timezone'] = 'Zona horaria:';
 $string['fml_of_conector'] = 'de';
 
@@ -57,19 +59,19 @@ $string['fml_use_navbar_menu'] = 'Habilitar menú desplegable';
 $string['fml_use_navbar_menu_desc'] = 'Desplegar el menú del plugin en la barra de navegación (parte superior derecha). De lo contrario, el menú del plugin estará en el bloque de navegación.';
 
 /* Menú */
-$string['menu_main_title'] = "Dashboard Progreso";
-$string['menu_sessions'] = 'Sesiones de Estudio';
-$string['menu_setweek'] = "Configurar Semanas";
-$string['menu_time'] = 'Seguimiento de Tiempo';
-$string['menu_assignments'] = 'Seguimiento de Tareas';
-$string['menu_grades'] = 'Seguimiento de Calificaciones';
-$string['menu_quiz'] = 'Seguimiento de Evaluaciones';
-$string['menu_dropout'] = 'Deserción';
-$string['menu_logs'] = "Descargar registros";
-$string['menu_general'] = "Indicadores Generales";
+$string['fml_menu_main_title'] = "Dashboard Progreso";
+$string['fml_menu_sessions'] = 'Sesiones de Estudio';
+$string['fml_menu_setweek'] = "Configurar Semanas";
+$string['fml_menu_time'] = 'Seguimiento de Tiempo';
+$string['fml_menu_assignments'] = 'Seguimiento de Tareas';
+$string['fml_menu_grades'] = 'Seguimiento de Calificaciones';
+$string['fml_menu_quiz'] = 'Seguimiento de Evaluaciones';
+$string['fml_menu_dropout'] = 'Deserción';
+$string['fml_menu_logs'] = "Descargar registros";
+$string['fml_menu_general'] = "Indicadores Generales";
 
 /* Nav Bar Menu */
-$string['togglemenu'] = 'Mostrar/Ocultar menú de FML';
+$string['fml_togglemenu'] = 'Mostrar/Ocultar menú de FML';
 
 /* Pagination component */
 $string['fml_pagination'] = 'Semana:';
@@ -78,7 +80,7 @@ $string['fml_pagination_component_to'] = 'al';
 $string['fml_pagination_component_name'] = 'Semana';
 
 /* Student Goups */
-$string['group_allstudent'] = 'Todos los estudiantes';
+$string['fml_group_allstudent'] = 'Todos los estudiantes';
 
 /* General Errors */
 $string['fml_api_error_network'] = "Ha ocurrido un error en la comunicación con el servidor.";
@@ -90,26 +92,26 @@ $string['fml_api_cancel_action'] = 'Has cancelado la acción';
 $string['fml_generate_dropout_data_task'] = 'Proceso para generar datos de Deserción para Flip My Learning';
 
 /* Chart*/
-$string['chart_loading'] = 'Cargando...';
-$string['chart_exportButtonTitle'] = "Exportar";
-$string['chart_printButtonTitle'] = "Imprimir";
-$string['chart_rangeSelectorFrom'] = "De";
-$string['chart_rangeSelectorTo'] = "Hasta";
-$string['chart_rangeSelectorZoom'] = "Rango";
-$string['chart_downloadPNG'] = 'Descargar imagen PNG';
-$string['chart_downloadJPEG'] = 'Descargar imagen JPEG';
-$string['chart_downloadPDF'] = 'Descargar documento PDF';
-$string['chart_downloadSVG'] = 'Descargar imagen SVG';
-$string['chart_downloadCSV'] = 'Descargar CSV';
-$string['chart_downloadXLS'] = 'Descargar XLS';
-$string['chart_exitFullscreen'] = 'Salir de Pantalla Completa';
-$string['chart_hideData'] = 'Ocultar Tabla de Datos';
-$string['chart_noData'] = 'No hay datos que mostrar';
-$string['chart_printChart'] = 'Imprimir Gráfico';
-$string['chart_viewData'] = 'Ver Tabla de Datos';
-$string['chart_viewFullscreen'] = 'Ver en Pantalla Completa';
-$string['chart_resetZoom'] = 'Reiniciar zoom';
-$string['chart_resetZoomTitle'] = 'Reiniciar zoom nivel 1:1';
+$string['fml_chart_loading'] = 'Cargando...';
+$string['fml_chart_exportButtonTitle'] = "Exportar";
+$string['fml_chart_printButtonTitle'] = "Imprimir";
+$string['fml_chart_rangeSelectorFrom'] = "De";
+$string['fml_chart_rangeSelectorTo'] = "Hasta";
+$string['fml_chart_rangeSelectorZoom'] = "Rango";
+$string['fml_chart_downloadPNG'] = 'Descargar imagen PNG';
+$string['fml_chart_downloadJPEG'] = 'Descargar imagen JPEG';
+$string['fml_chart_downloadPDF'] = 'Descargar documento PDF';
+$string['fml_chart_downloadSVG'] = 'Descargar imagen SVG';
+$string['fml_chart_downloadCSV'] = 'Descargar CSV';
+$string['fml_chart_downloadXLS'] = 'Descargar XLS';
+$string['fml_chart_exitFullscreen'] = 'Salir de Pantalla Completa';
+$string['fml_chart_hideData'] = 'Ocultar Tabla de Datos';
+$string['fml_chart_noData'] = 'No hay datos que mostrar';
+$string['fml_chart_printChart'] = 'Imprimir Gráfico';
+$string['fml_chart_viewData'] = 'Ver Tabla de Datos';
+$string['fml_chart_viewFullscreen'] = 'Ver en Pantalla Completa';
+$string['fml_chart_resetZoom'] = 'Reiniciar zoom';
+$string['fml_chart_resetZoomTitle'] = 'Reiniciar zoom nivel 1:1';
 
 /* Email */
 $string['fml_validation_subject_text'] = 'Asunto es requerido';
@@ -428,8 +430,6 @@ $string['tr_item_grades_distribution_tooltip_prefix'] = 'Rango';
 $string["tr_item_grades_distribution_tooltip_view_details"] = "(Clic para ver detalles)";
 
 
-
-
 /* Teacher Quiz  */
 $string['tq_section_help_title'] = 'Seguimiento de Evaluaciones';
 $string['tq_section_help_description'] = 'Esta sección contiene indicadores relacionados al resumen de intentos en las diferentes evaluaciones del curso y análisis de las preguntas de una evaluación. Los datos presentados en esta sección varían dependiendo de la semana de estudio seleccionada y de un selector que contiene todas las actividades de tipo Evaluación de las secciones del curso asignadas a la semana seleccionada.';
@@ -463,25 +463,6 @@ $string["tq_hardest_questions_yaxis_title"] = "Intentos Incorrectos";
 /* Teacher Dropout */
 $string['td_section_help_title'] = 'Deserción';
 $string['td_section_help_description'] = 'Esta sección contiene indicadores relacionados a la predicción de abandono de estudiantes de un curso. La información se muestra en base a grupos de estudiantes calculados por un algoritmo que analiza el comportamiento de cada estudiante en base al tiempo invertido, la cantidad de sesiones del estudiante, la cantidad de días activo y las interacciones que ha realizado con cada recurso y con los demás estudiantes del curso. El algoritmo coloca en el mismo grupo a estudiantes con similar comportamiento, de manera que se puede identificar a los estudiantes más y menos comprometidos con el curso. Los datos presentados en esta sección varían dependiendo del grupo seleccionado en el selector que contiene los grupos identificados en el curso.';
-$string['td_group_students_help_title'] = 'Estudiantes del Grupo';
-$string['td_group_students_help_description_p1'] = 'En esta tabla están los estudiantes pertenecientes al grupo seleccionado del selector Grupo de Estudiantes. De cada estudiante se lista su foto, nombres y el porcentaje de progreso del curso. Para el cálculo del progreso se han considerado todos los recursos del curso a excepción de los de tipo Label. Para determinar si un estudiante ha finalizado un recurso se verifica en primer lugar si el recurso tiene habilitada la configuración de completitud. En caso de ser así, se busca si el estudiante ya ha completado la actividad en base a esa configuración. De lo contrario, la actividad se considera completa si el estudiante la ha visto al menos una vez.';
-$string['td_group_students_help_description_p2'] = 'Al hacer clic sobre un estudiante en esta tabla, se actualizarán los gráficos inferiores con la información del estudiante seleccionado.';
-$string['td_modules_access_help_title'] = 'Recursos del Curso';
-$string['td_modules_access_help_description_p1'] = 'Este gráfico muestra la cantidad de recursos a los que el estudiante ha accedido y completado. Los datos presentados en este gráfico varían dependiendo del estudiante seleccionado en la tabla Estudiantes del Grupo. Para determinar la cantidad de recursos y actividades completas se hace uso de la configuración de Moodle denominada Finalización de Actividad. En caso de que el docente no realice la configuración de completitud para las actividades del curso, la cantidad de actividades accedidas y completas siempre será la misma, ya que sin tal configuración, un recurso se considera finalizado cuando el estudiante accede a él.';
-$string['td_modules_access_help_description_p2'] = 'En el eje x se encuentran la cantidad de recursos del curso. En el eje y se encuentran las etiquetas de Accedidos, Completos y Total de recursos del curso.';
-$string['td_modules_access_help_description_p3'] = 'Al hacer clic sobre alguna barra es posible ver los recursos y actividades disponibles en el curso (en una ventana emergente) junto con la cantidad de interacciones del estudiante con cada recurso y una etiqueta de no accedido, accedido o completado.';
-$string['td_week_modules_help_title'] = 'Recursos por Semanas';
-$string['td_week_modules_help_description_p1'] = 'Este gráfico muestra la cantidad de recursos que el estudiante ha accedido y completado de cada una de las semanas configuradas en el plugin. Los datos presentados en este gráfico varían dependiendo del estudiante seleccionado en la tabla <i>Estudiantes del Grupo</i>.';
-$string['td_week_modules_help_description_p2'] = 'En el eje x del gráfico se encuentran las diferentes semanas de estudio configuradas. En el eje y se encuentra la cantidad de recursos y actividades accedidas y completadas del estudiante.';
-$string['td_week_modules_help_description_p3'] = 'Al hacer clic sobre alguna barra es posible ver los recursos y actividades disponibles en el curso (en una ventana emergente) junto con la cantidad de interacciones del estudiante con cada recurso y una etiqueta de no accedido, accedido o completado.';
-$string['td_sessions_evolution_help_title'] = 'Sesiones y tiempo invertido';
-$string['td_sessions_evolution_help_description_p1'] = 'Este gráfico permite conocer cómo han evolucionado las sesiones de estudio desde que se registró su primera sesión en el curso. Los datos presentados en este gráfico varían dependiendo del estudiante seleccionado en la tabla <i>Estudiantes del Grupo</i>.';
-$string['td_sessions_evolution_help_description_p2'] = 'En el eje x del gráfico se muestra una línea temporal con los días que han transcurrido desde que el estudiante realizó la primera sesión de estudio hasta el día de la última sesión registrada. En el eje y muestran 2 valores, en el lado izquierdo el número de sesiones del estudiante y en el lado derecho la cantidad de tiempo invertido en horas. Entre dichos ejes se dibujan la cantidad de sesiones y el tiempo invertido del estudiante como una serie de tiempo.';
-$string['td_sessions_evolution_help_description_p3'] = 'Esta visualización permite hacer un acercamiento sobre una región seleccionada. Este acercamiento ayuda a evidenciar de manera clara dicha evolución en diferentes rangos de fechas.';
-$string['td_user_grades_help_title'] = 'Calificaciones';
-$string['td_user_grades_help_description_p1'] = 'Este gráfico muestra una comparación de las calificaciones del estudiante con los promedios de calificaciones (media en porcentaje) de sus compañeros en las distintas actividades evaluables del curso. Los datos presentados en este gráfico varían dependiendo del estudiante seleccionado en la tabla <i>Estudiantes del Grupo</i>.';
-$string['td_user_grades_help_description_p2'] = 'En el eje x del gráfico se muestran las diferentes actividades evaluables. En el eje y se encuentra la calificación del estudiante y la media de calificaciones de sus compañeros. Tanto la calificación del estudiante como la media del curso se muestran en porcentaje para mantener la simetría del gráfico.';
-$string['td_user_grades_help_description_p3'] = 'Con un clic en la barra correspondiente a alguna actividad es posible dirigirse a dicha analizada.';
 
 $string["td_cluster_label"] = "Grupo";
 $string["td_cluster_high_dropout_risk"] = "Riesgo Alto de Abandono";
@@ -497,79 +478,108 @@ $string['td_no_data'] = "Aún no hay datos de desercion para este curso";
 $string['td_no_users_cluster'] = "No hay estudiantes de este grupo";
 $string['td_generate_data_manually'] = "Generar Manualmente";
 $string['td_generating_data'] = "Generando datos...";
-$string["fml_modules_access_chart_title"] = "Recursos del Curso";
-$string["fml_modules_access_chart_series_total"] = "Total";
-$string["fml_modules_access_chart_series_complete"] = "Completos";
-$string["fml_modules_access_chart_series_viewed"] = "Accedidos";
-$string["fml_week_modules_chart_title"] = "Recursos por Semanas";
-$string["fml_modules_amount"] = "Cantidad de Recursos";
-$string["fml_modules_details"] = "(Clic para ver recursos)";
-$string["fml_modules_interaction"] = "interacción";
-$string["fml_modules_interactions"] = "interacciones";
-$string["fml_modules_viewed"] = "Accedido";
-$string["fml_modules_no_viewed"] = "No accedido";
-$string["fml_modules_complete"] = "Completado";
-$string["fml_sessions_evolution_chart_title"] = "Sesiones y Tiempo Invertido";
-$string["fml_sessions_evolution_chart_xaxis1"] = "Número de Sesiones";
-$string["fml_sessions_evolution_chart_xaxis2"] = "Cantidad de Horas";
-$string["fml_sessions_evolution_chart_legend1"] = "Sesiones";
-$string["fml_sessions_evolution_chart_legend2"] = "Tiempo Invertido";
-$string["fml_user_grades_chart_title"] = "Calificaciones";
-$string["fml_user_grades_chart_yaxis"] = "Calificación en Porcentaje";
-$string["fml_user_grades_chart_xaxis"] = "Actividades Evaluables";
-$string["fml_user_grades_chart_legend"] = "Curso (Media)";
-$string["fml_user_grades_chart_tooltip_no_graded"] = "Sin Calificaciones";
-$string["fml_user_grades_chart_view_activity"] = "Clic para ver la actividad";
-$string['fml_send_mail_to_user'] = 'Correo a';
-$string['fml_send_mail_to_group'] = 'Correo al Grupo';
+$string['td_send_mail_to_user'] = 'Correo a';
+$string['td_send_mail_to_group'] = 'Correo al Grupo';
+$string["td_modules_amount"] = "Cantidad de Recursos";
+$string["td_modules_details"] = "(Clic para ver recursos)";
+$string["td_modules_interaction"] = "interacción";
+$string["td_modules_interactions"] = "interacciones";
+$string["td_modules_viewed"] = "Accedido";
+$string["td_modules_no_viewed"] = "No accedido";
+$string["td_modules_complete"] = "Completado";
+
+$string['td_group_students_help_title'] = 'Estudiantes del Grupo';
+$string['td_group_students_help_description_p1'] = 'En esta tabla están los estudiantes pertenecientes al grupo seleccionado del selector Grupo de Estudiantes. De cada estudiante se lista su foto, nombres y el porcentaje de progreso del curso. Para el cálculo del progreso se han considerado todos los recursos del curso a excepción de los de tipo Label. Para determinar si un estudiante ha finalizado un recurso se verifica en primer lugar si el recurso tiene habilitada la configuración de completitud. En caso de ser así, se busca si el estudiante ya ha completado la actividad en base a esa configuración. De lo contrario, la actividad se considera completa si el estudiante la ha visto al menos una vez.';
+$string['td_group_students_help_description_p2'] = 'Al hacer clic sobre un estudiante en esta tabla, se actualizarán los gráficos inferiores con la información del estudiante seleccionado.';
+
+$string['td_modules_access_help_title'] = 'Recursos del Curso';
+$string['td_modules_access_help_description_p1'] = 'Este gráfico muestra la cantidad de recursos a los que el estudiante ha accedido y completado. Los datos presentados en este gráfico varían dependiendo del estudiante seleccionado en la tabla Estudiantes del Grupo. Para determinar la cantidad de recursos y actividades completas se hace uso de la configuración de Moodle denominada Finalización de Actividad. En caso de que el docente no realice la configuración de completitud para las actividades del curso, la cantidad de actividades accedidas y completas siempre será la misma, ya que sin tal configuración, un recurso se considera finalizado cuando el estudiante accede a él.';
+$string['td_modules_access_help_description_p2'] = 'En el eje x se encuentran la cantidad de recursos del curso. En el eje y se encuentran las etiquetas de Accedidos, Completos y Total de recursos del curso.';
+$string['td_modules_access_help_description_p3'] = 'Al hacer clic sobre alguna barra es posible ver los recursos y actividades disponibles en el curso (en una ventana emergente) junto con la cantidad de interacciones del estudiante con cada recurso y una etiqueta de no accedido, accedido o completado.';
+
+$string['td_week_modules_help_title'] = 'Recursos por Semanas';
+$string['td_week_modules_help_description_p1'] = 'Este gráfico muestra la cantidad de recursos que el estudiante ha accedido y completado de cada una de las semanas configuradas en el plugin. Los datos presentados en este gráfico varían dependiendo del estudiante seleccionado en la tabla <i>Estudiantes del Grupo</i>.';
+$string['td_week_modules_help_description_p2'] = 'En el eje x del gráfico se encuentran las diferentes semanas de estudio configuradas. En el eje y se encuentra la cantidad de recursos y actividades accedidas y completadas del estudiante.';
+$string['td_week_modules_help_description_p3'] = 'Al hacer clic sobre alguna barra es posible ver los recursos y actividades disponibles en el curso (en una ventana emergente) junto con la cantidad de interacciones del estudiante con cada recurso y una etiqueta de no accedido, accedido o completado.';
+$string["td_week_modules_chart_title"] = "Recursos por Semanas";
+
+$string["td_modules_access_chart_title"] = "Recursos del Curso";
+$string["td_modules_access_chart_series_total"] = "Total";
+$string["td_modules_access_chart_series_complete"] = "Completos";
+$string["td_modules_access_chart_series_viewed"] = "Accedidos";
+
+$string['td_sessions_evolution_help_title'] = 'Sesiones y tiempo invertido';
+$string['td_sessions_evolution_help_description_p1'] = 'Este gráfico permite conocer cómo han evolucionado las sesiones de estudio desde que se registró su primera sesión en el curso. Los datos presentados en este gráfico varían dependiendo del estudiante seleccionado en la tabla <i>Estudiantes del Grupo</i>.';
+$string['td_sessions_evolution_help_description_p2'] = 'En el eje x del gráfico se muestra una línea temporal con los días que han transcurrido desde que el estudiante realizó la primera sesión de estudio hasta el día de la última sesión registrada. En el eje y muestran 2 valores, en el lado izquierdo el número de sesiones del estudiante y en el lado derecho la cantidad de tiempo invertido en horas. Entre dichos ejes se dibujan la cantidad de sesiones y el tiempo invertido del estudiante como una serie de tiempo.';
+$string['td_sessions_evolution_help_description_p3'] = 'Esta visualización permite hacer un acercamiento sobre una región seleccionada. Este acercamiento ayuda a evidenciar de manera clara dicha evolución en diferentes rangos de fechas.';
+$string["td_sessions_evolution_chart_title"] = "Sesiones y Tiempo Invertido";
+$string["td_sessions_evolution_chart_xaxis1"] = "Número de Sesiones";
+$string["td_sessions_evolution_chart_xaxis2"] = "Cantidad de Horas";
+$string["td_sessions_evolution_chart_legend1"] = "Sesiones";
+$string["td_sessions_evolution_chart_legend2"] = "Tiempo Invertido";
+
+$string['td_user_grades_help_title'] = 'Calificaciones';
+$string['td_user_grades_help_description_p1'] = 'Este gráfico muestra una comparación de las calificaciones del estudiante con los promedios de calificaciones (media en porcentaje) de sus compañeros en las distintas actividades evaluables del curso. Los datos presentados en este gráfico varían dependiendo del estudiante seleccionado en la tabla <i>Estudiantes del Grupo</i>.';
+$string['td_user_grades_help_description_p2'] = 'En el eje x del gráfico se muestran las diferentes actividades evaluables. En el eje y se encuentra la calificación del estudiante y la media de calificaciones de sus compañeros. Tanto la calificación del estudiante como la media del curso se muestran en porcentaje para mantener la simetría del gráfico.';
+$string['td_user_grades_help_description_p3'] = 'Con un clic en la barra correspondiente a alguna actividad es posible dirigirse a dicha analizada.';
+$string["td_user_grades_chart_title"] = "Calificaciones";
+$string["td_user_grades_chart_yaxis"] = "Calificación en Porcentaje";
+$string["td_user_grades_chart_xaxis"] = "Actividades Evaluables";
+$string["td_user_grades_chart_legend"] = "Curso (Media)";
+$string["td_user_grades_chart_tooltip_no_graded"] = "Sin Calificaciones";
+$string["td_user_grades_chart_view_activity"] = "Clic para ver la actividad";
 
 
 /*Student General*/
 $string['sg_section_help_title'] = 'Indicadores Generales';
 $string['sg_section_help_description'] = 'Esta sección contiene indicadores relacionados a tu información, progreso, indicadores generales, recursos del curso, sesiones a lo largo del curso y calificaciones obtenidas. Las visualizaciones de esta sección muestran los indicadores durante todo el curso (hasta la fecha actual).';
+
 $string['sg_modules_access_help_title'] = 'Recursos del Curso';
 $string['sg_modules_access_help_description_p1'] = 'Este gráfico muestra la cantidad de recursos que has accedido y completado. Para determinar la cantidad de recursos que has completado se hace uso de la configuración de Moodle denominada Finalización de Actividad. En caso de que el docente no haya configurado la completitud para las actividades del curso, la cantidad de actividades accedidas y completas siempre será la misma, ya que sin tal configuración, un recurso se considera finalizado cuando accedes a él.';
 $string['sg_modules_access_help_description_p2'] = 'En el eje x se encuentran la cantidad de recursos del curso. En el eje y se encuentran las etiquetas de Accedidos, Completos y Total de recursos en referencia a tus interacciones con los recursos del curso.';
 $string['sg_modules_access_help_description_p3'] = 'Al hacer clic sobre alguna barra es posible ver los recursos y actividades disponibles en el curso (en una ventana emergente) junto con la cantidad de interacciones que has realizado con cada recurso y una etiqueta de no accedido, accedido o completado.';
+
 $string['sg_weeks_session_help_title'] = 'Sesiones por Semana';
 $string['sg_weeks_session_help_description_p1'] = 'Este gráfico muestra la cantidad de sesiones de estudio que has realizado cada semana a partir de la fecha de inicio del curso. Se considera el acceso al curso como el inicio de una sesión de estudio. Una sesión se considera finalizada cuando el tiempo transcurrido entre dos interacciones supera los 30 minutos.';
 $string['sg_weeks_session_help_description_p2'] = 'En el eje x del gráfico se encuentran las semanas de cada mes. En el eje y del gráfico se encuentran los diferentes meses del año partiendo del mes de creación del curso. Para mantener la simetría del gráfico se ha colocado un total de cinco semanas para cada mes, sin embargo, no todos los meses tiene tal cantidad de semanas. Dichos meses, solo sumarán sesiones hasta la semana cuatro.';
+
 $string['sg_sessions_evolution_help_title'] = 'Sesiones y Tiempo Invertido';
 $string['sg_sessions_evolution_help_description_p1'] = 'Este gráfico permite conocer cómo han evolucionado tus sesiones de estudio desde que se registró tu primera sesión en el curso.';
 $string['sg_sessions_evolution_help_description_p2'] = 'En el eje x del gráfico se muestra una línea temporal con los días que han transcurrido desde que realizaste tu primera sesión de estudio hasta el día de tu última sesión registrada. En el eje y muestran 2 valores, en el lado izquierdo tu cantidad de sesiones y en el lado derecho tu cantidad de tiempo invertido en horas. Entre dichos ejes se dibujan tu cantidad de sesiones y tu tiempo invertido del estudiante como una serie de tiempo.';
 $string['sg_sessions_evolution_help_description_p3'] = 'Esta visualización permite hacer un acercamiento sobre una región seleccionada.';
+
 $string['sg_user_grades_help_title'] = 'Calificaciones';
 $string['sg_user_grades_help_description_p1'] = 'Este gráfico muestra una comparación de tus calificaciones con los promedios de calificaciones (media en porcentaje) de tus compañeros en las distintas actividades evaluables del curso.';
 $string['sg_user_grades_help_description_p2'] = 'En el eje x del gráfico se muestran las diferentes actividades evaluables. En el eje y se encuentra tus calificaciones y la media de calificaciones de tus compañeros. Tanto tu calificación como la media del curso se muestran en porcentaje para mantener la simetría del gráfico.';
 $string['sg_user_grades_help_description_p3'] = 'Con un clic en la barra correspondiente a alguna actividad es posible dirigirse a dicha analizada.';
 
-/* User Sessions*/
+/* Student Sessions*/
 $string['ss_section_help_title'] = 'Sesiones de Estudio';
 $string['ss_section_help_description'] = 'Esta sección contiene visualizaciones con indicadores relacionados a tu actividad en el curso medida en términos de sesiones de estudio, tiempo invertido y progreso en cada una de las semanas configuradas por el docente. Las visualizaciones de esta sección varían dependiendo de la semana de estudio seleccionada.';
+
 $string['ss_inverted_time_help_title'] = 'Tu tiempo invertido';
 $string['ss_inverted_time_help_description_p1'] = 'Este gráfico muestra tu tiempo invertido en la semana en comparación del tiempo planificado por parte del docente.';
 $string['ss_inverted_time_help_description_p2'] = 'En el eje x del gráfico se encuentra el número de horas que el docente ha planificado para una semana específica. En el eje y se encuentran las etiquetas de tiempo invertido y tiempo que se debería invertir.';
+$string['ss_inverted_time_chart_title'] = 'Tu Tiempo Invertido';
+$string['ss_inverted_time_xaxis_title'] = 'Número de Horas';
+$string['ss_inverted_time_inverted_label'] = 'Tiempo Invertido';
+$string['ss_inverted_time_expected_label'] = 'Tiempo que se debería Invertir';
+
 $string['ss_hours_session_help_title'] = 'Sesiones por Día y Hora';
 $string['ss_hours_session_help_description_p1'] = 'Este gráfico muestra tus sesiones de estudio por día y hora de la semana seleccionada. Se considera el acceso al curso como el inicio de una sesión de estudio. Una sesión se considera finalizada cuando el tiempo transcurrido entre dos interacciones supera los 30 minutos.';
 $string['ss_hours_session_help_description_p2'] = 'En el eje x del gráfico se encuentran los días de la semana. En el eje y se encuentran las horas del día empezando por las 12am y terminando a las 11pm o 23 horas.';
+
 $string['ss_resources_access_help_title'] = 'Interacción por Tipos de Recursos';
 $string['ss_resources_access_help_description_p1'] = 'Este gráfico muestra cuántos recursos tienes pendientes y cuáles ya has completado en la semana seleccionada. Los recursos se agrupan por su tipo en este gráfico. Además, en la parte superior se muestra una barra que representa el porcentaje de recursos accedidos del total de recursos asignados a la semana seleccionada.';
 $string['ss_resources_access_help_description_p2'] = 'En el eje x del gráfico se encuentran los diferentes tipos de recursos. En el eje y se encuentran la cantidad de recursos accedidos de la semana.';
 $string['ss_resources_access_help_description_p3'] = 'Al hacer clic sobre alguna barra es posible ver los recursos y actividades disponibles en el curso (en una ventana emergente) junto con la cantidad de interacciones que has realizado con cada recurso y una etiqueta de no accedido, accedido o completado.';
+$string['ss_resource_access_chart_title'] = 'Interacción por Tipos de Recursos';
+$string['ss_resource_access_yaxis_title'] = 'Cantidad de Recursos';
+$string['ss_resource_access_xaxis_title'] = 'Tipos de Recursos';
+$string['ss_resource_access_legend1'] = 'Completos';
+$string['ss_resource_access_legend2'] = 'Pendientes';
 
-
-$string['fml_student_time_inverted_title'] = 'Tu Tiempo Invertido';
-$string['fml_student_time_inverted_x_axis'] = 'Número de Horas';
-$string['ss_student_inverted_time'] = 'Tiempo Invertido';
-$string['ss_student_expected_time'] = 'Tiempo que se debería Invertir';
-
-$string['fml_resource_access_title'] = 'Interacción por Tipos de Recursos';
-$string['fml_resource_access_y_axis'] = 'Cantidad de Recursos';
-$string['fml_resource_access_x_axis'] = 'Tipos de Recursos';
-$string['fml_resource_access_legend1'] = 'Completos';
-$string['fml_resource_access_legend2'] = 'Pendientes';
-
-$string['fml_week_progress_title'] = 'Progreso de la Semana';
+$string['ss_week_progress_title'] = 'Progreso de la Semana';
 
 
 

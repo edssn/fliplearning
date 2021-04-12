@@ -58,7 +58,7 @@ $content = [
         "sessions_count_help_description_p1" => get_string("ts_sessions_count_help_description_p1", "local_fliplearning"),
         "sessions_count_help_description_p2" => get_string("ts_sessions_count_help_description_p2", "local_fliplearning"),
 
-        "title" => get_string("menu_sessions", "local_fliplearning"),
+        "title" => get_string("fml_menu_sessions", "local_fliplearning"),
         "chart" => $reports->get_chart_langs(),
         "days" => $reports->get_short_weekdays(),
         "hours" => array(

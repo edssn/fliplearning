@@ -26,7 +26,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 if ($hassiteconfig) {
-    $settings = new admin_settingpage('local_fliplearning', new lang_string('pluginname', 'local_fliplearning'));
+    $settings = new admin_settingpage('local_fliplearning', new lang_string('fml_pluginname', 'local_fliplearning'));
     $settings->add(new admin_setting_configcheckbox('local_fliplearning/use_navbar_menu',
         new lang_string('fml_use_navbar_menu', 'local_fliplearning'),
         new lang_string('fml_use_navbar_menu_desc', 'local_fliplearning'),

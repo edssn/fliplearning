@@ -65,7 +65,7 @@ $content = [
         "of_conector" => get_string("fml_of_conector", "local_fliplearning"),
 
         "chart" => $reports->get_chart_langs(),
-        "title" => get_string("menu_grades","local_fliplearning"),
+        "title" => get_string("fml_menu_grades","local_fliplearning"),
         "change_timezone" => get_string("fml_change_timezone", "local_fliplearning"),
         "graph_generating" => get_string("fml_graph_generating", "local_fliplearning"),
         "api_error_network" => get_string("fml_api_error_network", "local_fliplearning"),

@@ -54,62 +54,62 @@ function local_fliplearning_extend_navigation($root) {
         return null;
     }
 
-    $main_title = get_string('pluginname', 'local_fliplearning');
+    $main_title = get_string('fml_pluginname', 'local_fliplearning');
     $node = navigation_node::create($main_title, null, navigation_node::TYPE_COURSE);
     $child = $root->add_node($node, 'mycourses');
     $child->add_class('mail_root');
 
     if(has_capability('local/fliplearning:setweeks', $context)){
-        $text = get_string('menu_setweek', 'local_fliplearning');
+        $text = get_string('fml_menu_setweek', 'local_fliplearning');
         $url = new moodle_url('/local/fliplearning/setweeks.php?courseid='.$COURSE->id);
         $child = $node->add(s($text), $url);
     }
 
     if(has_capability('local/fliplearning:teacher_general', $context) && $configuration_is_set){
-        $text = get_string('menu_general', 'local_fliplearning');
+        $text = get_string('fml_menu_general', 'local_fliplearning');
         $url = new moodle_url('/local/fliplearning/teacher.php?courseid='.$COURSE->id);
         $child = $node->add(s($text), $url);
     }
 
     if(has_capability('local/fliplearning:teacher_sessions', $context) && $configuration_is_set){
-        $text = get_string('menu_sessions', 'local_fliplearning');
+        $text = get_string('fml_menu_sessions', 'local_fliplearning');
         $url = new moodle_url('/local/fliplearning/sessions.php?courseid='.$COURSE->id);
         $child = $node->add(s($text), $url);
     }
 
     if(has_capability('local/fliplearning:assignments', $context) && $configuration_is_set){
-        $text = get_string('menu_assignments', 'local_fliplearning');
+        $text = get_string('fml_menu_assignments', 'local_fliplearning');
         $url = new moodle_url('/local/fliplearning/assignments.php?courseid='.$COURSE->id);
         $child = $node->add(s($text), $url);
     }
 
     if(has_capability('local/fliplearning:grades', $context) && $configuration_is_set){
-        $text = get_string('menu_grades', 'local_fliplearning');
+        $text = get_string('fml_menu_grades', 'local_fliplearning');
         $url = new moodle_url('/local/fliplearning/grades.php?courseid='.$COURSE->id);
         $child = $node->add(s($text), $url);
     }
 
     if(has_capability('local/fliplearning:quiz', $context) && $configuration_is_set){
-        $text = get_string('menu_quiz', 'local_fliplearning');
+        $text = get_string('fml_menu_quiz', 'local_fliplearning');
         $url = new moodle_url('/local/fliplearning/quiz.php?courseid='.$COURSE->id);
         $child = $node->add(s($text), $url);
     }
 
     if(has_capability('local/fliplearning:dropout', $context) && $configuration_is_set){
-        $text = get_string('menu_dropout', 'local_fliplearning');
+        $text = get_string('fml_menu_dropout', 'local_fliplearning');
         $url = new moodle_url('/local/fliplearning/dropout.php?courseid='.$COURSE->id);
         $child = $node->add(s($text), $url);
     }
 
 
     if(has_capability('local/fliplearning:student_general', $context) && !is_siteadmin() && $configuration_is_set){
-        $text = get_string('menu_general', 'local_fliplearning');
+        $text = get_string('fml_menu_general', 'local_fliplearning');
         $url = new moodle_url('/local/fliplearning/student.php?courseid='.$COURSE->id);
         $child = $node->add(s($text), $url);
     }
 
     if(has_capability('local/fliplearning:student_sessions', $context) && !is_siteadmin() && $configuration_is_set){
-        $text = get_string('menu_sessions', 'local_fliplearning');
+        $text = get_string('fml_menu_sessions', 'local_fliplearning');
         $url = new moodle_url('/local/fliplearning/student_sessions.php?courseid='.$COURSE->id);
         $child = $node->add(s($text), $url);
     }
@@ -143,62 +143,62 @@ function local_fliplearning_render_navbar_output(\renderer_base $renderer) {
     }
 
     if(has_capability('local/fliplearning:setweeks', $context)){
-        $text = get_string('menu_setweek', 'local_fliplearning');
+        $text = get_string('fml_menu_setweek', 'local_fliplearning');
         $url = new moodle_url('/local/fliplearning/setweeks.php?courseid='.$COURSE->id);
         array_push($items, local_fliplearning_new_menu_item(s($text), $url));
     }
 
     if(has_capability('local/fliplearning:teacher_general', $context) && $configuration_is_set){
-        $text = get_string('menu_general', 'local_fliplearning');
+        $text = get_string('fml_menu_general', 'local_fliplearning');
         $url = new moodle_url('/local/fliplearning/teacher.php?courseid='.$COURSE->id);
         array_push($items, local_fliplearning_new_menu_item(s($text), $url));
     }
 
     if(has_capability('local/fliplearning:teacher_sessions', $context) && $configuration_is_set){
-        $text = get_string('menu_sessions', 'local_fliplearning');
+        $text = get_string('fml_menu_sessions', 'local_fliplearning');
         $url = new moodle_url('/local/fliplearning/sessions.php?courseid='.$COURSE->id);
         array_push($items, local_fliplearning_new_menu_item(s($text), $url));
     }
 
     if(has_capability('local/fliplearning:assignments', $context) && $configuration_is_set){
-        $text = get_string('menu_assignments', 'local_fliplearning');
+        $text = get_string('fml_menu_assignments', 'local_fliplearning');
         $url = new moodle_url('/local/fliplearning/assignments.php?courseid='.$COURSE->id);
         array_push($items, local_fliplearning_new_menu_item(s($text), $url));
     }
 
     if(has_capability('local/fliplearning:grades', $context) && $configuration_is_set){
-        $text = get_string('menu_grades', 'local_fliplearning');
+        $text = get_string('fml_menu_grades', 'local_fliplearning');
         $url = new moodle_url('/local/fliplearning/grades.php?courseid='.$COURSE->id);
         array_push($items, local_fliplearning_new_menu_item(s($text), $url));
     }
 
     if(has_capability('local/fliplearning:quiz', $context) && $configuration_is_set){
-        $text = get_string('menu_quiz', 'local_fliplearning');
+        $text = get_string('fml_menu_quiz', 'local_fliplearning');
         $url = new moodle_url('/local/fliplearning/quiz.php?courseid='.$COURSE->id);
         array_push($items, local_fliplearning_new_menu_item(s($text), $url));
     }
 
     if(has_capability('local/fliplearning:dropout', $context) && $configuration_is_set){
-        $text = get_string('menu_dropout', 'local_fliplearning');
+        $text = get_string('fml_menu_dropout', 'local_fliplearning');
         $url = new moodle_url('/local/fliplearning/dropout.php?courseid='.$COURSE->id);
         array_push($items, local_fliplearning_new_menu_item(s($text), $url));
     }
 
 
     if(has_capability('local/fliplearning:student_general', $context) && !is_siteadmin() && $configuration_is_set){
-        $text = get_string('menu_general', 'local_fliplearning');
+        $text = get_string('fml_menu_general', 'local_fliplearning');
         $url = new moodle_url('/local/fliplearning/student.php?courseid='.$COURSE->id);
         array_push($items, local_fliplearning_new_menu_item(s($text), $url));
     }
 
     if(has_capability('local/fliplearning:student_sessions', $context) && !is_siteadmin() && $configuration_is_set){
-        $text = get_string('menu_sessions', 'local_fliplearning');
+        $text = get_string('fml_menu_sessions', 'local_fliplearning');
         $url = new moodle_url('/local/fliplearning/student_sessions.php?courseid='.$COURSE->id);
         array_push($items, local_fliplearning_new_menu_item(s($text), $url));
     }
 
     $params = [
-        "title" => get_string('menu_main_title', 'local_fliplearning'),
+        "title" => get_string('fml_menu_main_title', 'local_fliplearning'),
         "items" => $items];
     return $renderer->render_from_template('local_fliplearning/navbar_popover', $params);
 }

@@ -58,7 +58,7 @@ $content = [
         "hardest_questions_help_description_p3" => get_string("tq_hardest_questions_help_description_p3", "local_fliplearning"),
 
         "chart" => $reports->get_chart_langs(),
-        "title" => get_string("menu_quiz","local_fliplearning"),
+        "title" => get_string("fml_menu_quiz","local_fliplearning"),
         "change_timezone" => get_string("fml_change_timezone", "local_fliplearning"),
         "graph_generating" => get_string("fml_graph_generating", "local_fliplearning"),
         "api_error_network" => get_string("fml_api_error_network", "local_fliplearning"),

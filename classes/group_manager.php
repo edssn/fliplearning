@@ -78,7 +78,7 @@ class group_manager {
     public function set_group($groupid){
         $this->groupid = $groupid;
         $this->groupmode = $this->course->groupmode;
-        $default_name = get_string('group_allstudent', 'local_fliplearning');
+        $default_name = get_string('fml_group_allstudent', 'local_fliplearning');
         $group_name = $groupid > 0 ? groups_get_group_name($groupid) : $default_name;
         $this->groupname = $group_name;
         self::update_course_session();
@@ -86,7 +86,7 @@ class group_manager {
 
     private function set_all_student(){
         $this->groupid = self::ALL_STUDENT;
-        $this->groupname = get_string('group_allstudent', 'local_fliplearning');
+        $this->groupname = get_string('fml_group_allstudent', 'local_fliplearning');
         $this->groupmode = $this->course->groupmode;
         self::update_course_session();
     }

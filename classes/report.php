@@ -378,8 +378,8 @@ abstract class report {
         $expected_time->y = $response->expected_time;
 
         if (!$average_time) {
-            $inverted_time->name = get_string("ss_student_inverted_time","local_fliplearning");
-            $expected_time->name = get_string("ss_student_expected_time","local_fliplearning");
+            $inverted_time->name = get_string("ss_inverted_time_inverted_label","local_fliplearning");
+            $expected_time->name = get_string("ss_inverted_time_expected_label","local_fliplearning");
         }
         $data[] = $inverted_time;
         $data[] = $expected_time;
@@ -587,26 +587,26 @@ abstract class report {
 
     public function get_chart_langs() {
         $langs = array(
-            "loading" => get_string("chart_loading", "local_fliplearning"),
-            "exportButtonTitle" => get_string("chart_exportButtonTitle", "local_fliplearning"),
-            "printButtonTitle" => get_string("chart_printButtonTitle", "local_fliplearning"),
-            "rangeSelectorFrom" => get_string("chart_rangeSelectorFrom", "local_fliplearning"),
-            "rangeSelectorTo" => get_string("chart_rangeSelectorTo", "local_fliplearning"),
-            "rangeSelectorZoom" => get_string("chart_rangeSelectorZoom", "local_fliplearning"),
-            "downloadPNG" => get_string("chart_downloadPNG", "local_fliplearning"),
-            "downloadJPEG" => get_string("chart_downloadJPEG", "local_fliplearning"),
-            "downloadPDF" => get_string("chart_downloadPDF", "local_fliplearning"),
-            "downloadSVG" => get_string("chart_downloadSVG", "local_fliplearning"),
-            "downloadCSV" => get_string("chart_downloadCSV", "local_fliplearning"),
-            "downloadXLS" => get_string("chart_downloadXLS", "local_fliplearning"),
-            "exitFullscreen" => get_string("chart_exitFullscreen", "local_fliplearning"),
-            "hideData" => get_string("chart_hideData", "local_fliplearning"),
-            "noData" => get_string("chart_noData", "local_fliplearning"),
-            "printChart" => get_string("chart_printChart", "local_fliplearning"),
-            "viewData" => get_string("chart_viewData", "local_fliplearning"),
-            "viewFullscreen" => get_string("chart_viewFullscreen", "local_fliplearning"),
-            "resetZoom" => get_string("chart_resetZoom", "local_fliplearning"),
-            "resetZoomTitle" => get_string("chart_resetZoomTitle", "local_fliplearning"),
+            "loading" => get_string("fml_chart_loading", "local_fliplearning"),
+            "exportButtonTitle" => get_string("fml_chart_exportButtonTitle", "local_fliplearning"),
+            "printButtonTitle" => get_string("fml_chart_printButtonTitle", "local_fliplearning"),
+            "rangeSelectorFrom" => get_string("fml_chart_rangeSelectorFrom", "local_fliplearning"),
+            "rangeSelectorTo" => get_string("fml_chart_rangeSelectorTo", "local_fliplearning"),
+            "rangeSelectorZoom" => get_string("fml_chart_rangeSelectorZoom", "local_fliplearning"),
+            "downloadPNG" => get_string("fml_chart_downloadPNG", "local_fliplearning"),
+            "downloadJPEG" => get_string("fml_chart_downloadJPEG", "local_fliplearning"),
+            "downloadPDF" => get_string("fml_chart_downloadPDF", "local_fliplearning"),
+            "downloadSVG" => get_string("fml_chart_downloadSVG", "local_fliplearning"),
+            "downloadCSV" => get_string("fml_chart_downloadCSV", "local_fliplearning"),
+            "downloadXLS" => get_string("fml_chart_downloadXLS", "local_fliplearning"),
+            "exitFullscreen" => get_string("fml_chart_exitFullscreen", "local_fliplearning"),
+            "hideData" => get_string("fml_chart_hideData", "local_fliplearning"),
+            "noData" => get_string("fml_chart_noData", "local_fliplearning"),
+            "printChart" => get_string("fml_chart_printChart", "local_fliplearning"),
+            "viewData" => get_string("fml_chart_viewData", "local_fliplearning"),
+            "viewFullscreen" => get_string("fml_chart_viewFullscreen", "local_fliplearning"),
+            "resetZoom" => get_string("fml_chart_resetZoom", "local_fliplearning"),
+            "resetZoomTitle" => get_string("fml_chart_resetZoomTitle", "local_fliplearning"),
             "months" => self::get_months(),
             "shortMonths" => self::get_short_months(),
             "weekdays" => self::get_weekdays(),

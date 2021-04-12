@@ -56,7 +56,7 @@ $content = [
         "access_content_help_description_p1" => get_string("ta_access_content_help_description_p1", "local_fliplearning"),
         "access_content_help_description_p2" => get_string("ta_access_content_help_description_p2", "local_fliplearning"),
 
-        "title" => get_string("menu_assignments","local_fliplearning"),
+        "title" => get_string("fml_menu_assignments","local_fliplearning"),
         "chart" => $reports->get_chart_langs(),
         "change_timezone" => get_string("fml_change_timezone", "local_fliplearning"),
         "graph_generating" => get_string("fml_graph_generating", "local_fliplearning"),
