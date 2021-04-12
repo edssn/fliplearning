@@ -8,7 +8,7 @@ define(["local_fliplearning/vue",
         "local_fliplearning/alertify",
         "local_fliplearning/pageheader",
     ],
-    function(Vue, Vuetify, Axios, Sortable, Draggable, Datepicker, Moment, Alertify, Pageheader) {
+    function(Vue, Vuetify, Axios, Sortable, Draggable, Datepicker, Moment, Alertify, PageHeader) {
         "use strict";
 
         function init(content) {
@@ -16,7 +16,7 @@ define(["local_fliplearning/vue",
             Vue.use(Vuetify);
             Vue.component('draggable', Draggable);
             Vue.component('datepicker', Datepicker);
-            Vue.component('pageheader', Pageheader);
+            Vue.component('pageheader', PageHeader);
             const app = new Vue({
                 delimiters: ["[[", "]]"],
                 el: "#setweeks",
@@ -26,7 +26,7 @@ define(["local_fliplearning/vue",
                     settings: content.settings,
                     new_group: false,
                     scroll_mode: false,
-                    weeks_started_at: new Date(Moment(Number(content.weeks[0].weekstart)*1000)),
+                    weeks_started_at: new Date(Moment(Number(content.weeks[0].weekstart) * 1000)),
                     strings: content.strings,
                     sections: content.sections,
                     courseid: content.courseid,
@@ -62,7 +62,7 @@ define(["local_fliplearning/vue",
                 methods: {
                     section_name(section) {
                         let name = null;
-                        if (typeof (section.section_name) != 'undefined' && section.section_name.length > 0) {
+                        if (typeof(section.section_name) != 'undefined' && section.section_name.length > 0) {
                             name = section.section_name;
                         } else {
                             name = section.name;
@@ -72,7 +72,7 @@ define(["local_fliplearning/vue",
 
                     section_exist(section) {
                         let exist = true;
-                        if (typeof (section) != 'undefined' && typeof (section.exists) != 'undefined' && section.exists == false) {
+                        if (typeof(section) != 'undefined' && typeof(section.exists) != 'undefined' && section.exists == false) {
                             exist = false;
                         }
                         return exist;
@@ -144,7 +144,7 @@ define(["local_fliplearning/vue",
                         if (output_format) {
                             date = date.format(output_format);
                         } else {
-                            if (typeof (date) != 'number') {
+                            if (typeof(date) != 'number') {
                                 date = parseInt(date.format("x"));
                             }
                         }
@@ -172,43 +172,43 @@ define(["local_fliplearning/vue",
                         }
 
                         Alertify.confirm(this.strings.save_warning_content,
-                            ()=>{
-                                this.saving_loader = true;
-                                var weeks = this.weeks;
-                                weeks[0].weekstart = Moment(weeks[0].weekstart).format("YYYY-MM-DD");
-                                var data = {
-                                    action: "saveconfigweek",
-                                    userid: this.userid,
-                                    courseid: this.courseid,
-                                    newinstance: this.new_group,
-                                    weeks: this.minify_query(weeks) // Stringify is a hack to clone object :D
-                                };
+                                () => {
+                                    this.saving_loader = true;
+                                    var weeks = this.weeks;
+                                    weeks[0].weekstart = Moment(weeks[0].weekstart).format("YYYY-MM-DD");
+                                    var data = {
+                                        action: "saveconfigweek",
+                                        userid: this.userid,
+                                        courseid: this.courseid,
+                                        newinstance: this.new_group,
+                                        weeks: this.minify_query(weeks) // Stringify is a hack to clone object :D
+                                    };
 
-                                Axios({
-                                    method: 'get',
-                                    url: M.cfg.wwwroot + "/local/fliplearning/ajax.php",
-                                    params: data,
-                                }).then((response) => {
-                                    if (response.status == 200 && response.data.ok) {
-                                        this.settings = response.data.data.settings;
-                                        Alertify.success(this.strings.save_successful);
-                                        this.save_successful = true;
-                                    } else {
+                                    Axios({
+                                        method: 'get',
+                                        url: M.cfg.wwwroot + "/local/fliplearning/ajax.php",
+                                        params: data,
+                                    }).then((response) => {
+                                        if (response.status == 200 && response.data.ok) {
+                                            this.settings = response.data.data.settings;
+                                            Alertify.success(this.strings.save_successful);
+                                            this.save_successful = true;
+                                        } else {
+                                            Alertify.error(this.strings.error_network);
+                                            this.error_messages.push(this.strings.error_network);
+                                        }
+                                    }).catch((e) => {
                                         Alertify.error(this.strings.error_network);
                                         this.error_messages.push(this.strings.error_network);
-                                    }
-                                }).catch((e) => {
-                                    Alertify.error(this.strings.error_network);
-                                    this.error_messages.push(this.strings.error_network);
-                                }).finally(() => {
+                                    }).finally(() => {
+                                        this.saving_loader = false;
+                                    });
+                                },
+                                () => { // ON CANCEL
                                     this.saving_loader = false;
-                                });
-                            },
-                            ()=>{ // ON CANCEL
-                                this.saving_loader = false;
-                                Alertify.warning(this.strings.cancel_action);
-                            }).set({title: this.strings.save_warning_title})
-                            .set({labels: {cancel: this.strings.confirm_cancel, ok: this.strings.confirm_ok}});
+                                    Alertify.warning(this.strings.cancel_action);
+                                }).set({ title: this.strings.save_warning_title })
+                            .set({ labels: { cancel: this.strings.confirm_cancel, ok: this.strings.confirm_ok } });
                     },
 
                     minify_query(weeks) {
@@ -281,15 +281,15 @@ define(["local_fliplearning/vue",
                                 visible = false;
                             }
                         });
-                        let status = visible ? this.strings.plugin_visible : this.strings.plugin_hidden;
+                        let status = visible ? this.strings.tw_plugin_visible : this.strings.tw_plugin_hidden;
                         return status;
                     },
 
                     get_help_content() {
-                        var help_contents = [];
-                        var help = new Object();
-                        help.title = this.strings.title;
-                        help.description = this.strings.description;
+                        let help_contents = [];
+                        let help = new Object();
+                        help.title = this.strings.help_title;
+                        help.description = this.strings.help_description;
                         help_contents.push(help);
                         return help_contents;
                     }
@@ -300,7 +300,7 @@ define(["local_fliplearning/vue",
         function add_collapsabled_property_to_weeks(content) {
             for (let i = 0; i < content.weeks.length; i++) {
                 let week = content.weeks[i];
-                if (typeof (week.collapsabled) == "undefined") {
+                if (typeof(week.collapsabled) == "undefined") {
                     week.collapsabled = false;
                 }
             }

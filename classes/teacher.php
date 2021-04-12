@@ -136,7 +136,7 @@ class teacher extends report {
             $completion = get_string("fml_activated", "local_fliplearning");
         }
         $format = $this->course->format;
-        $identifier = "course_format_$format";
+        $identifier = "tw_course_format_$format";
         if (get_string_manager()->string_exists($identifier, "local_fliplearning")) {
             $format = get_string($identifier, "local_fliplearning");
         }
@@ -266,9 +266,9 @@ class teacher extends report {
         $data->greater60 = array();
 
         $names = new stdClass;
-        $names->smaller30 = get_string("fml_smaller30", "local_fliplearning");
-        $names->greater30 = get_string("fml_greater30", "local_fliplearning");
-        $names->greater60 = get_string("fml_greater60", "local_fliplearning");
+        $names->smaller30 = get_string("ts_sessions_count_smaller30", "local_fliplearning");
+        $names->greater30 = get_string("ts_sessions_count_greater30", "local_fliplearning");
+        $names->greater60 = get_string("ts_sessions_count_greater60", "local_fliplearning");
 
         for ($i = 0; $i < 7; $i++ ) {
             $month = strtolower(date("M", $start));
@@ -419,9 +419,9 @@ class teacher extends report {
         $data->no_sub = array();
 
         $names = new stdClass;
-        $names->intime_sub = get_string("fml_intime_sub", "local_fliplearning");
-        $names->late_sub = get_string("fml_late_sub", "local_fliplearning");
-        $names->no_sub = get_string("fml_no_sub", "local_fliplearning");
+        $names->intime_sub = get_string("ta_assigns_submissions_intime_sub", "local_fliplearning");
+        $names->late_sub = get_string("ta_assigns_submissions_late_sub", "local_fliplearning");
+        $names->no_sub = get_string("ta_assigns_submissions_no_sub", "local_fliplearning");
 
         foreach ($assigns as $assign) {
             if (isset($assign_submissions[$assign->id])) {
@@ -440,7 +440,7 @@ class teacher extends report {
             $submissions = self::get_submissions_with_users($submissions);
             array_push($submissions_users, $submissions);
 
-            $date_label = get_string("fml_assign_nodue", 'local_fliplearning');
+            $date_label = get_string("ta_assigns_submissions_assign_nodue", 'local_fliplearning');
             if ($assign->duedate != "0") {
                 $date_label = self::get_date_label($assign->duedate);
             }
@@ -825,9 +825,9 @@ class teacher extends report {
 
         $clusters = array();
         $clusters_names = array();
-        array_push($clusters_names, get_string("fml_cluster_best", "local_fliplearning"));
-        array_push($clusters_names, get_string("fml_cluster_middle", "local_fliplearning"));
-        array_push($clusters_names, get_string("fml_cluster_worst", "local_fliplearning"));
+        array_push($clusters_names, get_string("td_cluster_high_dropout_risk", "local_fliplearning"));
+        array_push($clusters_names, get_string("td_cluster_middle_dropout_risk", "local_fliplearning"));
+        array_push($clusters_names, get_string("td_cluster_low_dropout_risk", "local_fliplearning"));
         foreach ($rows as $index => $row) {
             $cluster = new stdClass();
             $cluster->name = $clusters_names[$index];
@@ -854,7 +854,7 @@ class teacher extends report {
 
     private function get_user_last_access($userid, $users_access) {
         $access = new stdClass();
-        $access->label = get_string("fml_dropout_user_never_access", "local_fliplearning");
+        $access->label = get_string("td_user_never_access", "local_fliplearning");
         $access->timestamp = 0;
         if (isset($users_access[$userid])) {
             $timestamp = (int)$users_access[$userid]->timeaccess;

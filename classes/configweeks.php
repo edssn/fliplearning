@@ -116,7 +116,7 @@ class configweeks {
                 $week->removable = false;
             }
             $week->sections = array();
-            $week->name = get_string('setweeks_week', 'local_fliplearning');
+            $week->name = get_string('tw_week', 'local_fliplearning');
             if(!isset($week->date_format)) {
                 $week->date_format = "Y-m-d";
                 $week->weekstartlabel = self::to_format("Y-m-d", $week->weekstart);

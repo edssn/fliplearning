@@ -21,29 +21,29 @@ define(["local_fliplearning/vue",
                 vuetify: new Vuetify(),
                 data() {
                     return {
-                        strings : content.strings,
-                        groups : content.groups,
-                        userid : content.userid,
-                        courseid : content.courseid,
-                        timezone : content.timezone,
-                        render_has : content.profile_render,
-                        loading : false,
-                        errors : [],
-                        pages : content.pages,
+                        strings: content.strings,
+                        groups: content.groups,
+                        userid: content.userid,
+                        courseid: content.courseid,
+                        timezone: content.timezone,
+                        render_has: content.profile_render,
+                        loading: false,
+                        errors: [],
+                        pages: content.pages,
                     }
                 },
-                mounted(){
+                mounted() {
                     document.querySelector("#sessions-loader").style.display = "none";
                     document.querySelector("#prueba").style.display = "block";
                 },
-                methods : {
-                    get_help_content(){
+                methods: {
+                    get_help_content() {
                         let helpcontents = `Texto de Ayuda`;
                         return helpcontents;
                     },
 
-                    get_timezone(){
-                        let information = `${this.strings.ss_change_timezone} ${this.timezone}`
+                    get_timezone() {
+                        let information = `${this.strings.change_timezone} ${this.timezone}`
                         return information;
                     },
                 }
@@ -51,6 +51,6 @@ define(["local_fliplearning/vue",
         }
 
         return {
-            init : init
+            init: init
         };
     });

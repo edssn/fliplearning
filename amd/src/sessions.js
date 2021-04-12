@@ -23,16 +23,16 @@ define(["local_fliplearning/vue",
                 vuetify: new Vuetify(),
                 data() {
                     return {
-                        strings : content.strings,
-                        groups : content.groups,
-                        userid : content.userid,
-                        courseid : content.courseid,
-                        timezone : content.timezone,
-                        render_has : content.profile_render,
-                        loading : false,
-                        errors : [],
+                        strings: content.strings,
+                        groups: content.groups,
+                        userid: content.userid,
+                        courseid: content.courseid,
+                        timezone: content.timezone,
+                        render_has: content.profile_render,
+                        loading: false,
+                        errors: [],
 
-                        pages : content.pages,
+                        pages: content.pages,
                         hours_sessions: content.indicators.sessions,
                         session_count: content.indicators.count,
                         inverted_time: content.indicators.time,
@@ -45,12 +45,12 @@ define(["local_fliplearning/vue",
                         help_contents: [],
                     }
                 },
-                mounted(){
+                mounted() {
                     document.querySelector("#sessions-loader").style.display = "none";
                     document.querySelector("#work_sessions").style.display = "block";
                 },
-                methods : {
-                    get_help_content(){
+                methods: {
+                    get_help_content() {
                         let contents = [];
                         contents.push({
                             title: this.strings.section_help_title,
@@ -59,20 +59,20 @@ define(["local_fliplearning/vue",
                         return contents;
                     },
 
-                    update_interactions(week){
+                    update_interactions(week) {
                         this.loading = true;
                         this.errors = [];
                         let data = {
-                            action : "worksessions",
-                            userid : this.userid,
-                            courseid : this.courseid,
-                            weekcode : week.weekcode,
-                            profile : this.render_has,
+                            action: "worksessions",
+                            userid: this.userid,
+                            courseid: this.courseid,
+                            weekcode: week.weekcode,
+                            profile: this.render_has,
                         }
                         Axios({
-                            method:'get',
+                            method: 'get',
                             url: M.cfg.wwwroot + "/local/fliplearning/ajax.php",
-                            params : data,
+                            params: data,
                         }).then((response) => {
                             if (response.status == 200 && response.data.ok) {
                                 this.hours_sessions = response.data.data.indicators.sessions;
@@ -104,7 +104,7 @@ define(["local_fliplearning/vue",
                         chart.chart = {
                             type: 'heatmap',
                             backgroundColor: null,
-                            style: {fontFamily: 'poppins'},
+                            style: { fontFamily: 'poppins' },
                         };
                         chart.xAxis = {
                             categories: this.strings.days,
@@ -125,13 +125,13 @@ define(["local_fliplearning/vue",
                         };
                         chart.tooltip = {
                             useHTML: true,
-                            formatter: function () {
+                            formatter: function() {
                                 let xCategoryName = vue.get_point_category_name(this.point, 'x');
                                 let yCategoryName = vue.get_point_category_name(this.point, 'y');
-                                return '<small>' + xCategoryName + ' ' + yCategoryName +'</small><br/>'
-                                    + '<b style="color: ' + vue.hours_sessions_colors[1] + ';">• </b>'
-                                    + vue.capitalizeFirstLetter(vue.strings.sessions_text) + ': '
-                                    + this.point.value + '<br/>';
+                                return '<small>' + xCategoryName + ' ' + yCategoryName + '</small><br/>' +
+                                    '<b style="color: ' + vue.hours_sessions_colors[1] + ';">• </b>' +
+                                    vue.capitalizeFirstLetter(vue.strings.sessions_text) + ': ' +
+                                    this.point.value + '<br/>';
                             }
                         };
                         chart.series = [{
@@ -147,7 +147,7 @@ define(["local_fliplearning/vue",
                         chart.chart = {
                             type: 'bar',
                             backgroundColor: null,
-                            style: {fontFamily: 'poppins'},
+                            style: { fontFamily: 'poppins' },
                         };
                         chart.title = {
                             text: null,
@@ -163,9 +163,9 @@ define(["local_fliplearning/vue",
                             }
                         };
                         chart.tooltip = {
-                            shared:true,
-                            useHTML:true,
-                            formatter: function () {
+                            shared: true,
+                            useHTML: true,
+                            formatter: function() {
                                 let category_name = this.points[0].key;
                                 let time = vue.convert_time(this.y);
                                 return `<small>${category_name}</small></br><b>${time}</b>`;
@@ -185,7 +185,7 @@ define(["local_fliplearning/vue",
                         let chart = new Object();
                         chart.chart = {
                             backgroundColor: null,
-                            style: {fontFamily: 'poppins'},
+                            style: { fontFamily: 'poppins' },
                         };
                         chart.title = {
                             text: null,
@@ -238,7 +238,7 @@ define(["local_fliplearning/vue",
                         return text;
                     },
 
-                    capitalizeFirstLetter (string) {
+                    capitalizeFirstLetter(string) {
                         return string.charAt(0).toUpperCase() + string.slice(1);
                     },
 
@@ -275,12 +275,12 @@ define(["local_fliplearning/vue",
                         }
                     },
 
-                    update_help_dialog (value) {
+                    update_help_dialog(value) {
                         this.help_dialog = value;
                     },
 
-                    get_timezone(){
-                        let information = `${this.strings.ss_change_timezone} ${this.timezone}`
+                    get_timezone() {
+                        let information = `${this.strings.change_timezone} ${this.timezone}`
                         return information;
                     },
                 }
@@ -288,6 +288,6 @@ define(["local_fliplearning/vue",
         }
 
         return {
-            init : init
+            init: init
         };
     });

@@ -41,7 +41,7 @@ $reports = new \local_fliplearning\teacher($COURSE->id, $USER->id);
 
 $configweeks = new \local_fliplearning\configweeks($COURSE, $USER);
 if (!$configweeks->is_set()) {
-    $message = get_string("weeks_not_config", "local_fliplearning");
+    $message = get_string("fml_weeks_not_config", "local_fliplearning");
     print_error($message);
 }
 
@@ -71,31 +71,31 @@ $content = [
 
         "chart" => $reports->get_chart_langs(),
         "title" => get_string("menu_dropout","local_fliplearning"),
-        "pagination" => get_string("pagination", "local_fliplearning"),
-        "ss_change_timezone" => get_string("ss_change_timezone", "local_fliplearning"),
-        "graph_generating" => get_string("graph_generating", "local_fliplearning"),
-        "api_error_network" => get_string("api_error_network", "local_fliplearning"),
-        "pagination_name" => get_string("pagination_component_name", "local_fliplearning"),
-        "pagination_separator" => get_string("pagination_component_to", "local_fliplearning"),
-        "pagination_title" => get_string("pagination_title", "local_fliplearning"),
-        "helplabel" => get_string("helplabel", "local_fliplearning"),
-        "exitbutton" => get_string("exitbutton", "local_fliplearning"),
-        "dropout_no_data" => get_string("fml_dropout_no_data", "local_fliplearning"),
-        "dropout_no_users_cluster" => get_string("fml_dropout_no_users_cluster", "local_fliplearning"),
-        "generate_data_manually" => get_string("fml_dropout_generate_data_manually", "local_fliplearning"),
-        "generating_data" => get_string("fml_dropout_generating_data", "local_fliplearning"),
+        "change_timezone" => get_string("fml_change_timezone", "local_fliplearning"),
+        "graph_generating" => get_string("fml_graph_generating", "local_fliplearning"),
+        "api_error_network" => get_string("fml_api_error_network", "local_fliplearning"),
+        "pagination" => get_string("fml_pagination", "local_fliplearning"),
+        "pagination_name" => get_string("fml_pagination_component_name", "local_fliplearning"),
+        "pagination_separator" => get_string("fml_pagination_component_to", "local_fliplearning"),
+        "pagination_title" => get_string("fml_pagination_title", "local_fliplearning"),
+        "helplabel" => get_string("fml_helplabel", "local_fliplearning"),
+        "exitbutton" => get_string("fml_exitbutton", "local_fliplearning"),
+        "dropout_no_data" => get_string("td_no_data", "local_fliplearning"),
+        "dropout_no_users_cluster" => get_string("td_no_users_cluster", "local_fliplearning"),
+        "generate_data_manually" => get_string("td_generate_data_manually", "local_fliplearning"),
+        "generating_data" => get_string("td_generating_data", "local_fliplearning"),
         "about" => get_string("fml_about", "local_fliplearning"),
         "about_table" => get_string("fml_about_table", "local_fliplearning"),
 
         "finished_resources" => get_string("fml_finished_resources", "local_fliplearning"),
 
-        "cluster_label" => get_string("fml_cluster_label", "local_fliplearning"),
-        "cluster_select" => get_string("fml_cluster_select", "local_fliplearning"),
-        "thead_name" => get_string("thead_name", "local_fliplearning"),
-        "thead_lastname" => get_string("thead_lastname", "local_fliplearning"),
-        "thead_progress" => get_string("thead_progress", "local_fliplearning"),
-        "table_title" => get_string("fml_dropout_table_title", "local_fliplearning"),
-        "see_profile" => get_string("fml_dropout_see_profile", "local_fliplearning"),
+        "cluster_label" => get_string("td_cluster_label", "local_fliplearning"),
+        "cluster_select" => get_string("td_cluster_select", "local_fliplearning"),
+        "table_title" => get_string("td_dropout_table_title", "local_fliplearning"),
+        "thead_name" => get_string("tg_progress_table_thead_name", "local_fliplearning"),
+        "thead_lastname" => get_string("tg_progress_table_thead_lastname", "local_fliplearning"),
+        "thead_progress" => get_string("tg_progress_table_thead_progress", "local_fliplearning"),
+        "see_profile" => get_string("td_dropout_see_profile", "local_fliplearning"),
         "send_mail_to_user" => get_string("fml_send_mail_to_user", "local_fliplearning"),
         "send_mail_to_group" => get_string("fml_send_mail_to_group", "local_fliplearning"),
         "email_strings" => array(
@@ -112,7 +112,7 @@ $content = [
             "sending_text" => get_string("fml_sending_text","local_fliplearning"),
             "recipients_label" => get_string("fml_recipients_label","local_fliplearning"),
             "mailsended_text" => get_string("fml_mailsended_text","local_fliplearning"),
-            "api_error_network" => get_string("api_error_network", "local_fliplearning"),
+            "api_error_network" => get_string("fml_api_error_network", "local_fliplearning"),
         ),
         "modules_strings" => array(
             "title" => get_string("fml_modules_access_chart_title","local_fliplearning"),
@@ -124,15 +124,15 @@ $content = [
             "modules_interactions" => get_string("fml_modules_interactions","local_fliplearning"),
         ),
 
-        "student_progress_title" => get_string("fml_dropout_student_progress_title", "local_fliplearning"),
+        "student_progress_title" => get_string("td_student_progress_title", "local_fliplearning"),
         "module_label" => get_string("fml_module_label", "local_fliplearning"),
         "modules_label" => get_string("fml_modules_label", "local_fliplearning"),
         "of_conector" => get_string("fml_of_conector", "local_fliplearning"),
         "finished_label" => get_string("fml_finished_label", "local_fliplearning"),
         "finisheds_label" => get_string("fml_finisheds_label", "local_fliplearning"),
-        "inverted_time_title" => get_string("thead_time", "local_fliplearning"),
-        "count_sessions_title" => get_string("thead_sessions", "local_fliplearning"),
-        "student_grade_title" => get_string("fml_dropout_student_grade_title", "local_fliplearning"),
+        "inverted_time_title" => get_string("tg_progress_table_thead_time", "local_fliplearning"),
+        "count_sessions_title" => get_string("tg_progress_table_thead_sessions", "local_fliplearning"),
+        "student_grade_title" => get_string("td_student_grade_title", "local_fliplearning"),
         "modules_access_chart_title" => get_string("fml_modules_access_chart_title", "local_fliplearning"),
         "modules_access_chart_series_total" => get_string("fml_modules_access_chart_series_total", "local_fliplearning"),
         "modules_access_chart_series_complete" => get_string("fml_modules_access_chart_series_complete", "local_fliplearning"),

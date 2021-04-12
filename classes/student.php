@@ -138,8 +138,6 @@ class student extends report {
 
             $response->course_cms = $cms;
             $response->user_cms = $user[0]->cms->modules;
-//            $response->weeks = $this->weeks;
-//            $response->sections = $this->current_sections;
         }
         $response->sections = $week->sections;
         return $response;

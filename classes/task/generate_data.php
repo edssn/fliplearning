@@ -27,7 +27,7 @@ namespace local_fliplearning\task;
 class generate_data extends \core\task\scheduled_task {
 
     public function get_name() {
-        return get_string('generate_data_task', 'local_fliplearning');
+        return get_string('fml_generate_dropout_data_task', 'local_fliplearning');
     }
 
     public function execute() {

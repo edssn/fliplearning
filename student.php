@@ -38,7 +38,7 @@ require_capability('local/fliplearning:view_as_student', $context);
 require_capability('local/fliplearning:student_general', $context);
 
 if (is_siteadmin()) {
-    print_error(get_string("only_student", "local_fliplearning"));
+    print_error(get_string("fml_only_student", "local_fliplearning"));
 }
 
 \local_fliplearning\log::create("student_general", "view", $USER->id, $COURSE->id);
@@ -46,7 +46,7 @@ $reports = new \local_fliplearning\student($COURSE->id, $USER->id);
 
 $configweeks = new \local_fliplearning\configweeks($COURSE, $USER);
 if (!$configweeks->is_set()) {
-    $message = get_string("weeks_not_config", "local_fliplearning");
+    $message = get_string("fml_weeks_not_config", "local_fliplearning");
     print_error($message);
 }
 
@@ -74,11 +74,11 @@ $content = [
 
         "title" => get_string("menu_general", "local_fliplearning"),
         "chart" => $reports->get_chart_langs(),
-        "ss_change_timezone" => get_string("ss_change_timezone", "local_fliplearning"),
-        "graph_generating" => get_string("graph_generating", "local_fliplearning"),
-        "api_error_network" => get_string("api_error_network", "local_fliplearning"),
-        "helplabel" => get_string("helplabel", "local_fliplearning"),
-        "exitbutton" => get_string("exitbutton", "local_fliplearning"),
+        "change_timezone" => get_string("fml_change_timezone", "local_fliplearning"),
+        "graph_generating" => get_string("fml_graph_generating", "local_fliplearning"),
+        "api_error_network" => get_string("fml_api_error_network", "local_fliplearning"),
+        "helplabel" => get_string("fml_helplabel", "local_fliplearning"),
+        "exitbutton" => get_string("fml_exitbutton", "local_fliplearning"),
         "about" => get_string("fml_about", "local_fliplearning"),
         "weeks" => array(
             get_string("fml_week1", "local_fliplearning"),
@@ -98,8 +98,8 @@ $content = [
             "modules_interactions" => get_string("fml_modules_interactions","local_fliplearning"),
         ),
 
-        "student_progress_title" => get_string("fml_dropout_student_progress_title", "local_fliplearning"),
-        "see_profile" => get_string("fml_dropout_see_profile", "local_fliplearning"),
+        "student_progress_title" => get_string("td_student_progress_title", "local_fliplearning"),
+        "see_profile" => get_string("td_dropout_see_profile", "local_fliplearning"),
         "module_label" => get_string("fml_module_label", "local_fliplearning"),
         "modules_label" => get_string("fml_modules_label", "local_fliplearning"),
         "of_conector" => get_string("fml_of_conector", "local_fliplearning"),
@@ -110,9 +110,9 @@ $content = [
         "hours_short" => get_string("fml_hours_short", "local_fliplearning"),
         "minutes_short" => get_string("fml_minutes_short", "local_fliplearning"),
         "seconds_short" => get_string("fml_seconds_short", "local_fliplearning"),
-        "inverted_time_title" => get_string("thead_time", "local_fliplearning"),
-        "count_sessions_title" => get_string("thead_sessions", "local_fliplearning"),
-        "student_grade_title" => get_string("fml_dropout_student_grade_title", "local_fliplearning"),
+        "inverted_time_title" => get_string("tg_progress_table_thead_time", "local_fliplearning"),
+        "count_sessions_title" => get_string("tg_progress_table_thead_sessions", "local_fliplearning"),
+        "student_grade_title" => get_string("td_student_grade_title", "local_fliplearning"),
         "modules_access_chart_title" => get_string("fml_modules_access_chart_title", "local_fliplearning"),
         "modules_amount" => get_string("fml_modules_amount", "local_fliplearning"),
         "modules_details" => get_string("fml_modules_details", "local_fliplearning"),
@@ -137,7 +137,7 @@ $content = [
         "user_grades_chart_legend" => get_string("fml_user_grades_chart_legend", "local_fliplearning"),
         "user_grades_chart_tooltip_no_graded" => get_string("fml_user_grades_chart_tooltip_no_graded", "local_fliplearning"),
         "user_grades_chart_view_activity" => get_string("fml_user_grades_chart_view_activity", "local_fliplearning"),
-        "weeks_sessions_title" => get_string("fml_weeks_sessions_title", "local_fliplearning"),
+        "weeks_sessions_title" => get_string("ts_weeks_sessions_chart_title", "local_fliplearning"),
     ],
     'weeks_session_colors' => array('#E0E0E0', '#118AB2'),
     'modules_access_colors' => array('#FFD166', '#06D6A0', '#118AB2'),

@@ -170,7 +170,10 @@ trait lib_trait {
         if(isset($section->name) ){
             return $section->name;
         }
-        $build_name = get_string("course_format_{$this->course->format}", 'local_fliplearning');
+        $build_name = $this->course->format;
+        if (get_string_manager()->string_exists($build_name, "local_fliplearning")) {
+            $build_name = get_string("tw_course_format_{$build_name}", 'local_fliplearning');
+        }
         $name = "$build_name $current_index";
         return $name;
     }

@@ -41,7 +41,7 @@ $reports = new \local_fliplearning\teacher($COURSE->id, $USER->id);
 
 $configweeks = new \local_fliplearning\configweeks($COURSE, $USER);
 if (!$configweeks->is_set()) {
-    $message = get_string("weeks_not_config", "local_fliplearning");
+    $message = get_string("fml_weeks_not_config", "local_fliplearning");
     print_error($message);
 }
 
@@ -58,15 +58,15 @@ $content = [
 
         "title" => get_string("menu_assignments","local_fliplearning"),
         "chart" => $reports->get_chart_langs(),
-        "pagination" => get_string("pagination", "local_fliplearning"),
-        "ss_change_timezone" => get_string("ss_change_timezone", "local_fliplearning"),
-        "graph_generating" => get_string("graph_generating", "local_fliplearning"),
-        "api_error_network" => get_string("api_error_network", "local_fliplearning"),
-        "pagination_name" => get_string("pagination_component_name","local_fliplearning"),
-        "pagination_separator" => get_string("pagination_component_to","local_fliplearning"),
-        "pagination_title" => get_string("pagination_title","local_fliplearning"),
-        "helplabel" => get_string("helplabel","local_fliplearning"),
-        "exitbutton" => get_string("exitbutton","local_fliplearning"),
+        "change_timezone" => get_string("fml_change_timezone", "local_fliplearning"),
+        "graph_generating" => get_string("fml_graph_generating", "local_fliplearning"),
+        "api_error_network" => get_string("fml_api_error_network", "local_fliplearning"),
+        "pagination" => get_string("fml_pagination", "local_fliplearning"),
+        "pagination_title" => get_string("fml_pagination_title","local_fliplearning"),
+        "pagination_separator" => get_string("fml_pagination_component_to","local_fliplearning"),
+        "pagination_name" => get_string("fml_pagination_component_name","local_fliplearning"),
+        "helplabel" => get_string("fml_helplabel","local_fliplearning"),
+        "exitbutton" => get_string("fml_exitbutton","local_fliplearning"),
         "about" => get_string("fml_about", "local_fliplearning"),
         "email_strings" => array(
             "validation_subject_text" => get_string("fml_validation_subject_text","local_fliplearning"),
@@ -82,20 +82,20 @@ $content = [
             "sending_text" => get_string("fml_sending_text","local_fliplearning"),
             "recipients_label" => get_string("fml_recipients_label","local_fliplearning"),
             "mailsended_text" => get_string("fml_mailsended_text","local_fliplearning"),
-            "api_error_network" => get_string("api_error_network", "local_fliplearning"),
+            "api_error_network" => get_string("fml_api_error_network", "local_fliplearning"),
         ),
 
-        "access" => get_string("fml_access", "local_fliplearning"),
-        "no_access" => get_string("fml_no_access", "local_fliplearning"),
-        "access_chart_title" => get_string("fml_access_chart_title", "local_fliplearning"),
-        "access_chart_yaxis_label" => get_string("fml_access_chart_yaxis_label", "local_fliplearning"),
-        "access_chart_suffix" => get_string("fml_access_chart_suffix", "local_fliplearning"),
+        "access" => get_string("ta_assigns_submissions_xaxis_access", "local_fliplearning"),
+        "no_access" => get_string("ta_assigns_submissions_xaxis_no_access", "local_fliplearning"),
+        "access_chart_title" => get_string("ta_access_content_chart_title", "local_fliplearning"),
+        "access_chart_yaxis_label" => get_string("ta_access_content_yaxis_title", "local_fliplearning"),
+        "access_chart_suffix" => get_string("ta_access_content_tooltip_suffix", "local_fliplearning"),
         "send_mail" => get_string("fml_send_mail", "local_fliplearning"),
         "student_text" => get_string("fml_student_text", "local_fliplearning"),
         "students_text" => get_string("fml_students_text", "local_fliplearning"),
 
-        "assignsubs_chart_title" => get_string("fml_assignsubs_title", "local_fliplearning"),
-        "assignsubs_chart_yaxis" => get_string("fml_assignsubs_yaxis", "local_fliplearning"),
+        "assignsubs_chart_title" => get_string("ta_assigns_submissions_title", "local_fliplearning"),
+        "assignsubs_chart_yaxis" => get_string("ta_assigns_submissions_yaxis", "local_fliplearning"),
     ],
     'assigns_submissions_colors' => array('#06D6A0', '#FFD166', '#EF476F'),
     'access_content_colors' => array('#06D6A0', '#EF476F'),

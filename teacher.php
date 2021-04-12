@@ -41,7 +41,7 @@ $reports = new \local_fliplearning\teacher($COURSE->id, $USER->id);
 
 $configweeks = new \local_fliplearning\configweeks($COURSE, $USER);
 if (!$configweeks->is_set()) {
-    $message = get_string("weeks_not_config", "local_fliplearning");
+    $message = get_string("fml_weeks_not_config", "local_fliplearning");
     print_error($message);
 }
 
@@ -61,42 +61,42 @@ $content = [
         "finished_resources" => get_string("fml_finished_resources", "local_fliplearning"),
         "sessions_text" => get_string("fml_sessions", "local_fliplearning"),
 
-        "title" => get_string("fml_teacher_indicators_title", "local_fliplearning"),
+        "title" => get_string("menu_general", "local_fliplearning"),
         "chart" => $reports->get_chart_langs(),
-        "helplabel" => get_string("helplabel","local_fliplearning"),
-        "exitbutton" => get_string("exitbutton","local_fliplearning"),
-        "ss_change_timezone" => get_string("ss_change_timezone", "local_fliplearning"),
-        "graph_generating" => get_string("graph_generating", "local_fliplearning"),
+        "helplabel" => get_string("fml_helplabel","local_fliplearning"),
+        "exitbutton" => get_string("fml_exitbutton","local_fliplearning"),
+        "change_timezone" => get_string("fml_change_timezone", "local_fliplearning"),
+        "graph_generating" => get_string("fml_graph_generating", "local_fliplearning"),
         "about" => get_string("fml_about", "local_fliplearning"),
         "about_table" => get_string("fml_about_table", "local_fliplearning"),
 
-        "table_title" => get_string("table_title", "local_fliplearning"),
-        "thead_name" => get_string("thead_name", "local_fliplearning"),
-        "thead_lastname" => get_string("thead_lastname", "local_fliplearning"),
-        "thead_email" => get_string("thead_email", "local_fliplearning"),
-        "thead_progress" => get_string("thead_progress", "local_fliplearning"),
-        "thead_sessions" => get_string("thead_sessions", "local_fliplearning"),
-        "thead_time" => get_string("thead_time", "local_fliplearning"),
+        "table_title" => get_string("tg_progress_table_table_title", "local_fliplearning"),
+        "thead_name" => get_string("tg_progress_table_thead_name", "local_fliplearning"),
+        "thead_lastname" => get_string("tg_progress_table_thead_lastname", "local_fliplearning"),
+        "thead_email" => get_string("tg_progress_table_thead_email", "local_fliplearning"),
+        "thead_progress" => get_string("tg_progress_table_thead_progress", "local_fliplearning"),
+        "thead_sessions" => get_string("tg_progress_table_thead_sessions", "local_fliplearning"),
+        "thead_time" => get_string("tg_progress_table_thead_time", "local_fliplearning"),
         "of_conector" => get_string("fml_of_conector", "local_fliplearning"),
 
-        "teacher_indicators_students" => get_string("fml_teacher_indicators_students", "local_fliplearning"),
-        "teacher_indicators_weeks" => get_string("fml_teacher_indicators_weeks", "local_fliplearning"),
-        "teacher_indicators_modules" => get_string("fml_modules_label", "local_fliplearning"),
-        "teacher_indicators_grademax" => get_string("fml_teacher_indicators_grademax", "local_fliplearning"),
-        "teacher_indicators_course_start" => get_string("fml_teacher_indicators_course_start", "local_fliplearning"),
-        "teacher_indicators_course_end" => get_string("fml_teacher_indicators_course_end", "local_fliplearning"),
-        "teacher_indicators_course_format" => get_string("fml_teacher_indicators_course_format", "local_fliplearning"),
-        "teacher_indicators_course_completion" => get_string("fml_teacher_indicators_course_completion", "local_fliplearning"),
+        "teacher_indicators_students" => get_string("tg_indicators_students", "local_fliplearning"),
+        "teacher_indicators_weeks" => get_string("tg_indicators_weeks", "local_fliplearning"),
+        "teacher_indicators_modules" => get_string("fml_resources", "local_fliplearning"),
+        "teacher_indicators_grademax" => get_string("tg_indicators_grademax", "local_fliplearning"),
+        "teacher_indicators_course_start" => get_string("tg_indicators_course_start", "local_fliplearning"),
+        "teacher_indicators_course_end" => get_string("tg_indicators_course_end", "local_fliplearning"),
+        "teacher_indicators_course_format" => get_string("tg_indicators_course_format", "local_fliplearning"),
+        "teacher_indicators_course_completion" => get_string("tg_indicators_course_completion", "local_fliplearning"),
         "teacher_indicators_finalized" => get_string("fml_finished_label", "local_fliplearning"),
         "teacher_indicators_finished" => get_string("fml_finisheds_label", "local_fliplearning"),
         "teacher_indicators_session" => get_string("fml_session_text","local_fliplearning"),
         "teacher_indicators_sessions" => get_string("fml_sessions_text","local_fliplearning"),
-        "teacher_indicators_student_progress" => get_string("fml_teacher_indicators_student_progress", "local_fliplearning"),
+        "teacher_indicators_student_progress" => get_string("tg_indicators_student_progress", "local_fliplearning"),
 
-        "teacher_indicators_week_resources_chart_title" => get_string("fml_teacher_indicators_week_resources_chart_title", "local_fliplearning"),
-        "teacher_indicators_week_resources_yaxis_title" => get_string("fml_teacher_indicators_week_resources_yaxis_title", "local_fliplearning"),
+        "teacher_indicators_week_resources_chart_title" => get_string("tg_week_resources_chart_title", "local_fliplearning"),
+        "teacher_indicators_week_resources_yaxis_title" => get_string("tg_week_resources_yaxis_title", "local_fliplearning"),
 
-        "weeks_sessions_title" => get_string("fml_weeks_sessions_title", "local_fliplearning"),
+        "weeks_sessions_title" => get_string("ts_weeks_sessions_chart_title", "local_fliplearning"),
         "weeks" => array(
             get_string("fml_week1", "local_fliplearning"),
             get_string("fml_week2", "local_fliplearning"),

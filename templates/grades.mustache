@@ -101,10 +101,6 @@
                     </v-col>
                 </v-row>
 
-                <v-row class="justify-center">
-                    <span v-text="get_timezone()"></span>
-                </v-row>
-
                 <v-row justify="center">
                     <v-col cols="12">
                         <emailform
@@ -130,6 +126,10 @@
                                 @update_dialog="update_help_dialog"
                         ></helpdialog>
                     </v-col>
+                </v-row>
+
+                <v-row class="justify-center">
+                    <span v-text="get_timezone()"></span>
                 </v-row>
             </div>
         </v-container>

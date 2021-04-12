@@ -40,7 +40,7 @@ $reports = new \local_fliplearning\teacher($COURSE->id, $USER->id);
 
 $configweeks = new \local_fliplearning\configweeks($COURSE, $USER);
 if(!$configweeks->is_set()){
-    $message = get_string("weeks_not_config", "local_fliplearning");
+    $message = get_string("fml_weeks_not_config", "local_fliplearning");
     print_error($message);
 }
 
@@ -59,40 +59,35 @@ $content = [
 
         "chart" => $reports->get_chart_langs(),
         "title" => get_string("menu_quiz","local_fliplearning"),
-        "pagination" => get_string("pagination", "local_fliplearning"),
-        "ss_change_timezone" => get_string("ss_change_timezone", "local_fliplearning"),
-        "graph_generating" => get_string("graph_generating", "local_fliplearning"),
-        "api_error_network" => get_string("api_error_network", "local_fliplearning"),
-        "pagination_name" => get_string("pagination_component_name","local_fliplearning"),
-        "pagination_separator" => get_string("pagination_component_to","local_fliplearning"),
-        "pagination_title" => get_string("pagination_title","local_fliplearning"),
-        "helplabel" => get_string("helplabel","local_fliplearning"),
-        "exitbutton" => get_string("exitbutton","local_fliplearning"),
+        "change_timezone" => get_string("fml_change_timezone", "local_fliplearning"),
+        "graph_generating" => get_string("fml_graph_generating", "local_fliplearning"),
+        "api_error_network" => get_string("fml_api_error_network", "local_fliplearning"),
+        "pagination" => get_string("fml_pagination", "local_fliplearning"),
+        "pagination_name" => get_string("fml_pagination_component_name","local_fliplearning"),
+        "pagination_separator" => get_string("fml_pagination_component_to","local_fliplearning"),
+        "pagination_title" => get_string("fml_pagination_title","local_fliplearning"),
+        "helplabel" => get_string("fml_helplabel","local_fliplearning"),
+        "exitbutton" => get_string("fml_exitbutton","local_fliplearning"),
         "about" => get_string("fml_about", "local_fliplearning"),
 
-        "quiz_info_text" => get_string("fml_quiz_info_text", "local_fliplearning"),
-        "question_text" => get_string("fml_question_text", "local_fliplearning"),
-        "questions_text" => get_string("fml_questions_text", "local_fliplearning"),
-        "doing_text_singular" => get_string("fml_doing_text_singular", "local_fliplearning"),
-        "doing_text_plural" => get_string("fml_doing_text_plural", "local_fliplearning"),
-        "attempt_text" => get_string("fml_attempt_text", "local_fliplearning"),
-        "attempts_text" => get_string("fml_attempts_text", "local_fliplearning"),
-        "student_text" => get_string("fml_student_text", "local_fliplearning"),
-        "students_text" => get_string("fml_students_text", "local_fliplearning"),
+        "quiz_number_questions" => get_string("tq_quiz_number_questions", "local_fliplearning"),
+        "quiz_attempts_done" => get_string("tq_quiz_attempts_done", "local_fliplearning"),
+        "quiz_students_attempts" => get_string("tq_quiz_students_attempts", "local_fliplearning"),
+
         "of_conector" => get_string("fml_of_conector", "local_fliplearning"),
-        "quiz_label" => get_string("fml_quiz", "local_fliplearning"),
+        "quiz_label" => get_string("fml_select_quiz", "local_fliplearning"),
 
-        "questions_attempts_chart_title" => get_string("fml_questions_attempts_chart_title", "local_fliplearning"),
-        "questions_attempts_yaxis_title" => get_string("fml_questions_attempts_yaxis_title", "local_fliplearning"),
-        "hardest_questions_chart_title" => get_string("fml_hardest_questions_chart_title", "local_fliplearning"),
-        "hardest_questions_yaxis_title" => get_string("fml_hardest_questions_yaxis_title", "local_fliplearning"),
+        "questions_attempts_chart_title" => get_string("tq_questions_attempts_chart_title", "local_fliplearning"),
+        "questions_attempts_yaxis_title" => get_string("tq_questions_attempts_yaxis_title", "local_fliplearning"),
+        "hardest_questions_chart_title" => get_string("tq_hardest_questions_chart_title", "local_fliplearning"),
+        "hardest_questions_yaxis_title" => get_string("tq_hardest_questions_yaxis_title", "local_fliplearning"),
 
-        "correct_attempt" => get_string("fml_correct_attempt", "local_fliplearning"),
-        "partcorrect_attempt" => get_string("fml_partcorrect_attempt", "local_fliplearning"),
-        "incorrect_attempt" => get_string("fml_incorrect_attempt", "local_fliplearning"),
-        "blank_attempt" => get_string("fml_blank_attempt", "local_fliplearning"),
-        "needgraded_attempt" => get_string("fml_needgraded_attempt", "local_fliplearning"),
-        "review_question" => get_string("fml_review_question", "local_fliplearning"),
+        "correct_attempt" => get_string("tq_questions_attempts_xaxis_correct_attempt", "local_fliplearning"),
+        "partcorrect_attempt" => get_string("tq_questions_attempts_xaxis_partcorrect_attempt", "local_fliplearning"),
+        "incorrect_attempt" => get_string("tq_questions_attempts_xaxis_incorrect_attempt", "local_fliplearning"),
+        "blank_attempt" => get_string("tq_questions_attempts_xaxis_blank_attempt", "local_fliplearning"),
+        "needgraded_attempt" => get_string("tq_questions_attempts_xaxis_needgraded_attempt", "local_fliplearning"),
+        "review_question" => get_string("tq_questions_attempts_tooltip_review_question", "local_fliplearning"),
 
     ],
     'questions_attempts_colors' => array('#06D6A0', '#FFD166', '#EF476F', '#118AB2', '#264653'),

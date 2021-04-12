@@ -370,16 +370,16 @@ abstract class report {
         $response->inverted_time_converted = self::convert_time("hours", $response->inverted_time, "string");
 
         $inverted_time = new stdClass();
-        $inverted_time->name = get_string("fml_inverted_time","local_fliplearning");
+        $inverted_time->name = get_string("ts_time_inverted_inverted_label","local_fliplearning");
         $inverted_time->y = $response->inverted_time;
 
         $expected_time = new stdClass();
-        $expected_time->name = get_string("fml_expected_time","local_fliplearning");
+        $expected_time->name = get_string("ts_time_inverted_expected_label","local_fliplearning");
         $expected_time->y = $response->expected_time;
 
         if (!$average_time) {
-            $inverted_time->name = get_string("fml_student_inverted_time","local_fliplearning");
-            $expected_time->name = get_string("fml_student_expected_time","local_fliplearning");
+            $inverted_time->name = get_string("ss_student_inverted_time","local_fliplearning");
+            $expected_time->name = get_string("ss_student_expected_time","local_fliplearning");
         }
         $data[] = $inverted_time;
         $data[] = $expected_time;
@@ -607,53 +607,69 @@ abstract class report {
             "viewFullscreen" => get_string("chart_viewFullscreen", "local_fliplearning"),
             "resetZoom" => get_string("chart_resetZoom", "local_fliplearning"),
             "resetZoomTitle" => get_string("chart_resetZoomTitle", "local_fliplearning"),
-            "months" => array(
-                get_string("fml_jan", "local_fliplearning"),
-                get_string("fml_feb", "local_fliplearning"),
-                get_string("fml_mar", "local_fliplearning"),
-                get_string("fml_apr", "local_fliplearning"),
-                get_string("fml_may", "local_fliplearning"),
-                get_string("fml_jun", "local_fliplearning"),
-                get_string("fml_jul", "local_fliplearning"),
-                get_string("fml_aug", "local_fliplearning"),
-                get_string("fml_sep", "local_fliplearning"),
-                get_string("fml_oct", "local_fliplearning"),
-                get_string("fml_nov", "local_fliplearning"),
-                get_string("fml_dec", "local_fliplearning"),
-            ),
-            "shortMonths" => array(
-                get_string("fml_jan_short", "local_fliplearning"),
-                get_string("fml_feb_short", "local_fliplearning"),
-                get_string("fml_mar_short", "local_fliplearning"),
-                get_string("fml_apr_short", "local_fliplearning"),
-                get_string("fml_may_short", "local_fliplearning"),
-                get_string("fml_jun_short", "local_fliplearning"),
-                get_string("fml_jul_short", "local_fliplearning"),
-                get_string("fml_aug_short", "local_fliplearning"),
-                get_string("fml_sep_short", "local_fliplearning"),
-                get_string("fml_oct_short", "local_fliplearning"),
-                get_string("fml_nov_short", "local_fliplearning"),
-                get_string("fml_dec_short", "local_fliplearning"),
-            ),
-            "weekdays" => array(
-                get_string("fml_sun", "local_fliplearning"),
-                get_string("fml_mon", "local_fliplearning"),
-                get_string("fml_tue", "local_fliplearning"),
-                get_string("fml_wed", "local_fliplearning"),
-                get_string("fml_thu", "local_fliplearning"),
-                get_string("fml_fri", "local_fliplearning"),
-                get_string("fml_sat", "local_fliplearning"),
-            ),
-            "shortWeekdays" => array(
-                get_string("fml_sun_short", "local_fliplearning"),
-                get_string("fml_mon_short", "local_fliplearning"),
-                get_string("fml_tue_short", "local_fliplearning"),
-                get_string("fml_wed_short", "local_fliplearning"),
-                get_string("fml_thu_short", "local_fliplearning"),
-                get_string("fml_fri_short", "local_fliplearning"),
-                get_string("fml_sat_short", "local_fliplearning"),
-            ),
+            "months" => self::get_months(),
+            "shortMonths" => self::get_short_months(),
+            "weekdays" => self::get_weekdays(),
+            "shortWeekdays" => self::get_short_weekdays(),
         );
         return $langs;
+    }
+
+    public function get_months() {
+        return array(
+            get_string("fml_jan", "local_fliplearning"),
+            get_string("fml_feb", "local_fliplearning"),
+            get_string("fml_mar", "local_fliplearning"),
+            get_string("fml_apr", "local_fliplearning"),
+            get_string("fml_may", "local_fliplearning"),
+            get_string("fml_jun", "local_fliplearning"),
+            get_string("fml_jul", "local_fliplearning"),
+            get_string("fml_aug", "local_fliplearning"),
+            get_string("fml_sep", "local_fliplearning"),
+            get_string("fml_oct", "local_fliplearning"),
+            get_string("fml_nov", "local_fliplearning"),
+            get_string("fml_dec", "local_fliplearning"),
+        );
+    }
+
+    public function get_short_months () {
+        return array(
+            get_string("fml_jan_short", "local_fliplearning"),
+            get_string("fml_feb_short", "local_fliplearning"),
+            get_string("fml_mar_short", "local_fliplearning"),
+            get_string("fml_apr_short", "local_fliplearning"),
+            get_string("fml_may_short", "local_fliplearning"),
+            get_string("fml_jun_short", "local_fliplearning"),
+            get_string("fml_jul_short", "local_fliplearning"),
+            get_string("fml_aug_short", "local_fliplearning"),
+            get_string("fml_sep_short", "local_fliplearning"),
+            get_string("fml_oct_short", "local_fliplearning"),
+            get_string("fml_nov_short", "local_fliplearning"),
+            get_string("fml_dec_short", "local_fliplearning"),
+        );
+    }
+
+    public function get_weekdays () {
+        return array(
+            get_string("fml_sun", "local_fliplearning"),
+            get_string("fml_mon", "local_fliplearning"),
+            get_string("fml_tue", "local_fliplearning"),
+            get_string("fml_wed", "local_fliplearning"),
+            get_string("fml_thu", "local_fliplearning"),
+            get_string("fml_fri", "local_fliplearning"),
+            get_string("fml_sat", "local_fliplearning"),
+        );
+    }
+
+    public function get_short_weekdays () {
+        return array(
+            get_string("fml_sun_short", "local_fliplearning"),
+            get_string("fml_mon_short", "local_fliplearning"),
+            get_string("fml_tue_short", "local_fliplearning"),
+            get_string("fml_wed_short", "local_fliplearning"),
+            get_string("fml_thu_short", "local_fliplearning"),
+            get_string("fml_fri_short", "local_fliplearning"),
+            get_string("fml_sat_short", "local_fliplearning"),
+        );
     }
 }

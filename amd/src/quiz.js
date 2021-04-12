@@ -23,17 +23,17 @@ define(["local_fliplearning/vue",
                 vuetify: new Vuetify(),
                 data() {
                     return {
-                        strings : content.strings,
-                        groups : content.groups,
-                        userid : content.userid,
-                        courseid : content.courseid,
-                        timezone : content.timezone,
-                        render_has : content.profile_render,
-                        loading : false,
-                        errors : [],
-                        pages : content.pages,
+                        strings: content.strings,
+                        groups: content.groups,
+                        userid: content.userid,
+                        courseid: content.courseid,
+                        timezone: content.timezone,
+                        render_has: content.profile_render,
+                        loading: false,
+                        errors: [],
+                        pages: content.pages,
 
-                        quiz : content.quiz,
+                        quiz: content.quiz,
                         questions_attempts_colors: content.questions_attempts_colors,
                         hardest_questions_colors: content.hardest_questions_colors,
                         default_quiz: null,
@@ -48,18 +48,18 @@ define(["local_fliplearning/vue",
                         help_contents: [],
                     }
                 },
-                beforeMount(){
+                beforeMount() {
                     if (this.quiz.length) {
                         this.default_quiz = this.quiz[0].attempts;
                         this.calculate_questions_attempts(this.default_quiz);
                     };
                 },
-                mounted(){
+                mounted() {
                     document.querySelector("#sessions-loader").style.display = "none";
                     document.querySelector("#quiz").style.display = "block";
                 },
-                methods : {
-                    get_help_content(){
+                methods: {
+                    get_help_content() {
                         let contents = [];
                         contents.push({
                             title: this.strings.section_help_title,
@@ -71,12 +71,7 @@ define(["local_fliplearning/vue",
                     get_quiz_info_text1() {
                         let text = '';
                         if (this.default_quiz) {
-                            let questions_number = this.default_quiz.details.questions;
-                            let questions_label = this.strings.questions_text;
-                            if (questions_number == 1) {
-                                questions_label = this.strings.question_text;
-                            }
-                            text = `* ${this.strings.quiz_info_text} ${questions_number} ${questions_label}`;
+                            text = `* ${this.strings.quiz_number_questions}: ${this.default_quiz.details.questions}`;
                         }
                         return text;
                     },
@@ -84,17 +79,15 @@ define(["local_fliplearning/vue",
                     get_quiz_info_text2() {
                         let text = '';
                         if (this.default_quiz) {
-                            let attempts_number = this.default_quiz.details.attempts;
-                            let doing_text = this.strings.doing_text_plural;
-                            if (attempts_number == 1) {
-                                doing_text = this.strings.doing_text_singular;
-                            }
-                            let students_number = this.default_quiz.details.users;
-                            let students_label = this.strings.students_text;
-                            if (students_number == 1) {
-                                students_label = this.strings.student_text;
-                            }
-                            text = `* ${attempts_number} ${doing_text} ${students_number} ${students_label}`;
+                            text = `* ${this.strings.quiz_attempts_done}: ${this.default_quiz.details.attempts}`;
+                        }
+                        return text;
+                    },
+
+                    get_quiz_info_text3() {
+                        let text = '';
+                        if (this.default_quiz) {
+                            text = `* ${this.strings.quiz_students_attempts}: ${this.default_quiz.details.users}`;
                         }
                         return text;
                     },
@@ -104,7 +97,7 @@ define(["local_fliplearning/vue",
                         chart.chart = {
                             type: 'column',
                             backgroundColor: null,
-                            style: {fontFamily: 'poppins'},
+                            style: { fontFamily: 'poppins' },
                         };
                         chart.title = {
                             text: null
@@ -121,7 +114,7 @@ define(["local_fliplearning/vue",
                             }
                         }];
                         chart.tooltip = {
-                            useHTML:true,
+                            useHTML: true,
                             formatter: function() {
                                 let question_name = this.x;
                                 let attemps = this.y;
@@ -130,11 +123,11 @@ define(["local_fliplearning/vue",
                                 let series_name = this.series.name;
                                 let of_conector = vue.strings.of_conector;
                                 let review_question = vue.strings.review_question;
-                                return '<small>' + question_name + '</small></br>'
-                                    + '<b style="color: ' + this.color + ';">• </b>'
-                                    + series_name + ': ' + attemps + ' ' + of_conector + ' ' +total_attemps
-                                    + ' (' + percentage + '%)' + '<br/>'
-                                    + '<small>' + review_question + '</small>';
+                                return '<small>' + question_name + '</small></br>' +
+                                    '<b style="color: ' + this.color + ';">• </b>' +
+                                    series_name + ': ' + attemps + ' ' + of_conector + ' ' + total_attemps +
+                                    ' (' + percentage + '%)' + '<br/>' +
+                                    '<small>' + review_question + '</small>';
                             }
                         };
                         chart.plotOptions = {
@@ -145,10 +138,10 @@ define(["local_fliplearning/vue",
                                 cursor: 'pointer',
                                 point: {
                                     events: {
-                                        click: function () {
+                                        click: function() {
                                             let question = vue.attempts_questions[this.x];
                                             let id = question.id;
-                                            let url = M.cfg.wwwroot + '/question/preview.php?id='+id+'&courseid='+vue.courseid;
+                                            let url = M.cfg.wwwroot + '/question/preview.php?id=' + id + '&courseid=' + vue.courseid;
                                             window.open(url, '_blank', 'top=50,left=50,width=900,height=600');
                                         }
                                     }
@@ -164,7 +157,7 @@ define(["local_fliplearning/vue",
                         chart.chart = {
                             type: 'column',
                             backgroundColor: null,
-                            style: {fontFamily: 'poppins'},
+                            style: { fontFamily: 'poppins' },
                         };
                         chart.title = {
                             text: null,
@@ -177,7 +170,7 @@ define(["local_fliplearning/vue",
                             enabled: false
                         };
                         chart.tooltip = {
-                            useHTML:true,
+                            useHTML: true,
                             formatter: function() {
                                 let position = this.point.x;
                                 let question_info = vue.hardest_questions[position];
@@ -186,11 +179,11 @@ define(["local_fliplearning/vue",
                                 let value = this.y;
                                 let of_conector = vue.strings.of_conector;
                                 let review_question = vue.strings.review_question;
-                                return '<small>' + question_name + '</small></br>'
-                                    + '<b style="color: ' + this.color + ';">• </b>'
-                                    + serie_name + ': ' + question_info.ha + ' ' + of_conector + ' '
-                                    + question_info.to + ' (' + value + '%)' + '<br/>'
-                                    + '<small>' + review_question + '</small>';
+                                return '<small>' + question_name + '</small></br>' +
+                                    '<b style="color: ' + this.color + ';">• </b>' +
+                                    serie_name + ': ' + question_info.ha + ' ' + of_conector + ' ' +
+                                    question_info.to + ' (' + value + '%)' + '<br/>' +
+                                    '<small>' + review_question + '</small>';
                             }
                         };
                         chart.yAxis = [{
@@ -206,13 +199,13 @@ define(["local_fliplearning/vue",
                         chart.plotOptions = {
                             series: {
                                 cursor: 'pointer',
-                                    point: {
+                                point: {
                                     events: {
-                                        click: function () {
+                                        click: function() {
                                             let question = vue.hardest_questions[this.x];
                                             let id = question.id;
-                                            let url = M.cfg.wwwroot + '/question/preview.php?id='+id+'&courseid='+vue.courseid;
-                                            window.open( url, '_blank', 'top=50,left=50,width=900,height=600');
+                                            let url = M.cfg.wwwroot + '/question/preview.php?id=' + id + '&courseid=' + vue.courseid;
+                                            window.open(url, '_blank', 'top=50,left=50,width=900,height=600');
                                         }
                                     }
                                 }
@@ -225,20 +218,31 @@ define(["local_fliplearning/vue",
                     calculate_questions_attempts(quiz) {
                         let questions = quiz.questions;
                         let attempts_categories = [];
-                        let cont = 1, ql = "";
+                        let cont = 1,
+                            ql = "";
 
-                        let correct = [], partcorrect = [], incorr = [], gaveup = [], needgrade = [], hardest = [],
+                        let correct = [],
+                            partcorrect = [],
+                            incorr = [],
+                            gaveup = [],
+                            needgrade = [],
+                            hardest = [],
                             attempts_questions = [];
                         let co, pc, ic, ga, ng, to, ha = 0;
 
                         questions.forEach(question => {
-                            co, pc, ic, ga, ng, to = 0;
+                            co,
+                            pc,
+                            ic,
+                            ga,
+                            ng,
+                            to = 0;
                             co = (question.gradedright || 0) + (question.mangrright || 0);
                             pc = (question.gradedpartial || 0) + (question.mangrpartial || 0);
                             ic = (question.gradedwrong || 0) + (question.mangrwrong || 0);
                             ga = (question.gaveup || 0) + (question.mangaveup || 0);
                             ng = (question.needsgrading || 0) + (question.mangaveup || 0) +
-                                (question.finished || 0) + (question.manfinished || 0);
+                            (question.finished || 0) + (question.manfinished || 0);
 
                             correct.push(co);
                             partcorrect.push(pc);
@@ -277,7 +281,9 @@ define(["local_fliplearning/vue",
                             data: needgrade
                         });
 
-                        let hardest_categories = [], hardest_data = [], hardest_questions = [];
+                        let hardest_categories = [],
+                            hardest_data = [],
+                            hardest_questions = [];
                         hardest.sort(this.compare_hardest);
                         hardest.forEach(element => {
                             if (element.pe) {
@@ -300,20 +306,20 @@ define(["local_fliplearning/vue",
                         this.hardest_questions = hardest_questions;
                     },
 
-                    update_interactions(week){
+                    update_interactions(week) {
                         this.loading = true;
                         this.errors = [];
                         let data = {
-                            action : "quiz",
-                            userid : this.userid,
-                            courseid : this.courseid,
-                            weekcode : week.weekcode,
-                            profile : this.render_has,
+                            action: "quiz",
+                            userid: this.userid,
+                            courseid: this.courseid,
+                            weekcode: week.weekcode,
+                            profile: this.render_has,
                         }
                         Axios({
-                            method:'get',
+                            method: 'get',
                             url: M.cfg.wwwroot + "/local/fliplearning/ajax.php",
-                            params : data,
+                            params: data,
                         }).then((response) => {
                             if (response.status == 200 && response.data.ok) {
                                 this.quiz = response.data.data.quiz;
@@ -334,7 +340,7 @@ define(["local_fliplearning/vue",
                         return this.data;
                     },
 
-                    reset_graphs () {
+                    reset_graphs() {
                         this.default_quiz = null;
                         this.attempts_categories = [];
                         this.attempts_series = [];
@@ -385,12 +391,12 @@ define(["local_fliplearning/vue",
                         }
                     },
 
-                    update_help_dialog (value) {
+                    update_help_dialog(value) {
                         this.help_dialog = value;
                     },
 
-                    get_timezone(){
-                        let information = `${this.strings.ss_change_timezone} ${this.timezone}`
+                    get_timezone() {
+                        let information = `${this.strings.change_timezone} ${this.timezone}`
                         return information;
                     },
                 }
@@ -398,6 +404,6 @@ define(["local_fliplearning/vue",
         }
 
         return {
-            init : init
+            init: init
         };
     });
