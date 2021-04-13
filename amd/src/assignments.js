@@ -87,7 +87,6 @@ define(["local_fliplearning/vue",
                             if (response.status == 200 && response.data.ok) {
                                 this.submissions = response.data.data.submissions;
                                 this.access = response.data.data.access;
-                                console.log(this.submissions);
                                 this.generate_access_content_data();
                             } else {
                                 this.error_messages.push(this.strings.error_network);

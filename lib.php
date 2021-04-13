@@ -28,11 +28,6 @@ defined('MOODLE_INTERNAL') || die;
 require_once($CFG->dirroot . '/local/fliplearning/locallib.php');
 
 function local_fliplearning_render_navbar_output(\renderer_base $renderer) {
-    $use_navbar = get_config("local_fliplearning", "use_navbar_menu");
-    if(!$use_navbar){
-        return;
-    }
-
     global $CFG, $COURSE, $PAGE, $SESSION, $SITE, $USER;
     $items = [];
 
