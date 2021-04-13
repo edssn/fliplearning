@@ -391,8 +391,8 @@ class teacher extends report {
                 FROM {assign} a
                 INNER JOIN mdl_assign_submission s ON a.id = s.assignment
                 WHERE a.course = {$this->course->id} AND a.id $in_assigns AND a.nosubmissions <> 1 
-                AND s.userid $in_users AND s.status = 'submitted'
-                ORDER BY a.id;
+                AND s.userid $in_users AND s.status = 'submitted' AND s.latest = 1
+                ORDER BY a.id, s.userid;
             ";
             $result = $DB->get_records_sql($sql, $params);
             foreach ($result as $submission) {
