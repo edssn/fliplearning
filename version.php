@@ -26,6 +26,6 @@ defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'local_fliplearning';
 $plugin->release = '0.1.0';
-$plugin->version = 2020111039;
+$plugin->version = 2020111040;
 $plugin->requires = 2015111601;
 $plugin->maturity = MATURITY_ALPHA;

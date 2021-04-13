@@ -59,15 +59,13 @@ $string['fml_use_navbar_menu'] = 'Habilitar menú desplegable';
 $string['fml_use_navbar_menu_desc'] = 'Desplegar el menú del plugin en la barra de navegación (parte superior derecha). De lo contrario, el menú del plugin estará en el bloque de navegación.';
 
 /* Menú */
-$string['fml_menu_main_title'] = "Dashboard Progreso";
 $string['fml_menu_sessions'] = 'Sesiones de Estudio';
 $string['fml_menu_setweek'] = "Configurar Semanas";
-$string['fml_menu_time'] = 'Seguimiento de Tiempo';
-$string['fml_menu_assignments'] = 'Seguimiento de Tareas';
-$string['fml_menu_grades'] = 'Seguimiento de Calificaciones';
-$string['fml_menu_quiz'] = 'Seguimiento de Evaluaciones';
+$string['fml_menu_assignments'] = 'Tareas';
+$string['fml_menu_grades'] = 'Calificaciones';
+$string['fml_menu_quiz'] = 'Evaluaciones';
 $string['fml_menu_dropout'] = 'Deserción';
-$string['fml_menu_logs'] = "Descargar registros";
+$string['fml_menu_logs'] = "Descargar Registros";
 $string['fml_menu_general'] = "Indicadores Generales";
 
 /* Nav Bar Menu */
