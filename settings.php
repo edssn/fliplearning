@@ -25,11 +25,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-if ($hassiteconfig) {
-    $settings = new admin_settingpage('local_fliplearning', new lang_string('pluginname', 'local_fliplearning'));
-    $settings->add(new admin_setting_configcheckbox('local_fliplearning/use_navbar_menu',
-        new lang_string('fml_use_navbar_menu', 'local_fliplearning'),
-        new lang_string('fml_use_navbar_menu_desc', 'local_fliplearning'),
-        true));
-    $ADMIN->add('localplugins', $settings);
+if ($ADMIN->fulltree) {
+    // TODO: Define the plugin settings page.
+    // https://docs.moodle.org/dev/Admin_settings
 }

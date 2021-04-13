@@ -28,19 +28,10 @@ $tasks = array(
     [
         'classname' => 'local_fliplearning\task\generate_data',
         'blocking' => 0,
-        'minute' => '*',
-        'hour' => '*',
+        'minute' => '0',
+        'hour' => '0',
         'day' => '*',
         'month' => '*',
-        'dayofweek' => '*',
+        'dayofweek' => '1,3,5',
     ],
-//    [
-//        'classname' => 'local_fliplearning\task\generate_data',
-//        'blocking' => 0,
-//        'minute' => '0',
-//        'hour' => '0',
-//        'day' => '*',
-//        'month' => '*',
-//        'dayofweek' => '5',
-//    ],
 );
