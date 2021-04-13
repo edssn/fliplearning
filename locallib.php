@@ -54,7 +54,7 @@ function local_fliplearning_set_page($course, $url){
     $url = new moodle_url($url);
     $url->param('courseid', $course->id);
     $PAGE->set_url($url);
-    $plugin_name = get_string('fml_pluginname', 'local_fliplearning');
+    $plugin_name = get_string('pluginname', 'local_fliplearning');
     $PAGE->set_title($plugin_name);
     $PAGE->set_pagelayout('standard');
     $PAGE->set_heading($course->fullname);

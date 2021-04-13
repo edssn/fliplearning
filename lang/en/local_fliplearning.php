@@ -25,7 +25,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$string['fml_pluginname'] = 'Flip My Learning';
+$string['pluginname'] = 'Flip My Learning';
 
 /* Global */
 $string['fml_graph_generating'] = 'Estamos construyendo el reporte, por favor espere un momento.';

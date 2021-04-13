@@ -54,7 +54,7 @@ function local_fliplearning_extend_navigation($root) {
         return null;
     }
 
-    $main_title = get_string('fml_pluginname', 'local_fliplearning');
+    $main_title = get_string('pluginname', 'local_fliplearning');
     $node = navigation_node::create($main_title, null, navigation_node::TYPE_COURSE);
     $child = $root->add_node($node, 'mycourses');
     $child->add_class('mail_root');
@@ -198,7 +198,7 @@ function local_fliplearning_render_navbar_output(\renderer_base $renderer) {
     }
 
     $params = [
-        "title" => get_string('fml_pluginname', 'local_fliplearning'),
+        "title" => get_string('pluginname', 'local_fliplearning'),
         "items" => $items];
     return $renderer->render_from_template('local_fliplearning/navbar_popover', $params);
 }
