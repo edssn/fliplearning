@@ -803,7 +803,7 @@ class teacher extends report {
             $users = self::get_progress_table($users, $cms, $enable_completion, true);
 
             $users_access = $this->get_users_last_access();
-            $users = $this->get_users_details($users, $cms, $users_access);
+            $users = $this->get_users_details($users, $users_access);
             $users = $this->get_users_course_grade($users);
             $users = $this->get_users_items_grades($users);
 
@@ -841,13 +841,10 @@ class teacher extends report {
         return $clusters;
     }
 
-    private function get_users_details($users, $cms, $users_access) {
+    private function get_users_details($users, $users_access) {
         date_default_timezone_set(self::get_timezone());
-        $total_cms = count($cms);
-        if ($total_cms > 0) {
-            foreach ($users as $user) {
-                $user->course_lastaccess = $this->get_user_last_access($user->id, $users_access);
-            }
+        foreach ($users as $user) {
+            $user->course_lastaccess = $this->get_user_last_access($user->id, $users_access);
         }
         return $users;
     }

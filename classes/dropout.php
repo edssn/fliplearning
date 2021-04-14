@@ -1061,7 +1061,6 @@ class dropout {
                 array_push($userdata, $cm->social);
             }
             $data[$user->userid] = $userdata;
-
         }
         return $data;
     }

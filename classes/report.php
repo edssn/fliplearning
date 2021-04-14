@@ -110,30 +110,33 @@ abstract class report {
     protected function get_progress_table($users, $cms, $enable_completion, $include_sessions = false) {
         $table = array();
         $total_cms = count($cms);
-        if ($total_cms > 0) {
-            foreach ($users as $user) {
-                $cms_interaction = self::cms_interactions($cms, $user, $enable_completion);
+        foreach ($users as $user) {
+            $inverted_time_label = self::convert_time($user->time_format, $user->summary->added, "hour");
+            $user_record = self::get_user($user->userid);
+
+            $record = new stdClass();
+            $record->id = $user_record->id;
+            $record->firstname = $user_record->firstname;
+            $record->lastname = $user_record->lastname;
+            $record->username = $user_record->username;
+            $record->email = $user_record->email;
+            $record->sessions_number = $user->summary->count;
+            $record->inverted_time = $user->summary->added;
+            $record->inverted_time_label = $inverted_time_label;
+
+            $cms_interaction = self::cms_interactions($cms, $user, $enable_completion);
+            $record->cms = $cms_interaction;
+
+            $progress_percentage = 0;
+            if ($total_cms > 0)  {
                 $progress_percentage = (int)(($cms_interaction->complete * 100)/$total_cms);
-                $inverted_time_label = self::convert_time($user->time_format, $user->summary->added, "hour");
-                $user_record = self::get_user($user->userid);
-
-                $record = new stdClass();
-                $record->id = $user_record->id;
-                $record->firstname = $user_record->firstname;
-                $record->lastname = $user_record->lastname;
-                $record->username = $user_record->username;
-                $record->email = $user_record->email;
-                $record->progress_percentage = $progress_percentage;
-                $record->cms = $cms_interaction;
-                $record->sessions_number = $user->summary->count;
-                $record->inverted_time = $user->summary->added;
-                $record->inverted_time_label = $inverted_time_label;
-
-                if ($include_sessions) {
-                    $record->sessions = $user->sessions;
-                }
-                array_push($table, $record);
             }
+            $record->progress_percentage = $progress_percentage;
+
+            if ($include_sessions) {
+                $record->sessions = $user->sessions;
+            }
+            array_push($table, $record);
         }
         return $table;
     }
@@ -142,41 +145,49 @@ abstract class report {
         $complete_cms = 0;
         $cms_ids = array();
         $viewed_cms = 0;
-        foreach ($cms as $module) {
-            $finished = null;
-            if ($cms_completion_enabled) {
-                $module_completion_configure = $module['completion'] != 0;
-                if ($module_completion_configure) {
-                    $finished = self::finished_cm_by_conditions($user->userid, $module['id']);
+
+        $interaction = new stdClass();
+        $interaction->complete = 0;
+        $interaction->viewed = 0;
+        $interaction->modules = array();
+        $interaction->total = 0;
+
+        if (count($cms) > 0) {
+            foreach ($cms as $module) {
+                $finished = null;
+                if ($cms_completion_enabled) {
+                    $module_completion_configure = $module['completion'] != 0;
+                    if ($module_completion_configure) {
+                        $finished = self::finished_cm_by_conditions($user->userid, $module['id']);
+                    }
+                }
+                $interactions = self::count_cm_interactions($user, $module['id']);
+                $viewed = ($interactions > 0);
+                $finished = (!isset($finished)) ? $viewed : $finished;
+
+                $cm = new stdClass();
+                $cm->id = $module['id'];
+                $cm->interactions = $interactions;
+                $cm->complete = false;
+                $cm->viewed = false;
+                if ($viewed) {
+                    $viewed_cms++;
+                    $cm->viewed = true;
+                }
+                if ($finished) {
+                    $complete_cms++;
+                    $cm->complete = true;
+                }
+                if ($viewed || $finished) {
+                    $cmid = "cm".$module['id'];
+                    $cms_ids[$cmid] = $cm;
                 }
             }
-            $interactions = self::count_cm_interactions($user, $module['id']);
-            $viewed = ($interactions > 0);
-            $finished = (!isset($finished)) ? $viewed : $finished;
-
-            $cm = new stdClass();
-            $cm->id = $module['id'];
-            $cm->interactions = $interactions;
-            $cm->complete = false;
-            $cm->viewed = false;
-            if ($viewed) {
-                $viewed_cms++;
-                $cm->viewed = true;
-            }
-            if ($finished) {
-                $complete_cms++;
-                $cm->complete = true;
-            }
-            if ($viewed || $finished) {
-                $cmid = "cm".$module['id'];
-                $cms_ids[$cmid] = $cm;
-            }
+            $interaction->complete = $complete_cms;
+            $interaction->viewed = $viewed_cms;
+            $interaction->modules = $cms_ids;
+            $interaction->total = count($cms);
         }
-        $interaction = new stdClass();
-        $interaction->complete = $complete_cms;
-        $interaction->viewed = $viewed_cms;
-        $interaction->modules = $cms_ids;
-        $interaction->total = count($cms);
         return $interaction;
     }
 

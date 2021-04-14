@@ -610,6 +610,7 @@ trait lib_trait {
             $user->summary = $summary;
             $user->sessions = $sessions;
             $user->logs = $logs;
+            $user->cms = array();
             $users[] = $user;
         }
         return $users;
