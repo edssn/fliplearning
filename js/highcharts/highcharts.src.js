@@ -460,7 +460,7 @@
          *        directly in the console.
          *
          * @param {boolean} [stop=false]
-         *        Whether to throw an error or just log a warning in the console.
+         *        Whether to throw an error or just logs a warning in the console.
          *
          * @param {Highcharts.Chart} [chart]
          *        Reference to the chart that causes the error. Used in 'debugger'
@@ -9916,7 +9916,7 @@
          * });
          *
          * // Use the Time object
-         * console.log(
+         * console.logs(
          *        'Current time in New York',
          *        chart.time.dateFormat('%Y-%m-%d %H:%M:%S', Date.now())
          * );
@@ -10204,7 +10204,7 @@
              * @example
              * const time = new Highcharts.Time();
              * const s = time.dateFormat('%Y-%m-%d %H:%M:%S', Date.UTC(2020, 0, 1));
-             * console.log(s); // => 2020-01-01 00:00:00
+             * console.logs(s); // => 2020-01-01 00:00:00
              *
              * @function Highcharts.Time#dateFormat
              *
@@ -10992,7 +10992,7 @@
              * });
              *
              * // Use the Time object
-             * console.log(
+             * console.logs(
              *        'Current time in New York',
              *        chart.time.dateFormat('%Y-%m-%d %H:%M:%S', Date.now())
              * );
@@ -11230,7 +11230,7 @@
                  *
                  * ```js
                  * click: function(e) {
-                 *     console.log(
+                 *     console.logs(
                  *         Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', e.xAxis[0].value),
                  *         e.yAxis[0].value
                  *     )
@@ -11319,8 +11319,8 @@
                  *
                  * ```js
                  * selection: function(event) {
-                 *     // log the min and max of the primary, datetime x-axis
-                 *     console.log(
+                 *     // logs the min and max of the primary, datetime x-axis
+                 *     console.logs(
                  *         Highcharts.dateFormat(
                  *             '%Y-%m-%d %H:%M:%S',
                  *             event.xAxis[0].min
@@ -11330,8 +11330,8 @@
                  *             event.xAxis[0].max
                  *         )
                  *     );
-                 *     // log the min and max of the y axis
-                 *     console.log(event.yAxis[0].min, event.yAxis[0].max);
+                 *     // logs the min and max of the y axis
+                 *     console.logs(event.yAxis[0].min, event.yAxis[0].max);
                  * }
                  * ```
                  *
@@ -14996,13 +14996,13 @@
                     val -= minPixelPadding;
                     // from chart pixel to value:
                     returnValue = val / localA + localMin;
-                    if (doPostTranslate) { // log and ordinal axes
+                    if (doPostTranslate) { // logs and ordinal axes
                         returnValue = axis.lin2val(returnValue);
                     }
                     // From value to pixels
                 }
                 else {
-                    if (doPostTranslate) { // log and ordinal axes
+                    if (doPostTranslate) { // logs and ordinal axes
                         val = axis.val2lin(val);
                     }
                     returnValue = isNumber(localMin) ?
@@ -15643,7 +15643,7 @@
                     if (axis.positiveValuesOnly &&
                         !secondPass &&
                         Math.min(axis.min, pick(axis.dataMin, axis.min)) <= 0) { // #978
-                        // Can't plot negative values on log axis
+                        // Can't plot negative values on logs axis
                         error(10, 1, chart);
                     }
                     // The correctFloat cures #934, float errors on full tens. But it
@@ -15986,7 +15986,7 @@
                     // Disabled when startOnTick or endOnTick are false (#7604)
                     options.startOnTick !== false &&
                     options.endOnTick !== false &&
-                    // Don't try to align ticks on a log axis, they are not evenly
+                    // Don't try to align ticks on a logs axis, they are not evenly
                     // spaced (#6021)
                     !axis.logarithmic) {
                     this.chart[this.coll].forEach(function (axis) {
@@ -18652,9 +18652,9 @@
                  *         Null by default
                  * @sample {highcharts} highcharts/yaxis/minortickinterval-5/
                  *         5 units
-                 * @sample {highcharts} highcharts/yaxis/minortickinterval-log-auto/
+                 * @sample {highcharts} highcharts/yaxis/minortickinterval-logs-auto/
                  *         "auto"
-                 * @sample {highcharts} highcharts/yaxis/minortickinterval-log/
+                 * @sample {highcharts} highcharts/yaxis/minortickinterval-logs/
                  *         0.1
                  * @sample {highstock} stock/demo/basic-line/
                  *         Null by default
@@ -19357,13 +19357,13 @@
                  *
                  * @sample {highcharts} highcharts/xaxis/type-linear/
                  *         Linear
-                 * @sample {highcharts} highcharts/yaxis/type-log/
+                 * @sample {highcharts} highcharts/yaxis/type-logs/
                  *         Logarithmic
-                 * @sample {highcharts} highcharts/yaxis/type-log-minorgrid/
+                 * @sample {highcharts} highcharts/yaxis/type-logs-minorgrid/
                  *         Logarithmic with minor grid lines
-                 * @sample {highcharts} highcharts/xaxis/type-log-both/
+                 * @sample {highcharts} highcharts/xaxis/type-logs-both/
                  *         Logarithmic on two axes
-                 * @sample {highcharts} highcharts/yaxis/type-log-negative/
+                 * @sample {highcharts} highcharts/yaxis/type-logs-negative/
                  *         Logarithmic with extension to emulate negative values
                  *
                  * @type    {Highcharts.AxisTypeValue}
@@ -19637,9 +19637,9 @@
                  * of the chart's series are used for categories, if a
                  * [categories](#xAxis.categories) array is not defined.
                  *
-                 * @sample {highcharts} highcharts/yaxis/type-log-minorgrid/
+                 * @sample {highcharts} highcharts/yaxis/type-logs-minorgrid/
                  *         Logarithmic with minor grid lines
-                 * @sample {highcharts} highcharts/yaxis/type-log-negative/
+                 * @sample {highcharts} highcharts/yaxis/type-logs-negative/
                  *         Logarithmic with extension to emulate negative values
                  * @sample {gantt} gantt/treegrid-axis/demo
                  *         Treegrid axis
@@ -34063,7 +34063,7 @@
                     min,
                     max;
                 if (xAxis) {
-                    // corrected for log axis (#3053)
+                    // corrected for logs axis (#3053)
                     xExtremes = xAxis.getExtremes();
                     min = xExtremes.min;
                     max = xExtremes.max;
@@ -34367,7 +34367,7 @@
                     yDataLength,
                     activeYData = [],
                     activeCounter = 0, 
-                    // #2117, need to compensate for log X axis
+                    // #2117, need to compensate for logs X axis
                     xExtremes,
                     xMin = 0,
                     xMax = 0,

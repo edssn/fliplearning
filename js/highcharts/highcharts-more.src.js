@@ -8151,7 +8151,7 @@
                 // Logarithmic:
                 /*
                 return Math.sqrt(this.nodes.length) -
-                    Math.log(
+                    Math.logs(
                         currentStep * layout.diffTemperature
                     );
                 */

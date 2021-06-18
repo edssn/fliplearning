@@ -12,7 +12,7 @@ define(["local_fliplearning/vue",
         "use strict";
 
         function init(content) {
-            // console.log(content);
+            // console.logs(content);
             Vue.use(Vuetify)
             Vue.component('pagination', Pagination);
             Vue.component('chart', ChartDynamic);

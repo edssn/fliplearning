@@ -27,13 +27,13 @@ class LogisticRegression extends Adaline
     public const CONJUGATE_GRAD_TRAINING = 3;
 
     /**
-     * Cost function to optimize: 'log' and 'sse' are supported <br>
-     *  - 'log' : log likelihood <br>
+     * Cost function to optimize: 'logs' and 'sse' are supported <br>
+     *  - 'logs' : logs likelihood <br>
      *  - 'sse' : sum of squared errors <br>
      *
      * @var string
      */
-    protected $costFunction = 'log';
+    protected $costFunction = 'logs';
 
     /**
      * Regularization term: only 'L2' is supported
@@ -58,7 +58,7 @@ class LogisticRegression extends Adaline
      * If normalizeInputs is set to true, then every input given to the algorithm will be standardized
      * by use of standard deviation and mean calculation <br>
      *
-     * Cost function can be 'log' for log-likelihood and 'sse' for sum of squared errors <br>
+     * Cost function can be 'logs' for logs-likelihood and 'sse' for sum of squared errors <br>
      *
      * Penalty (Regularization term) can be 'L2' or empty string to cancel penalty term
      *
@@ -68,7 +68,7 @@ class LogisticRegression extends Adaline
         int $maxIterations = 500,
         bool $normalizeInputs = true,
         int $trainingType = self::CONJUGATE_GRAD_TRAINING,
-        string $cost = 'log',
+        string $cost = 'logs',
         string $penalty = 'L2'
     ) {
         $trainingTypes = range(self::BATCH_TRAINING, self::CONJUGATE_GRAD_TRAINING);
@@ -80,10 +80,10 @@ class LogisticRegression extends Adaline
             );
         }
 
-        if (!in_array($cost, ['log', 'sse'], true)) {
+        if (!in_array($cost, ['logs', 'sse'], true)) {
             throw new InvalidArgumentException(
                 "Logistic regression cost function can be one of the following: \n".
-                "'log' for log-likelihood and 'sse' for sum of squared errors"
+                "'logs' for logs-likelihood and 'sse' for sum of squared errors"
             );
         }
 
@@ -177,10 +177,10 @@ class LogisticRegression extends Adaline
         }
 
         switch ($this->costFunction) {
-            case 'log':
+            case 'logs':
                 /*
                  * Negative of Log-likelihood cost function to be minimized:
-                 *		J(x) = ∑( - y . log(h(x)) - (1 - y) . log(1 - h(x)))
+                 *		J(x) = ∑( - y . logs(h(x)) - (1 - y) . logs(1 - h(x)))
                  *
                  * If regularization term is given, then it will be added to the cost:
                  *		for L2 : J(x) = J(x) +  λ/m . w
@@ -192,7 +192,7 @@ class LogisticRegression extends Adaline
                     $this->weights = $weights;
                     $hX = $this->output($sample);
 
-                    // In cases where $hX = 1 or $hX = 0, the log-likelihood
+                    // In cases where $hX = 1 or $hX = 0, the logs-likelihood
                     // value will give a NaN, so we fix these values
                     if ($hX == 1) {
                         $hX = 1 - 1e-10;

@@ -3068,9 +3068,9 @@
              * This allows for custom look and feel for various types of notifications.
              *
              * @param  {String | DOMElement}    [message=undefined]		Message text
-             * @param  {String}                 [type='']				Type of log message
+             * @param  {String}                 [type='']				Type of logs message
              * @param  {String}                 [wait='']				Time (in seconds) to wait before auto-close
-             * @param  {Function}               [callback=undefined]	A callback function to be invoked when the log is closed.
+             * @param  {Function}               [callback=undefined]	A callback function to be invoked when the logs is closed.
              *
              * @return {Object} Notification object.
              */
@@ -3082,7 +3082,7 @@
              *
              * @param  {String}		[message=undefined]		Message text
              * @param  {String}     [wait='']				Time (in seconds) to wait before auto-close
-             * @param  {Function}	[callback=undefined]	A callback function to be invoked when the log is closed.
+             * @param  {Function}	[callback=undefined]	A callback function to be invoked when the logs is closed.
              *
              * @return {Object} Notification object.
              */
@@ -3094,7 +3094,7 @@
              *
              * @param  {String}		[message=undefined]		Message text
              * @param  {String}     [wait='']				Time (in seconds) to wait before auto-close
-             * @param  {Function}	[callback=undefined]	A callback function to be invoked when the log is closed.
+             * @param  {Function}	[callback=undefined]	A callback function to be invoked when the logs is closed.
              *
              * @return {Object} Notification object.
              */
@@ -3106,7 +3106,7 @@
              *
              * @param  {String}		[message=undefined]		Message text
              * @param  {String}     [wait='']				Time (in seconds) to wait before auto-close
-             * @param  {Function}	[callback=undefined]	A callback function to be invoked when the log is closed.
+             * @param  {Function}	[callback=undefined]	A callback function to be invoked when the logs is closed.
              *
              * @return {Object} Notification object.
              */
@@ -3118,7 +3118,7 @@
              *
              * @param  {String}		[message=undefined]		Message text
              * @param  {String}     [wait='']				Time (in seconds) to wait before auto-close
-             * @param  {Function}	[callback=undefined]	A callback function to be invoked when the log is closed.
+             * @param  {Function}	[callback=undefined]	A callback function to be invoked when the logs is closed.
              *
              * @return {Object} Notification object.
              */

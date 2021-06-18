@@ -680,7 +680,7 @@
                             categoryAndDatetimeMap.dateTimeValueAxisMap[prop] ?
                                 time.dateFormat(csvOptions.dateFormat, val) :
                                 null, 
-                            // linear/log yAxis
+                            // linear/logs yAxis
                             val);
                             j++;
                         }

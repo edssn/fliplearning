@@ -41,7 +41,7 @@ if (is_siteadmin()) {
     print_error(get_string("fml_only_student", "local_fliplearning"));
 }
 
-\local_fliplearning\log::create("student_general", "view", $USER->id, $COURSE->id);
+\local_fliplearning\logs::create("student_general", "view", $USER->id, $COURSE->id);
 $reports = new \local_fliplearning\student($COURSE->id, $USER->id);
 
 $configweeks = new \local_fliplearning\configweeks($COURSE, $USER);

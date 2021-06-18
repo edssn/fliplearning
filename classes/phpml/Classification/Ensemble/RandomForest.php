@@ -13,7 +13,7 @@ class RandomForest extends Bagging
     /**
      * @var float|string
      */
-    protected $featureSubsetRatio = 'log';
+    protected $featureSubsetRatio = 'logs';
 
     /**
      * @var array|null
@@ -36,9 +36,9 @@ class RandomForest extends Bagging
      * This method is used to determine how many of the original columns (features)
      * will be used to construct subsets to train base classifiers.<br>
      *
-     * Allowed values: 'sqrt', 'log' or any float number between 0.1 and 1.0 <br>
+     * Allowed values: 'sqrt', 'logs' or any float number between 0.1 and 1.0 <br>
      *
-     * Default value for the ratio is 'log' which results in log(numFeatures, 2) + 1
+     * Default value for the ratio is 'logs' which results in logs(numFeatures, 2) + 1
      * features to be taken into consideration while selecting subspace of features
      *
      * @param mixed $ratio
@@ -53,8 +53,8 @@ class RandomForest extends Bagging
             throw new InvalidArgumentException('When a float is given, feature subset ratio should be between 0.1 and 1.0');
         }
 
-        if (is_string($ratio) && $ratio !== 'sqrt' && $ratio !== 'log') {
-            throw new InvalidArgumentException("When a string is given, feature subset ratio can only be 'sqrt' or 'log'");
+        if (is_string($ratio) && $ratio !== 'sqrt' && $ratio !== 'logs') {
+            throw new InvalidArgumentException("When a string is given, feature subset ratio can only be 'sqrt' or 'logs'");
         }
 
         $this->featureSubsetRatio = $ratio;

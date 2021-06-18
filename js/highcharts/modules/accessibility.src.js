@@ -354,7 +354,7 @@
             }
             var axisStart = axis.toPixels(axis.dataMin);
             var axisEnd = axis.toPixels(axis.dataMax);
-            // We have to use pixel position because of axis breaks, log axis etc.
+            // We have to use pixel position because of axis breaks, logs axis etc.
             var positionProp = axis.coll === 'xAxis' ? 'x' : 'y';
             var pointPos = axis.toPixels(point[positionProp] || 0);
             return (pointPos - axisStart) / (axisEnd - axisStart);

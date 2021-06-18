@@ -30,7 +30,7 @@ require_once dirname(__FILE__) . '/../../../course/lib.php';
 use context_course;
 use stdClass;
 
-class log {
+class logs {
 
     public static function create($component, $action, $userid, $courseid){
         global $DB;

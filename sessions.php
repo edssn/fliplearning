@@ -35,7 +35,7 @@ require_capability('local/fliplearning:usepluggin', $context);
 require_capability('local/fliplearning:view_as_teacher', $context);
 require_capability('local/fliplearning:teacher_sessions', $context);
 
-\local_fliplearning\log::create("teacher_sessions","view", $USER->id, $COURSE->id);
+\local_fliplearning\logs::create("teacher_sessions","view", $USER->id, $COURSE->id);
 $reports = new \local_fliplearning\teacher($COURSE->id, $USER->id);
 
 $configweeks = new \local_fliplearning\configweeks($COURSE, $USER);

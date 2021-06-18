@@ -142,7 +142,7 @@ if(isset($params) && isset($func)){
 }
 
 function local_fliplearning_save_weeks_config($weeks, $courseid, $userid, $newinstance){
-    \local_fliplearning\log::create("setweeks", "change_config", $userid, $courseid);
+    \local_fliplearning\logs::create("setweeks", "change_config", $userid, $courseid);
     $weeks = json_decode($weeks);
     $configweeks = new \local_fliplearning\configweeks($courseid, $userid);
     if($newinstance){
