@@ -526,6 +526,11 @@ $string["td_user_grades_chart_tooltip_no_graded"] = "Sin Calificaciones";
 $string["td_user_grades_chart_view_activity"] = "Clic para ver la actividad";
 
 
+/* Teacher Logs */
+$string['tl_section_help_title'] = 'Descargar Registros';
+$string['tl_section_help_description'] = 'En esta sección se pueden descargar archivo en formato de valores separados por comas(.cv) de las actividades que han realizado los participantes del curso en el Curso (Moodle) o en el Plugin Flip My Learning (FML)';
+
+
 /*Student General*/
 $string['sg_section_help_title'] = 'Indicadores Generales';
 $string['sg_section_help_description'] = 'Esta sección contiene indicadores relacionados a tu información, progreso, indicadores generales, recursos del curso, sesiones a lo largo del curso y calificaciones obtenidas. Las visualizaciones de esta sección muestran los indicadores durante todo el curso (hasta la fecha actual).';

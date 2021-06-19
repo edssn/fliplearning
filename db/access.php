@@ -112,6 +112,16 @@ $capabilities = array(
         )
     ),
 
+    'local/fliplearning:logs' => array(
+        'captype'      => 'read',
+        'contextlevel' => CONTEXT_COURSE,
+        'archetypes'   => array(
+            'teacher'        => CAP_ALLOW,
+            'editingteacher' => CAP_ALLOW,
+            'manager'        => CAP_ALLOW,
+        )
+    ),
+
     'local/fliplearning:seegroupwithallstudent' => array(
         'captype'      => 'read',
         'contextlevel' => CONTEXT_COURSE,
@@ -126,7 +136,7 @@ $capabilities = array(
         'captype'      => 'read',
         'contextlevel' => CONTEXT_COURSE,
         'archetypes'   => array(
-            'student'        => CAP_ALLOW,
+            'student'  => CAP_ALLOW,
         )
     ),
 
@@ -134,7 +144,7 @@ $capabilities = array(
         'captype'      => 'read',
         'contextlevel' => CONTEXT_COURSE,
         'archetypes'   => array(
-            'student'        => CAP_ALLOW,
+            'student'  => CAP_ALLOW,
         )
     ),
 );

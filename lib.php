@@ -91,6 +91,12 @@ function local_fliplearning_render_navbar_output(\renderer_base $renderer) {
         array_push($items, local_fliplearning_new_menu_item(s($text), $url));
     }
 
+    if(has_capability('local/fliplearning:logs', $context) && $configuration_is_set){
+        $text = get_string('fml_menu_logs', 'local_fliplearning');
+        $url = new moodle_url('/local/fliplearning/logs.php', array('courseid'=>$COURSE->id));
+        array_push($items, local_fliplearning_new_menu_item(s($text), $url));
+    }
+
 
     if(has_capability('local/fliplearning:student_general', $context) && !is_siteadmin() && $configuration_is_set){
         $text = get_string('fml_menu_general', 'local_fliplearning');

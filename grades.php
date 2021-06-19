@@ -29,7 +29,7 @@ $courseid = required_param('courseid', PARAM_INT);
 $course = $DB->get_record('course', array('id' => $courseid), '*', MUST_EXIST);
 $context = context_course::instance($course->id);
 
-$url = '/local/fliplearning/time.php';
+$url = '/local/fliplearning/grades.php';
 local_fliplearning_set_page($course, $url);
 
 require_capability('local/fliplearning:usepluggin', $context);

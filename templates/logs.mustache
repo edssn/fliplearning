@@ -1,0 +1,96 @@
+<div id="logs-loader">
+    <div class="progressbar-fliplearning">
+        <div class="indeterminate"></div>
+    </div>
+</div>
+
+<v-app id="logs" class="fliplearning">
+    <v-main>
+        <pageheader
+                :pagetitle="strings.title"
+                :helptitle="strings.helplabel"
+                :exitbutton="strings.exitbutton"
+                :helpcontents="get_help_content()"
+                :courseid="courseid"
+                :userid="userid"
+        ></pageheader>
+
+        <v-container pa-8>
+
+            <v-row>
+                <v-col cols="12">
+                    <v-card elevation="2">
+                        <v-card-title class="justify-center">Rango de Fechas para Interacciones</v-card-title>
+                        <v-card-text class="text-center">
+
+                            <v-row align="center" justify="center">
+                                <v-col cols="8" >
+                                    <v-date-picker
+                                            no-title
+                                            v-model="dates"
+                                            landscape="false"
+                                            year-icon="mdi-calendar-blank"
+                                            full-width
+                                            range
+                                            color="#118AB2"
+                                    ></v-date-picker>
+                                </v-col>
+                                <v-col cols="12" >
+                                    <span v-text="dateRangeText"></span>
+                                </v-col>
+
+                            </v-row>
+
+                            <v-row class="justify-center" >
+                                <v-col cols="8" sm="8" md="4">
+                                    <v-card elevation="0">
+                                        <v-btn
+                                            :loading="loading_btn_fliplearning_logs"
+                                            :disabled="loading_btn_fliplearning_logs"
+                                            @click="loading_btn_fliplearning_logs=!loading_btn_fliplearning_logs"
+                                            class="white--text"
+                                            color="#118AB2"
+                                        >
+                                            Registros de Moodle
+                                        </v-btn>
+                                        <v-card-text>
+                                            <span class="caption">
+                                                <v-icon small v-text="'mdi-help-circle-outline'"></v-icon>
+                                                <span>Acerca de los Registros de Fliplearning</span>
+                                            </span>
+                                        </v-card-text>
+                                    </v-card>
+                                </v-col>
+
+                                <v-col cols="8" sm="8" md="4">
+                                    <v-card elevation="0">
+                                        <v-btn
+                                            :loading="loading_btn_moodle_logs"
+                                            :disabled="loading_btn_moodle_logs"
+                                            @click="loading_btn_moodle_logs=!loading_btn_moodle_logs"
+                                            class="white--text"
+                                            color="#118AB2"
+                                        >
+                                            Registros de Fliplearning
+                                        </v-btn>
+                                        <v-card-text>
+                                            <span class="caption">
+                                                <v-icon small v-text="'mdi-help-circle-outline'"></v-icon>
+                                                <span>Acerca de los Registros de Fliplearning</span>
+                                            </span>
+                                        </v-card-text>
+                                    </v-card>
+                                </v-col>
+                            </v-row>
+
+                        </v-card-text>
+                    </v-card>
+                </v-col>
+            </v-row>
+
+            <v-row class="justify-center">
+                <span v-text="get_timezone()"></span>
+            </v-row>
+        </v-container>
+    </v-main>
+</v-app>

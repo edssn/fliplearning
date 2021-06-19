@@ -64,7 +64,8 @@ $string['fml_menu_assignments'] = 'Assignments';
 $string['fml_menu_grades'] = 'Grades';
 $string['fml_menu_quiz'] = 'Quizzes';
 $string['fml_menu_dropout'] = 'Dropout';
-$string['fml_menu_logs'] = "Download Records ";
+$string['fml_menu_dropout'] = 'Dropout';
+$string['fml_menu_logs'] = "Download Records";
 $string['fml_menu_general'] = "General Indicators";
 
 /* Nav Bar Menu */
@@ -526,7 +527,12 @@ $string["td_user_grades_chart_tooltip_no_graded"] = "No Ratings";
 $string["td_user_grades_chart_view_activity"] = "Click to see the activity";
 
 
-/*Student General*/
+/* Teacher Logs */
+$string['tl_section_help_title'] = 'Descargar Registros';
+$string['tl_section_help_description'] = 'En esta sección se pueden descargar archivo en formato de valores separados por comas(.cv) de las actividades que han realizado los participantes del curso en el Curso (Moodle) o en el Plugin Flip My Learning (FML)';
+
+
+/* Student General */
 $string['sg_section_help_title'] = 'General Indicators';
 $string['sg_section_help_description'] = 'This section contains indicators related to your information, progress, general indicators, course resources, sessions throughout the course and grades obtained. The displays in this section show the gauges throughout the course (up to the current date).';
 
