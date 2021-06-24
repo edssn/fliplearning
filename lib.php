@@ -44,6 +44,7 @@ function local_fliplearning_render_navbar_output(\renderer_base $renderer) {
         return null;
     }
 
+    // Teachers
     $hidden_for_student = !$configuration_is_set && !is_siteadmin();
     if(has_capability('local/fliplearning:view_as_student', $context) && $hidden_for_student){
         return null;
@@ -104,6 +105,7 @@ function local_fliplearning_render_navbar_output(\renderer_base $renderer) {
         array_push($items, local_fliplearning_new_menu_item(s($text), $url));
     }
 
+    // Students
     if(has_capability('local/fliplearning:student_sessions', $context) && !is_siteadmin() && $configuration_is_set){
         $text = get_string('fml_menu_sessions', 'local_fliplearning');
         $url = new moodle_url('/local/fliplearning/student_sessions.php', array('courseid'=>$COURSE->id));

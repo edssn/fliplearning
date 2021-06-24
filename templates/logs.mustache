@@ -8,17 +8,18 @@
     <v-main>
         <pageheader
                 :pagetitle="strings.title"
-                :helptitle="strings.helplabel"
-                :exitbutton="strings.exitbutton"
-                :helpcontents="get_help_content()"
-                :courseid="courseid"
-                :userid="userid"
+                :helptitle="strings.helpLabel"
+                :exitbutton="strings.exitButton"
+                :helpcontents="getHelpContent()"
+                :courseid="courseId"
+                :userid="userId"
         ></pageheader>
 
         <v-container pa-8>
 
             <v-row>
                 <v-col cols="12">
+
                     <v-card elevation="2">
                         <v-card-title class="justify-center">Rango de Fechas para Interacciones</v-card-title>
                         <v-card-text class="text-center">
@@ -45,9 +46,9 @@
                                 <v-col cols="8" sm="8" md="4">
                                     <v-card elevation="0">
                                         <v-btn
-                                            :loading="loading_btn_fliplearning_logs"
-                                            :disabled="loading_btn_fliplearning_logs"
-                                            @click="loading_btn_fliplearning_logs=!loading_btn_fliplearning_logs"
+                                            :loading="loadingBtnMoodleLogs"
+                                            :disabled="loadingBtnMoodleLogs"
+                                            @click="getFile('moodle')"
                                             class="white--text"
                                             color="#118AB2"
                                         >
@@ -65,9 +66,9 @@
                                 <v-col cols="8" sm="8" md="4">
                                     <v-card elevation="0">
                                         <v-btn
-                                            :loading="loading_btn_moodle_logs"
-                                            :disabled="loading_btn_moodle_logs"
-                                            @click="loading_btn_moodle_logs=!loading_btn_moodle_logs"
+                                            :loading="loadingBtnFliplearningLogs"
+                                            :disabled="loadingBtnFliplearningLogs"
+                                            @click="getFile('fliplearning')"
                                             class="white--text"
                                             color="#118AB2"
                                         >
@@ -89,7 +90,7 @@
             </v-row>
 
             <v-row class="justify-center">
-                <span v-text="get_timezone()"></span>
+                <span v-text="getTimezone()"></span>
             </v-row>
         </v-container>
     </v-main>

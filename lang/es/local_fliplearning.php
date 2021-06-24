@@ -529,7 +529,27 @@ $string["td_user_grades_chart_view_activity"] = "Clic para ver la actividad";
 /* Teacher Logs */
 $string['tl_section_help_title'] = 'Descargar Registros';
 $string['tl_section_help_description'] = 'En esta sección se pueden descargar archivo en formato de valores separados por comas(.cv) de las actividades que han realizado los participantes del curso en el Curso (Moodle) o en el Plugin Flip My Learning (FML)';
+$string['tl_logs_header_logid'] = "idinteraccion";
+$string['tl_logs_header_userid'] = "idusuario";
+$string['tl_logs_header_username'] = "username";
+$string['tl_logs_header_firstname'] = "nombres";
+$string['tl_logs_header_lastname'] = "apellidos";
+$string['tl_logs_header_roles'] = "roles";
+$string['tl_logs_header_courseid'] = "idcurso";
+$string['tl_logs_header_coursename'] = "nombrecurso";
+$string['tl_logs_header_contextlevel'] = "nivelcontexto";
+$string['tl_logs_header_component'] = "componente";
+$string['tl_logs_header_action'] = "accion";
+$string['tl_logs_header_target'] = "objeto";
+$string['tl_logs_header_activitytype'] = "tipoactividad";
+$string['tl_logs_header_activityname'] = "nombreactividad";
+$string['tl_logs_header_sectionnumber'] = "numeroseccion";
+$string['tl_logs_header_sectionname'] = "nombreseccion";
+$string['tl_logs_header_timecreated'] = "fecha";
 
+$string['tl_logs_header_pluginsection'] = "secionplugin";
+$string['tl_logs_header_url'] = "url";
+$string['tl_logs_header_description'] = "descripcion";
 
 /*Student General*/
 $string['sg_section_help_title'] = 'Indicadores Generales';

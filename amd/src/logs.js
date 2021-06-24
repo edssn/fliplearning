@@ -1,21 +1,19 @@
 define(["local_fliplearning/vue",
         "local_fliplearning/vuetify",
         "local_fliplearning/axios",
-        "local_fliplearning/sortablejs",
-        "local_fliplearning/draggable",
-        "local_fliplearning/datepicker",
-        "local_fliplearning/moment",
         "local_fliplearning/alertify",
         "local_fliplearning/pageheader",
     ],
-    function(Vue, Vuetify, Axios, Sortable, Draggable, Datepicker, Moment, Alertify, PageHeader) {
+    function(Vue, Vuetify, Axios, Alertify, PageHeader) {
         "use strict";
 
         function init(content) {
             console.log(content);
+
+            const timeout = 60 * 120 * 1000;
+            Axios.defaults.timeout = timeout;
+
             Vue.use(Vuetify);
-            Vue.component('draggable', Draggable);
-            Vue.component('datepicker', Datepicker);
             Vue.component('pageheader', PageHeader);
             const app = new Vue({
                 delimiters: ["[[", "]]"],
@@ -23,17 +21,15 @@ define(["local_fliplearning/vue",
                 vuetify: new Vuetify(),
                 data: {
                     strings: content.strings,
-                    courseid: content.courseid,
-                    userid: content.userid,
+                    courseId: content.courseId,
+                    userId: content.userId,
                     timezone: content.timezone,
-                    loading: false,
-                    errors: [],
 
                     dates: [],
-                    dates_labels: [],
+                    datesLabels: [],
 
-                    loading_btn_fliplearning_logs: false,
-                    loading_btn_moodle_logs: false,
+                    loadingBtnFliplearningLogs: false,
+                    loadingBtnMoodleLogs: false,
                 },
                 mounted() {
                     document.querySelector("#logs-loader").style.display = "none";
@@ -42,27 +38,85 @@ define(["local_fliplearning/vue",
                 computed: {
                     dateRangeText () {
                         let dates_array = this.dates.map(date => new Date(date));
-                        dates_array.sort(this.sort_dates);
-                        this.dates_labels = dates_array.map(date => this.format_date(date));
-                        console.log(this.dates_labels);
-                        return this.dates_labels.join(' → ');
+                        dates_array.sort(this.sortDates);
+                        this.datesLabels = dates_array.map(date => this.formatDate(date));
+                        return this.datesLabels.join(' → ');
                     },
                 },
                 methods: {
-                    get_help_content() {
+                    getHelpContent() {
                         let contents = [];
                         contents.push({
-                            title: this.strings.section_help_title,
-                            description: this.strings.section_help_description,
+                            title: this.strings.sectionHelpTitle,
+                            description: this.strings.sectionHelpDescription,
                         });
                         return contents;
                     },
 
-                    sort_dates (a, b) {
+                    getFile(type) {
+                        if (!this.datesLabels.length){
+                            Alertify.error("Por favor, selecciona un rango de fechas");
+                            return;
+                        }
+
+                        if (type === 'moodle') {
+                            this.loadingBtnMoodleLogs = true;
+                        } else if (type === 'fliplearning') {
+                            this.loadingBtnFliplearningLogs = true;
+                        } else {
+                            return;
+                        }
+
+                        let startdate = this.datesLabels[0].split('/').reverse().join('-');
+                        let enddate = this.datesLabels[1]
+                            ? this.datesLabels[1].split('/').reverse().join('-')
+                            : startdate;
+
+                        console.log({startdate, enddate});
+
+                        let data = {
+                            action: "downloadlogs",
+                            logstype: type,
+                            userid: this.userId,
+                            courseid: this.courseId,
+                            startdate,
+                            enddate,
+                        }
+                        Axios({
+                            method: 'post',
+                            url: M.cfg.wwwroot + "/local/fliplearning/ajax.php",
+                            timeout : timeout,
+                            params: data
+                        }).then((response) => {
+                            console.log(response);
+                            if (response.status == 200 && response.data.ok) {
+                                console.log(response.data);
+                                let filename = response.data.message;
+                                let url = `${M.cfg.wwwroot}/local/fliplearning/downloads/${filename}`;
+                                console.log({url});
+                                let link = document.createElement('a');
+                                link.href = url;
+                                link.click();
+                                Alertify.success(this.strings.successDownload);
+                            } else if (response.data.message) {
+                                Alertify.error(response.data.message);
+                            } else {
+                                Alertify.error(this.strings.apiErrorNetwork);
+                            }
+                        }).catch((e) => {
+                            Alertify.error(this.strings.apiErrorNetwork);
+                        }).finally(() => {
+                            (type === 'moodle')
+                                ? this.loadingBtnMoodleLogs = false
+                                : this.loadingBtnFliplearningLogs = false;
+                        });
+                    },
+
+                    sortDates (a, b) {
                         return b.getTime() > a.getTime() ? -1 : b.getTime() < a.getTime() ? 1 : 0;
                     },
 
-                    format_date (date) {
+                    formatDate (date) {
                         const year = date.getUTCFullYear();
                         const month_number = date.getUTCMonth() + 1;
                         const month = month_number < 10 ? `0${month_number}` : month_number;
@@ -71,8 +125,8 @@ define(["local_fliplearning/vue",
                         return `${day}/${month}/${year}`;
                     },
 
-                    get_timezone() {
-                        let information = `${this.strings.change_timezone} ${this.timezone}`
+                    getTimezone() {
+                        let information = `${this.strings.changeTimezone} ${this.timezone}`
                         return information;
                     },
                 }

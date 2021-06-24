@@ -1,14 +1,12 @@
 define(["local_fliplearning/vue",
         "local_fliplearning/vuetify",
-        "local_fliplearning/axios",
-        "local_fliplearning/moment",
         "local_fliplearning/pagination",
         "local_fliplearning/chartdynamic",
         "local_fliplearning/pageheader",
         "local_fliplearning/emailform",
         "local_fliplearning/helpdialog",
     ],
-    function(Vue, Vuetify, Axios, Moment, Pagination, ChartDynamic, PageHeader, EmailForm, HelpDialog) {
+    function(Vue, Vuetify, Pagination, ChartDynamic, PageHeader, EmailForm, HelpDialog) {
         "use strict";
 
         function init(content) {

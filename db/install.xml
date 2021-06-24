@@ -1,93 +1,98 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<XMLDB PATH="local/fliplearning/db" VERSION="2020111000" COMMENT="XMLDB file for Moodle local/fliplearning"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
+<XMLDB PATH="local/fliplearning/db" VERSION="20210624" COMMENT="XMLDB file for Moodle local/fliplearning"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
 >
-    <TABLES>
-        <TABLE NAME="fliplearning_instances" COMMENT="table fliplearning_instances">
-            <FIELDS>
-                <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
-                <FIELD NAME="courseid" TYPE="int" LENGTH="20" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
-                <FIELD NAME="year" TYPE="int" LENGTH="20" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
-            </FIELDS>
-            <KEYS>
-                <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
-            </KEYS>
-        </TABLE>
-        <TABLE NAME="fliplearning_weeks" COMMENT="table fliplearning_weeks">
-            <FIELDS>
-                <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
-                <FIELD NAME="instanceid" TYPE="int" LENGTH="20" NOTNULL="true" SEQUENCE="false"/>
-                <FIELD NAME="courseid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
-                <FIELD NAME="weekstart" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
-                <FIELD NAME="weekend" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
-                <FIELD NAME="position" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
-                <FIELD NAME="modified_by" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
-                <FIELD NAME="created_by" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
-                <FIELD NAME="timedeleted" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false"/>
-                <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
-                <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false"/>
-                <FIELD NAME="weekcode" TYPE="int" LENGTH="20" NOTNULL="true" SEQUENCE="false"/>
-                <FIELD NAME="hours_dedications" TYPE="int" LENGTH="5" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="hours_dedications"/>
-            </FIELDS>
-            <KEYS>
-                <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
-            </KEYS>
-            <INDEXES>
-                <INDEX NAME="weekcode" UNIQUE="false" FIELDS="weekcode" HINTS="weekcode" COMMENT="weekcode index"/>
-                <INDEX NAME="instanceid" UNIQUE="false" FIELDS="instanceid" HINTS="instanceid" COMMENT="instanceid index"/>
-            </INDEXES>
-        </TABLE>
-        <TABLE NAME="fliplearning_sections" COMMENT="table fliplearning_sections">
-            <FIELDS>
-                <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
-                <FIELD NAME="weekcode" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
-                <FIELD NAME="sectionid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
-                <FIELD NAME="section_name" TYPE="char" LENGTH="1333" NOTNULL="true" SEQUENCE="false"/>
-                <FIELD NAME="position" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
-                <FIELD NAME="timedeleted" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false"/>
-                <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
-                <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false"/>
-            </FIELDS>
-            <KEYS>
-                <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
-            </KEYS>
-        </TABLE>
-        <TABLE NAME="fliplearning_logs" COMMENT="table fliplearning_logs">
-            <FIELDS>
-                <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
-                <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
-                <FIELD NAME="username" TYPE="text" NOTNULL="false" SEQUENCE="false"/>
-                <FIELD NAME="name" TYPE="char" LENGTH="1333" NOTNULL="false" SEQUENCE="false"/>
-                <FIELD NAME="lastname" TYPE="char" LENGTH="1333" NOTNULL="false" SEQUENCE="false"/>
-                <FIELD NAME="email" TYPE="char" LENGTH="1333" NOTNULL="false" SEQUENCE="false"/>
-                <FIELD NAME="current_roles" TYPE="char" LENGTH="1333" NOTNULL="true" SEQUENCE="false"/>
-                <FIELD NAME="courseid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
-                <FIELD NAME="component" TYPE="char" LENGTH="1333" NOTNULL="true" SEQUENCE="false"/>
-                <FIELD NAME="action" TYPE="char" LENGTH="1333" NOTNULL="true" SEQUENCE="false"/>
-                <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
-            </FIELDS>
-            <KEYS>
-                <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
-            </KEYS>
-        </TABLE>
-        <TABLE NAME="fliplearning_clustering" COMMENT="table fliplearning_clustering">
-            <FIELDS>
-                <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
-                <FIELD NAME="courseid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
-                <FIELD NAME="cluster" TYPE="int" LENGTH="2" NOTNULL="true" SEQUENCE="false"/>
-                <FIELD NAME="userids" TYPE="text" NOTNULL="true" SEQUENCE="false"/>
-                <FIELD NAME="activedaysaverage" TYPE="number" LENGTH="10" NOTNULL="true" SEQUENCE="false" DECIMALS="5"/>
-                <FIELD NAME="invertedtimeaverage" TYPE="number" LENGTH="10" NOTNULL="true" SEQUENCE="false" DECIMALS="5"/>
-                <FIELD NAME="sessionsnumberaverage" TYPE="number" LENGTH="10" NOTNULL="true" SEQUENCE="false" DECIMALS="5"/>
-                <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
-            </FIELDS>
-            <KEYS>
-                <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
-            </KEYS>
-            <INDEXES>
-                <INDEX NAME="courseid" UNIQUE="false" FIELDS="courseid" HINTS="courseid" COMMENT="courseid index"/>
-            </INDEXES>
-        </TABLE>
-    </TABLES>
+  <TABLES>
+    <TABLE NAME="fliplearning_instances" COMMENT="table fliplearning_instances">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="courseid" TYPE="int" LENGTH="20" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
+        <FIELD NAME="year" TYPE="int" LENGTH="20" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+      </KEYS>
+    </TABLE>
+    <TABLE NAME="fliplearning_weeks" COMMENT="table fliplearning_weeks">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="instanceid" TYPE="int" LENGTH="20" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="courseid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="weekstart" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="weekend" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="position" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="modified_by" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="created_by" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="timedeleted" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="weekcode" TYPE="int" LENGTH="20" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="hours_dedications" TYPE="int" LENGTH="5" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="hours_dedications"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+      </KEYS>
+      <INDEXES>
+        <INDEX NAME="weekcode" UNIQUE="false" FIELDS="weekcode" HINTS="weekcode" COMMENT="weekcode index"/>
+        <INDEX NAME="instanceid" UNIQUE="false" FIELDS="instanceid" HINTS="instanceid" COMMENT="instanceid index"/>
+      </INDEXES>
+    </TABLE>
+    <TABLE NAME="fliplearning_sections" COMMENT="table fliplearning_sections">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="weekcode" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="sectionid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="section_name" TYPE="char" LENGTH="1333" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="position" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="timedeleted" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+      </KEYS>
+    </TABLE>
+    <TABLE NAME="fliplearning_logs" COMMENT="table fliplearning_logs">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="username" TYPE="char" LENGTH="100" NOTNULL="false" SEQUENCE="false" COMMENT="User username"/>
+        <FIELD NAME="firstname" TYPE="char" LENGTH="100" NOTNULL="false" SEQUENCE="false" COMMENT="User first name"/>
+        <FIELD NAME="lastname" TYPE="char" LENGTH="100" NOTNULL="false" SEQUENCE="false" COMMENT="User last name"/>
+        <FIELD NAME="email" TYPE="char" LENGTH="100" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="currentroles" TYPE="char" LENGTH="100" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="courseid" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="coursename" TYPE="char" LENGTH="255" NOTNULL="false" SEQUENCE="false" COMMENT="Name of the course"/>
+        <FIELD NAME="pluginsection" TYPE="char" LENGTH="100" NOTNULL="false" SEQUENCE="false" COMMENT="Name of the section from the plugin"/>
+        <FIELD NAME="component" TYPE="char" LENGTH="100" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="action" TYPE="char" LENGTH="100" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="target" TYPE="char" LENGTH="100" NOTNULL="false" SEQUENCE="false" COMMENT="Target of user interaction"/>
+        <FIELD NAME="url" TYPE="char" LENGTH="255" NOTNULL="false" SEQUENCE="false" COMMENT="Page url where user done the interaction"/>
+        <FIELD NAME="interactiontype" TYPE="int" LENGTH="2" NOTNULL="false" SEQUENCE="false" COMMENT="Description of the interaction"/>
+        <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+      </KEYS>
+    </TABLE>
+    <TABLE NAME="fliplearning_clustering" COMMENT="table fliplearning_clustering">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="courseid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="cluster" TYPE="int" LENGTH="2" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="userids" TYPE="text" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="activedaysaverage" TYPE="number" LENGTH="10" NOTNULL="true" SEQUENCE="false" DECIMALS="5"/>
+        <FIELD NAME="invertedtimeaverage" TYPE="number" LENGTH="10" NOTNULL="true" SEQUENCE="false" DECIMALS="5"/>
+        <FIELD NAME="sessionsnumberaverage" TYPE="number" LENGTH="10" NOTNULL="true" SEQUENCE="false" DECIMALS="5"/>
+        <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+      </KEYS>
+      <INDEXES>
+        <INDEX NAME="courseid" UNIQUE="false" FIELDS="courseid" HINTS="courseid" COMMENT="courseid index"/>
+      </INDEXES>
+    </TABLE>
+  </TABLES>
 </XMLDB>

@@ -47,20 +47,20 @@ if(!$configweeks->is_set()){
 $content = [
     'strings' =>[
         "title" => get_string("fml_menu_logs", "local_fliplearning"),
-        "section_help_title" => get_string("tl_section_help_title", "local_fliplearning"),
-        "section_help_description" => get_string("tl_section_help_description", "local_fliplearning"),
+        "sectionHelpTitle" => get_string("tl_section_help_title", "local_fliplearning"),
+        "sectionHelpDescription" => get_string("tl_section_help_description", "local_fliplearning"),
 
-        "change_timezone" => get_string("fml_change_timezone", "local_fliplearning"),
+        "changeTimezone" => get_string("fml_change_timezone", "local_fliplearning"),
         "about" => get_string("fml_about", "local_fliplearning"),
-        "graph_generating" => get_string("fml_graph_generating", "local_fliplearning"),
-        "api_error_network" => get_string("fml_api_error_network", "local_fliplearning"),
-        "helplabel" => get_string("fml_helplabel","local_fliplearning"),
-        "exitbutton" => get_string("fml_exitbutton","local_fliplearning"),
+        "graphGenerating" => get_string("fml_graph_generating", "local_fliplearning"),
+        "apiErrorNetwork" => get_string("fml_api_error_network", "local_fliplearning"),
+        "helpLabel" => get_string("fml_helplabel","local_fliplearning"),
+        "exitButton" => get_string("fml_exitbutton","local_fliplearning"),
+        "successDownload" => "Descarga completa",
     ],
-    'courseid' => $COURSE->id,
-    'userid' => $USER->id,
-    'profile_render' => $reports->render_has(),
-    'groups' => local_fliplearning_get_groups($course, $USER),
+    'courseId' => $COURSE->id,
+    'userId' => $USER->id,
+    'profileRender' => $reports->render_has(),
     'timezone' => $reports->timezone,
 ];
 

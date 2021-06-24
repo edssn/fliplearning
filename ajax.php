@@ -50,14 +50,18 @@ $subject = optional_param('subject', false ,PARAM_TEXT);
 $recipients = optional_param('recipients', false ,PARAM_TEXT);
 $text = optional_param('text', false ,PARAM_TEXT);
 $moduleid = optional_param('moduleid', false ,PARAM_INT);
-$modulename = optional_param('modulename', false ,PARAM_TEXT);
+$modulename = optional_param('modulename', false, PARAM_TEXT);
 
 $newinstance = optional_param('newinstance', false, PARAM_BOOL);
+
+$logstype = optional_param('logstype', false, PARAM_TEXT);
+$startdate = optional_param('startdate', false, PARAM_TEXT);
+$enddate = optional_param('enddate', false, PARAM_TEXT);
 
 $params = array();
 $func = null;
 
-if($action == 'saveconfigweek') {
+if ($action == 'saveconfigweek') {
     array_push($params, $weeks);
     array_push($params, $courseid);
     array_push($params, $userid);
@@ -72,7 +76,7 @@ if($action == 'saveconfigweek') {
     if($courseid && $userid){
         $func = "local_fliplearning_change_group";
     }
-} elseif($action == 'worksessions') {
+} elseif ($action == 'worksessions') {
     array_push($params, $weekcode);
     array_push($params, $courseid);
     array_push($params, $userid);
@@ -80,7 +84,7 @@ if($action == 'saveconfigweek') {
     if($weekcode && $courseid && $userid && $profile){
         $func = "local_fliplearning_get_sessions";
     }
-} elseif($action == 'time') {
+} elseif ($action == 'time') {
     array_push($params, $weekcode);
     array_push($params, $courseid);
     array_push($params, $userid);
@@ -88,7 +92,7 @@ if($action == 'saveconfigweek') {
     if($weekcode && $courseid && $userid && $profile){
         $func = "local_fliplearning_get_inverted_time";
     }
-} elseif($action == 'assignments') {
+} elseif ($action == 'assignments') {
     array_push($params, $weekcode);
     array_push($params, $courseid);
     array_push($params, $userid);
@@ -96,7 +100,7 @@ if($action == 'saveconfigweek') {
     if($weekcode && $courseid && $userid && $profile){
         $func = "local_fliplearning_get_assignments_submissions";
     }
-} elseif($action == 'sendmail') {
+} elseif ($action == 'sendmail') {
     array_push($params, $COURSE);
     array_push($params, $USER);
     array_push($params, $subject);
@@ -107,7 +111,7 @@ if($action == 'saveconfigweek') {
     if($subject && $recipients && $text){
         $func = "local_fliplearning_send_email";
     }
-} elseif($action == 'quiz') {
+} elseif ($action == 'quiz') {
     array_push($params, $weekcode);
     array_push($params, $courseid);
     array_push($params, $userid);
@@ -115,14 +119,14 @@ if($action == 'saveconfigweek') {
     if($weekcode && $courseid && $userid && $profile){
         $func = "local_fliplearning_get_quiz_attempts";
     }
-} elseif($action == 'dropoutdata') {
+} elseif ($action == 'dropoutdata') {
     array_push($params, $courseid);
     array_push($params, $userid);
     array_push($params, $profile);
     if($courseid && $userid && $profile){
         $func = "local_fliplearning_generate_dropout_data";
     }
-} elseif($action == 'studentsessions') {
+} elseif ($action == 'studentsessions') {
     array_push($params, $weekcode);
     array_push($params, $courseid);
     array_push($params, $userid);
@@ -130,15 +134,24 @@ if($action == 'saveconfigweek') {
     if($weekcode && $courseid && $userid && $profile){
         $func = "local_fliplearning_get_student_sessions";
     }
+} elseif ($action == 'downloadlogs') {
+    array_push($params, $logstype);
+    array_push($params, $courseid);
+    array_push($params, $userid);
+    array_push($params, $startdate);
+    array_push($params, $enddate);
+    if($logstype && $courseid && $userid && $startdate && $enddate){
+        $func = "local_fliplearning_download_logs";
+    }
 }
 
 
 
-if(isset($params) && isset($func)){
+if (isset($params) && isset($func)){
     call_user_func_array($func, $params);
-}else{
+} else {
     $message = get_string('fml_api_invalid_data', 'local_fliplearning');
-    local_fliplearning_ajax_response(array($message), 400);
+    local_fliplearning_ajax_response(array(), $message, false);
 }
 
 function local_fliplearning_save_weeks_config($weeks, $courseid, $userid, $newinstance){
@@ -254,4 +267,11 @@ function local_fliplearning_get_student_sessions($weekcode, $courseid, $userid, 
         "indicators" => $indicators,
     );
     local_fliplearning_ajax_response($body);
+}
+
+function local_fliplearning_download_logs($logstype, $courseid, $userid, $startdate, $enddate){
+    $action = "dowload_".$logstype."_logs";
+    \local_fliplearning\logs::create("logs", $action, $userid, $courseid);
+    $filename = \local_fliplearning\logs::create_logs_file($logstype, $courseid, $startdate, $enddate);
+    local_fliplearning_ajax_response(array(), $filename);
 }
