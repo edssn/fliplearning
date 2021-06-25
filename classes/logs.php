@@ -125,39 +125,6 @@ class logs {
     private static function get_moodle_logs($course, $start, $end, $offset) {
         global $DB;
 
-        // Condiciones para busqueda de logs
-        $conditions = array($course->id, $start, $end);
-
-        // Obtener ids de usuarios admins
-        $admins = array_values(get_admins());
-        $adminsIds = array();
-        foreach ($admins as $admin) {
-            array_push($adminsIds, $admin->id);
-        }
-
-        // Obtener ids de usuarios de las interacciones
-        $sql = "SELECT DISTINCT(USERID) FROM {logstore_standard_log}
-                WHERE COURSEID = ? AND TIMECREATED >= ? AND TIMECREATED <= ? 
-                ORDER BY USERID";
-        $rows = $DB->get_records_sql($sql, $conditions);
-        $usersIds = array();
-        foreach($rows as $row) {
-            array_push($usersIds, $row->userid);
-        }
-
-        // Obtener detalles y roles de usuarios
-        $users = self::get_users_info($usersIds);
-        $users_roles = self::get_users_roles($course->id, $usersIds, $adminsIds);
-
-        // Obtener modulos de curso
-        $modinfo = get_fast_modinfo($course->id);
-        $modules = $modinfo->get_cms();
-        $modules = self::format_course_module($modules);
-
-        // Obtener secciones del curso
-        $sections = $modinfo->get_section_info_all();
-        $sections = self::format_course_sections($sections, $course->format);
-
         // Metada de archivo
         $headers = array(
             get_string('tl_logs_header_logid', 'local_fliplearning'),
@@ -186,75 +153,117 @@ class logs {
         fprintf($file, chr(0xEF).chr(0xBB).chr(0xBF));
         fputcsv($file, $headers, ";");
 
-        // Obtener logs
-        $sql = "SELECT id,component,action,target,contextlevel,contextinstanceid,userid,timecreated 
-                FROM {logstore_standard_log}
-                WHERE COURSEID = ? AND TIMECREATED >= ? AND TIMECREATED <= ? 
-                ORDER BY TIMECREATED ASC";
-        $logs = $DB->get_recordset_sql($sql, $conditions);
+        // Condiciones para busqueda de logs
+        $conditions = array($course->id, $start, $end);
 
-        // Escribir archivo
-        foreach($logs as $log) {
-            // Validar datos de usuario
-            $userid = "-";
-            $username = "-";
-            $firstname = "-";
-            $lastname = "-";
-            $rol = "-";
-            $user = $users[$log->userid];
-            if (isset($user)) {
-                $userid = $user->id;
-                $username = $user->username;
-                $firstname = $user->firstname;
-                $lastname = $user->lastname;
-                $rol = implode(",", $users_roles[$user->id]);
+        // Contar cantidad de registros segun las condiciones
+        $sql = "SELECT COUNT(*) COUNT FROM {logstore_standard_log}
+                WHERE COURSEID = ? AND TIMECREATED >= ? AND TIMECREATED <= ?";
+        $row = $DB->get_record_sql($sql, $conditions);
+
+        // Si hay logs
+        if ($row->count > 0){
+            // Obtener ids de usuarios admins
+            $admins = array_values(get_admins());
+            $adminsIds = array();
+            foreach ($admins as $admin) {
+                array_push($adminsIds, $admin->id);
             }
 
-            // Si la interaccion es con un modulo de curso
-            $activitytype = "-";
-            $activityname = "-";
-            $sectionnumber = "-";
-            $sectionname = "-";
-            if ($log->contextlevel == 70 && isset($modules[$log->contextinstanceid])) {
-                $module = $modules[$log->contextinstanceid];
-                $activitytype = $module->modname;
-                $activityname = $module->name;
-                $sectionnumber = $module->sectionnum;
-                $sectionname = $sections[$module->section]->name;
+            // Obtener ids de usuarios de las interacciones
+            $sql = "SELECT DISTINCT(USERID) FROM {logstore_standard_log}
+                    WHERE COURSEID = ? AND TIMECREATED >= ? AND TIMECREATED <= ? 
+                    ORDER BY USERID";
+            $rows = $DB->get_records_sql($sql, $conditions);
+            $usersIds = array();
+            foreach($rows as $row) {
+                array_push($usersIds, $row->userid);
             }
 
-            // Registro de interaccion
-            $record = new stdClass();
-            $record->id = $log->id;
-            $record->userid = ($userid * $offset);
-            $record->username = $username;
-            $record->firstname = $firstname;
-            $record->lastname = $lastname;
-            $record->rol = $rol;
-            $record->courseid = ($course->id * $offset);
-            $record->coursename = $course->fullname;
-            $record->contextlevel = $log->contextlevel;
-            $record->component = $log->component;
-            $record->action = $log->action;
-            $record->target = $log->target;
-            $record->activitytype = $activitytype;
-            $record->activityname = $activityname;
-            $record->sectionnumber = $sectionnumber;
-            $record->sectionname = $sectionname;
-            $record->timecreated = $log->timecreated;
+            // Obtener detalles y roles de usuarios
+            $users = self::get_users_info($usersIds);
+            $users_roles = self::get_users_roles($course->id, $usersIds, $adminsIds);
 
-            fputcsv($file, (array) $record, ";");
+            // Obtener modulos de curso
+            $modinfo = get_fast_modinfo($course->id);
+            $modules = $modinfo->get_cms();
+            $modules = self::format_course_module($modules);
+
+            // Obtener secciones del curso
+            $sections = $modinfo->get_section_info_all();
+            $sections = self::format_course_sections($sections, $course->format);
+
+            // Obtener logs
+            $sql = "SELECT id,component,action,target,contextlevel,contextinstanceid,userid,timecreated 
+                    FROM {logstore_standard_log}
+                    WHERE COURSEID = ? AND TIMECREATED >= ? AND TIMECREATED <= ? 
+                    ORDER BY TIMECREATED ASC";
+            $logs = $DB->get_recordset_sql($sql, $conditions);
+
+            // Escribir archivo
+            foreach($logs as $log) {
+                // Validar datos de usuario
+                $userid = "-";
+                $username = "-";
+                $firstname = "-";
+                $lastname = "-";
+                $rol = "-";
+                $user = $users[$log->userid];
+                if (isset($user)) {
+                    $userid = $user->id;
+                    $username = $user->username;
+                    $firstname = $user->firstname;
+                    $lastname = $user->lastname;
+                    $rol = implode(",", $users_roles[$user->id]);
+                }
+
+                // Si la interaccion es con un modulo de curso
+                $activitytype = "-";
+                $activityname = "-";
+                $sectionnumber = "-";
+                $sectionname = "-";
+                if ($log->contextlevel == 70 && isset($modules[$log->contextinstanceid])) {
+                    $module = $modules[$log->contextinstanceid];
+                    $activitytype = $module->modname;
+                    $activityname = $module->name;
+                    $sectionnumber = $module->sectionnum;
+                    $sectionname = $sections[$module->section]->name;
+                }
+
+                // Registro de interaccion
+                $record = new stdClass();
+                $record->id = $log->id;
+                $record->userid = ($userid * $offset);
+                $record->username = $username;
+                $record->firstname = $firstname;
+                $record->lastname = $lastname;
+                $record->rol = $rol;
+                $record->courseid = ($course->id * $offset);
+                $record->coursename = $course->fullname;
+                $record->contextlevel = $log->contextlevel;
+                $record->component = $log->component;
+                $record->action = $log->action;
+                $record->target = $log->target;
+                $record->activitytype = $activitytype;
+                $record->activityname = $activityname;
+                $record->sectionnumber = $sectionnumber;
+                $record->sectionname = $sectionname;
+                $record->timecreated = $log->timecreated;
+
+                fputcsv($file, (array) $record, ";");
+            }
+
+            $logs->close();
         }
 
         fclose($file);
-        $logs->close();
 
         return $filename;
     }
 
     private static function get_users_info($usersIds){
         global $DB;
-        $users = [];
+        $users = array();
         list($in, $invalues) = $DB->get_in_or_equal($usersIds);
         $fields = "id,username,firstname,lastname";
         $sql = "SELECT $fields FROM {user} WHERE ID $in ORDER BY ID";
