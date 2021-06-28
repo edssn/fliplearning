@@ -24,7 +24,7 @@
  */
 
 require_once('locallib.php');
-global $DB, $COURSE, $USER;
+global $DB, $COURSE, $USER, $PAGE, $OUTPUT;
 
 $courseid = required_param('courseid', PARAM_INT);
 $course = $DB->get_record('course', array('id' => $courseid), '*', MUST_EXIST);

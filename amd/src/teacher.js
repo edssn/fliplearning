@@ -76,7 +76,7 @@ define(["local_fliplearning/vue",
                         this.week_resources_data = [{ name, data }];
                     },
 
-                    build_week_resources_chart() {
+                    build_resources_by_week_chart() {
                         let chart = new Object();
                         chart.chart = {
                             type: 'bar',
@@ -103,7 +103,7 @@ define(["local_fliplearning/vue",
                         return chart;
                     },
 
-                    build_weeks_sessions_chart() {
+                    build_sessions_by_week_chart() {
                         let chart = new Object();
                         chart.chart = {
                             type: 'heatmap',
@@ -192,9 +192,9 @@ define(["local_fliplearning/vue",
                         return n % 1 === 0;
                     },
 
-                    open_chart_help(chart) {
+                    openChartHelp (chart) {
                         let contents = [];
-                        if (chart == "week_resources") {
+                        if (chart == "resources_by_week_chart") {
                             contents.push({
                                 title: this.strings.week_resources_help_title,
                                 description: this.strings.week_resources_help_description_p1,
@@ -202,7 +202,7 @@ define(["local_fliplearning/vue",
                             contents.push({
                                 description: this.strings.week_resources_help_description_p2,
                             });
-                        } else if (chart == "weeks_sessions") {
+                        } else if (chart == "sessions_by_week_chart") {
                             contents.push({
                                 title: this.strings.weeks_sessions_help_title,
                                 description: this.strings.week_sessions_help_description_p1,
@@ -219,11 +219,35 @@ define(["local_fliplearning/vue",
                         this.help_contents = contents;
                         if (this.help_contents.length) {
                             this.help_dialog = true;
+                            this.saveInteraction (chart, "viewed", "chart_help_dialog", 7);
                         }
                     },
 
                     update_help_dialog(value) {
                         this.help_dialog = value;
+                    },
+
+                    saveInteraction (component, interaction, target, interactiontype) {
+                        let data = {
+                            action : "saveinteraction",
+                            pluginsection : "teacher_general",
+                            component,
+                            interaction,
+                            target,
+                            url: window.location.href,
+                            interactiontype,
+                            courseid : this.courseid,
+                            userid : this.userid,
+                        };
+                        Axios({
+                            method:'get',
+                            url: `${M.cfg.wwwroot}/local/fliplearning/ajax.php`,
+                            params : data,
+                        }).then((r) => {}).catch((e) => {});
+                    },
+
+                    hoverChart (chart) {
+                        this.saveInteraction (chart, "viewed", "chart_tooltip", 5);
                     },
 
                     get_timezone() {

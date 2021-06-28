@@ -15,6 +15,7 @@ define([
                 return { }
             },
             mounted() {
+                let self = this;
                 (this.lang) && Highcharts.setOptions({
                     lang: this.lang,
                     credits: { enabled: false },
@@ -27,6 +28,7 @@ define([
                                         this.exportChart({
                                             type: 'image/png'
                                         });
+                                        self.$root.saveInteraction(this.renderTo.id, "downloaded", "png_chart", 6);
                                     }
                                 },{
                                     text: this.lang.downloadJPEG,
@@ -34,6 +36,7 @@ define([
                                         this.exportChart({
                                             type: 'image/jpeg'
                                         });
+                                        self.$root.saveInteraction(this.renderTo.id, "downloaded", "jpeg_chart", 6);
                                     }
                                 },{
                                     text: this.lang.downloadPDF,
@@ -41,6 +44,7 @@ define([
                                         this.exportChart({
                                             type: 'application/pdf'
                                         });
+                                        self.$root.saveInteraction(this.renderTo.id, "downloaded", "pdf_chart", 6);
                                     }
                                 },{
                                     text: this.lang.downloadSVG,
@@ -48,16 +52,19 @@ define([
                                         this.exportChart({
                                             type: 'image/svg+xml'
                                         });
+                                        self.$root.saveInteraction(this.renderTo.id, "downloaded", "svg_chart", 6);
                                     }
                                 },{
                                     text: this.lang.downloadXLS,
                                     onclick: function () {
                                         this.downloadXLS();
+                                        self.$root.saveInteraction(this.renderTo.id, "downloaded", "xls_chart", 6);
                                     }
                                 },{
                                     text: this.lang.downloadCSV,
                                     onclick: function () {
                                         this.downloadCSV();
+                                        self.$root.saveInteraction(this.renderTo.id, "downloaded", "csv_chart", 6);
                                     }
                                 }],
                                 symbol: 'menuball',

@@ -98,11 +98,12 @@
                         </v-card-title>
                         <v-card-text>
                             <chart
-                                    :container="'week_resourcess'"
-                                    :chart="build_week_resources_chart()"
+                                    :container="'resources_by_week_chart'"
+                                    :chart="build_resources_by_week_chart()"
                                     :lang="strings.chart"
+                                    @mouseenter.native="hoverChart('resources_by_week_chart')"
                             ></chart>
-                            <span class="caption" @click="open_chart_help('week_resources')">
+                            <span class="caption" @click="openChartHelp('resources_by_week_chart')">
                                 <v-icon small v-text="'mdi-help-circle-outline'"></v-icon>
                                 <span v-text="strings.about"></span>
                             </span>
@@ -117,11 +118,12 @@
                         </v-card-title>
                         <v-card-text>
                             <chart
-                                    :container="'week_sessions'"
-                                    :chart="build_weeks_sessions_chart()"
+                                    :container="'sessions_by_week_chart'"
+                                    :chart="build_sessions_by_week_chart()"
                                     :lang="strings.chart"
+                                    @mouseenter.native="hoverChart('sessions_by_week_chart')"
                             ></chart>
-                            <span class="caption" @click="open_chart_help('weeks_sessions')">
+                            <span class="caption" @click="openChartHelp('sessions_by_week_chart')">
                                 <v-icon small v-text="'mdi-help-circle-outline'"></v-icon>
                                 <span v-text="strings.about"></span>
                             </span>
@@ -173,7 +175,7 @@
                                 </template>
 
                             </v-data-table>
-                            <span class="caption" @click="open_chart_help('progress_table')">
+                            <span class="caption" @click="openChartHelp('progress_table')">
                                 <v-icon small v-text="'mdi-help-circle-outline'"></v-icon>
                                 <span v-text="strings.about_table"></span>
                             </span>
