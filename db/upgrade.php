@@ -47,6 +47,17 @@ function xmldb_local_fliplearning_upgrade($oldversion) {
 
     if ($oldversion < 2021061810) {
 
+        // Define field email to be dropped from fliplearning_logs.
+        $table = new xmldb_table('fliplearning_logs');
+        $field = new xmldb_field('email');
+
+        // Conditionally launch drop field email.
+        if ($dbman->field_exists($table, $field)) {
+            $dbman->drop_field($table, $field);
+        }
+
+
+
         // Define field coursename to be added to fliplearning_logs.
         $table = new xmldb_table('fliplearning_logs');
         $field = new xmldb_field('coursename', XMLDB_TYPE_CHAR, '255', null, null, null, null, 'courseid');
@@ -130,18 +141,9 @@ function xmldb_local_fliplearning_upgrade($oldversion) {
 
 
 
-        // Changing type of field email on table fliplearning_logs to char.
-        $table = new xmldb_table('fliplearning_logs');
-        $field = new xmldb_field('email', XMLDB_TYPE_CHAR, '100', null, null, null, null, 'lastname');
-
-        // Launch change of type for field email.
-        $dbman->change_field_type($table, $field);
-
-
-
         // Changing type of field current_roles on table fliplearning_logs to char.
         $table = new xmldb_table('fliplearning_logs');
-        $field = new xmldb_field('current_roles', XMLDB_TYPE_CHAR, '100', null, null, null, null, 'email');
+        $field = new xmldb_field('current_roles', XMLDB_TYPE_CHAR, '100', null, null, null, null, 'lastname');
 
         // Launch change of type for field current_roles.
         $dbman->change_field_type($table, $field);
@@ -186,10 +188,12 @@ function xmldb_local_fliplearning_upgrade($oldversion) {
 
         // Rename field current_roles on table fliplearning_logs to currentroles.
         $table = new xmldb_table('fliplearning_logs');
-        $field = new xmldb_field('current_roles', XMLDB_TYPE_CHAR, '100', null, null, null, null, 'email');
+        $field = new xmldb_field('current_roles', XMLDB_TYPE_CHAR, '100', null, null, null, null, 'lastname');
 
         // Launch rename field current_roles.
         $dbman->rename_field($table, $field, 'currentroles');
+
+
 
         // Fliplearning savepoint reached.
         upgrade_plugin_savepoint(true, 2021062300, 'local', 'fliplearning');

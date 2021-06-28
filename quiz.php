@@ -35,7 +35,19 @@ require_capability('local/fliplearning:usepluggin', $context);
 require_capability('local/fliplearning:view_as_teacher', $context);
 require_capability('local/fliplearning:quiz', $context);
 
-\local_fliplearning\logs::create("quiz","view", $USER->id, $COURSE->id);
+$url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https"
+        : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+\local_fliplearning\logs::create(
+    "teacher_assessments",
+    "teacher_assessments",
+    "viewed",
+    "section",
+    $url,
+    2,
+    $USER->id,
+    $COURSE->id
+);
+
 $reports = new \local_fliplearning\teacher($COURSE->id, $USER->id);
 
 $configweeks = new \local_fliplearning\configweeks($COURSE, $USER);

@@ -37,7 +37,12 @@ define(["local_fliplearning/vue",
                     },
                     saving_loader: false,
                     error_messages: [],
-                    save_successful: false
+                    save_successful: false,
+
+                    dates: [],
+                    datesLabels: [],
+                    modal: false,
+
                 },
                 mounted() {
                     document.querySelector("#setweeks-loader").style.display = "none";
@@ -57,7 +62,14 @@ define(["local_fliplearning/vue",
                             }
                         }
                         return this.raw_weeks;
-                    }
+                    },
+
+                    dateRangeText () {
+                        let dates_array = this.dates.map(date => new Date(date));
+                        dates_array.sort(this.sortDates);
+                        this.datesLabels = dates_array.map(date => this.formatDate(date));
+                        return this.datesLabels.join(' → ');
+                    },
                 },
                 methods: {
                     section_name(section) {
@@ -174,15 +186,17 @@ define(["local_fliplearning/vue",
                         Alertify.confirm(this.strings.save_warning_content,
                                 () => {
                                     this.saving_loader = true;
-                                    var weeks = this.weeks;
+                                    let weeks = this.weeks;
                                     weeks[0].weekstart = Moment(weeks[0].weekstart).format("YYYY-MM-DD");
-                                    var data = {
+                                    let data = {
                                         action: "saveconfigweek",
                                         userid: this.userid,
                                         courseid: this.courseid,
                                         newinstance: this.new_group,
-                                        weeks: this.minify_query(weeks) // Stringify is a hack to clone object :D
+                                        weeks: this.minify_query(weeks), // Stringify is a hack to clone object :D
+                                        url: window.location.href,
                                     };
+
 
                                     Axios({
                                         method: 'get',
@@ -283,6 +297,19 @@ define(["local_fliplearning/vue",
                         });
                         let status = visible ? this.strings.tw_plugin_visible : this.strings.tw_plugin_hidden;
                         return status;
+                    },
+
+                    sortDates (a, b) {
+                        return b.getTime() > a.getTime() ? -1 : b.getTime() < a.getTime() ? 1 : 0;
+                    },
+
+                    formatDate (date) {
+                        const year = date.getUTCFullYear();
+                        const month_number = date.getUTCMonth() + 1;
+                        const month = month_number < 10 ? `0${month_number}` : month_number;
+                        const day_number = date.getUTCDate();
+                        const day = day_number < 10 ? `0${day_number}` : day_number;
+                        return `${day}/${month}/${year}`;
                     },
 
                     get_help_content() {

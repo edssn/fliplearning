@@ -24,7 +24,7 @@
  */
 
 require_once('locallib.php');
-global $COURSE, $USER;
+global $DB, $COURSE, $USER;
 
 $courseid = required_param('courseid', PARAM_INT);
 $course = $DB->get_record('course', array('id' => $courseid), '*', MUST_EXIST);
@@ -37,7 +37,20 @@ require_capability('local/fliplearning:usepluggin', $context);
 require_capability('local/fliplearning:view_as_teacher', $context);
 require_capability('local/fliplearning:setweeks', $context);
 
-\local_fliplearning\logs::create("setweeks","view", $USER->id, $COURSE->id);
+// Guardar log
+$url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https"
+        : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+\local_fliplearning\logs::create(
+    "setweeks",
+    "setweeks",
+    "viewed",
+    "section",
+    $url,
+    2,
+    $USER->id,
+    $COURSE->id
+);
+
 $configweeks = new \local_fliplearning\configweeks($COURSE, $USER);
 
 $content = [

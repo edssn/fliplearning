@@ -41,7 +41,19 @@ if (is_siteadmin()) {
     print_error(get_string("fml_only_student", "local_fliplearning"));
 }
 
-\local_fliplearning\logs::create("student_general", "view", $USER->id, $COURSE->id);
+$url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https"
+        : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+\local_fliplearning\logs::create(
+    "student_general",
+    "student_general",
+    "viewed",
+    "section",
+    $url,
+    2,
+    $USER->id,
+    $COURSE->id
+);
+
 $reports = new \local_fliplearning\student($COURSE->id, $USER->id);
 
 $configweeks = new \local_fliplearning\configweeks($COURSE, $USER);

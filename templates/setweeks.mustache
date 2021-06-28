@@ -144,7 +144,14 @@
             </v-row>
 
             <v-row v-if="exists_mistakes">
-                <v-alert v-for="(message, index, key) in error_messages" :key="key" dense outlined type="error" v-text="message" class="mb-2"></v-alert>
+                <v-alert v-for="(message, index, key) in error_messages"
+                     :key="key"
+                     type="error" class="mb-2"
+                     dense
+                     outlined
+                >
+                    <span v-text="message"></span>
+                </v-alert>
             </v-row>
 
             <v-row class="justify-center">
@@ -152,7 +159,46 @@
                 <v-progress-linear v-if="saving_loader" indeterminate color="cyan" ></v-progress-linear>
             </v-row>
 
-            <v-alert v-if="save_successful" dense text type="success" v-text="strings.save_successful"></v-alert>
+            <v-alert v-if="save_successful" type="success" dismissible dense text>
+                <span v-text="strings.save_successful"></span>
+            </v-alert>
+
+            <v-row>
+                <v-col cols="12" sm="6" md="4">
+                    <v-dialog
+                            ref="dialog"
+                            v-model="modal"
+                            width="30%"
+                    >
+                        <template v-slot:activator="{ on, attrs }">
+                            <v-text-field
+                                    v-model="dateRangeText"
+                                    label="Picker in dialog"
+                                    prepend-icon="mdi-calendar"
+                                    readonly
+                                    v-bind="attrs"
+                                    v-on="on"
+                            ></v-text-field>
+                        </template>
+                        <v-date-picker
+                                v-model="dates"
+                                range
+                                scrollable
+                                no-title
+                                full-width
+                        >
+                            <v-spacer></v-spacer>
+                            <v-btn
+                                    text
+                                    color="primary"
+                                    @click="$refs.dialog.save(date)"
+                            >
+                                Guardar
+                            </v-btn>
+                        </v-date-picker>
+                    </v-dialog>
+                </v-col>
+            </v-row>
 
         </v-container>
 

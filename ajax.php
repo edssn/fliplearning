@@ -45,6 +45,7 @@ $weeks = optional_param('weeks', false, PARAM_RAW);
 $profile = optional_param('profile', false, PARAM_RAW);
 $weekcode = optional_param('weekcode', false, PARAM_INT);
 $groupid = optional_param('groupid',  null,  PARAM_INT);
+$url = optional_param('url', false, PARAM_RAW);
 
 $subject = optional_param('subject', false ,PARAM_TEXT);
 $recipients = optional_param('recipients', false ,PARAM_TEXT);
@@ -66,6 +67,7 @@ if ($action == 'saveconfigweek') {
     array_push($params, $courseid);
     array_push($params, $userid);
     array_push($params, $newinstance);
+    array_push($params, $url);
     if($weeks && $courseid && $userid){
         $func = "local_fliplearning_save_weeks_config";
     }
@@ -140,6 +142,7 @@ if ($action == 'saveconfigweek') {
     array_push($params, $userid);
     array_push($params, $startdate);
     array_push($params, $enddate);
+    array_push($params, $url);
     if($logstype && $courseid && $userid && $startdate && $enddate){
         $func = "local_fliplearning_download_logs";
     }
@@ -154,8 +157,18 @@ if (isset($params) && isset($func)){
     local_fliplearning_ajax_response(array(), $message, false);
 }
 
-function local_fliplearning_save_weeks_config($weeks, $courseid, $userid, $newinstance){
-    \local_fliplearning\logs::create("setweeks", "change_config", $userid, $courseid);
+function local_fliplearning_save_weeks_config($weeks, $courseid, $userid, $newinstance, $url){
+    \local_fliplearning\logs::create(
+        "setweeks",
+        "configweeks",
+        "saved",
+        "weeks_settings",
+        $url,
+        4,
+        $userid,
+        $courseid
+    );
+
     $weeks = json_decode($weeks);
     $configweeks = new \local_fliplearning\configweeks($courseid, $userid);
     if($newinstance){
@@ -269,9 +282,18 @@ function local_fliplearning_get_student_sessions($weekcode, $courseid, $userid, 
     local_fliplearning_ajax_response($body);
 }
 
-function local_fliplearning_download_logs($logstype, $courseid, $userid, $startdate, $enddate){
-    $action = "dowload_".$logstype."_logs";
-    \local_fliplearning\logs::create("logs", $action, $userid, $courseid);
+function local_fliplearning_download_logs($logstype, $courseid, $userid, $startdate, $enddate, $url){
+    $component = $logstype."_logs";
+    \local_fliplearning\logs::create(
+        "teacher_download_logs",
+        $component,
+        "downloaded",
+        "logs_file",
+        $url,
+        20,
+        $userid,
+        $courseid
+    );
     $filename = \local_fliplearning\logs::create_logs_file($logstype, $courseid, $startdate, $enddate);
     local_fliplearning_ajax_response(array(), $filename);
 }

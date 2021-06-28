@@ -32,23 +32,31 @@ use stdClass;
 
 class logs {
 
-    public static function create($component, $action, $userid, $courseid){
+    public static function create($section, $component, $action, $target, $url, $type, $userid, $courseid){
         global $DB;
+
+        // Informarcion de usuario
         $user = self::get_user($userid);
+
+        // Informacion de curso
         $course = self::get_course($courseid);
+
+        // Registro de log
         $log = new stdClass();
         $log->userid = $user->id;
         $log->username = $user->username;
-        $log->name = $user->firstname;
+        $log->firstname = $user->firstname;
         $log->lastname = $user->lastname;
-        $log->email = $user->email;
-        $log->current_roles = self::get_user_roles($courseid, $userid);
+        $log->currentroles = self::get_user_roles($courseid, $userid);
         $log->courseid = $course->id;
         $log->coursename = $course->fullname;
-        $log->courseshortname = $course->shortname;
+        $log->pluginsection = $section;
         $log->component = $component;
         $log->action = $action;
+        $log->target = $target;
+        $log->url = $url;
         $log->timecreated = time();
+        $log->interactiontype = $type;
         $id = $DB->insert_record("fliplearning_logs", $log, true);
         $log->id = $id;
         return $log;
@@ -81,7 +89,7 @@ class logs {
         foreach ($roles as $role) {
             $user_roles[] = $role->shortname;
         }
-        $user_roles = implode(', ', $user_roles);
+        $user_roles = implode(',', $user_roles);
         return $user_roles;
     }
 
@@ -389,24 +397,32 @@ class logs {
         fprintf($file, chr(0xEF).chr(0xBB).chr(0xBF));
         fputcsv($file, $headers, ";");
 
-        // Obtener logs
-        $sql = "SELECT 
-                    id,userid,username,firstname,lastname,currentroles,courseid,coursename,
-                    pluginsection,component,action,target,url,timecreated,interactiontype 
-                FROM {fliplearning_logs}
-                WHERE COURSEID = ? AND TIMECREATED >= ? AND TIMECREATED <= ? 
-                ORDER BY TIMECREATED ASC";
-        $logs = $DB->get_recordset_sql($sql, $conditions);
+        // Contar cantidad de registros segun las condiciones
+        $sql = "SELECT COUNT(*) COUNT FROM {fliplearning_logs}
+                WHERE COURSEID = ? AND TIMECREATED >= ? AND TIMECREATED <= ?";
+        $row = $DB->get_record_sql($sql, $conditions);
 
-        // Escribir archivo
-        foreach($logs as $log) {
-            $log->userid = $log->userid * $offset;
-            $log->courseid = $log->courseid * $offset;
-            fputcsv($file, (array) $log, ";");
+        // Si hay logs
+        if ($row->count > 0) {
+            // Obtener logs
+            $sql = "SELECT 
+                        id,userid,username,firstname,lastname,currentroles,courseid,coursename,
+                        pluginsection,component,action,target,url,timecreated,interactiontype 
+                    FROM {fliplearning_logs}
+                    WHERE COURSEID = ? AND TIMECREATED >= ? AND TIMECREATED <= ? 
+                    ORDER BY TIMECREATED ASC";
+            $logs = $DB->get_recordset_sql($sql, $conditions);
+
+            // Escribir archivo
+            foreach($logs as $log) {
+                $log->userid = $log->userid * $offset;
+                $log->courseid = $log->courseid * $offset;
+                fputcsv($file, (array) $log, ";");
+            }
+            $logs->close();
         }
 
         fclose($file);
-        $logs->close();
 
         return $filename;
     }

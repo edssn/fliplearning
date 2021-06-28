@@ -81,6 +81,7 @@ define(["local_fliplearning/vue",
                             courseid: this.courseId,
                             startdate,
                             enddate,
+                            url: window.location.href,
                         }
                         Axios({
                             method: 'post',
