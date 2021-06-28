@@ -59,6 +59,14 @@ $logstype = optional_param('logstype', false, PARAM_TEXT);
 $startdate = optional_param('startdate', false, PARAM_TEXT);
 $enddate = optional_param('enddate', false, PARAM_TEXT);
 
+// Save Interaction
+$pluginsection = optional_param('pluginsection', false, PARAM_TEXT);
+$component = optional_param('component', false, PARAM_TEXT);
+$interaction = optional_param('interaction', false, PARAM_TEXT);
+$target = optional_param('target', false, PARAM_TEXT);
+$url = optional_param('url', false, PARAM_TEXT);
+$interactiontype = optional_param('interactiontype', 0, PARAM_INT);
+
 $params = array();
 $func = null;
 
@@ -145,6 +153,19 @@ if ($action == 'saveconfigweek') {
     array_push($params, $url);
     if($logstype && $courseid && $userid && $startdate && $enddate){
         $func = "local_fliplearning_download_logs";
+    }
+} elseif ($action == 'saveinteraction') {
+    array_push($params, $courseid);
+    array_push($params, $userid);
+    array_push($params, $pluginsection);
+    array_push($params, $component);
+    array_push($params, $interaction);
+    array_push($params, $target);
+    array_push($params, $url);
+    array_push($params, $interactiontype);
+    if($courseid && $userid && $pluginsection && $component
+        && $interaction && $target && $url && $interactiontype){
+        $func = "local_fliplearning_save_interaction";
     }
 }
 
@@ -296,4 +317,19 @@ function local_fliplearning_download_logs($logstype, $courseid, $userid, $startd
     );
     $filename = \local_fliplearning\logs::create_logs_file($logstype, $courseid, $startdate, $enddate);
     local_fliplearning_ajax_response(array(), $filename);
+}
+
+function local_fliplearning_save_interaction($courseid, $userid, $pluginsection, $component,
+                                             $interaction, $target, $url, $interactiontype){
+    \local_fliplearning\logs::create(
+        $pluginsection,
+        $component,
+        $interaction,
+        $target,
+        $url,
+        $interactiontype,
+        $userid,
+        $courseid
+    );
+    local_fliplearning_ajax_response(array(), "");
 }

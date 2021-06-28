@@ -6,8 +6,17 @@
 
 <v-app id="work_sessions" class="fliplearning">
     <v-main>
-        <pageheader :pagetitle="strings.title" :helptitle="strings.helplabel" :exitbutton="strings.exitbutton"
-                    :helpcontents="get_help_content()" :groups="groups" :courseid="courseid" :userid="userid"></pageheader>
+        <pageheader
+                :pagetitle="strings.title"
+                :helptitle="strings.helplabel"
+                :exitbutton="strings.exitbutton"
+                :helpcontents="get_help_content()"
+                :groups="groups"
+                :courseid="courseid"
+                :userid="userid"
+                :section="'teacher_sessions'"
+        ></pageheader>
+
         <v-container pa-8>
             <v-row v-if="loading">
                 <span class="mb-1 mt-5 body-1" v-text="strings.graph_generating"></span>

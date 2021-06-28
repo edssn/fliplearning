@@ -20,8 +20,9 @@ define(['local_fliplearning/axios'], function (Axios){
                 </v-flex>
             
                 <v-flex 
-                            class="d-flex justify-end align-center flex-grow-0 fliplearning-help-button pa-4 ml-8" 
-                            @click="dialog = !dialog">
+                    class="d-flex justify-end align-center flex-grow-0 fliplearning-help-button pa-4 ml-8" 
+                    @click="openHelpModal()"
+                >
                     <span class="mr-2 caption" v-text="helptitle"></span>
                     <v-icon :color="'#ffffff'">help_outline</v-icon>
                 </v-flex>
@@ -48,7 +49,16 @@ define(['local_fliplearning/axios'], function (Axios){
                     </v-card>
                 </v-dialog>
             </v-layout>`,
-        props:['pagetitle','helptitle','helpcontents','exitbutton','groups', 'courseid','userid'],
+        props:[
+            'pagetitle',
+            'helptitle',
+            'helpcontents',
+            'exitbutton',
+            'groups',
+            'courseid',
+            'userid',
+            'section',
+        ],
         data(){
             return{
                 dialog : false,
@@ -59,6 +69,12 @@ define(['local_fliplearning/axios'], function (Axios){
             this.set_selected_group();
         },
         methods : {
+            openHelpModal () {
+                //console.log('Help dialog');
+                this.dialog = true;
+                this.saveInteraction();
+            },
+
             update_group(){
                 let data = {
                     action : "changegroup",
@@ -99,7 +115,26 @@ define(['local_fliplearning/axios'], function (Axios){
                     this.groups[0].selected = true;
                     this.selectedgroup = this.groups[0];
                 }
-            }
+            },
+
+            saveInteraction () {
+                let data = {
+                    action : "saveinteraction",
+                    pluginsection : this.section,
+                    component : this.section,
+                    interaction : 'viewed',
+                    target : 'section_help_dialog',
+                    url: window.location.href,
+                    interactiontype: 3,
+                    courseid : this.courseid,
+                    userid : this.userid,
+                };
+                Axios({
+                    method:'get',
+                    url: `${M.cfg.wwwroot}/local/fliplearning/ajax.php`,
+                    params : data,
+                }).then((r) => {}).catch((e) => {});
+            },
         }
     }
     return pageheader;
