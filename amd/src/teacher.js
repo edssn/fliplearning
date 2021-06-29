@@ -18,7 +18,7 @@ define(["local_fliplearning/vue",
             Vue.component('helpdialog', HelpDialog);
             let vue = new Vue({
                 delimiters: ["[[", "]]"],
-                el: "#teacher",
+                el: "#teacher_general",
                 vuetify: new Vuetify(),
                 data() {
                     return {
@@ -38,14 +38,19 @@ define(["local_fliplearning/vue",
 
                         help_dialog: false,
                         help_contents: [],
+
+                        pluginSectionName: "teacher_general",
+                        resources_by_week_chart: "resources_by_week_chart",
+                        sessions_by_week_chart: "sessions_by_week_chart",
+                        progress_table: "progress_table"
                     }
                 },
                 beforeMount() {
                     this.calculate_week_resources();
                 },
                 mounted() {
-                    document.querySelector("#sessions-loader").style.display = "none";
-                    document.querySelector("#teacher").style.display = "block";
+                    document.querySelector("#teacher_general_loader").style.display = "none";
+                    document.querySelector("#teacher_general").style.display = "block";
                 },
                 methods: {
                     get_help_content() {
@@ -194,7 +199,7 @@ define(["local_fliplearning/vue",
 
                     openChartHelp (chart) {
                         let contents = [];
-                        if (chart == "resources_by_week_chart") {
+                        if (chart == this.resources_by_week_chart) {
                             contents.push({
                                 title: this.strings.week_resources_help_title,
                                 description: this.strings.week_resources_help_description_p1,
@@ -202,7 +207,7 @@ define(["local_fliplearning/vue",
                             contents.push({
                                 description: this.strings.week_resources_help_description_p2,
                             });
-                        } else if (chart == "sessions_by_week_chart") {
+                        } else if (chart == this.sessions_by_week_chart) {
                             contents.push({
                                 title: this.strings.weeks_sessions_help_title,
                                 description: this.strings.week_sessions_help_description_p1,
@@ -210,7 +215,7 @@ define(["local_fliplearning/vue",
                             contents.push({
                                 description: this.strings.week_sessions_help_description_p2,
                             });
-                        } else if (chart == "progress_table") {
+                        } else if (chart == this.progress_table) {
                             contents.push({
                                 title: this.strings.progress_table_help_title,
                                 description: this.strings.progress_table_help_description,
@@ -230,7 +235,7 @@ define(["local_fliplearning/vue",
                     saveInteraction (component, interaction, target, interactiontype) {
                         let data = {
                             action : "saveinteraction",
-                            pluginsection : "teacher_general",
+                            pluginsection : this.pluginSectionName,
                             component,
                             interaction,
                             target,
@@ -244,10 +249,6 @@ define(["local_fliplearning/vue",
                             url: `${M.cfg.wwwroot}/local/fliplearning/ajax.php`,
                             params : data,
                         }).then((r) => {}).catch((e) => {});
-                    },
-
-                    hoverChart (chart) {
-                        this.saveInteraction (chart, "viewed", "chart_tooltip", 5);
                     },
 
                     get_timezone() {

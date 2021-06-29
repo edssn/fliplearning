@@ -1,10 +1,10 @@
-<div id="sessions-loader">
+<div id="teacher_general_loader">
     <div class="progressbar-fliplearning">
         <div class="indeterminate"></div>
     </div>
 </div>
 
-<v-app id="teacher" class="fliplearning">
+<v-app id="teacher_general" class="fliplearning">
     <v-main>
         <pageheader
                 :pagetitle="strings.title"
@@ -14,7 +14,7 @@
                 :groups="groups"
                 :courseid="courseid"
                 :userid="userid"
-                :section="'teacher_general'"
+                :section="pluginSectionName"
         ></pageheader>
 
         <v-container pa-8>
@@ -98,12 +98,11 @@
                         </v-card-title>
                         <v-card-text>
                             <chart
-                                    :container="'resources_by_week_chart'"
+                                    :container="resources_by_week_chart"
                                     :chart="build_resources_by_week_chart()"
                                     :lang="strings.chart"
-                                    @mouseenter.native="hoverChart('resources_by_week_chart')"
                             ></chart>
-                            <span class="caption" @click="openChartHelp('resources_by_week_chart')">
+                            <span class="caption" @click="openChartHelp(resources_by_week_chart)">
                                 <v-icon small v-text="'mdi-help-circle-outline'"></v-icon>
                                 <span v-text="strings.about"></span>
                             </span>
@@ -118,12 +117,11 @@
                         </v-card-title>
                         <v-card-text>
                             <chart
-                                    :container="'sessions_by_week_chart'"
+                                    :container="sessions_by_week_chart"
                                     :chart="build_sessions_by_week_chart()"
                                     :lang="strings.chart"
-                                    @mouseenter.native="hoverChart('sessions_by_week_chart')"
                             ></chart>
-                            <span class="caption" @click="openChartHelp('sessions_by_week_chart')">
+                            <span class="caption" @click="openChartHelp(sessions_by_week_chart)">
                                 <v-icon small v-text="'mdi-help-circle-outline'"></v-icon>
                                 <span v-text="strings.about"></span>
                             </span>
@@ -175,7 +173,7 @@
                                 </template>
 
                             </v-data-table>
-                            <span class="caption" @click="openChartHelp('progress_table')">
+                            <span class="caption" @click="openChartHelp(progress_table)">
                                 <v-icon small v-text="'mdi-help-circle-outline'"></v-icon>
                                 <span v-text="strings.about_table"></span>
                             </span>

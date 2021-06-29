@@ -1,10 +1,10 @@
-<div id="sessions-loader">
+<div id="teacher_assignments_loader">
     <div class="progressbar-fliplearning">
         <div class="indeterminate"></div>
     </div>
 </div>
 
-<v-app id="submissions" class="fliplearning">
+<v-app id="teacher_assignments" class="fliplearning">
     <v-main>
         <pageheader
                 :pagetitle="strings.title"
@@ -14,7 +14,7 @@
                 :groups="groups"
                 :courseid="courseid"
                 :userid="userid"
-                :section="'teacher_assignments'"
+                :section="pluginSectionName"
         ></pageheader>
 
         <v-container pa-8>
@@ -23,11 +23,17 @@
                 <v-progress-linear indeterminate color="cyan"></v-progress-linear>
             </v-row>
             <div v-else>
-                <v-alert v-if="errors.length > 0" dense outlined type="error" v-text="strings.api_error_network"></v-alert>
+                <v-alert v-if="errors.length > 0" type="error" border="left" dense dismissible>
+                    <v-span v-text="strings.api_error_network"></v-span>
+                </v-alert>
 
                 <pagination
-                        :pages="pages" :name="strings.pagination_name" :nameseparator="strings.pagination_separator"
-                        @changepage="update_interactions" :title="strings.pagination_title"></pagination>
+                        :pages="pages"
+                        :name="strings.pagination_name"
+                        :nameseparator="strings.pagination_separator"
+                        @changepage="update_interactions"
+                        :title="strings.pagination_title"
+                ></pagination>
 
                 <v-row>
                     <v-col cols="12">
@@ -37,12 +43,12 @@
                             </v-card-title>
                             <v-card-text>
                                 <chart
-                                        :container="'assigns_submissions'"
+                                        :container="assigns_submissions_chart"
                                         :chart="build_assigns_submissions_chart()"
                                         :lang="strings.chart"
                                 ></chart>
-                                <span class="caption" @click="open_chart_help('assigns_submissions')">
-                                <v-icon small v-text="'mdi-help-circle-outline'"></v-icon>
+                                <span class="caption" @click="open_chart_help(assigns_submissions_chart)">
+                                    <v-icon small v-text="'mdi-help-circle-outline'"></v-icon>
                                 <span v-text="strings.about"></span>
                             </span>
                             </v-card-text>
@@ -71,11 +77,11 @@
                             </h3>
                             <v-card-text>
                                 <chart
-                                        :container="'access_content'"
+                                        :container="content_access_chart"
                                         :chart="build_access_content_chart()"
                                         :lang="strings.chart"
                                 ></chart>
-                                <span class="caption" @click="open_chart_help('access_content')">
+                                <span class="caption" @click="open_chart_help(content_access_chart)">
                                     <v-icon small v-text="'mdi-help-circle-outline'"></v-icon>
                                     <span v-text="strings.about"></span>
                                 </span>
@@ -98,6 +104,9 @@
                                 :modulename="modulename"
                                 :courseid="courseid"
                                 :userid="userid"
+                                :pluginsection="pluginSectionName"
+                                :component="emailComponent"
+                                :target="emailTarget"
                                 @update_dialog="update_dialog"
                         ></emailform>
                     </v-col>

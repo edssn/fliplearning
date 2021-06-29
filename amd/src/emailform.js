@@ -106,7 +106,18 @@ define([
                     </v-row>
                </v-main>
                 `,
-        props:['dialog', 'selected_users', 'strings', 'moduleid', 'modulename', 'courseid', 'userid'],
+        props:[
+            'dialog',
+            'selected_users',
+            'strings',
+            'moduleid',
+            'modulename',
+            'courseid',
+            'userid',
+            'pluginsection',
+            'component',
+            'target'
+        ],
         data(){
             return {
                 close_icon: 'mdi-minus',
@@ -143,6 +154,8 @@ define([
                 });
                 this.loader_dialog = true;
                 this.errors = [];
+                const regex = / /i;
+
                 let data = {
                     action : "sendmail",
                     subject : this.strings.subject,
@@ -152,6 +165,10 @@ define([
                     courseid : this.courseid,
                     moduleid : this.moduleid,
                     modulename : this.modulename,
+                    pluginsection: this.pluginsection,
+                    component: this.component,
+                    target: `${this.target.replace(regex, '_').toLowerCase()}_users`,
+                    url: window.location.href
                 };
                 Axios({
                     method:'get',

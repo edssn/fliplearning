@@ -1,7 +1,10 @@
 define(['local_fliplearning/axios'], function (Axios){
     const pageheader = {
         template:`
-            <v-layout class="font-weight-bold fliplearning-page-title justify-space-between align-center" id="page-header">
+            <v-layout 
+                class="font-weight-bold fliplearning-page-title justify-space-between align-center" 
+                id="page-header"
+            >
                 <v-flex class="d-flex pa-4">
                     <span v-text="pagetitle"></span>
                 </v-flex>
@@ -81,6 +84,7 @@ define(['local_fliplearning/axios'], function (Axios){
                     courseid : this.courseid,
                     userid : this.userid,
                     groupid : this.selectedgroup,
+                    url: window.location.href,
                 }
                 Axios({
                     method:'get',
@@ -98,8 +102,7 @@ define(['local_fliplearning/axios'], function (Axios){
             },
 
             usegroupselector(){
-                let use = this.groups && this.groups.length > 0;
-                return use;
+                return this.groups && this.groups.length > 0;
             },
 
             set_selected_group(){

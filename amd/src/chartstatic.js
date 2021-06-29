@@ -9,7 +9,7 @@ define([
         'highcharts/modules/no-data-to-display'],
     function(Highcharts) {
         return {
-            template: `<div v-bind:id="container"></div>`,
+            template: `<div v-bind:id="container" @mouseenter="enterChartContainer()"></div>`,
             props: ['container', 'chart', 'lang'],
             data() {
                 return { }
@@ -83,6 +83,20 @@ define([
                     },
                 });
                 this._highchart = Highcharts.chart(this.container, this.chart);
+            },
+            methods: {
+                enterChartContainer () {
+                    // console.log(this);
+                    // console.log(this.$root.$options.el);
+                    // console.log(this.$root.$options.el.substring(1));
+                    // console.log(this.$root);
+                    // console.log('enterChartContainer', this.container);
+                    // console.log(this._highchart);
+                    // console.log(this._highchart.pointCount);
+                    if (this._highchart.pointCount) {
+                        this.$root.saveInteraction (this.container, "viewed", "chart_tooltip", 5);
+                    }
+                },
             }
         };
     });

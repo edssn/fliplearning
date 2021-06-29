@@ -10,12 +10,13 @@ define([
         ],
     function(Highcharts) {
     return {
-        template: `<div v-bind:id="container"></div>`,
+        template: `<div v-bind:id="container" @mouseenter="enterChartContainer()"></div>`,
         props: ['container', 'chart', 'lang'],
         data() {
             return { }
         },
         mounted() {
+            let self = this;
             (this.lang) && Highcharts.setOptions({
                 lang: this.lang,
                 credits: { enabled: false },
@@ -71,9 +72,30 @@ define([
                             symbolStroke: '#118AB2'
                         }
                     }
-                }
+                },
+                plotOptions: {
+                    series: {
+                        events: {
+                            legendItemClick: function () {
+                                self.$root.saveInteraction(this.chart.renderTo.id, "filtered", "chart_data", 8);
+                            }
+                        }
+                    }
+                },
             });
             this._highchart = Highcharts.chart(this.container, this.chart);
+        },
+        methods: {
+            enterChartContainer () {
+                // console.log(this);
+                // console.log(this.$root);
+                // console.log('enterChartContainer', this.container);
+                // console.log(this._highchart);
+                // console.log(this._highchart.pointCount);
+                if (this._highchart.pointCount) {
+                    this.$root.saveInteraction (this.container, "viewed", "chart_tooltip", 5);
+                }
+            },
         },
         watch: {
             chart: {

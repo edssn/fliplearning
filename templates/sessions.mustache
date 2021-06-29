@@ -1,10 +1,10 @@
-<div id="sessions-loader">
+<div id="teacher_sessions_loader">
     <div class="progressbar-fliplearning">
         <div class="indeterminate"></div>
     </div>
 </div>
 
-<v-app id="work_sessions" class="fliplearning">
+<v-app id="teacher_sessions" class="fliplearning">
     <v-main>
         <pageheader
                 :pagetitle="strings.title"
@@ -14,7 +14,7 @@
                 :groups="groups"
                 :courseid="courseid"
                 :userid="userid"
-                :section="'teacher_sessions'"
+                :section="pluginSectionName"
         ></pageheader>
 
         <v-container pa-8>
@@ -44,12 +44,11 @@
                             </v-card-title>
                             <v-card-text>
                                 <chart
-                                        :container="'inverted_time_chart'"
+                                        :container="inverted_time_chart"
                                         :chart="build_inverted_time_chart()"
                                         :lang="strings.chart"
-                                        @mouseenter.native="hoverChart('inverted_time_chart')"
                                 ></chart>
-                                <span class="caption" @click="openChartHelp('inverted_time_chart')">
+                                <span class="caption" @click="openChartHelp(inverted_time_chart)">
                                 <v-icon small v-text="'mdi-help-circle-outline'"></v-icon>
                                 <span v-text="strings.about"></span>
                             </span>
@@ -64,12 +63,11 @@
                             </v-card-title>
                             <v-card-text>
                                 <chart
-                                        :container="'sessions_by_hours_and_days_chart'"
+                                        :container="sessions_by_hours_and_days_chart"
                                         :chart="build_sessions_by_hours_and_days_chart()"
                                         :lang="strings.chart"
-                                        @mouseenter.native="hoverChart('sessions_by_hours_and_days_chart')"
                                 ></chart>
-                                <span class="caption" @click="openChartHelp('sessions_by_hours_and_days_chart')">
+                                <span class="caption" @click="openChartHelp(sessions_by_hours_and_days_chart)">
                                 <v-icon small v-text="'mdi-help-circle-outline'"></v-icon>
                                 <span v-text="strings.about"></span>
                             </span>
@@ -86,12 +84,11 @@
                             </v-card-title>
                             <v-card-text>
                                 <chart
-                                        :container="'week_sessions_chart'"
+                                        :container="week_sessions_chart"
                                         :chart="build_week_sessions_chart()"
                                         :lang="strings.chart"
-                                        @mouseenter.native="hoverChart('week_sessions_chart')"
                                 ></chart>
-                                <span class="caption" @click="openChartHelp('week_sessions_chart')">
+                                <span class="caption" @click="openChartHelp(week_sessions_chart)">
                                 <v-icon small v-text="'mdi-help-circle-outline'"></v-icon>
                                 <span v-text="strings.about"></span>
                             </span>

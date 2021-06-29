@@ -21,7 +21,7 @@ define(["local_fliplearning/vue",
             Vue.component('helpdialog', HelpDialog);
             let vue = new Vue({
                 delimiters: ["[[", "]]"],
-                el: "#submissions",
+                el: "#teacher_assignments",
                 vuetify: new Vuetify(),
                 data() {
                     return {
@@ -40,6 +40,8 @@ define(["local_fliplearning/vue",
                         pages: content.pages,
                         submissions: content.submissions,
                         email_strings: content.strings.email_strings,
+                        emailComponent: "",
+                        emailTarget: "",
 
                         access: content.access,
                         assigns_submissions_colors: content.assigns_submissions_colors,
@@ -50,14 +52,18 @@ define(["local_fliplearning/vue",
 
                         help_dialog: false,
                         help_contents: [],
+
+                        pluginSectionName: "teacher_assignments",
+                        assigns_submissions_chart: "assigns_submissions_chart",
+                        content_access_chart: "content_access_chart",
                     }
                 },
                 beforeMount() {
                     this.generate_access_content_data();
                 },
                 mounted() {
-                    document.querySelector("#sessions-loader").style.display = "none";
-                    document.querySelector("#submissions").style.display = "block";
+                    document.querySelector("#teacher_assignments_loader").style.display = "none";
+                    document.querySelector("#teacher_assignments").style.display = "block";
                 },
                 methods: {
                     get_help_content() {
@@ -78,6 +84,7 @@ define(["local_fliplearning/vue",
                             courseid: this.courseid,
                             weekcode: week.weekcode,
                             profile: this.render_has,
+                            url: window.location.href
                         }
                         Axios({
                             method: 'get',
@@ -145,11 +152,16 @@ define(["local_fliplearning/vue",
                                 point: {
                                     events: {
                                         click: function() {
+                                            vue.emailComponent = "";
+                                            vue.emailTarget = "";
+
                                             let serie_name = this.category.split('</b>');
                                             serie_name = serie_name[0] || '';
                                             serie_name = serie_name.split('<b>');
                                             serie_name = serie_name[1] || '';
-                                            vue.email_strings.subject = vue.email_strings.subject_prefix + " - " + serie_name;
+                                            vue.email_strings.subject = `${vue.email_strings.subject_prefix} - ${serie_name}`;
+                                            vue.emailComponent = vue.assigns_submissions_chart;
+                                            vue.emailTarget = this.series.name;
 
                                             let x = this.x;
                                             let column = this.series.colorIndex;
@@ -217,8 +229,14 @@ define(["local_fliplearning/vue",
                                 point: {
                                     events: {
                                         click: function() {
+                                            vue.emailComponent = "";
+                                            vue.emailTarget = "";
+
                                             let serie_name = this.category;
-                                            vue.email_strings.subject = vue.email_strings.subject_prefix + " - " + serie_name;
+                                            vue.email_strings.subject = `${vue.email_strings.subject_prefix} - ${serie_name}`;
+                                            vue.emailComponent = vue.content_access_chart;
+                                            vue.emailTarget = this.series.name;
+
                                             let x = this.x;
                                             let column = this.series.colorIndex;
                                             let users = vue.get_users(vue.access_chart_users[x][column]);
@@ -301,7 +319,7 @@ define(["local_fliplearning/vue",
 
                     open_chart_help(chart) {
                         let contents = [];
-                        if (chart == "assigns_submissions") {
+                        if (chart == this.assigns_submissions_chart) {
                             contents.push({
                                 title: this.strings.assigns_submissions_help_title,
                                 description: this.strings.assigns_submissions_help_description_p1,
@@ -309,7 +327,7 @@ define(["local_fliplearning/vue",
                             contents.push({
                                 description: this.strings.assigns_submissions_help_description_p2,
                             });
-                        } else if (chart == "access_content") {
+                        } else if (chart == this.content_access_chart) {
                             contents.push({
                                 title: this.strings.access_content_help_title,
                                 description: this.strings.access_content_help_description_p1,
@@ -321,11 +339,31 @@ define(["local_fliplearning/vue",
                         this.help_contents = contents;
                         if (this.help_contents.length) {
                             this.help_dialog = true;
+                            this.saveInteraction (chart, "viewed", "chart_help_dialog", 7);
                         }
                     },
 
                     update_help_dialog(value) {
                         this.help_dialog = value;
+                    },
+
+                    saveInteraction (component, interaction, target, interactiontype) {
+                        let data = {
+                            action : "saveinteraction",
+                            pluginsection : this.pluginSectionName,
+                            component,
+                            interaction,
+                            target,
+                            url: window.location.href,
+                            interactiontype,
+                            courseid : this.courseid,
+                            userid : this.userid,
+                        };
+                        Axios({
+                            method:'get',
+                            url: `${M.cfg.wwwroot}/local/fliplearning/ajax.php`,
+                            params : data,
+                        }).then((r) => {}).catch((e) => {});
                     },
 
                     get_timezone() {

@@ -83,6 +83,7 @@ if ($action == 'saveconfigweek') {
     array_push($params, $courseid);
     array_push($params, $userid);
     array_push($params, $groupid);
+    array_push($params, $url);
     if($courseid && $userid){
         $func = "local_fliplearning_change_group";
     }
@@ -108,6 +109,7 @@ if ($action == 'saveconfigweek') {
     array_push($params, $courseid);
     array_push($params, $userid);
     array_push($params, $profile);
+    array_push($params, $url);
     if($weekcode && $courseid && $userid && $profile){
         $func = "local_fliplearning_get_assignments_submissions";
     }
@@ -119,6 +121,10 @@ if ($action == 'saveconfigweek') {
     array_push($params, $text);
     array_push($params, $moduleid);
     array_push($params, $modulename);
+    array_push($params, $pluginsection);
+    array_push($params, $component);
+    array_push($params, $target);
+    array_push($params, $url);
     if($subject && $recipients && $text){
         $func = "local_fliplearning_send_email";
     }
@@ -202,7 +208,18 @@ function local_fliplearning_save_weeks_config($weeks, $courseid, $userid, $newin
     local_fliplearning_ajax_response(["settings" => $configweeks->get_settings()]);
 }
 
-function local_fliplearning_change_group($courseid, $userid, $groupid){
+function local_fliplearning_change_group($courseid, $userid, $groupid, $url){
+    \local_fliplearning\logs::create(
+        "pageheader",
+        "group_selector",
+        "selected",
+        "group",
+        $url,
+        1,
+        $userid,
+        $courseid
+    );
+
     set_time_limit(300);
     global $DB;
     if(is_null($groupid)){
@@ -221,7 +238,6 @@ function local_fliplearning_change_group($courseid, $userid, $groupid){
 }
 
 function local_fliplearning_get_sessions($weekcode, $courseid, $userid, $profile, $url){
-
     \local_fliplearning\logs::create(
         "teacher_sessions",
         "week_selector",
@@ -254,7 +270,18 @@ function local_fliplearning_get_inverted_time($weekcode, $courseid, $userid, $pr
     local_fliplearning_ajax_response($body);
 }
 
-function local_fliplearning_get_assignments_submissions($weekcode, $courseid, $userid, $profile){
+function local_fliplearning_get_assignments_submissions($weekcode, $courseid, $userid, $profile, $url){
+    \local_fliplearning\logs::create(
+        "teacher_assignments",
+        "week_selector",
+        "selected",
+        "week_" . $weekcode,
+        $url,
+        10,
+        $userid,
+        $courseid
+    );
+
     set_time_limit(300);
     if($profile == "teacher"){
         $reports = new \local_fliplearning\teacher($courseid, $userid);
@@ -270,7 +297,19 @@ function local_fliplearning_get_assignments_submissions($weekcode, $courseid, $u
     local_fliplearning_ajax_response($body);
 }
 
-function local_fliplearning_send_email($course, $user, $subject, $recipients, $text, $moduleid, $modulename){
+function local_fliplearning_send_email($course, $user, $subject, $recipients, $text, $moduleid, $modulename,
+                                       $pluginsection, $component, $target, $url){
+    \local_fliplearning\logs::create(
+        $pluginsection,
+        $component,
+        "emailed",
+        $target,
+        $url,
+        9,
+        $user->id,
+        $course->id
+    );
+
     set_time_limit(300);
     $email = new \local_fliplearning\email($course, $user);
     $email->sendmail($subject, $recipients, $text, $moduleid, $modulename);
