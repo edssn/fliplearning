@@ -71,7 +71,16 @@ define([
                                 symbolStroke: '#118AB2'
                             }
                         }
-                    }
+                    },
+                    plotOptions: {
+                        series: {
+                            events: {
+                                legendItemClick: function () {
+                                    self.$root.saveInteraction(this.chart.renderTo.id, "filtered", "chart_data", 8);
+                                }
+                            }
+                        }
+                    },
                 });
                 this._highchart = Highcharts.chart(this.container, this.chart);
             }

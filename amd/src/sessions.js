@@ -68,6 +68,7 @@ define(["local_fliplearning/vue",
                             courseid: this.courseid,
                             weekcode: week.weekcode,
                             profile: this.render_has,
+                            url: window.location.href,
                         }
                         Axios({
                             method: 'get',
@@ -96,7 +97,7 @@ define(["local_fliplearning/vue",
                         return axis.categories[point[isY ? 'y' : 'x']];
                     },
 
-                    build_hours_sessions_chart() {
+                    build_sessions_by_hours_and_days_chart() {
                         let chart = new Object();
                         chart.title = {
                             text: null,
@@ -181,7 +182,7 @@ define(["local_fliplearning/vue",
                         return chart;
                     },
 
-                    build_sessions_count_chart() {
+                    build_week_sessions_chart() {
                         let chart = new Object();
                         chart.chart = {
                             backgroundColor: null,
@@ -242,9 +243,9 @@ define(["local_fliplearning/vue",
                         return string.charAt(0).toUpperCase() + string.slice(1);
                     },
 
-                    open_chart_help(chart) {
+                    openChartHelp(chart) {
                         let contents = [];
-                        if (chart == "inverted_time") {
+                        if (chart == "inverted_time_chart") {
                             contents.push({
                                 title: this.strings.inverted_time_help_title,
                                 description: this.strings.inverted_time_help_description_p1,
@@ -252,7 +253,7 @@ define(["local_fliplearning/vue",
                             contents.push({
                                 description: this.strings.inverted_time_help_description_p2,
                             });
-                        } else if (chart == "hours_sessions") {
+                        } else if (chart == "sessions_by_hours_and_days_chart") {
                             contents.push({
                                 title: this.strings.hours_sessions_help_title,
                                 description: this.strings.hours_sessions_help_description_p1,
@@ -260,7 +261,7 @@ define(["local_fliplearning/vue",
                             contents.push({
                                 description: this.strings.hours_sessions_help_description_p2,
                             });
-                        } else if (chart == "sessions_count") {
+                        } else if (chart == "week_sessions_chart") {
                             contents.push({
                                 title: this.strings.sessions_count_help_title,
                                 description: this.strings.sessions_count_help_description_p1,
@@ -272,6 +273,7 @@ define(["local_fliplearning/vue",
                         this.help_contents = contents;
                         if (this.help_contents.length) {
                             this.help_dialog = true;
+                            this.saveInteraction (chart, "viewed", "chart_help_dialog", 7);
                         }
                     },
 
@@ -279,9 +281,31 @@ define(["local_fliplearning/vue",
                         this.help_dialog = value;
                     },
 
+                    saveInteraction (component, interaction, target, interactiontype) {
+                        let data = {
+                            action : "saveinteraction",
+                            pluginsection : "teacher_sessions",
+                            component,
+                            interaction,
+                            target,
+                            url: window.location.href,
+                            interactiontype,
+                            courseid : this.courseid,
+                            userid : this.userid,
+                        };
+                        Axios({
+                            method:'get',
+                            url: `${M.cfg.wwwroot}/local/fliplearning/ajax.php`,
+                            params : data,
+                        }).then((r) => {}).catch((e) => {});
+                    },
+
+                    hoverChart (chart) {
+                        this.saveInteraction (chart, "viewed", "chart_tooltip", 5);
+                    },
+
                     get_timezone() {
-                        let information = `${this.strings.change_timezone} ${this.timezone}`
-                        return information;
+                        return `${this.strings.change_timezone} ${this.timezone}`;
                     },
                 }
             })
