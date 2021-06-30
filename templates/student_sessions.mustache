@@ -1,10 +1,10 @@
-<div id="sessions-loader">
+<div id="student_sessions_loader">
     <div class="progressbar-fliplearning">
         <div class="indeterminate"></div>
     </div>
 </div>
 
-<v-app id="work_sessions" class="fliplearning">
+<v-app id="student_sessions" class="fliplearning">
     <v-main>
         <pageheader
                 :pagetitle="strings.title"
@@ -14,7 +14,7 @@
                 :groups="groups"
                 :courseid="courseid"
                 :userid="userid"
-                :section="'student_sessions'"
+                :section="pluginSectionName"
         ></pageheader>
 
         <v-container pa-8>
@@ -38,11 +38,11 @@
                             </v-card-title>
                             <v-card-text>
                                 <chart
-                                        :container="'inverted_time'"
+                                        :container="inverted_time_chart"
                                         :chart="build_inverted_time_chart()"
                                         :lang="strings.chart"
                                 ></chart>
-                                <span class="caption" @click="open_chart_help('inverted_time')">
+                                <span class="caption" @click="openChartHelp(inverted_time_chart)">
                                 <v-icon small v-text="'mdi-help-circle-outline'"></v-icon>
                                 <span v-text="strings.about"></span>
                             </span>
@@ -57,11 +57,11 @@
                             </v-card-title>
                             <v-card-text>
                                 <chart
-                                        :container="'hour_sessions'"
-                                        :chart="build_hours_session_chart()"
+                                        :container="sessions_by_hours_and_days_chart"
+                                        :chart="build_sessions_by_hours_and_days_chart()"
                                         :lang="strings.chart"
                                 ></chart>
-                                <span class="caption" @click="open_chart_help('hours_session')">
+                                <span class="caption" @click="openChartHelp(sessions_by_hours_and_days_chart)">
                                 <v-icon small v-text="'mdi-help-circle-outline'"></v-icon>
                                 <span v-text="strings.about"></span>
                             </span>
@@ -95,11 +95,11 @@
                             </v-card-subtitle>
                             <v-card-text>
                                 <chart
-                                        :container="'resources_access'"
+                                        :container="resources_access_chart"
                                         :chart="build_resources_access_chart()"
                                         :lang="strings.chart"
                                 ></chart>
-                                <span class="caption" @click="open_chart_help('resources_access')">
+                                <span class="caption" @click="openChartHelp(resources_access_chart)">
                                 <v-icon small v-text="'mdi-help-circle-outline'"></v-icon>
                                 <span v-text="strings.about"></span>
                             </span>

@@ -149,6 +149,7 @@ if ($action == 'saveconfigweek') {
     array_push($params, $courseid);
     array_push($params, $userid);
     array_push($params, $profile);
+    array_push($params, $url);
     if($weekcode && $courseid && $userid && $profile){
         $func = "local_fliplearning_get_student_sessions";
     }
@@ -357,7 +358,18 @@ function local_fliplearning_generate_dropout_data($courseid, $userid, $profile){
     }
 }
 
-function local_fliplearning_get_student_sessions($weekcode, $courseid, $userid, $profile){
+function local_fliplearning_get_student_sessions($weekcode, $courseid, $userid, $profile, $url){
+    \local_fliplearning\logs::create(
+        "student_general",
+        "week_selector",
+        "selected",
+        "week_" . $weekcode,
+        $url,
+        10,
+        $userid,
+        $courseid
+    );
+
     set_time_limit(300);
     $reports = new \local_fliplearning\student($courseid, $userid);
     $indicators = $reports->get_sessions($weekcode, false);

@@ -21,7 +21,7 @@ define(["local_fliplearning/vue",
             Vue.component('helpdialog', HelpDialog);
             let vue = new Vue({
                 delimiters: ["[[", "]]"],
-                el: "#work_sessions",
+                el: "#student_sessions",
                 vuetify: new Vuetify(),
                 data() {
                     return {
@@ -50,6 +50,11 @@ define(["local_fliplearning/vue",
 
                         help_dialog: false,
                         help_contents: [],
+
+                        pluginSectionName: "teacher_general",
+                        inverted_time_chart: "inverted_time_chart",
+                        sessions_by_hours_and_days_chart: "sessions_by_hours_and_days_chart",
+                        resources_access_chart: "resources_access_chart",
                     }
                 },
                 beforeMount() {
@@ -58,8 +63,8 @@ define(["local_fliplearning/vue",
                     this.calculate_resources_access();
                 },
                 mounted() {
-                    document.querySelector("#sessions-loader").style.display = "none";
-                    document.querySelector("#work_sessions").style.display = "block";
+                    document.querySelector("#student_sessions_loader").style.display = "none";
+                    document.querySelector("#student_sessions").style.display = "block";
                 },
                 methods: {
                     get_help_content() {
@@ -108,7 +113,7 @@ define(["local_fliplearning/vue",
                         return chart;
                     },
 
-                    build_hours_session_chart() {
+                    build_sessions_by_hours_and_days_chart() {
                         let chart = new Object();
                         chart.title = { text: null };
                         chart.chart = {
@@ -190,6 +195,13 @@ define(["local_fliplearning/vue",
                                     events: {
                                         click: function() {
                                             vue.modules_dialog = true;
+
+                                            vue.saveInteraction (
+                                                vue.resources_access_chart,
+                                                "viewed",
+                                                "resources_details_dialog",
+                                                18
+                                            );
                                         }
                                     }
                                 }
@@ -213,6 +225,7 @@ define(["local_fliplearning/vue",
                             courseid: this.courseid,
                             weekcode: week.weekcode,
                             profile: this.render_has,
+                            url: window.location.href,
                         }
                         Axios({
                             method: 'get',
@@ -359,9 +372,9 @@ define(["local_fliplearning/vue",
                         this.modules_dialog = value;
                     },
 
-                    open_chart_help(chart) {
+                    openChartHelp(chart) {
                         let contents = [];
-                        if (chart == "inverted_time") {
+                        if (chart == this.inverted_time_chart) {
                             contents.push({
                                 title: this.strings.inverted_time_help_title,
                                 description: this.strings.inverted_time_help_description_p1,
@@ -369,7 +382,7 @@ define(["local_fliplearning/vue",
                             contents.push({
                                 description: this.strings.inverted_time_help_description_p2,
                             });
-                        } else if (chart == "hours_session") {
+                        } else if (chart == this.sessions_by_hours_and_days_chart) {
                             contents.push({
                                 title: this.strings.hours_session_help_title,
                                 description: this.strings.hours_session_help_description_p1,
@@ -377,7 +390,7 @@ define(["local_fliplearning/vue",
                             contents.push({
                                 description: this.strings.hours_session_help_description_p2,
                             });
-                        } else if (chart == "resources_access") {
+                        } else if (chart == this.resources_access_chart) {
                             contents.push({
                                 title: this.strings.resources_access_help_title,
                                 description: this.strings.resources_access_help_description_p1,
@@ -392,7 +405,27 @@ define(["local_fliplearning/vue",
                         this.help_contents = contents;
                         if (this.help_contents.length) {
                             this.help_dialog = true;
+                            this.saveInteraction (chart, "viewed", "chart_help_dialog", 7);
                         }
+                    },
+
+                    saveInteraction (component, interaction, target, interactiontype) {
+                        let data = {
+                            action : "saveinteraction",
+                            pluginsection : this.pluginSectionName,
+                            component,
+                            interaction,
+                            target,
+                            url: window.location.href,
+                            interactiontype,
+                            courseid : this.courseid,
+                            userid : this.userid,
+                        };
+                        Axios({
+                            method:'get',
+                            url: `${M.cfg.wwwroot}/local/fliplearning/ajax.php`,
+                            params : data,
+                        }).then((r) => {}).catch((e) => {});
                     },
 
                     update_help_dialog(value) {
