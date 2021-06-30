@@ -1,10 +1,10 @@
-<div id="sessions-loader">
+<div id="teacher_dropout_loader">
     <div class="progressbar-fliplearning">
         <div class="indeterminate"></div>
     </div>
 </div>
 
-<v-app id="dropout" class="fliplearning">
+<v-app id="teacher_dropout" class="fliplearning">
     <v-main>
         <pageheader
                 :pagetitle="strings.title"
@@ -14,7 +14,7 @@
                 :groups="groups"
                 :courseid="courseid"
                 :userid="userid"
-                :section="'teacher_dropout'"
+                :section="pluginSectionName"
         ></pageheader>
 
         <v-container pa-8>
@@ -23,8 +23,9 @@
                 <v-progress-linear indeterminate color="cyan"></v-progress-linear>
             </v-row>
             <span v-else>
-
-                <v-alert v-if="errors.length > 0" dense outlined type="error" v-text="strings.api_error_network"></v-alert>
+                <v-alert v-if="errors.length > 0" type="error" border="left" dense dismissible>
+                    <v-span v-text="strings.api_error_network"></v-span>
+                </v-alert>
 
                 <div v-if="dropout.clusters.length == 0">
                     <v-row>
@@ -98,14 +99,24 @@
                                                         @click:row="change_user"
                                                 >
                                                     <template v-slot:item.id="{ item }">
-                                                        <img :src="get_picture_url(item.id)" width="35px" heigth="35px" class="round-avatar"/>
+                                                        <img
+                                                                :src="get_picture_url(item.id)"
+                                                                width="35px"
+                                                                heigth="35px"
+                                                                class="round-avatar"
+                                                        />
                                                     </template>
 
                                                     <template v-slot:item.progress_percentage="{ item }">
-                                                        <v-progress-linear color="#118AB2" :value="item.progress_percentage" height="8"></v-progress-linear>
+                                                        <v-progress-linear
+                                                                color="#118AB2"
+                                                                :value="item.progress_percentage"
+                                                                height="8"
+                                                        >
+                                                        </v-progress-linear>
                                                     </template>
                                                 </v-data-table>
-                                                <span class="caption" @click="open_chart_help('group_students')">
+                                                <span class="caption" @click="openChartHelp(students_group_selector)">
                                                     <v-icon small v-text="'mdi-help-circle-outline'"></v-icon>
                                                     <span v-text="strings.about_table"></span>
                                                 </span>
@@ -122,10 +133,22 @@
                                     <v-card-text class="px-0 pb-0">
                                         <v-row class="d-flex justify-center text-center">
                                             <v-col cols="12" md="4">
-                                                <img :src="get_picture_url(selected_user.id)" height="100" width="100" class="round-avatar"/>
+                                                <img
+                                                        :src="get_picture_url(selected_user.id)"
+                                                        height="100"
+                                                        width="100"
+                                                        class="round-avatar"
+                                                />
                                             </v-col>
                                             <v-col cols="12" md="10">
-                                                <v-btn color="#118AB2" class="lighten" text v-on:click="see_profile()" v-text="get_user_fullname()"></v-btn>
+                                                <v-btn
+                                                        color="#118AB2"
+                                                        class="lighten"
+                                                        text
+                                                        v-on:click="see_profile()"
+                                                        v-text="get_user_fullname()"
+                                                >
+                                                </v-btn>
                                             </v-col>
                                         </v-row>
                                     </v-card-text>
@@ -208,11 +231,11 @@
                                     </v-card-subtitle>
                                     <v-card-text>
                                         <chart
-                                                :container="'modules_access'"
+                                                :container="modules_access_chart"
                                                 :chart="build_modules_access_chart()"
                                                 :lang="strings.chart"
                                         ></chart>
-                                        <span class="caption" @click="open_chart_help('modules_access')">
+                                        <span class="caption" @click="openChartHelp(modules_access_chart)">
                                             <v-icon small v-text="'mdi-help-circle-outline'"></v-icon>
                                             <span v-text="strings.about"></span>
                                         </span>
@@ -230,11 +253,11 @@
                                     </v-card-subtitle>
                                     <v-card-text>
                                         <chart
-                                                :container="'week_modules'"
+                                                :container="week_modules_chart"
                                                 :chart="build_week_modules_chart()"
                                                 :lang="strings.chart"
                                         ></chart>
-                                        <span class="caption" @click="open_chart_help('week_modules')">
+                                        <span class="caption" @click="openChartHelp(week_modules_chart)">
                                             <v-icon small v-text="'mdi-help-circle-outline'"></v-icon>
                                             <span v-text="strings.about"></span>
                                         </span>
@@ -254,11 +277,11 @@
                                     </v-card-subtitle>
                                     <v-card-text>
                                         <chart
-                                                :container="'sessions_evolution'"
+                                                :container="sessions_evolution_chart"
                                                 :chart="build_sessions_evolution_chart()"
                                                 :lang="strings.chart"
                                         ></chart>
-                                        <span class="caption" @click="open_chart_help('sessions_evolution')">
+                                        <span class="caption" @click="openChartHelp(sessions_evolution_chart)">
                                             <v-icon small v-text="'mdi-help-circle-outline'"></v-icon>
                                             <span v-text="strings.about"></span>
                                         </span>
@@ -278,11 +301,11 @@
                                     </v-card-subtitle>
                                     <v-card-text>
                                         <chart
-                                                :container="'user_grades'"
+                                                :container="user_grades_chart"
                                                 :chart="build_user_grades_chart()"
                                                 :lang="strings.chart"
                                         ></chart>
-                                        <span class="caption" @click="open_chart_help('user_grades')">
+                                        <span class="caption" @click="openChartHelp(user_grades_chart)">
                                             <v-icon small v-text="'mdi-help-circle-outline'"></v-icon>
                                             <span v-text="strings.about"></span>
                                         </span>
@@ -301,6 +324,9 @@
                                         :modulename="modulename"
                                         :courseid="courseid"
                                         :userid="userid"
+                                        :pluginsection="pluginSectionName"
+                                        :component="emailComponent"
+                                        :target="emailTarget"
                                         @update_dialog="update_email_dialog"
                                 ></emailform>
                             </v-col>

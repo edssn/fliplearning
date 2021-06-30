@@ -24,7 +24,7 @@ define(["local_fliplearning/vue",
             Vue.component('helpdialog', HelpDialog);
             let vue = new Vue({
                 delimiters: ["[[", "]]"],
-                el: "#dropout",
+                el: "#teacher_dropout",
                 vuetify: new Vuetify(),
                 data() {
                     return {
@@ -60,9 +60,18 @@ define(["local_fliplearning/vue",
                         modulename: "",
                         moduleid: false,
                         email_strings: content.strings.email_strings,
+                        emailComponent: "",
+                        emailTarget: "",
 
                         help_dialog: false,
                         help_contents: [],
+
+                        pluginSectionName: "teacher_dropout",
+                        students_group_selector: "students_group_selector",
+                        modules_access_chart: "modules_access_chart",
+                        week_modules_chart: "week_modules_chart",
+                        sessions_evolution_chart: "sessions_evolution_chart",
+                        user_grades_chart: "user_grades_chart",
                     }
                 },
                 beforeMount() {
@@ -73,8 +82,8 @@ define(["local_fliplearning/vue",
                     };
                 },
                 mounted() {
-                    document.querySelector("#sessions-loader").style.display = "none";
-                    document.querySelector("#dropout").style.display = "block";
+                    document.querySelector("#teacher_dropout_loader").style.display = "none";
+                    document.querySelector("#teacher_dropout").style.display = "block";
                 },
                 computed: {
 
@@ -109,6 +118,8 @@ define(["local_fliplearning/vue",
                     },
 
                     change_cluster(users) {
+                        this.saveInteraction (this.students_group_selector, "selected", "group", 14);
+
                         let selected_users = [];
                         this.dropout.users.forEach(user => {
                             if (users.includes(user.id)) {
@@ -130,6 +141,8 @@ define(["local_fliplearning/vue",
                         this.calculate_week_modules_access();
                         this.calculate_sessions_evolution();
                         this.calculate_user_grades();
+
+                        this.saveInteraction ("students_table", "selected", "user", 15);
                     },
 
                     calculate_week_modules_access() {
@@ -250,6 +263,13 @@ define(["local_fliplearning/vue",
                                         events: {
                                             click: function() {
                                                 vue.open_modules_modal(this.x);
+
+                                                vue.saveInteraction (
+                                                    vue.modules_access_chart,
+                                                    "viewed",
+                                                    "resources_details_dialog",
+                                                    18
+                                                );
                                             }
                                         }
                                     }
@@ -318,6 +338,13 @@ define(["local_fliplearning/vue",
                                     events: {
                                         click: function() {
                                             vue.open_modules_modal(this.colorIndex, this.x);
+
+                                            vue.saveInteraction (
+                                                vue.week_modules_chart,
+                                                "viewed",
+                                                "week_resources_details_dialog",
+                                                18
+                                            );
                                         }
                                     }
                                 }
@@ -411,6 +438,13 @@ define(["local_fliplearning/vue",
                                             let item = vue.selected_user.gradeitems[position];
                                             let url = `${M.cfg.wwwroot}/mod/${item.itemmodule}/view.php?id=${item.coursemoduleid}`;
                                             window.open(url, '_blank');
+
+                                            vue.saveInteraction (
+                                                vue.user_grades_chart,
+                                                "selected",
+                                                "grade_item",
+                                                19
+                                            );
                                         }
                                     }
                                 }
@@ -613,13 +647,20 @@ define(["local_fliplearning/vue",
                     },
 
                     sendmail(type) {
+                        this.emailComponent = "user_profile_card";
+                        this.emailTarget = "";
+
                         this.strings.email_strings.subject = this.strings.email_strings.subject_prefix;
                         this.modulename = "course";
                         this.moduleid = this.courseid;
                         if (type == 1) {
+                            this.emailTarget = "user";
+
                             this.email_users = [this.selected_user];
                             this.email_dialog = true;
                         } else if (type == 2) {
+                            this.emailTarget = "group";
+
                             this.email_users = this.cluster_users;
                             this.email_dialog = true;
                         }
@@ -668,9 +709,9 @@ define(["local_fliplearning/vue",
                         return this.data;
                     },
 
-                    open_chart_help(chart) {
+                    openChartHelp(chart) {
                         let contents = [];
-                        if (chart == "group_students") {
+                        if (chart == this.students_group_selector) {
                             contents.push({
                                 title: this.strings.group_students_help_title,
                                 description: this.strings.group_students_help_description_p1,
@@ -678,7 +719,7 @@ define(["local_fliplearning/vue",
                             contents.push({
                                 description: this.strings.group_students_help_description_p2,
                             });
-                        } else if (chart == "modules_access") {
+                        } else if (chart == this.modules_access_chart) {
                             contents.push({
                                 title: this.strings.modules_access_help_title,
                                 description: this.strings.modules_access_help_description_p1,
@@ -689,7 +730,7 @@ define(["local_fliplearning/vue",
                             contents.push({
                                 description: this.strings.modules_access_help_description_p3,
                             });
-                        } else if (chart == "week_modules") {
+                        } else if (chart == this.week_modules_chart) {
                             contents.push({
                                 title: this.strings.week_modules_help_title,
                                 description: this.strings.week_modules_help_description_p1,
@@ -700,7 +741,7 @@ define(["local_fliplearning/vue",
                             contents.push({
                                 description: this.strings.week_modules_help_description_p3,
                             });
-                        } else if (chart == "sessions_evolution") {
+                        } else if (chart == this.sessions_evolution_chart) {
                             contents.push({
                                 title: this.strings.sessions_evolution_help_title,
                                 description: this.strings.sessions_evolution_help_description_p1,
@@ -711,7 +752,7 @@ define(["local_fliplearning/vue",
                             contents.push({
                                 description: this.strings.sessions_evolution_help_description_p3,
                             });
-                        } else if (chart == "user_grades") {
+                        } else if (chart == this.user_grades_chart) {
                             contents.push({
                                 title: this.strings.user_grades_help_title,
                                 description: this.strings.user_grades_help_description_p1,
@@ -726,7 +767,27 @@ define(["local_fliplearning/vue",
                         this.help_contents = contents;
                         if (this.help_contents.length) {
                             this.help_dialog = true;
+                            this.saveInteraction (chart, "viewed", "chart_help_dialog", 7);
                         }
+                    },
+
+                    saveInteraction (component, interaction, target, interactiontype) {
+                        let data = {
+                            action : "saveinteraction",
+                            pluginsection : this.pluginSectionName,
+                            component,
+                            interaction,
+                            target,
+                            url: window.location.href,
+                            interactiontype,
+                            courseid : this.courseid,
+                            userid : this.userid,
+                        };
+                        Axios({
+                            method:'get',
+                            url: `${M.cfg.wwwroot}/local/fliplearning/ajax.php`,
+                            params : data,
+                        }).then((r) => {}).catch((e) => {});
                     },
 
                     update_help_dialog(value) {
