@@ -1,10 +1,10 @@
-<div id="sessions-loader">
+<div id="student_general_loader">
     <div class="progressbar-fliplearning">
         <div class="indeterminate"></div>
     </div>
 </div>
 
-<v-app id="student" class="fliplearning">
+<v-app id="student_general" class="fliplearning">
     <v-main>
         <pageheader
                 :pagetitle="strings.title"
@@ -14,7 +14,7 @@
                 :groups="groups"
                 :courseid="courseid"
                 :userid="userid"
-                :section="'student_general'"
+                :section="pluginSectionName"
         ></pageheader>
 
         <v-container pa-8>
@@ -72,11 +72,11 @@
                             </v-card-title>
                             <v-card-text>
                                 <chart
-                                        :container="'modules_access'"
+                                        :container="modules_access_chart"
                                         :chart="build_modules_access_chart()"
                                         :lang="strings.chart"
                                 ></chart>
-                                <span class="caption" @click="open_chart_help('modules_access')">
+                                <span class="caption" @click="openChartHelp(modules_access_chart)">
                                             <v-icon small v-text="'mdi-help-circle-outline'"></v-icon>
                                             <span v-text="strings.about"></span>
                                         </span>
@@ -91,11 +91,11 @@
                             </v-card-title>
                             <v-card-text>
                                 <chart
-                                        :container="'week_sessions'"
+                                        :container="weeks_session_chart"
                                         :chart="build_weeks_session_chart()"
                                         :lang="strings.chart"
                                 ></chart>
-                                <span class="caption" @click="open_chart_help('weeks_session')">
+                                <span class="caption" @click="openChartHelp(weeks_session_chart)">
                                             <v-icon small v-text="'mdi-help-circle-outline'"></v-icon>
                                             <span v-text="strings.about"></span>
                                         </span>
@@ -112,11 +112,11 @@
                             </v-card-title>
                             <v-card-text>
                                 <chart
-                                        :container="'sessions_evolution'"
+                                        :container="sessions_evolution_chart"
                                         :chart="build_sessions_evolution_chart()"
                                         :lang="strings.chart"
                                 ></chart>
-                                <span class="caption" @click="open_chart_help('sessions_evolution')">
+                                <span class="caption" @click="openChartHelp(sessions_evolution_chart)">
                                             <v-icon small v-text="'mdi-help-circle-outline'"></v-icon>
                                             <span v-text="strings.about"></span>
                                         </span>
@@ -134,11 +134,11 @@
                             </v-card-title>
                             <v-card-text>
                                 <chart
-                                        :container="'user_grades'"
+                                        :container="user_grades_chart"
                                         :chart="build_user_grades_chart()"
                                         :lang="strings.chart"
                                 ></chart>
-                                <span class="caption" @click="open_chart_help('user_grades')">
+                                <span class="caption" @click="openChartHelp(user_grades_chart)">
                                             <v-icon small v-text="'mdi-help-circle-outline'"></v-icon>
                                             <span v-text="strings.about"></span>
                                         </span>
