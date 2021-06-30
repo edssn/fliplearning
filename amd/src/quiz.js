@@ -19,7 +19,7 @@ define(["local_fliplearning/vue",
             Vue.component('helpdialog', HelpDialog);
             let vue = new Vue({
                 delimiters: ["[[", "]]"],
-                el: "#quiz",
+                el: "#teacher_assessments",
                 vuetify: new Vuetify(),
                 data() {
                     return {
@@ -46,6 +46,10 @@ define(["local_fliplearning/vue",
 
                         help_dialog: false,
                         help_contents: [],
+
+                        pluginSectionName: "teacher_assessments",
+                        questions_attempts_chart: "questions_attempts_chart",
+                        hardest_questions_chart: "hardest_questions_chart",
                     }
                 },
                 beforeMount() {
@@ -55,8 +59,8 @@ define(["local_fliplearning/vue",
                     };
                 },
                 mounted() {
-                    document.querySelector("#sessions-loader").style.display = "none";
-                    document.querySelector("#quiz").style.display = "block";
+                    document.querySelector("#teacher_assessments_loader").style.display = "none";
+                    document.querySelector("#teacher_assessments").style.display = "block";
                 },
                 methods: {
                     get_help_content() {
@@ -143,6 +147,13 @@ define(["local_fliplearning/vue",
                                             let id = question.id;
                                             let url = M.cfg.wwwroot + '/question/preview.php?id=' + id + '&courseid=' + vue.courseid;
                                             window.open(url, '_blank', 'top=50,left=50,width=900,height=600');
+
+                                            vue.saveInteraction (
+                                                vue.questions_attempts_chart,
+                                                "selected",
+                                                "question",
+                                                13
+                                            );
                                         }
                                     }
                                 }
@@ -206,6 +217,13 @@ define(["local_fliplearning/vue",
                                             let id = question.id;
                                             let url = M.cfg.wwwroot + '/question/preview.php?id=' + id + '&courseid=' + vue.courseid;
                                             window.open(url, '_blank', 'top=50,left=50,width=900,height=600');
+
+                                            vue.saveInteraction (
+                                                vue.hardest_questions_chart,
+                                                "selected",
+                                                "question",
+                                                13
+                                            );
                                         }
                                     }
                                 }
@@ -304,6 +322,8 @@ define(["local_fliplearning/vue",
                         this.hardest_categories = hardest_categories;
                         this.hardest_series = hardest_series;
                         this.hardest_questions = hardest_questions;
+
+                        this.saveInteraction ('quiz_selector', "selected", "quiz", 21);
                     },
 
                     update_interactions(week) {
@@ -315,6 +335,7 @@ define(["local_fliplearning/vue",
                             courseid: this.courseid,
                             weekcode: week.weekcode,
                             profile: this.render_has,
+                            url: window.location.href,
                         }
                         Axios({
                             method: 'get',
@@ -360,9 +381,9 @@ define(["local_fliplearning/vue",
                         return 0;
                     },
 
-                    open_chart_help(chart) {
+                    openChartHelp(chart) {
                         let contents = [];
-                        if (chart == "questions_attempts") {
+                        if (chart == this.questions_attempts_chart) {
                             contents.push({
                                 title: this.strings.questions_attempts_help_title,
                                 description: this.strings.questions_attempts_help_description_p1,
@@ -373,7 +394,7 @@ define(["local_fliplearning/vue",
                             contents.push({
                                 description: this.strings.questions_attempts_help_description_p3,
                             });
-                        } else if (chart == "hardest_questions") {
+                        } else if (chart == this.hardest_questions_chart) {
                             contents.push({
                                 title: this.strings.hardest_questions_help_title,
                                 description: this.strings.hardest_questions_help_description_p1,
@@ -388,7 +409,27 @@ define(["local_fliplearning/vue",
                         this.help_contents = contents;
                         if (this.help_contents.length) {
                             this.help_dialog = true;
+                            this.saveInteraction (chart, "viewed", "chart_help_dialog", 7);
                         }
+                    },
+
+                    saveInteraction (component, interaction, target, interactiontype) {
+                        let data = {
+                            action : "saveinteraction",
+                            pluginsection : this.pluginSectionName,
+                            component,
+                            interaction,
+                            target,
+                            url: window.location.href,
+                            interactiontype,
+                            courseid : this.courseid,
+                            userid : this.userid,
+                        };
+                        Axios({
+                            method:'get',
+                            url: `${M.cfg.wwwroot}/local/fliplearning/ajax.php`,
+                            params : data,
+                        }).then((r) => {}).catch((e) => {});
                     },
 
                     update_help_dialog(value) {

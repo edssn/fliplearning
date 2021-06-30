@@ -1,10 +1,10 @@
-<div id="sessions-loader">
+<div id="teacher_assessments_loader">
     <div class="progressbar-fliplearning">
         <div class="indeterminate"></div>
     </div>
 </div>
 
-<v-app id="quiz" class="fliplearning">
+<v-app id="teacher_assessments" class="fliplearning">
     <v-main>
         <pageheader
                 :pagetitle="strings.title"
@@ -14,7 +14,7 @@
                 :groups="groups"
                 :courseid="courseid"
                 :userid="userid"
-                :section="'teacher_assessments'"
+                :section="pluginSectionName"
         ></pageheader>
 
         <v-container pa-8>
@@ -23,11 +23,17 @@
                 <v-progress-linear indeterminate color="cyan"></v-progress-linear>
             </v-row>
             <div v-else>
-                <v-alert v-if="errors.length > 0" dense outlined type="error" v-text="strings.api_error_network"></v-alert>
+                <v-alert v-if="errors.length > 0" type="error" border="left" dense dismissible>
+                    <v-span v-text="strings.api_error_network"></v-span>
+                </v-alert>
 
                 <pagination
-                        :pages="pages" :name="strings.pagination_name" :nameseparator="strings.pagination_separator"
-                        @changepage="update_interactions" :title="strings.pagination_title"></pagination>
+                        :pages="pages"
+                        :name="strings.pagination_name"
+                        :nameseparator="strings.pagination_separator"
+                        @changepage="update_interactions"
+                        :title="strings.pagination_title"
+                ></pagination>
 
                 <v-row>
                     <v-col cols="12" md="4">
@@ -65,11 +71,11 @@
                             </v-card-title>
                             <v-card-text>
                                 <chart
-                                        :container="'questions_attempts'"
+                                        :container="questions_attempts_chart"
                                         :chart="build_questions_attempts_chart()"
                                         :lang="strings.chart"
                                 ></chart>
-                                <span class="caption" @click="open_chart_help('questions_attempts')">
+                                <span class="caption" @click="openChartHelp(questions_attempts_chart)">
                                 <v-icon small v-text="'mdi-help-circle-outline'"></v-icon>
                                 <span v-text="strings.about"></span>
                             </span>
@@ -84,11 +90,11 @@
                             </v-card-title>
                             <v-card-text>
                                 <chart
-                                        :container="'hardest_questions'"
+                                        :container="hardest_questions_chart"
                                         :chart="build_hardest_questions_chart()"
                                         :lang="strings.chart"
                                 ></chart>
-                                <span class="caption" @click="open_chart_help('hardest_questions')">
+                                <span class="caption" @click="openChartHelp(hardest_questions_chart)">
                                 <v-icon small v-text="'mdi-help-circle-outline'"></v-icon>
                                 <span v-text="strings.about"></span>
                             </span>

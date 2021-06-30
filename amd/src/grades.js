@@ -97,6 +97,7 @@ define(["local_fliplearning/vue",
                         this.calculate_chart_items_average(items);
                         let item = this.find_first_grade_item(items);
                         this.update_detail_charts(item);
+
                         this.saveInteraction ('grade_item_selector', "selected", "grade_item", 11);
                     },
 

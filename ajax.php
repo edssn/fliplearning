@@ -133,6 +133,7 @@ if ($action == 'saveconfigweek') {
     array_push($params, $courseid);
     array_push($params, $userid);
     array_push($params, $profile);
+    array_push($params, $url);
     if($weekcode && $courseid && $userid && $profile){
         $func = "local_fliplearning_get_quiz_attempts";
     }
@@ -320,7 +321,18 @@ function local_fliplearning_send_email($course, $user, $subject, $recipients, $t
     local_fliplearning_ajax_response($body);
 }
 
-function local_fliplearning_get_quiz_attempts($weekcode, $courseid, $userid, $profile){
+function local_fliplearning_get_quiz_attempts($weekcode, $courseid, $userid, $profile, $url){
+    \local_fliplearning\logs::create(
+        "teacher_assessments",
+        "week_selector",
+        "selected",
+        "week_" . $weekcode,
+        $url,
+        10,
+        $userid,
+        $courseid
+    );
+
     set_time_limit(300);
     if($profile == "teacher"){
         $reports = new \local_fliplearning\teacher($courseid, $userid);
