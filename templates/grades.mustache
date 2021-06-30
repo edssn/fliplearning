@@ -1,10 +1,10 @@
-<div id="sessions-loader">
+<div id="teacher_grades_loader">
     <div class="progressbar-fliplearning">
         <div class="indeterminate"></div>
     </div>
 </div>
 
-<v-app id="grades" class="fliplearning">
+<v-app id="teacher_grades" class="fliplearning">
     <v-main>
         <pageheader
                 :pagetitle="strings.title"
@@ -14,7 +14,7 @@
                 :groups="groups"
                 :courseid="courseid"
                 :userid="userid"
-                :section="'teacher_grades'"
+                :section="pluginSectionName"
         ></pageheader>
 
         <v-container pa-8>
@@ -23,7 +23,9 @@
                 <v-progress-linear indeterminate color="cyan"></v-progress-linear>
             </v-row>
             <div v-else>
-                <v-alert v-if="errors.length > 0" dense outlined type="error" v-text="strings.api_error_network"></v-alert>
+                <v-alert v-if="errors.length > 0" type="error" border="left" dense dismissible>
+                    <v-span v-text="strings.api_error_network"></v-span>
+                </v-alert>
 
                 <v-row>
                     <v-col cols="12" md="4">
@@ -51,11 +53,11 @@
                             </v-card-title>
                             <v-card-text>
                                 <chart
-                                        :container="'grade_items_average'"
+                                        :container="grade_items_average_chart"
                                         :chart="build_grade_items_average_chart()"
                                         :lang="strings.chart"
                                 ></chart>
-                                <span class="caption" @click="open_chart_help('grade_items_average')">
+                                <span class="caption" @click="openChartHelp(grade_items_average_chart)">
                                 <v-icon small v-text="'mdi-help-circle-outline'"></v-icon>
                                 <span v-text="strings.about"></span>
                             </span>
@@ -75,11 +77,11 @@
                             </v-card-subtitle>
                             <v-card-text>
                                 <chart
-                                        :container="'item_grades_details'"
+                                        :container="item_grades_details_chart"
                                         :chart="build_item_grades_details_chart()"
                                         :lang="strings.chart"
                                 ></chart>
-                                <span class="caption" @click="open_chart_help('item_grades_details')">
+                                <span class="caption" @click="openChartHelp(item_grades_details_chart)">
                                 <v-icon small v-text="'mdi-help-circle-outline'"></v-icon>
                                 <span v-text="strings.about"></span>
                             </span>
@@ -97,11 +99,11 @@
                             </v-card-subtitle>
                             <v-card-text>
                                 <chart
-                                        :container="'item_grades_distribution'"
+                                        :container="item_grades_distribution_chart"
                                         :chart="build_item_grades_distribution_chart()"
                                         :lang="strings.chart"
                                 ></chart>
-                                <span class="caption" @click="open_chart_help('item_grades_distribution')">
+                                <span class="caption" @click="openChartHelp(item_grades_distribution_chart)">
                                 <v-icon small v-text="'mdi-help-circle-outline'"></v-icon>
                                 <span v-text="strings.about"></span>
                             </span>
@@ -120,6 +122,9 @@
                                 :modulename="modulename"
                                 :courseid="courseid"
                                 :userid="userid"
+                                :pluginsection="pluginSectionName"
+                                :component="emailComponent"
+                                :target="emailTarget"
                                 @update_dialog="update_dialog"
                         ></emailform>
                     </v-col>

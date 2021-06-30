@@ -160,8 +160,12 @@ define(["local_fliplearning/vue",
                                             serie_name = serie_name.split('<b>');
                                             serie_name = serie_name[1] || '';
                                             vue.email_strings.subject = `${vue.email_strings.subject_prefix} - ${serie_name}`;
+
+                                            let target = this.series.name;
+                                            target = `${target.replace(/ /g, '_').toLowerCase()}_users`;
+
                                             vue.emailComponent = vue.assigns_submissions_chart;
-                                            vue.emailTarget = this.series.name;
+                                            vue.emailTarget = target;
 
                                             let x = this.x;
                                             let column = this.series.colorIndex;
@@ -234,8 +238,12 @@ define(["local_fliplearning/vue",
 
                                             let serie_name = this.category;
                                             vue.email_strings.subject = `${vue.email_strings.subject_prefix} - ${serie_name}`;
+
+                                            let target = this.series.name;
+                                            target = `${target.replace(/ /g, '_').toLowerCase()}_users`;
+
                                             vue.emailComponent = vue.content_access_chart;
-                                            vue.emailTarget = this.series.name;
+                                            vue.emailTarget = target;
 
                                             let x = this.x;
                                             let column = this.series.colorIndex;

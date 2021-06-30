@@ -154,7 +154,7 @@ define([
                 });
                 this.loader_dialog = true;
                 this.errors = [];
-                const regex = / /i;
+                //const regex = / /i;
 
                 let data = {
                     action : "sendmail",
@@ -167,7 +167,8 @@ define([
                     modulename : this.modulename,
                     pluginsection: this.pluginsection,
                     component: this.component,
-                    target: `${this.target.replace(regex, '_').toLowerCase()}_users`,
+                    //target: `${this.target.replace(/ /i, '_').toLowerCase()}_users`,
+                    target: this.target,
                     url: window.location.href
                 };
                 Axios({

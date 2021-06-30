@@ -1,12 +1,13 @@
 define(["local_fliplearning/vue",
         "local_fliplearning/vuetify",
+        "local_fliplearning/axios",
         "local_fliplearning/pagination",
         "local_fliplearning/chartdynamic",
         "local_fliplearning/pageheader",
         "local_fliplearning/emailform",
         "local_fliplearning/helpdialog",
     ],
-    function(Vue, Vuetify, Pagination, ChartDynamic, PageHeader, EmailForm, HelpDialog) {
+    function(Vue, Vuetify, Axios, Pagination, ChartDynamic, PageHeader, EmailForm, HelpDialog) {
         "use strict";
 
         function init(content) {
@@ -19,7 +20,7 @@ define(["local_fliplearning/vue",
             Vue.component('helpdialog', HelpDialog);
             let vue = new Vue({
                 delimiters: ["[[", "]]"],
-                el: "#grades",
+                el: "#teacher_grades",
                 vuetify: new Vuetify(),
                 data() {
                     return {
@@ -58,9 +59,16 @@ define(["local_fliplearning/vue",
                         modulename: "",
                         moduleid: false,
                         email_strings: content.strings.email_strings,
+                        emailComponent: "",
+                        emailTarget: "",
 
                         help_dialog: false,
                         help_contents: [],
+
+                        pluginSectionName: "teacher_grades",
+                        grade_items_average_chart: "grade_items_average_chart",
+                        item_grades_details_chart: "item_grades_details_chart",
+                        item_grades_distribution_chart: "item_grades_distribution_chart",
                     }
                 },
                 beforeMount() {
@@ -72,8 +80,8 @@ define(["local_fliplearning/vue",
                     };
                 },
                 mounted() {
-                    document.querySelector("#sessions-loader").style.display = "none";
-                    document.querySelector("#grades").style.display = "block";
+                    document.querySelector("#teacher_grades_loader").style.display = "none";
+                    document.querySelector("#teacher_grades").style.display = "block";
                 },
                 methods: {
                     get_help_content() {
@@ -89,6 +97,7 @@ define(["local_fliplearning/vue",
                         this.calculate_chart_items_average(items);
                         let item = this.find_first_grade_item(items);
                         this.update_detail_charts(item);
+                        this.saveInteraction ('grade_item_selector', "selected", "grade_item", 11);
                     },
 
                     build_grade_items_average_chart() {
@@ -117,6 +126,13 @@ define(["local_fliplearning/vue",
                                             let position = this.x;
                                             let item = vue.selected_items[position];
                                             vue.update_detail_charts(item);
+
+                                            vue.saveInteraction (
+                                                vue.grade_items_average_chart,
+                                                "selected",
+                                                "grade_item",
+                                                12
+                                            );
                                         }
                                     }
                                 }
@@ -253,10 +269,20 @@ define(["local_fliplearning/vue",
                                 point: {
                                     events: {
                                         click: function() {
+                                            vue.emailComponent = "";
+                                            vue.emailTarget = "";
+
                                             let position = this.x;
                                             vue.selected_users = vue.grade_item_users[position];
                                             vue.email_strings.subject = vue.email_strings.subject_prefix +
                                                 " - " + vue.selected_item.itemname;
+
+                                            let target = vue.grade_item_distribution_categories[position].split("<br/>")[1];
+                                            target = `${target.replace(/ /g, '_').toLowerCase()}_range_users`;
+
+                                            vue.emailComponent = vue.item_grades_distribution_chart;
+                                            vue.emailTarget = target;
+
                                             vue.dialog = true;
                                         }
                                     }
@@ -394,9 +420,9 @@ define(["local_fliplearning/vue",
                         this.dialog = value;
                     },
 
-                    open_chart_help(chart) {
+                    openChartHelp(chart) {
                         let contents = [];
-                        if (chart == "grade_items_average") {
+                        if (chart == this.grade_items_average_chart) {
                             contents.push({
                                 title: this.strings.grade_items_average_help_title,
                                 description: this.strings.grade_items_average_help_description_p1,
@@ -407,7 +433,7 @@ define(["local_fliplearning/vue",
                             contents.push({
                                 description: this.strings.grade_items_average_help_description_p3,
                             });
-                        } else if (chart == "item_grades_details") {
+                        } else if (chart == this.item_grades_details_chart) {
                             contents.push({
                                 title: this.strings.item_grades_details_help_title,
                                 description: this.strings.item_grades_details_help_description_p1,
@@ -415,7 +441,7 @@ define(["local_fliplearning/vue",
                             contents.push({
                                 description: this.strings.item_grades_details_help_description_p2,
                             });
-                        } else if (chart == "item_grades_distribution") {
+                        } else if (chart == this.item_grades_distribution_chart) {
                             contents.push({
                                 title: this.strings.item_grades_distribution_help_title,
                                 description: this.strings.item_grades_distribution_help_description_p1,
@@ -430,11 +456,31 @@ define(["local_fliplearning/vue",
                         this.help_contents = contents;
                         if (this.help_contents.length) {
                             this.help_dialog = true;
+                            this.saveInteraction (chart, "viewed", "chart_help_dialog", 7);
                         }
                     },
 
                     update_help_dialog(value) {
                         this.help_dialog = value;
+                    },
+
+                    saveInteraction (component, interaction, target, interactiontype) {
+                        let data = {
+                            action : "saveinteraction",
+                            pluginsection : this.pluginSectionName,
+                            component,
+                            interaction,
+                            target,
+                            url: window.location.href,
+                            interactiontype,
+                            courseid : this.courseid,
+                            userid : this.userid,
+                        };
+                        Axios({
+                            method:'get',
+                            url: `${M.cfg.wwwroot}/local/fliplearning/ajax.php`,
+                            params : data,
+                        }).then((r) => {}).catch((e) => {});
                     },
 
                     get_timezone() {
