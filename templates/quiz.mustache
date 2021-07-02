@@ -74,6 +74,7 @@
                                         :container="questions_attempts_chart"
                                         :chart="build_questions_attempts_chart()"
                                         :lang="strings.chart"
+                                        :title="strings.questions_attempts_chart_title"
                                 ></chart>
                                 <span class="caption" @click="openChartHelp(questions_attempts_chart)">
                                 <v-icon small v-text="'mdi-help-circle-outline'"></v-icon>
@@ -93,6 +94,7 @@
                                         :container="hardest_questions_chart"
                                         :chart="build_hardest_questions_chart()"
                                         :lang="strings.chart"
+                                        :title="strings.hardest_questions_chart_title"
                                 ></chart>
                                 <span class="caption" @click="openChartHelp(hardest_questions_chart)">
                                 <v-icon small v-text="'mdi-help-circle-outline'"></v-icon>

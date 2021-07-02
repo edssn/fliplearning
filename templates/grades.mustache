@@ -56,6 +56,7 @@
                                         :container="grade_items_average_chart"
                                         :chart="build_grade_items_average_chart()"
                                         :lang="strings.chart"
+                                        :title="strings.grades_chart_title"
                                 ></chart>
                                 <span class="caption" @click="openChartHelp(grade_items_average_chart)">
                                 <v-icon small v-text="'mdi-help-circle-outline'"></v-icon>
@@ -80,6 +81,7 @@
                                         :container="item_grades_details_chart"
                                         :chart="build_item_grades_details_chart()"
                                         :lang="strings.chart"
+                                        :title="strings.grades_details_subtitle"
                                 ></chart>
                                 <span class="caption" @click="openChartHelp(item_grades_details_chart)">
                                 <v-icon small v-text="'mdi-help-circle-outline'"></v-icon>
@@ -102,6 +104,7 @@
                                         :container="item_grades_distribution_chart"
                                         :chart="build_item_grades_distribution_chart()"
                                         :lang="strings.chart"
+                                        :title="strings.grades_distribution_subtitle"
                                 ></chart>
                                 <span class="caption" @click="openChartHelp(item_grades_distribution_chart)">
                                 <v-icon small v-text="'mdi-help-circle-outline'"></v-icon>

@@ -20,9 +20,8 @@
 
             <v-row>
                 <v-col cols="12">
-
                     <v-card elevation="2">
-                        <v-card-title class="justify-center">Rango de Fechas para Interacciones</v-card-title>
+                        <v-card-title class="justify-center" v-text="strings.logsDatesRange"></v-card-title>
                         <v-card-text class="text-center">
 
                             <v-row align="center" justify="center">
@@ -31,9 +30,9 @@
                                             no-title
                                             v-model="dates"
                                             landscape="false"
-                                            year-icon="mdi-calendar-blank"
                                             full-width
                                             range
+                                            show-adjacent-months
                                             color="#118AB2"
                                     ></v-date-picker>
                                 </v-col>
@@ -52,13 +51,13 @@
                                             @click="getFile('moodle')"
                                             class="white--text"
                                             color="#118AB2"
+                                            v-text="strings.moodleLogsHelpTitle"
                                         >
-                                            Registros de Moodle
                                         </v-btn>
                                         <v-card-text>
-                                            <span class="caption">
+                                            <span class="caption" @click="openChartHelp(moodle_logs)">
                                                 <v-icon small v-text="'mdi-help-circle-outline'"></v-icon>
-                                                <span>Acerca de los Registros de Fliplearning</span>
+                                                <span v-text="strings.moodleLogsAbout"></span>
                                             </span>
                                         </v-card-text>
                                     </v-card>
@@ -72,13 +71,13 @@
                                             @click="getFile('fliplearning')"
                                             class="white--text"
                                             color="#118AB2"
+                                            v-text="strings.fliplearningLogsHelpTitle"
                                         >
-                                            Registros de Fliplearning
                                         </v-btn>
                                         <v-card-text>
-                                            <span class="caption">
+                                            <span class="caption" @click="openChartHelp(fliplearning_logs)">
                                                 <v-icon small v-text="'mdi-help-circle-outline'"></v-icon>
-                                                <span>Acerca de los Registros de Fliplearning</span>
+                                                <span v-text="strings.fliplearningLogsAbout"></span>
                                             </span>
                                         </v-card-text>
                                     </v-card>
@@ -88,6 +87,42 @@
                         </v-card-text>
                     </v-card>
                 </v-col>
+            </v-row>
+
+            <v-row>
+                <v-dialog v-model="helpDialog" max-width="700px">
+                    <v-card>
+                        <v-card-title class="headline lighten-2 d-flex justify-center help-dialog-title">
+                            <span class="help-modal-title mr-2" v-text="helpTitle"></span>
+                            <v-icon color="white" v-text="'help_outline'"></v-icon>
+                        </v-card-title>
+                        <v-card-text
+                                class="pt-4 pb-4 pr-8 pl-8 help-dialog-content"
+                                v-text="helpDescription">
+                        </v-card-text>
+
+                        <v-card-text>
+                            <v-data-table
+                                    :headers="helpTableHeaders"
+                                    :items="helpTableItems"
+                                    :items-per-page="30"
+                                    class="elevation-2"
+                                    hide-default-footer
+                            >
+                            </v-data-table>
+                        </v-card-text>
+
+                        <v-divider class="ma-0"></v-divider>
+                        <v-card-actions class="d-flex justify-center help-dialog-footer">
+                            <v-btn
+                                    @click="helpDialog=false"
+                                    class="ma-0 fml-btn-secondary"
+                                    v-text="strings.exitButton"
+                            >
+                            </v-btn>
+                        </v-card-actions>
+                    </v-card>
+                </v-dialog>
             </v-row>
 
             <v-row class="justify-center">

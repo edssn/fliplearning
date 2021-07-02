@@ -10,7 +10,7 @@ define([
     function(Highcharts) {
         return {
             template: `<div v-bind:id="container" @mouseenter="enterChartContainer()"></div>`,
-            props: ['container', 'chart', 'lang'],
+            props: ['container', 'chart', 'lang', "title"],
             data() {
                 return { }
             },
@@ -20,6 +20,9 @@ define([
                     lang: this.lang,
                     credits: { enabled: false },
                     exporting: {
+                        chartOptions: {
+                            title: { text: self._props.title }
+                        },
                         buttons: {
                             contextButton: {
                                 menuItems: [{
@@ -99,4 +102,5 @@ define([
                 },
             }
         };
-    });
+    }
+);

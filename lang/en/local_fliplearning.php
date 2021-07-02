@@ -62,7 +62,7 @@ $string['fml_menu_sessions'] = 'Study Sessions';
 $string['fml_menu_setweek'] = "Set Weeks";
 $string['fml_menu_assignments'] = 'Assignments';
 $string['fml_menu_grades'] = 'Grades';
-$string['fml_menu_quiz'] = 'Quizzes';
+$string['fml_menu_quiz'] = 'Assessments';
 $string['fml_menu_dropout'] = 'Dropout';
 $string['fml_menu_dropout'] = 'Dropout';
 $string['fml_menu_logs'] = "Download Records";
@@ -428,13 +428,13 @@ $string["tr_item_grades_distribution_tooltip_view_details"] = "(Click to see det
 
 
 /* Teacher Quiz  */
-$string['tq_section_help_title'] = 'Quizzes';
+$string['tq_section_help_title'] = 'Assessments';
 $string['tq_section_help_description'] = 'This section contains indicators related to the summary of attempts in the different evaluations of the course and analysis of the questions of an evaluation. The data presented in this section varies depending on the selected study week and on a selector that contains all the Assessment-type activities of the course sections assigned to the selected week.';
 
 $string["tq_quiz_number_questions"] = "Number of Questions";
 $string["tq_quiz_attempts_done"] = "Attempts Done";
 $string["tq_quiz_students_attempts"] = 'Students Who Tried the Assessment';
-$string["fml_select_quiz"] = "Quizzes";
+$string["fml_select_quiz"] = "Assessments";
 
 $string['tq_questions_attempts_help_title'] = 'Question Attempts';
 $string['tq_questions_attempts_help_description_p1'] = 'This graph shows the distribution of attempts to solve each question in an assessment, along with their review status.';
@@ -528,8 +528,22 @@ $string["td_user_grades_chart_view_activity"] = "Click to see the activity";
 
 
 /* Teacher Logs */
-$string['tl_section_help_title'] = "Descargar Registros";
-$string['tl_section_help_description'] = "En esta sección se pueden descargar archivo en formato de valores separados por comas(.cv) de las actividades que han realizado los participantes del curso en el Curso (Moodle) o en el Plugin Flip My Learning (FML)";
+$string['tl_section_help_title'] = "Download Logs";
+$string['tl_section_help_description'] = "In this section you can download a file in comma separated values (.cv) format of the activities that the course participants have carried out in the Course (Moodle) or in the Flip My Learning Plugin (FML)";
+
+$string['tl_moodle_logs_help_title'] = "Moodle Logs";
+$string['tl_moodle_logs_help_description'] = "The Moodle log file lists all the actions that have been performed within the course (view the course, view resources, submit an assignment, etc.)";
+$string['tl_moodle_logs_about'] = "About Moodle Logs";
+$string['tl_fliplearning_logs_help_title'] = "Fliplearning Logs";
+$string['tl_fliplearning_logs_help_description'] = "The Fliplearning log file lists all the actions that have been performed within the Flip My Learning plugin (see the sections, see the graph tooltips, see the help windows, etc.)";
+$string['tl_fliplearning_logs_about'] = "About Fliplearning Logs";
+
+$string['tl_logs_help_table_header_column'] = "Column";
+$string['tl_logs_help_table_header_description'] = "Description";
+$string['tl_logs_dates_range'] = "Date Range for Records";
+$string['tl_logs_success_download'] = "Download Complete";
+$string['tl_logs_without_dates_validation'] = "Please, select a date range";
+
 $string['tl_logs_header_logid'] = "logid";
 $string['tl_logs_header_userid'] = "userid";
 $string['tl_logs_header_username'] = "username";
@@ -552,6 +566,49 @@ $string['tl_logs_header_pluginsection'] = "pluginsection";
 $string['tl_logs_header_url'] = "url";
 $string['tl_logs_header_description'] = "description";
 
+$string['tl_logs_header_logid_help_description'] = "Log identifier";
+$string['tl_logs_header_userid_help_description'] = "User identifier";
+$string['tl_logs_header_username_help_description'] = "Moodle username";
+$string['tl_logs_header_firstname_help_description'] = "First name";
+$string['tl_logs_header_lastname_help_description'] = "Last name";
+$string['tl_logs_header_roles_help_description'] = "User roles";
+$string['tl_logs_header_courseid_help_description'] = "Course identifier";
+$string['tl_logs_header_coursename_help_description'] = "Course name";
+$string['tl_logs_header_contextlevel_help_description'] = "Context level of the object of the interaction. (50: course level, 70: course module level) ";
+$string['tl_logs_header_component_help_description'] = "Interaction Component";
+$string['tl_logs_header_action_help_description'] = "Action performed by the user";
+$string['tl_logs_header_target_help_description'] = "Interaction Target";
+$string['tl_logs_header_activitytype_help_description'] = "Activity type. (Asign, Resource, Quiz, etc.)";
+$string['tl_logs_header_activityname_help_description'] = "Activity name";
+$string['tl_logs_header_sectionnumber_help_description'] = "Number of the course section in which the activity is located";
+$string['tl_logs_header_sectionname_help_description'] = "Name of the course section. (Name placed by the creator of the course if available, otherwise it is generated by concatenating the name of the course format (Weeks, Topics, etc.) with the section number. Eg: Topic 1, Topic 2, Topic 3, etc.)";
+$string['tl_logs_header_timecreated_help_description'] = "Date in Unix format in which the interaction was made";
+
+$string['tl_logs_header_pluginsection_help_description'] = "Plugin section name. (General Indicator, Sessions, Assignments, etc.)";
+$string['tl_logs_header_url_help_description'] = "Page url on which the interaction was made";
+$string['tl_logs_header_description_help_description'] = "Interaction Description";
+
+$string['tl_fliplearning_logs_type_1'] = "The user selected a group in the group filter";
+$string['tl_fliplearning_logs_type_2'] = "The user saw the section (entered the component or updated the page)";
+$string['tl_fliplearning_logs_type_3'] = "The user saw the help window of the section";
+$string['tl_fliplearning_logs_type_4'] = "User saved a new weeks setting";
+$string['tl_fliplearning_logs_type_5'] = "The user saw the chart tooltip";
+$string['tl_fliplearning_logs_type_6'] = "User downloaded graphic";
+$string['tl_fliplearning_logs_type_7'] = "User viewed chart help window";
+$string['tl_fliplearning_logs_type_8'] = "User filtered chart data";
+$string['tl_fliplearning_logs_type_9'] = "The user sent an email to the users of the chart";
+$string['tl_fliplearning_logs_type_10'] = "User selected a week in the weeks filter";
+$string['tl_fliplearning_logs_type_11'] = "User selected an evaluation category";
+$string['tl_fliplearning_logs_type_12'] = "The user selected an assessable item to view its details";
+$string['tl_fliplearning_logs_type_13'] = "User selected a question to view its details";
+$string['tl_fliplearning_logs_type_14'] = "The user selected a group in the group selector";
+$string['tl_fliplearning_logs_type_15'] = "The user selected a user from the users table to view its details";
+$string['tl_fliplearning_logs_type_16'] = "The user sent an email to the selected user";
+$string['tl_fliplearning_logs_type_17'] = "The user sent an email to the selected group of students";
+$string['tl_fliplearning_logs_type_18'] = "The user saw the window with the access details to the resources";
+$string['tl_fliplearning_logs_type_19'] = "The user selected an evaluable activity from the graph";
+$string['tl_fliplearning_logs_type_20'] = "User downloaded a log file";
+$string['tl_fliplearning_logs_type_21'] = "User selected an assessment to view their attempts";
 
 /* Student General */
 $string['sg_section_help_title'] = 'General Indicators';

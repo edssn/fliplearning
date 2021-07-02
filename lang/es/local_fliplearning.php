@@ -529,6 +529,21 @@ $string["td_user_grades_chart_view_activity"] = "Clic para ver la actividad";
 /* Teacher Logs */
 $string['tl_section_help_title'] = 'Descargar Registros';
 $string['tl_section_help_description'] = 'En esta sección se pueden descargar archivo en formato de valores separados por comas(.cv) de las actividades que han realizado los participantes del curso en el Curso (Moodle) o en el Plugin Flip My Learning (FML)';
+
+$string['tl_moodle_logs_help_title'] = "Registros de Moodle";
+$string['tl_moodle_logs_help_description'] = "El archivo de logs de Moodle enumera todas las acciones que se han realizado dentro del curso (ver el curso, ver los recursos, enviar una tarea, etc.)";
+$string['tl_moodle_logs_about'] = "Acerca de los Registros de Moodle";
+$string['tl_fliplearning_logs_help_title'] = "Registros de Fliplearning";
+$string['tl_fliplearning_logs_help_description'] = "El archivo de logs de Fliplearning enumera todas las acciones que se han realizado dentro del plugin Flip My Learning (ver las secciones, ver los tooltips de los graficos, ver las ventanas de ayuda, etc.)";
+$string['tl_fliplearning_logs_about'] = "Acerca de los Registros de Fliplearning";
+
+$string['tl_logs_help_table_header_column'] = "Columna";
+$string['tl_logs_help_table_header_description'] = "Descripción";
+$string['tl_logs_dates_range'] = "Rango de Fechas para Registros";
+$string['tl_logs_success_download'] = "Descarga Completa";
+$string['tl_logs_without_dates_validation'] = "Por favor, selecciona un rango de fechas";
+
+
 $string['tl_logs_header_logid'] = "idinteraccion";
 $string['tl_logs_header_userid'] = "idusuario";
 $string['tl_logs_header_username'] = "username";
@@ -550,6 +565,50 @@ $string['tl_logs_header_timecreated'] = "fecha";
 $string['tl_logs_header_pluginsection'] = "secionplugin";
 $string['tl_logs_header_url'] = "url";
 $string['tl_logs_header_description'] = "descripcion";
+
+$string['tl_logs_header_logid_help_description'] = "Número de identificación de registro";
+$string['tl_logs_header_userid_help_description'] = "Número de identificación del usuario";
+$string['tl_logs_header_username_help_description'] = "Nombre de usuario en moodle";
+$string['tl_logs_header_firstname_help_description'] = "Primer nombre del usuario";
+$string['tl_logs_header_lastname_help_description'] = "Apellidos del usuario";
+$string['tl_logs_header_roles_help_description'] = "Roles del usuario que realizó la interacción";
+$string['tl_logs_header_courseid_help_description'] = "Número de identificación del curso";
+$string['tl_logs_header_coursename_help_description'] = "Nombre del Curso";
+$string['tl_logs_header_contextlevel_help_description'] = "Nivel de contexto del objeto de la interacción. (50: nivel de curso, 70: nivel de módulo de curso)";
+$string['tl_logs_header_component_help_description'] = "Componente de la interacción";
+$string['tl_logs_header_action_help_description'] = "Acción realizada por el usuario";
+$string['tl_logs_header_target_help_description'] = "Objetivo de la interacción";
+$string['tl_logs_header_activitytype_help_description'] = "Tipo de actividad. (Tarea, Recurso, Evaluación, etc.)";
+$string['tl_logs_header_activityname_help_description'] = "Nombre de la Actividad";
+$string['tl_logs_header_sectionnumber_help_description'] = "Número de la sección del curso en la que se encuentra la actividad";
+$string['tl_logs_header_sectionname_help_description'] = "Nombre de la sección del curso. (Nombre colocado por el creador del curso si está disponible, de lo contrario se genera concatenando el nombre del formato del curso (Semanas, Temas, etc.) con el número de la sección. Ejm: Tema 1, Tema 2, Tema 3, etc.)";
+$string['tl_logs_header_timecreated_help_description'] = "Fecha en en formato Unix en la que se realizó la interacción";
+
+$string['tl_logs_header_pluginsection_help_description'] = "Nombre de la sección del plugin. (Indicadores Generales, Sesiones, Tareas, etc.)";
+$string['tl_logs_header_url_help_description'] = "Url de la página en la que se realizó la interacción";
+$string['tl_logs_header_description_help_description'] = "Descripción de la interacción";
+
+$string['tl_fliplearning_logs_type_1'] = "El usuario seleccionó un grupo en el filtro de grupos";
+$string['tl_fliplearning_logs_type_2'] = "El usuario vió la sección (entró al componente o actualizó la pagina)";
+$string['tl_fliplearning_logs_type_3'] = "El usuario vió la ventana de ayuda de la seccion";
+$string['tl_fliplearning_logs_type_4'] = "El usuario guardó una nueva configuración de semanas";
+$string['tl_fliplearning_logs_type_5'] = "El usuario vió el tooltip del gráfico";
+$string['tl_fliplearning_logs_type_6'] = "El usuario descargó el gráfico";
+$string['tl_fliplearning_logs_type_7'] = "El usuario vió la ventana de ayuda del gráfico";
+$string['tl_fliplearning_logs_type_8'] = "El usuario filtró los datos del gráfico";
+$string['tl_fliplearning_logs_type_9'] = "El usuario envió un correo a los usuarios del gráfico";
+$string['tl_fliplearning_logs_type_10'] = "El usuario seleccionó una semana en el filtro de semanas";
+$string['tl_fliplearning_logs_type_11'] = "El usuario seleccionó una categoría de evaluación";
+$string['tl_fliplearning_logs_type_12'] = "El usuario seleccionó un ítem evaluable para ver sus detalles";
+$string['tl_fliplearning_logs_type_13'] = "El usuario seleccionó una pregunta para ver sus detalles";
+$string['tl_fliplearning_logs_type_14'] = "El usuario seleccionó un grupo en el selector de grupos";
+$string['tl_fliplearning_logs_type_15'] = "El usuario seleccionó un usuario de la tabla de usuarios para ver sus detalles";
+$string['tl_fliplearning_logs_type_16'] = "El usuario envió un correo al usuario seleccionado";
+$string['tl_fliplearning_logs_type_17'] = "El usuario envió un correo al grupo de estudiantes seleccionado";
+$string['tl_fliplearning_logs_type_18'] = "El usuario vió la ventana con los detalles de acceso a los recursos";
+$string['tl_fliplearning_logs_type_19'] = "El usuario seleccionó una actividad evaluable desde el gráfico";
+$string['tl_fliplearning_logs_type_20'] = "El usuario descargó un archivo de logs";
+$string['tl_fliplearning_logs_type_21'] = "El usuario seleccionó una evaluación para ver sus intentos";
 
 /*Student General*/
 $string['sg_section_help_title'] = 'Indicadores Generales';

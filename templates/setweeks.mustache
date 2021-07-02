@@ -57,7 +57,7 @@
 
                     <v-container :class="[{scroll_box : scroll_mode}, 'weeks-container', 'pa-2']">
 
-                        <v-layout column class="week-container pa-2" v-for="(week, index, key) in weeks" :key="key">
+                        <v-layout column class="week-container pa-2" v-for="(week, index, key) in raw_weeks" :key="key">
 
                             <v-layout justify-space-between>
                                 <span @click="change_collapsabled(index)" class="single-button">
@@ -76,28 +76,65 @@
 
                                         <v-layout  mb-3 mt-3>
 
-                                            <v-flex row justify-space-around align-center>
-                                                <strong v-text="strings.start"></strong>
-                                                <datepicker
-                                                            v-if="!week.removable"
-                                                            v-model="weeks_started_at"
-                                                            :use-utc="false"
-                                                            :disabled-dates="disabled_dates"
-                                                            :format="customFormatter"
-                                                            :monday-first="true">
-                                                </datepicker>
-                                                <span v-else v-text="week.weekstart"></span>
+<!--                                            <v-flex row justify-space-around align-center>-->
+<!--                                                <strong v-text="strings.start"></strong>-->
+<!--                                                <datepicker-->
+<!--                                                            v-if="!week.removable"-->
+<!--                                                            v-model="weeks_started_at"-->
+<!--                                                            :use-utc="false"-->
+<!--                                                            :disabled-dates="disabled_dates"-->
+<!--                                                            :format="customFormatter"-->
+<!--                                                            :monday-first="true">-->
+<!--                                                </datepicker>-->
+<!--                                                <span v-else v-text="week.weekstart"></span>-->
+<!--                                            </v-flex>-->
+
+<!--                                            <v-flex row justify-space-around align-center>-->
+<!--                                                <strong v-text="strings.end"></strong>-->
+<!--                                                <span v-text="week.weekend"></span>-->
+<!--                                            </v-flex>-->
+
+                                            <v-flex class="px-4" row justify-space-around align-center>
+                                                <strong class="mr-5">Periodo de tiempo</strong>
+                                                <v-dialog persistent ref="dialog" v-model="week.modal" width="30%">
+                                                    <template v-slot:activator="{ on, attrs }">
+                                                        <v-text-field
+                                                                v-model="dateRangeText(index)"
+                                                                label="Seleccione rango de fechas"
+                                                                prepend-icon="mdi-calendar"
+                                                                readonly
+                                                                v-bind="attrs"
+                                                                v-on="on"></v-text-field>
+                                                    </template>
+                                                    <v-date-picker
+                                                            scrollable
+                                                            v-model="week.dates"
+                                                            range
+                                                            no-title
+                                                            full-width
+                                                            show-adjacent-months
+                                                            :first-day-of-week="1"
+                                                            :min="week.blockDate"
+                                                    >
+                                                        <v-spacer></v-spacer>
+                                                        <v-btn text color="primary" @click="saveWeek(index)">
+                                                            Guardar
+                                                        </v-btn>
+                                                    </v-date-picker>
+                                                </v-dialog>
                                             </v-flex>
 
-                                            <v-flex row justify-space-around align-center>
-                                                <strong v-text="strings.end"></strong>
-                                                <span v-text="week.weekend"></span>
-                                            </v-flex>
                                         </v-layout>
 
                                         <v-layout justify-space-between align-center class="hours-expected-selector">
                                             <span v-text="strings.time_dedication" class="pr-5"></span>
-                                            <v-text-field type="number" min="0" max="99" outlined v-model="raw_weeks[index].hours_dedications"></v-text-field>
+                                            <v-text-field
+                                                    type="number"
+                                                    min="0"
+                                                    max="99"
+                                                    outlined
+                                                    v-model="raw_weeks[index].hours_dedications"
+                                            ></v-text-field>
                                         </v-layout>
                                     </template>
                                 </v-flex>
@@ -149,10 +186,11 @@
 
             <v-row v-if="exists_mistakes">
                 <v-alert v-for="(message, index, key) in error_messages"
-                     :key="key"
-                     type="error" class="mb-2"
-                     dense
-                     outlined
+                         :key="key"
+                         type="error"
+                         border="left"
+                         dense
+                        dismissible
                 >
                     <span v-text="message"></span>
                 </v-alert>
@@ -163,46 +201,9 @@
                 <v-progress-linear v-if="saving_loader" indeterminate color="cyan" ></v-progress-linear>
             </v-row>
 
-            <v-alert v-if="save_successful" type="success" dismissible dense text>
+            <v-alert v-if="save_successful" type="success" dismissible dense text border="left">
                 <span v-text="strings.save_successful"></span>
             </v-alert>
-
-            <v-row>
-                <v-col cols="12" sm="6" md="4">
-                    <v-dialog
-                            ref="dialog"
-                            v-model="modal"
-                            width="30%"
-                    >
-                        <template v-slot:activator="{ on, attrs }">
-                            <v-text-field
-                                    v-model="dateRangeText"
-                                    label="Picker in dialog"
-                                    prepend-icon="mdi-calendar"
-                                    readonly
-                                    v-bind="attrs"
-                                    v-on="on"
-                            ></v-text-field>
-                        </template>
-                        <v-date-picker
-                                v-model="dates"
-                                range
-                                scrollable
-                                no-title
-                                full-width
-                        >
-                            <v-spacer></v-spacer>
-                            <v-btn
-                                    text
-                                    color="primary"
-                                    @click="$refs.dialog.save(date)"
-                            >
-                                Guardar
-                            </v-btn>
-                        </v-date-picker>
-                    </v-dialog>
-                </v-col>
-            </v-row>
 
         </v-container>
 

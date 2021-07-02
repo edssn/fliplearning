@@ -598,11 +598,11 @@ a.fliplearning-navbar-menu-item .badge {
     margin: 2px;
 }
 
-#access_content {
+#content_access_chart {
     height: 600px;
 }
 
-#inverted_time, #hour_sessions, #sessions_count {
+#inverted_time_chart, #sessions_by_hours_and_days_chart, #week_sessions_chart {
     height: 500px;
 }
 

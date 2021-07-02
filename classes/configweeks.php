@@ -119,9 +119,10 @@ class configweeks {
             $week->name = get_string('tw_week', 'local_fliplearning');
             if(!isset($week->date_format)) {
                 $week->date_format = "Y-m-d";
-                $week->weekstartlabel = self::to_format("Y-m-d", $week->weekstart);
-                $week->weekendlabel = self::to_format("Y-m-d", $week->weekend);
+                $week->weekstartlabel = self::to_format($week->date_format, $week->weekstart);
+                $week->weekendlabel = self::to_format($week->date_format, $week->weekend);
             }
+
             $week->weekstart = intval($week->weekstart);
             $week->weekend = intval($week->weekend);
             $week->position = $position;
@@ -133,6 +134,14 @@ class configweeks {
                 $section = self::validate_section($section, $course_sections);
                 $week->sections[] = $section;
             }
+
+            // Para manejar el date picker en el frontend
+            $week->dates = array($week->weekstartlabel, $week->weekendlabel);
+            $week->modal = false;
+            $week->blockDate = null;
+
+            // Para manejar propiedad colapsable en el frontend
+            $week->collapsabled = false;
         }
         return $weeks;
     }
@@ -378,7 +387,7 @@ class configweeks {
         $week->weekcode = self::generate_week_code($position);
         $week->position = $position;
         $week->weekstart = self::to_timestamp($week->s);
-        $week->weekend = self::to_timestamp($week->e) + 86399;
+        $week->weekend = self::to_timestamp($week->e) + 86399; // sumar 1 dia menos 1 milisegundo
         $week->hours_dedications = $week->h;
         $week->courseid = $this->course->id;
         $week->created_by = $this->user->id;

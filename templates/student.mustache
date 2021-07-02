@@ -75,6 +75,7 @@
                                         :container="modules_access_chart"
                                         :chart="build_modules_access_chart()"
                                         :lang="strings.chart"
+                                        :title="strings.modules_access_chart_title"
                                 ></chart>
                                 <span class="caption" @click="openChartHelp(modules_access_chart)">
                                             <v-icon small v-text="'mdi-help-circle-outline'"></v-icon>
@@ -94,6 +95,7 @@
                                         :container="weeks_session_chart"
                                         :chart="build_weeks_session_chart()"
                                         :lang="strings.chart"
+                                        :title="strings.weeks_sessions_title"
                                 ></chart>
                                 <span class="caption" @click="openChartHelp(weeks_session_chart)">
                                             <v-icon small v-text="'mdi-help-circle-outline'"></v-icon>
@@ -115,6 +117,7 @@
                                         :container="sessions_evolution_chart"
                                         :chart="build_sessions_evolution_chart()"
                                         :lang="strings.chart"
+                                        :title="strings.sessions_evolution_chart_title"
                                 ></chart>
                                 <span class="caption" @click="openChartHelp(sessions_evolution_chart)">
                                             <v-icon small v-text="'mdi-help-circle-outline'"></v-icon>
@@ -137,6 +140,7 @@
                                         :container="user_grades_chart"
                                         :chart="build_user_grades_chart()"
                                         :lang="strings.chart"
+                                        :title="strings.user_grades_chart_title"
                                 ></chart>
                                 <span class="caption" @click="openChartHelp(user_grades_chart)">
                                             <v-icon small v-text="'mdi-help-circle-outline'"></v-icon>

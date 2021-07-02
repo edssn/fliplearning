@@ -325,7 +325,7 @@ define(["local_fliplearning/vue",
                         return mod;
                     },
 
-                    open_chart_help(chart) {
+                    openChartHelp(chart) {
                         let contents = [];
                         if (chart == this.assigns_submissions_chart) {
                             contents.push({

@@ -47,6 +47,7 @@
                                         :container="inverted_time_chart"
                                         :chart="build_inverted_time_chart()"
                                         :lang="strings.chart"
+                                        :title="strings.time_inverted_title"
                                 ></chart>
                                 <span class="caption" @click="openChartHelp(inverted_time_chart)">
                                 <v-icon small v-text="'mdi-help-circle-outline'"></v-icon>
@@ -66,6 +67,7 @@
                                         :container="sessions_by_hours_and_days_chart"
                                         :chart="build_sessions_by_hours_and_days_chart()"
                                         :lang="strings.chart"
+                                        :title="strings.hours_sessions_title"
                                 ></chart>
                                 <span class="caption" @click="openChartHelp(sessions_by_hours_and_days_chart)">
                                 <v-icon small v-text="'mdi-help-circle-outline'"></v-icon>
@@ -87,6 +89,7 @@
                                         :container="week_sessions_chart"
                                         :chart="build_week_sessions_chart()"
                                         :lang="strings.chart"
+                                        :title="strings.session_count_title"
                                 ></chart>
                                 <span class="caption" @click="openChartHelp(week_sessions_chart)">
                                 <v-icon small v-text="'mdi-help-circle-outline'"></v-icon>

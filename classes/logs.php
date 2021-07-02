@@ -417,6 +417,13 @@ class logs {
             foreach($logs as $log) {
                 $log->userid = $log->userid * $offset;
                 $log->courseid = $log->courseid * $offset;
+
+                // Descripcion de la interaccion
+                $logType = "tl_fliplearning_logs_type_".$log->interactiontype;
+                if (get_string_manager()->string_exists($logType, "local_fliplearning")) {
+                    $log->description = get_string($logType, "local_fliplearning");
+                }
+                unset($log->interactiontype);
                 fputcsv($file, (array) $log, ";");
             }
             $logs->close();

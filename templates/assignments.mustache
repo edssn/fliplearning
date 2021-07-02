@@ -46,8 +46,9 @@
                                         :container="assigns_submissions_chart"
                                         :chart="build_assigns_submissions_chart()"
                                         :lang="strings.chart"
+                                        :title="strings.assignsubs_chart_title"
                                 ></chart>
-                                <span class="caption" @click="open_chart_help(assigns_submissions_chart)">
+                                <span class="caption" @click="openChartHelp(assigns_submissions_chart)">
                                     <v-icon small v-text="'mdi-help-circle-outline'"></v-icon>
                                 <span v-text="strings.about"></span>
                             </span>
@@ -80,8 +81,9 @@
                                         :container="content_access_chart"
                                         :chart="build_access_content_chart()"
                                         :lang="strings.chart"
+                                        :title="strings.access_chart_title"
                                 ></chart>
-                                <span class="caption" @click="open_chart_help(content_access_chart)">
+                                <span class="caption" @click="openChartHelp(content_access_chart)">
                                     <v-icon small v-text="'mdi-help-circle-outline'"></v-icon>
                                     <span v-text="strings.about"></span>
                                 </span>
