@@ -209,6 +209,7 @@ trait lib_trait {
                 'completion' =>  $module->completion,
                 'sectionnum' =>  $module->sectionnum,
                 'section' =>  $module->section,
+                'hoursDedication' =>  0,
             ];
             $full_modules[] = $full_module;
         }

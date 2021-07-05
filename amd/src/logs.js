@@ -17,7 +17,7 @@ define(["local_fliplearning/vue",
             Vue.component('pageheader', PageHeader);
             const app = new Vue({
                 delimiters: ["[[", "]]"],
-                el: "#logs",
+                el: "#teacher_logs",
                 vuetify: new Vuetify(),
                 data: {
                     strings: content.strings,
@@ -42,8 +42,8 @@ define(["local_fliplearning/vue",
                     pluginSectionName: "teacher_download_logs",
                 },
                 mounted() {
-                    document.querySelector("#logs-loader").style.display = "none";
-                    document.querySelector("#logs").style.display = "block";
+                    document.querySelector("#teacher_logs_loader").style.display = "none";
+                    document.querySelector("#teacher_logs").style.display = "block";
                 },
                 computed: {
                     dateRangeText () {

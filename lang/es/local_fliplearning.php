@@ -304,6 +304,11 @@ $string['tw_plugin_visible'] = 'Reportes visibles.';
 $string['tw_plugin_hidden'] = 'Reportes ocultos.';
 $string['tw_title_conditions'] = 'Condiciones de uso';
 
+$string['tw_time_frame'] = 'Período de Tiempo';
+$string['tw_estimated_time'] = 'Tiempo Estimado';
+$string['tw_activities_list_dialog_title'] = 'Actividades de la Sección';
+$string['tw_activities_list_dialog_description'] = 'Indique el tiempo para las distintas actividades';
+
 
 /* Teacher General Indicators */
 $string['tg_section_help_title'] = 'Indicadores Generales';

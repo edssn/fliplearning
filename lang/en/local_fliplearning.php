@@ -305,6 +305,11 @@ $string['tw_plugin_visible'] = 'Visible graphs.';
 $string['tw_plugin_hidden'] = 'Graphs hidden.';
 $string['tw_title_conditions'] = 'Terms of use';
 
+$string['tw_time_frame'] = 'time frame';
+$string['tw_estimated_time'] = 'Estimated time';
+$string['tw_activities_list_dialog_title'] = 'Section Activities';
+$string['tw_activities_list_dialog_description'] = 'Set the time for the different activities';
+
 
 /* Teacher General Indicators */
 $string['tg_section_help_title'] = 'General Indicators';

@@ -109,7 +109,12 @@ class configweeks {
             $weeks[] = self::create_first_week();
             $this->weeks = $weeks;
         }
+
+        // Obtener secciones del curso
         $course_sections = self::get_course_sections();
+
+
+
         foreach($weeks as $position => $week){
             $week->removable = true;
             if($position == 0){
@@ -132,6 +137,7 @@ class configweeks {
                 $section->name = $section->section_name;
                 $section->visible = self::get_current_visibility($section->sectionid);
                 $section = self::validate_section($section, $course_sections);
+                // $section->cms = $course_modules[$section->sectionid];
                 $week->sections[] = $section;
             }
 
@@ -324,6 +330,33 @@ class configweeks {
         }
         $course_sections = array_values($course_sections);
         return $course_sections;
+    }
+
+    public function get_sections_with_course_modules () {
+        // Obtener secciones del curso
+        $course_sections = self::get_course_sections();
+
+        // Obtener modulos de curso
+        $course_modules = self::get_course_modules(true);
+
+        // Agrupar modulos de curso por id de seccion
+        $course_modules = self::group_course_modules_by_sectionid($course_modules);
+
+        return $course_modules;
+    }
+
+    private function group_course_modules_by_sectionid($course_modules){
+        $cms = array();
+        if (count($course_modules) > 0) {
+            foreach ($course_modules as $course_module) {
+                $sectionid = "sid".$course_module['section'];
+                if (!isset($cms[ $sectionid ])) {
+                    $cms[ $sectionid ] = array();
+                }
+                array_push($cms[ $sectionid ], $course_module);
+            }
+        }
+        return $cms;
     }
 
     /**
