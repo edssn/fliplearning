@@ -23,7 +23,7 @@
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 require_once('locallib.php');
-global $COURSE, $USER;
+global $COURSE, $USER, $DB, $PAGE, $OUTPUT;
 
 $courseid = required_param('courseid', PARAM_INT);
 $course = $DB->get_record('course', array('id' => $courseid), '*', MUST_EXIST);
@@ -78,15 +78,7 @@ $content = [
 
         "title" => get_string("fml_menu_sessions", "local_fliplearning"),
         "chart" => $reports->get_chart_langs(),
-        "days" => array(
-            get_string("fml_mon_short", "local_fliplearning"),
-            get_string("fml_tue_short", "local_fliplearning"),
-            get_string("fml_wed_short", "local_fliplearning"),
-            get_string("fml_thu_short", "local_fliplearning"),
-            get_string("fml_fri_short", "local_fliplearning"),
-            get_string("fml_sat_short", "local_fliplearning"),
-            get_string("fml_sun_short", "local_fliplearning"),
-        ),
+        "days" => $reports->get_short_weekdays(true),
         "hours" => array(
             get_string("fml_00", "local_fliplearning"),
             get_string("fml_01", "local_fliplearning"),

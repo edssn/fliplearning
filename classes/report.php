@@ -660,27 +660,51 @@ abstract class report {
         );
     }
 
-    public function get_weekdays () {
-        return array(
-            get_string("fml_sun", "local_fliplearning"),
-            get_string("fml_mon", "local_fliplearning"),
-            get_string("fml_tue", "local_fliplearning"),
-            get_string("fml_wed", "local_fliplearning"),
-            get_string("fml_thu", "local_fliplearning"),
-            get_string("fml_fri", "local_fliplearning"),
-            get_string("fml_sat", "local_fliplearning"),
-        );
+    public function get_weekdays ($firstMonday = false) {
+        if ($firstMonday) {
+            return array(
+                get_string("fml_mon", "local_fliplearning"),
+                get_string("fml_tue", "local_fliplearning"),
+                get_string("fml_wed", "local_fliplearning"),
+                get_string("fml_thu", "local_fliplearning"),
+                get_string("fml_fri", "local_fliplearning"),
+                get_string("fml_sat", "local_fliplearning"),
+                get_string("fml_sun", "local_fliplearning"),
+            );
+        } else {
+            return array(
+                get_string("fml_sun", "local_fliplearning"),
+                get_string("fml_mon", "local_fliplearning"),
+                get_string("fml_tue", "local_fliplearning"),
+                get_string("fml_wed", "local_fliplearning"),
+                get_string("fml_thu", "local_fliplearning"),
+                get_string("fml_fri", "local_fliplearning"),
+                get_string("fml_sat", "local_fliplearning"),
+            );
+        }
     }
 
-    public function get_short_weekdays () {
-        return array(
-            get_string("fml_sun_short", "local_fliplearning"),
-            get_string("fml_mon_short", "local_fliplearning"),
-            get_string("fml_tue_short", "local_fliplearning"),
-            get_string("fml_wed_short", "local_fliplearning"),
-            get_string("fml_thu_short", "local_fliplearning"),
-            get_string("fml_fri_short", "local_fliplearning"),
-            get_string("fml_sat_short", "local_fliplearning"),
-        );
+    public function get_short_weekdays ($firstMonday = false) {
+        if ($firstMonday) {
+            return array(
+                get_string("fml_mon_short", "local_fliplearning"),
+                get_string("fml_tue_short", "local_fliplearning"),
+                get_string("fml_wed_short", "local_fliplearning"),
+                get_string("fml_thu_short", "local_fliplearning"),
+                get_string("fml_fri_short", "local_fliplearning"),
+                get_string("fml_sat_short", "local_fliplearning"),
+                get_string("fml_sun_short", "local_fliplearning"),
+            );
+        } else {
+            array(
+                get_string("fml_sun_short", "local_fliplearning"),
+                get_string("fml_mon_short", "local_fliplearning"),
+                get_string("fml_tue_short", "local_fliplearning"),
+                get_string("fml_wed_short", "local_fliplearning"),
+                get_string("fml_thu_short", "local_fliplearning"),
+                get_string("fml_fri_short", "local_fliplearning"),
+                get_string("fml_sat_short", "local_fliplearning"),
+            );
+        }
     }
 }
