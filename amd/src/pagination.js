@@ -17,26 +17,39 @@ define([], function (){
                                                 :class="['pa-1 pr-4 pl-4 page', {'selected-page' : page.selected}]" 
                                                 @click="update_selected_week(index)"></span>
                                     </template>
-                                    <span v-text="get_week_dates(page)"></span>
+                                    <span v-text="formatWeekDates(page)"></span>
                                 </v-tooltip>
                             </v-layout>
                         </v-flex>
                     </v-layout>
+                  
+                    <v-row class="pt-3 justify-center">
+                        <small class="blue-gray lighten-5--text" v-text="selectedWeekDates"></small>
+                    </v-row>
+                    
                     <v-divider></v-divider>
                </v-main>
                 `,
         props:['pages','name','nameseparator','title'],
+        beforeMount() {
+            this.initSelectedWeekDates();
+        },
         data(){
-            return{
-            }
+            return { selectedWeekDates: null }
         },
         methods : {
-            get_week_dates(week){
-                return `${week.weekstart} ${this.nameseparator} ${week.weekend}`;
+            initSelectedWeekDates() {
+                this.pages.map(page => {
+                    if (page.selected) {
+                        this.selectedWeekDates = this.formatWeekDates(page);
+                    }
+                });
             },
             update_selected_week(index_page){
-                this.loading = true
+                this.loading = true;
                 let page = this.change_selected_week(index_page);
+                this.selectedWeekDates = this.formatWeekDates(page);
+                console.log(this.selectedWeekDates);
                 this.$emit('changepage',this.get_selected_week());
             },
             change_selected_week(selected_page){
@@ -55,6 +68,11 @@ define([], function (){
                 })
                 return selected;
             },
+            formatWeekDates(page){
+                let startDate = page.weekstart.split('-').reverse().join('/');
+                let endDate =page.weekend.split('-').reverse().join('/');
+                return `${startDate} ${this.nameseparator} ${endDate}`;
+            }
         },
     }
     return pagination;
