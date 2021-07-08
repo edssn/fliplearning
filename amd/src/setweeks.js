@@ -41,12 +41,12 @@ define(["local_fliplearning/vue",
 
                     dates: [],
                     datesLabels: [],
-
+                    previousRangeStart: null,
                 },
                 beforeMount() {
                     if (this.raw_weeks.length) {
                         this.setModulesInSections();
-                    };
+                    }
                 },
                 mounted() {
                     this.initBlockDates();
@@ -68,9 +68,9 @@ define(["local_fliplearning/vue",
                                 : this.raw_weeks[i].weekstart;
 
                             // Se retorna el arreglo de fechas ordenado y formateado
-                            //return dates_array.map((date) => this.formatDate(date)).join(" → ");
+                            // return dates_array.map((date) => this.formatDate(date)).join(" → ");
                             return dates_array.join(" → ");
-                            // return this.raw_weeks[i].dates.join(" → ");
+                            // Return this.raw_weeks[i].dates.join(" → ");
                         };
                     },
 
@@ -87,7 +87,7 @@ define(["local_fliplearning/vue",
                 methods: {
                     section_name(section) {
                         let name = null;
-                        if (typeof(section.section_name) != 'undefined' && section.section_name.length > 0) {
+                        if (typeof (section.section_name) != 'undefined' && section.section_name.length > 0) {
                             name = section.section_name;
                         } else {
                             name = section.name;
@@ -97,7 +97,7 @@ define(["local_fliplearning/vue",
 
                     section_exist(section) {
                         let exist = true;
-                        if (typeof(section) != 'undefined' && typeof(section.exists) != 'undefined' && section.exists == false) {
+                        if (typeof (section) != 'undefined' && typeof (section.exists) != 'undefined' && section.exists == false) {
                             exist = false;
                         }
                         return exist;
@@ -112,9 +112,13 @@ define(["local_fliplearning/vue",
                         return weeks_start_at;
                     },
 
-                    add_week () {
-                        let start = this.get_start_week(new Date(this.get_last_date()));
-                        let end = this.get_end_week(new Date(start), 6);
+                    addWeek() {
+                        let weeksCount = this.raw_weeks.length;
+                        let endLastWeek = this.raw_weeks[weeksCount - 1].dates[1];
+
+                        // let start = this.get_start_week(new Date(this.get_last_date()));
+                        let start = this.addDays(new Date(endLastWeek), 1);
+                        let end = this.addDays(new Date(start), 6);
                         this.raw_weeks.push({
                             name: this.strings.week,
                             position: (this.raw_weeks.length + 1),
@@ -132,45 +136,15 @@ define(["local_fliplearning/vue",
                         });
                     },
 
-                    has_items(array) {
-                        return array.length > 0;
-                    },
-
                     remove_week(week, index) {
                         if (index == 0) {
                             return null;
                         }
-                        this.close_delete_confirm();
                         for (let i = 0; i < week.sections.length; i++) {
                             this.sections.push(week.sections[i]);
                         }
                         let element_index = this.raw_weeks.indexOf(week);
                         this.raw_weeks.splice(element_index, 1);
-                    },
-
-                    ask_delete_confirm() {
-                        this.delete_confirm = true;
-                    },
-
-                    close_delete_confirm() {
-                        this.delete_confirm = false;
-                    },
-
-                    get_date_next_day(requested_day, date, output_format = null) {
-                        requested_day = requested_day.toLowerCase();
-                        let current_day = Moment(date).format('dddd').toLowerCase();
-                        while (current_day != requested_day) {
-                            date = Moment(date).add(1, 'days');
-                            current_day = Moment(date).format('dddd').toLowerCase();
-                        }
-                        if (output_format) {
-                            date = date.format(output_format);
-                        } else {
-                            if (typeof(date) != 'number') {
-                                date = parseInt(date.format("x"));
-                            }
-                        }
-                        return date;
                     },
 
                     position(index) {
@@ -197,7 +171,7 @@ define(["local_fliplearning/vue",
                                 () => {
                                     this.saving_loader = true;
                                     let weeks = this.raw_weeks;
-                                    // weeks[0].weekstart = Moment(weeks[0].weekstart).format("YYYY-MM-DD");
+                                    // Weeks[0].weekstart = Moment(weeks[0].weekstart).format("YYYY-MM-DD");
                                     let data = {
                                         action: "saveconfigweek",
                                         userid: this.userid,
@@ -229,8 +203,8 @@ define(["local_fliplearning/vue",
                                 () => { // ON CANCEL
                                     this.saving_loader = false;
                                     Alertify.warning(this.strings.cancel_action);
-                                }).set({ title: this.strings.save_warning_title })
-                            .set({ labels: { cancel: this.strings.confirm_cancel, ok: this.strings.confirm_ok } });
+                                }).set({title: this.strings.save_warning_title})
+                            .set({labels: {cancel: this.strings.confirm_cancel, ok: this.strings.confirm_ok}});
                     },
 
                     minify_query(weeks) {
@@ -296,28 +270,69 @@ define(["local_fliplearning/vue",
                         return finished;
                     },
 
-                    get_settings_status() {
-                        let visible = true;
-                        Object.keys(this.settings).map(key => {
-                            if (!this.settings[key]) {
-                                visible = false;
-                            }
-                        });
-                        let status = visible ? this.strings.tw_plugin_visible : this.strings.tw_plugin_hidden;
-                        return status;
-                    },
-
-                    sortDates (a, b) {
+                    sortDates(a, b) {
                         return b.getTime() > a.getTime() ? -1 : b.getTime() < a.getTime() ? 1 : 0;
                     },
 
-                    formatDate (date) {
+                    formatDate(date) {
                         const year = date.getUTCFullYear();
                         const month_number = date.getUTCMonth() + 1;
                         const month = month_number < 10 ? `0${month_number}` : month_number;
                         const day_number = date.getUTCDate();
                         const day = day_number < 10 ? `0${day_number}` : day_number;
                         return `${day}/${month}/${year}`;
+                    },
+
+                    saveWeek(dates, index) {
+
+                        // Guardar la selección de una semana completa
+                        let newVal = dates[dates.length == 1 ? 0 : 1];
+                        let nextDate = this.addDays(new Date(newVal), 6);
+                        this.raw_weeks[index].dates = [newVal, nextDate];
+
+                        // Cerrar el modal
+                        this.raw_weeks[index].modal = false;
+
+                        // Convertir a dates la fecha de inicio anterior del rango
+                        // y la fecha actual de inicio del rango
+                        let previousStartDate = new Date(this.previousRangeStart);
+                        let currentStartDate = new Date(this.raw_weeks[index].dates[0]);
+
+                        // Obtener diferencia en dias entre el inicio del rango previo
+                        // y el inicio de rango actual
+                        let diffTime = currentStartDate - previousStartDate;
+                        let diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+                        // Recalcular las fechas siguientes a la semana
+                        // que se modificó
+                        let i, currentDates, start, end;
+                        for (i = index + 1; i < this.raw_weeks.length; i++) {
+
+                            // Ordenar las fechas de la semana seleccionada
+                            currentDates = this.raw_weeks[i].dates.map(
+                                (date) => new Date(date)
+                            );
+
+                            // Calcular el nuevo inicio y final del rango de fechas
+                            // sumando la diferencia de dias antes calculado
+                            start = this.addDays(currentDates[0], diffDays);
+                            end = this.addDays(currentDates[1], diffDays);
+
+                            // Asignar nuevo rango
+                            this.raw_weeks[i].dates = [start, end];
+
+                            // Asignar nuevas fechas de bloqueo de rango
+                            this.raw_weeks[i].blockDate = this.addDays(new Date(this.raw_weeks[i - 1].dates[1]), 1)
+                        }
+                    },
+
+                    addDays(date, days) {
+                        let nextDate = new Date(date.setDate(date.getDate() + days));
+                        return nextDate.toISOString().substr(0, 10);
+                    },
+
+                    savePreviousRangeStart(index) {
+                        this.previousRangeStart = this.raw_weeks[index].dates[0];
                     },
 
                     get_help_content() {
@@ -329,66 +344,15 @@ define(["local_fliplearning/vue",
                         return help_contents;
                     },
 
-                    get_start_week(pass_week) {
-                        // Se agrega un día a partir de la fecha final del rango anterior
-                        let start_weeks = new Date(pass_week.setDate(pass_week.getDate() + 1));
-                        // Convertimos la fecha a un formato permitido por el datepicker
-                        return start_weeks.toISOString().substr(0, 10);
-                    },
-
-                    get_end_week(start_week, days) {
-                        // Establecemos la fecha final (una semana a partir de la fecha inicial)
-                        let end_date = new Date(start_week.setDate(start_week.getDate() + days));
-                        // Convertimos la fecha a un formato permitido por el datepicker
-                        return end_date.toISOString().substr(0, 10);
-                    },
-
-                    get_last_date() {
-                        return this.raw_weeks[this.raw_weeks.length - 1].dates[
-                            this.raw_weeks[this.raw_weeks.length - 1].dates.length === 1 ? 0 : 1
-                        ];
-                    },
-
-                    saveWeek(index) {
-                        // Cerrar el modal
-                        this.raw_weeks[index].modal = false;
-
-                        // Recalcular las siguientes fechas con un rango de siete días
-                        for (let i = index + 1; i < this.raw_weeks.length; i++) {
-
-                            let dates_array = this.raw_weeks[i].dates.map((date) => new Date(date));
-                            let diffDays = 0;
-
-                            if(dates_array.length > 1){
-                                const diffTime = Math.abs(dates_array[0] - dates_array[1]);
-                                diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-                            }
-
-                            // Ordenamos las fechas de la semana seleccionada
-                            let dates_aux = this.raw_weeks[i-1].dates.map((date) => new Date(date));
-                            dates_aux.sort(this.sortDates);
-                            let new_last_dates = dates_aux.map((date) => date.toISOString().substr(0, 10));
-
-                            let week = this.raw_weeks[i];
-                            let newLastDate = new_last_dates[ new_last_dates.length === 1 ? 0 : 1 ];
-                            let start = this.get_start_week(new Date(newLastDate));
-                            let end = this.get_end_week(new Date(start), diffDays);
-                            week.dates = [start, end];
-
-                            // Actualizar blockDate
-                            this.raw_weeks[i].blockDate = this.get_end_week(new Date(this.raw_weeks[i - 1].weekend), 1);
-                        }
-                    },
-
                     initBlockDates() {
                         if (this.raw_weeks.length > 1) {
                             for (let i = 1; i < this.raw_weeks.length; i++) {
-                                this.raw_weeks[i].blockDate = this.get_end_week(new Date(this.raw_weeks[i - 1].weekend), 1);
+                                this.raw_weeks[i].blockDate = this.addDays(new Date(this.raw_weeks[i - 1].weekend), 1);
                             }
                         }
                     },
 
-                    setModulesInSections () {
+                    setModulesInSections() {
                         let i, j, sid;
                         for (i = 0; i < this.raw_weeks.length; i++) {
                             this.raw_weeks[i].cmsTimeDialog = false;
@@ -414,15 +378,15 @@ define(["local_fliplearning/vue",
                         return parseInt(x);
                     },
 
-                    getModuleIcon(modname){
+                    getModuleIcon(modname) {
                         return `${M.cfg.wwwroot}/theme/image.php/boost/${modname}/1/icon`;
                     },
 
-                    getModuleUrl(module){
+                    getModuleUrl(module) {
                         return `${M.cfg.wwwroot}/mod/${module.modname}/view.php?id=${module.id}`;
                     },
 
-                    saveCourseModulesTime (dialog, weekIndex) {
+                    saveCourseModulesTime(dialog, weekIndex) {
                         let total = 0;
                         this.raw_weeks[weekIndex].sections.forEach((section) => {
                             section.cms.forEach((cm) => {
@@ -431,10 +395,6 @@ define(["local_fliplearning/vue",
                         });
                         this.raw_weeks[weekIndex].hours_dedications = this.isNumber(total);
                         dialog.value = false;
-                    },
-
-                    getHoursAmountMessage () {
-
                     },
                 }
             });
