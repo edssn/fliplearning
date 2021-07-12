@@ -39,17 +39,13 @@ define([], function (){
         },
         methods : {
             initSelectedWeekDates() {
-                this.pages.map(page => {
-                    if (page.selected) {
-                        this.selectedWeekDates = this.formatWeekDates(page);
-                    }
-                });
+                const currentPage = this.pages.find(page => page.selected);
+                this.selectedWeekDates = this.formatWeekDates(currentPage);
             },
             update_selected_week(index_page){
                 this.loading = true;
                 let page = this.change_selected_week(index_page);
                 this.selectedWeekDates = this.formatWeekDates(page);
-                console.log(this.selectedWeekDates);
                 this.$emit('changepage',this.get_selected_week());
             },
             change_selected_week(selected_page){

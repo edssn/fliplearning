@@ -44,7 +44,6 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 | AlertifyJS  | Cuadros de diálogo para Notificaciones | 1.11.4 |
 | Axios  | Solicitudes HTTP  |  0.19.0 |
 | Highcharts  | Gráficos interactivos  | 8.2.2  |
-| Vuejs Datepicker | Selector de fechas para vuejs |  1.6.2  |
 | Moment.js  | Manipulación de fechas  |  2.24.0  |
 | Moment Timezone  | Muestra fechas en cualquier zona horaria  |  2.24.0  |
 | Vue Draggable  |  Arrastrar y soltar elementos para vuejs |  2.23.2  |

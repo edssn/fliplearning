@@ -3,19 +3,17 @@ define(["local_fliplearning/vue",
         "local_fliplearning/axios",
         "local_fliplearning/sortablejs",
         "local_fliplearning/draggable",
-        "local_fliplearning/datepicker",
         "local_fliplearning/moment",
         "local_fliplearning/alertify",
         "local_fliplearning/pageheader",
     ],
-    function(Vue, Vuetify, Axios, Sortable, Draggable, Datepicker, Moment, Alertify, PageHeader) {
+    function(Vue, Vuetify, Axios, Sortable, Draggable, Moment, Alertify, PageHeader) {
         "use strict";
 
         function init(content) {
             // console.log(content);
             Vue.use(Vuetify);
             Vue.component('draggable', Draggable);
-            Vue.component('datepicker', Datepicker);
             Vue.component('pageheader', PageHeader);
             const app = new Vue({
                 delimiters: ["[[", "]]"],
