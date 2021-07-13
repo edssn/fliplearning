@@ -203,7 +203,7 @@ class teacher extends report {
 
         $inverted_time = array_map(function($user_sessions){ return $user_sessions->summary;}, $work_sessions);
         $inverted_time = self::calculate_average("added", $inverted_time);
-        $inverted_time = self::get_inverted_time_summary($inverted_time, (int) $week->hours_dedications);
+        $inverted_time = self::get_inverted_time_summary($inverted_time, (int) $week->minutes_dedication);
 
         $response = new stdClass();
         $response->count = $sessions_count;
@@ -344,7 +344,7 @@ class teacher extends report {
         $inverted_time = array_map(function($user_sessions){ return $user_sessions->summary;}, $work_sessions);
         $inverted_time = self::calculate_average("added", $inverted_time);
 
-        $response = self::get_inverted_time_summary($inverted_time, (int) $week->hours_dedications);
+        $response = self::get_inverted_time_summary($inverted_time, (int) $week->minutes_dedication);
         return $response;
     }
 

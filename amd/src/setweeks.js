@@ -61,9 +61,9 @@ define(["local_fliplearning/vue",
 
                             dates_array = dates_array.map(date => this.formatDate(date));
                             this.raw_weeks[i].weekstart = dates_array[0].split('/').reverse().join('-');
-                            this.raw_weeks[i].weekend = dates_array[1]
-                                ? dates_array[1].split('/').reverse().join('-')
-                                : this.raw_weeks[i].weekstart;
+                            this.raw_weeks[i].weekend = dates_array[1] ?
+                                dates_array[1].split('/').reverse().join('-') :
+                                this.raw_weeks[i].weekstart;
 
                             // Se retorna el arreglo de fechas ordenado y formateado
                             // return dates_array.map((date) => this.formatDate(date)).join(" → ");
@@ -85,7 +85,7 @@ define(["local_fliplearning/vue",
                 methods: {
                     section_name(section) {
                         let name = null;
-                        if (typeof (section.section_name) != 'undefined' && section.section_name.length > 0) {
+                        if (typeof(section.section_name) != 'undefined' && section.section_name.length > 0) {
                             name = section.section_name;
                         } else {
                             name = section.name;
@@ -95,7 +95,7 @@ define(["local_fliplearning/vue",
 
                     section_exist(section) {
                         let exist = true;
-                        if (typeof (section) != 'undefined' && typeof (section.exists) != 'undefined' && section.exists == false) {
+                        if (typeof(section) != 'undefined' && typeof(section.exists) != 'undefined' && section.exists == false) {
                             exist = false;
                         }
                         return exist;
@@ -123,7 +123,7 @@ define(["local_fliplearning/vue",
                             weekstart: start,
                             weekend: end,
                             collapsabled: false,
-                            hours_dedications: 0,
+                            minutes_dedication: 0,
                             removable: true,
                             sections: [],
                             cmsTimeDialog: false,
@@ -201,15 +201,15 @@ define(["local_fliplearning/vue",
                                 () => { // ON CANCEL
                                     this.saving_loader = false;
                                     Alertify.warning(this.strings.cancel_action);
-                                }).set({title: this.strings.save_warning_title})
-                            .set({labels: {cancel: this.strings.confirm_cancel, ok: this.strings.confirm_ok}});
+                                }).set({ title: this.strings.save_warning_title })
+                            .set({ labels: { cancel: this.strings.confirm_cancel, ok: this.strings.confirm_ok } });
                     },
 
                     minify_query(weeks) {
                         var minify = [];
                         weeks.forEach(week => {
                             var wk = new Object();
-                            wk.h = week.hours_dedications;
+                            wk.h = Math.abs(week.minutes_dedication);
                             wk.s = week.weekstart;
                             wk.e = week.weekend;
                             wk.sections = [];
@@ -391,7 +391,7 @@ define(["local_fliplearning/vue",
                                 total = total + this.isNumber(cm.hoursDedication);
                             });
                         });
-                        this.raw_weeks[weekIndex].hours_dedications = this.isNumber(total);
+                        this.raw_weeks[weekIndex].minutes_dedication = this.isNumber(total);
                         dialog.value = false;
                     },
                 }

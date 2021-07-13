@@ -70,13 +70,90 @@
                                 </span>
                             </v-layout>
 
-                            <v-layout justify-space-between>
-                                <v-flex>
-                                    <template v-if="!week.collapsabled">
 
-                                        <v-layout  mb-3 mt-3>
-                                            <v-flex class="px-4" row justify-space-around align-center>
-                                                <strong class="mr-5">Periodo de tiempo</strong>
+<!--                            Código copiado de NMP-->
+<!--                            <v-layout justify-space-between>-->
+<!--                                <v-flex>-->
+<!--                                    <template v-if="week.collapsabled">-->
+
+<!--                                        <v-layout  mb-3 mt-3>-->
+<!--                                            <v-flex class="px-4" row justify-space-around align-center>-->
+<!--                                                <strong style="background-color: green;" class="mr-5" v-text="strings.timeFrame"></strong>-->
+<!--                                                <v-dialog-->
+<!--                                                        ref="dialog"-->
+<!--                                                        v-model="week.modal"-->
+<!--                                                        width="30%"-->
+<!--                                                        @input="savePreviousRangeStart(index)"-->
+<!--                                                >-->
+<!--                                                    <template v-slot:activator="{ on, attrs }">-->
+<!--                                                        <v-text-field-->
+<!--                                                                style="background-color: green;"-->
+<!--                                                                v-model="dateRangeText(index)"-->
+<!--                                                                prepend-icon="mdi-calendar"-->
+<!--                                                                readonly-->
+<!--                                                                v-bind="attrs"-->
+<!--                                                                v-on="on">-->
+<!--                                                        </v-text-field>-->
+<!--                                                    </template>-->
+<!--                                                    <v-date-picker-->
+<!--                                                            scrollable-->
+<!--                                                            v-model="week.dates"-->
+<!--                                                            range-->
+<!--                                                            no-title-->
+<!--                                                            full-width-->
+<!--                                                            show-adjacent-months-->
+<!--                                                            :first-day-of-week="1"-->
+<!--                                                            @click:date="saveWeek(week.dates, index)"-->
+<!--                                                            :min="week.blockDate"-->
+<!--                                                            color="#118AB2"-->
+<!--                                                    >-->
+<!--                                                    </v-date-picker>-->
+<!--                                                </v-dialog>-->
+<!--                                            </v-flex>-->
+
+<!--                                        </v-layout>-->
+
+<!--                                        <v-layout >-->
+<!--                                            <span v-text="strings.time_dedication"></span>-->
+<!--                                            <v-text-field-->
+<!--                                                    type="number"-->
+<!--                                                    min="0"-->
+<!--                                                    max="99"-->
+<!--                                                    outlined-->
+<!--                                                    v-model="week.minutes_dedication"-->
+<!--                                            ></v-text-field>-->
+
+<!--                                            <v-toolbar dense class="elevation-0">-->
+<!--                                                <v-btn-toggle-->
+<!--                                                        color="#118AB2"-->
+<!--                                                        group-->
+<!--                                                        rounded-->
+<!--                                                >-->
+<!--                                                    <v-btn>-->
+<!--                                                        <span class="text-lowercase">h</span>-->
+<!--                                                    </v-btn>-->
+
+<!--                                                    <v-btn>-->
+<!--                                                        <small class="text-lowercase">m</small>-->
+<!--                                                    </v-btn>-->
+<!--                                                </v-btn-toggle>-->
+<!--                                            </v-toolbar>-->
+
+<!--                                        </v-layout>-->
+<!--                                    </template>-->
+<!--                                </v-flex>-->
+<!--                            </v-layout>-->
+
+
+<!--                            Codigo escrito por Edisson-->
+                            <v-container v-if="!week.collapsabled">
+
+                                        <v-row class="align-center text-center">
+                                            <v-col cols="12" md="4">
+                                                <strong v-text="strings.timeFrame"></strong>
+                                            </v-col>
+
+                                            <v-col cols="12" md="8">
                                                 <v-dialog
                                                         ref="dialog"
                                                         v-model="week.modal"
@@ -104,29 +181,29 @@
                                                             :min="week.blockDate"
                                                             color="#118AB2"
                                                     >
-<!--                                                        <v-spacer></v-spacer>-->
-<!--                                                        <v-btn text color="primary" @click="saveWeek(index)">-->
-<!--                                                            Guardar-->
-<!--                                                        </v-btn>-->
                                                     </v-date-picker>
                                                 </v-dialog>
-                                            </v-flex>
+                                            </v-col>
+                                        </v-row>
 
-                                        </v-layout>
+                                        <v-row>
+                                            <v-col cols="12" md="10" class="ma-0 pa-0">
+                                                <span v-text="strings.time_dedication"></span>
+                                            </v-col>
 
-                                        <v-layout justify-space-between align-center class="hours-expected-selector">
-                                            <span v-text="strings.time_dedication" class="pr-5"></span>
-                                            <v-text-field
-                                                    type="number"
-                                                    min="0"
-                                                    max="99"
-                                                    outlined
-                                                    v-model="week.hours_dedications"
-                                            ></v-text-field>
-                                        </v-layout>
-                                    </template>
-                                </v-flex>
-                            </v-layout>
+                                            <v-col cols="6" md="2" class="ma-0 pa-0">
+                                                <v-text-field
+                                                        type="number"
+                                                        min="0"
+                                                        outlined
+                                                        v-model="week.minutes_dedication"
+                                                        class="custom_number_input"
+                                                        hide-details
+                                                ></v-text-field>
+                                            </v-col>
+
+                                        </v-row>
+                            </v-container>
 
                             <draggable
                                     v-if="!week.collapsabled"
@@ -135,7 +212,9 @@
                                     v-model="week.sections"
                                     group="sections"
                             >
-
+                                <div class="py-2 text-center grey lighten-3">
+                                    <span class="">Arrastre un elemento aquí para moverlo</span>
+                                </div>
                                 <li
                                         class="set-weeks-list-item d-flex justify-space-between"
                                         v-for="(section, fileIndex, key) in week.sections" :key="key">
@@ -154,7 +233,7 @@
 
                                     <small
                                             v-if="totalTime(index, fileIndex) > 0"
-                                            v-text="strings.hours + ': ' + totalTime(index, fileIndex)">
+                                            v-text="strings.minutes + ': ' + totalTime(index, fileIndex)">
                                     </small>
 
 
@@ -197,7 +276,9 @@
                                                                         :label="strings.estimatedTime"
                                                                         min="0"
                                                                         value="0"
-                                                                        :suffix="strings.hours">
+                                                                        :suffix="strings.minutes"
+                                                                        class="custom_number_input"
+                                                                >
                                                                 </v-text-field>
                                                             </v-col>
                                                         </v-list-item-content>
@@ -228,10 +309,47 @@
                 </v-col>
 
                 <v-col cols="12" md="6">
-                    <v-switch :label="strings.enable_scroll" v-model="scroll_mode" class="d-flex justify-center ma-0 enabled-scroll-containers"></v-switch>
-                    <span class="student-report-sub-title" v-text="strings.sections"></span>
+
+                    <v-row>
+
+                        <v-col cols="12">
+                            <v-switch
+                                    :label="strings.enable_scroll"
+                                    v-model="scroll_mode"
+                                    class="d-flex justify-center ma-0 enabled-scroll-containers"
+                            ></v-switch>
+                        </v-col>
+
+
+                        <v-col cols="12" class="d-flex justify-space-between align-center">
+                            <span class="fliplearning-sub-title">Seleccione la Unidad de Tiempo</span>
+                            <v-btn-toggle
+                                    color="#118AB2"
+                                    group
+                            >
+                                <v-btn>
+                                    <span class="text-lowercase">horas</span>
+                                </v-btn>
+
+                                <v-btn>
+                                    <span class="text-lowercase">minutos</span>
+                                </v-btn>
+                            </v-btn-toggle>
+
+                        </v-col>
+
+                    </v-row>
+
+
+
+                    <span class="fliplearning-sub-title" v-text="strings.sections"></span>
+
+
                     <v-layout :class="['mt-5', {scroll_box : scroll_mode}]">
                         <draggable class="set-weeks-list" tag="ul" v-model="sections" group="sections">
+                            <div class="py-2 text-center grey lighten-3">
+                                <span class="">Arrastre un elemento aquí para moverlo</span>
+                            </div>
                             <li class="set-weeks-list-item" v-for="section in sections" :key="section.section">
                                 <span v-if="section_exist(section)">
                                     <v-icon left v-if="section.visible == 1" class="visibility" color="#118AB2">visibility</v-icon>
@@ -267,6 +385,47 @@
             <v-alert v-if="save_successful" type="success" dismissible dense text border="left">
                 <span v-text="strings.save_successful"></span>
             </v-alert>
+
+
+            <v-row>
+                <v-col sm="1">
+                    <v-switch :label="``" :hint="'hint'" append-icon="mdi-theme-light-dark"></v-switch>
+                    <label class="toggle-label" for="disabled">
+                        <span v-text="'asxasx'"></span>
+                    </label>
+                </v-col>
+            </v-row>
+
+
+            <v-checkbox class="pt-3"
+                        color="purple"
+                        off-icon="mdi-timer-10"
+                        on-icon="mdi-theme-light-dark"
+            ></v-checkbox>
+
+            <v-col
+                    cols="12"
+                    class="py-2"
+
+            >
+                <p>Text Options</p>
+
+                <v-btn-toggle
+                        tile
+                        color="deep-purple accent-3"
+                        group
+                        rounded
+                >
+                    <v-btn value="left">
+                        <small class="text-lowercase">hours</small>
+                    </v-btn>
+
+                    <v-btn value="center">
+                        <small class="text-lowercase">minutes</small>
+                    </v-btn>
+                </v-btn-toggle>
+            </v-col>
+
 
         </v-container>
 

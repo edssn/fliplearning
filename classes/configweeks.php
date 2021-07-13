@@ -164,7 +164,7 @@ class configweeks {
         $start = strtotime('next monday');
         $end = strtotime('next monday + 6 day') + 86399;
         $week = new stdClass();
-        $week->hours_dedications = 0;
+        $week->minutes_dedication = 0;
         $week->courseid = $this->course->id;
         $week->weekstart = $start;
         $week->weekend = $end;
@@ -421,7 +421,7 @@ class configweeks {
         $week->position = $position;
         $week->weekstart = self::to_timestamp($week->s);
         $week->weekend = self::to_timestamp($week->e) + 86399; // sumar 1 dia menos 1 milisegundo
-        $week->hours_dedications = $week->h;
+        $week->minutes_dedication = $week->h;
         $week->courseid = $this->course->id;
         $week->created_by = $this->user->id;
         $week->modified_by = $this->user->id;

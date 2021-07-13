@@ -45,7 +45,7 @@ function xmldb_local_fliplearning_upgrade($oldversion) {
     // Documentation for the XMLDB Editor can be found at:
     // https://docs.moodle.org/dev/XMLDB_editor
 
-    if ($oldversion < 2021061810) {
+    if ($oldversion < 2021062300) {
 
         // Define field email to be dropped from fliplearning_logs.
         $table = new xmldb_table('fliplearning_logs');
@@ -197,6 +197,19 @@ function xmldb_local_fliplearning_upgrade($oldversion) {
 
         // Fliplearning savepoint reached.
         upgrade_plugin_savepoint(true, 2021062300, 'local', 'fliplearning');
+    }
+
+    if ($oldversion < 2021071200) {
+
+        // Rename field hours_dedications on table fliplearning_weeks to minutes_dedication.
+        $table = new xmldb_table('fliplearning_weeks');
+        $field = new xmldb_field('hours_dedications', XMLDB_TYPE_INTEGER, '5', null, XMLDB_NOTNULL, null, '0', 'weekcode');
+
+        // Launch rename field hours_dedications.
+        $dbman->rename_field($table, $field, 'minutes_dedication');
+
+        // Fliplearning savepoint reached.
+        upgrade_plugin_savepoint(true, 2021071200, 'local', 'fliplearning');
     }
 
     return true;

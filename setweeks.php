@@ -91,7 +91,7 @@ $content = [
         "exitbutton" => get_string("fml_exitbutton","local_fliplearning"),
         "title_conditions" => get_string("tw_title_conditions","local_fliplearning"),
 
-        "hours" => get_string("fml_hours", "local_fliplearning"),
+        "minutes" => get_string("fml_minutes", "local_fliplearning"),
         "timeFrame" => get_string("tw_time_frame", "local_fliplearning"),
         "estimatedTime" => get_string("tw_estimated_time", "local_fliplearning"),
         "activitiesListDialogTitle" => get_string("tw_activities_list_dialog_title", "local_fliplearning"),

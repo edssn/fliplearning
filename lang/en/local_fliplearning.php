@@ -280,7 +280,7 @@ $string['tw_start'] = "Start:";
 $string['tw_end'] = "End:";
 $string['tw_week'] = "Week";
 $string['tw_save'] = "Save configuration";
-$string['tw_time_dedication'] = "How many hours of work do you expect students to put into your course this week?";
+$string['tw_time_dedication'] = "How many minutes of work do you expect students to put into your course this week?";
 $string['tw_enable_scroll'] = "Activate scrolling mode for weeks";
 $string['tw_label_section_removed'] = "Eliminado del curso";
 $string['tw_error_section_removed'] = "A section assigned to a week has been removed from the course, you must remove it from your schedule in order to continue.";
@@ -305,7 +305,7 @@ $string['tw_plugin_visible'] = 'Visible graphs.';
 $string['tw_plugin_hidden'] = 'Graphs hidden.';
 $string['tw_title_conditions'] = 'Terms of use';
 
-$string['tw_time_frame'] = 'time frame';
+$string['tw_time_frame'] = 'Time Frame';
 $string['tw_estimated_time'] = 'Estimated time';
 $string['tw_activities_list_dialog_title'] = 'Section Activities';
 $string['tw_activities_list_dialog_description'] = 'Set the time for the different activities';

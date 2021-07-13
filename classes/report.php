@@ -375,7 +375,8 @@ abstract class report {
 
     public function get_inverted_time_summary($inverted_time, $expected_time, $average_time = true){
         $response = new stdClass();
-        $response->expected_time = $expected_time;
+        $response->expected_time = self::minutes_to_hours($expected_time, -1);
+
         $response->expected_time_converted = self::convert_time("hours", $expected_time, "string");
         $response->inverted_time = self::minutes_to_hours($inverted_time->average, -1);
         $response->inverted_time_converted = self::convert_time("hours", $response->inverted_time, "string");

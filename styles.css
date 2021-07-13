@@ -494,10 +494,10 @@ a.fliplearning-navbar-menu-item .badge {
     border: 1px solid #0086c4;
 }
 
-#setweeks .hours-expected-selector input{
-    height: 100%;
-    padding: 0;
-}
+/*#setweeks .time-expected-selector input{*/
+/*    height: 100%;*/
+/*    padding: 0;*/
+/*}*/
 
 #setweeks .set-weeks-list{
     list-style: none;
@@ -588,6 +588,15 @@ a.fliplearning-navbar-menu-item .badge {
 
 .text-justify{
     text-align: justify !important;
+}
+
+.custom_number_input input[type='number'] {
+    -moz-appearance: textfield;
+}
+
+.custom_number_input input::-webkit-outer-spin-button,
+.custom_number_input input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
 }
 
 

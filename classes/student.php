@@ -110,7 +110,7 @@ class student extends report {
 
         $inverted_time = array_map(function($user_sessions){ return $user_sessions->summary;}, $work_sessions);
         $inverted_time = self::calculate_average("added", $inverted_time);
-        $inverted_time = self::get_inverted_time_summary($inverted_time, (int) $week->hours_dedications, false);
+        $inverted_time = self::get_inverted_time_summary($inverted_time, (int) $week->minutes_dedication, false);
 
         $response = new stdClass();
         $response->hours_sessions = $sessions;
