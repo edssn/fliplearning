@@ -65,87 +65,14 @@
                                     <v-icon v-else>keyboard_arrow_up</v-icon>
                                 </span>
                                 <span class="subtitle-1" v-text="format_name(week.name, index)"></span>
-                                <span :class="['align-self-center', 'single-button', {'hidden-button' : index == 0}]" @click="remove_week(week, index)">
+                                <span
+                                        :class="['align-self-center', 'single-button', {'hidden-button' : index == 0}]"
+                                        @click="remove_week(week, index)">
                                     <i class="material-icons">delete</i>
                                 </span>
                             </v-layout>
 
 
-<!--                            Código copiado de NMP-->
-<!--                            <v-layout justify-space-between>-->
-<!--                                <v-flex>-->
-<!--                                    <template v-if="week.collapsabled">-->
-
-<!--                                        <v-layout  mb-3 mt-3>-->
-<!--                                            <v-flex class="px-4" row justify-space-around align-center>-->
-<!--                                                <strong style="background-color: green;" class="mr-5" v-text="strings.timeFrame"></strong>-->
-<!--                                                <v-dialog-->
-<!--                                                        ref="dialog"-->
-<!--                                                        v-model="week.modal"-->
-<!--                                                        width="30%"-->
-<!--                                                        @input="savePreviousRangeStart(index)"-->
-<!--                                                >-->
-<!--                                                    <template v-slot:activator="{ on, attrs }">-->
-<!--                                                        <v-text-field-->
-<!--                                                                style="background-color: green;"-->
-<!--                                                                v-model="dateRangeText(index)"-->
-<!--                                                                prepend-icon="mdi-calendar"-->
-<!--                                                                readonly-->
-<!--                                                                v-bind="attrs"-->
-<!--                                                                v-on="on">-->
-<!--                                                        </v-text-field>-->
-<!--                                                    </template>-->
-<!--                                                    <v-date-picker-->
-<!--                                                            scrollable-->
-<!--                                                            v-model="week.dates"-->
-<!--                                                            range-->
-<!--                                                            no-title-->
-<!--                                                            full-width-->
-<!--                                                            show-adjacent-months-->
-<!--                                                            :first-day-of-week="1"-->
-<!--                                                            @click:date="saveWeek(week.dates, index)"-->
-<!--                                                            :min="week.blockDate"-->
-<!--                                                            color="#118AB2"-->
-<!--                                                    >-->
-<!--                                                    </v-date-picker>-->
-<!--                                                </v-dialog>-->
-<!--                                            </v-flex>-->
-
-<!--                                        </v-layout>-->
-
-<!--                                        <v-layout >-->
-<!--                                            <span v-text="strings.time_dedication"></span>-->
-<!--                                            <v-text-field-->
-<!--                                                    type="number"-->
-<!--                                                    min="0"-->
-<!--                                                    max="99"-->
-<!--                                                    outlined-->
-<!--                                                    v-model="week.minutes_dedication"-->
-<!--                                            ></v-text-field>-->
-
-<!--                                            <v-toolbar dense class="elevation-0">-->
-<!--                                                <v-btn-toggle-->
-<!--                                                        color="#118AB2"-->
-<!--                                                        group-->
-<!--                                                        rounded-->
-<!--                                                >-->
-<!--                                                    <v-btn>-->
-<!--                                                        <span class="text-lowercase">h</span>-->
-<!--                                                    </v-btn>-->
-
-<!--                                                    <v-btn>-->
-<!--                                                        <small class="text-lowercase">m</small>-->
-<!--                                                    </v-btn>-->
-<!--                                                </v-btn-toggle>-->
-<!--                                            </v-toolbar>-->
-
-<!--                                        </v-layout>-->
-<!--                                    </template>-->
-<!--                                </v-flex>-->
-<!--                            </v-layout>-->
-
-
-<!--                            Codigo escrito por Edisson-->
                             <v-container v-if="!week.collapsabled">
 
                                         <v-row class="align-center text-center">
@@ -186,7 +113,7 @@
                                             </v-col>
                                         </v-row>
 
-                                        <v-row>
+                                        <v-row class="align-center">
                                             <v-col cols="12" md="10" class="ma-0 pa-0">
                                                 <span v-text="strings.time_dedication"></span>
                                             </v-col>
@@ -205,6 +132,10 @@
                                         </v-row>
                             </v-container>
 
+
+                            <div class="py-2 text-center grey lighten-3">
+                                <span class="">Arrastre un elemento aquí para moverlo</span>
+                            </div>
                             <draggable
                                     v-if="!week.collapsabled"
                                     class="set-weeks-list"
@@ -212,9 +143,6 @@
                                     v-model="week.sections"
                                     group="sections"
                             >
-                                <div class="py-2 text-center grey lighten-3">
-                                    <span class="">Arrastre un elemento aquí para moverlo</span>
-                                </div>
                                 <li
                                         class="set-weeks-list-item d-flex justify-space-between"
                                         v-for="(section, fileIndex, key) in week.sections" :key="key">
@@ -226,7 +154,13 @@
                                             <v-icon left v-else class="visibility">visibility_off</v-icon>
                                         </span>
                                         <span v-else>
-                                            <v-chip small class="ma-1" color="red" text-color="white" v-text="strings.label_section_removed"></v-chip>
+                                            <v-chip
+                                                    small
+                                                    class="ma-1"
+                                                    color="red"
+                                                    text-color="white"
+                                                    v-text="strings.label_section_removed"
+                                            ></v-chip>
                                         </span>
                                         <span v-text="section_name(section)"></span>
                                     </div>
@@ -311,7 +245,6 @@
                 <v-col cols="12" md="6">
 
                     <v-row>
-
                         <v-col cols="12">
                             <v-switch
                                     :label="strings.enable_scroll"
@@ -319,7 +252,6 @@
                                     class="d-flex justify-center ma-0 enabled-scroll-containers"
                             ></v-switch>
                         </v-col>
-
 
                         <v-col cols="12" class="d-flex justify-space-between align-center">
                             <span class="fliplearning-sub-title">Seleccione la Unidad de Tiempo</span>
@@ -340,16 +272,20 @@
 
                     </v-row>
 
+                    <v-row>
+
+                        <v-col cols="12">
+                            <span class="fliplearning-sub-title" v-text="strings.sections"></span>
+                        </v-col>
+
+                    </v-row>
 
 
-                    <span class="fliplearning-sub-title" v-text="strings.sections"></span>
-
-
-                    <v-layout :class="['mt-5', {scroll_box : scroll_mode}]">
+                    <div class="py-2 text-center grey lighten-3">
+                        <span class="">Arrastre un elemento aquí para moverlo</span>
+                    </div>
+                    <v-layout :class="[{scroll_box : scroll_mode}]">
                         <draggable class="set-weeks-list" tag="ul" v-model="sections" group="sections">
-                            <div class="py-2 text-center grey lighten-3">
-                                <span class="">Arrastre un elemento aquí para moverlo</span>
-                            </div>
                             <li class="set-weeks-list-item" v-for="section in sections" :key="section.section">
                                 <span v-if="section_exist(section)">
                                     <v-icon left v-if="section.visible == 1" class="visibility" color="#118AB2">visibility</v-icon>

@@ -477,6 +477,15 @@ a.fliplearning-navbar-menu-item .badge {
     user-select: none;
 }
 
+#setweeks .v-text-field__details{
+    display: none;
+}
+
+#setweeks .new-group-container{
+    border: 2px dashed orange;
+}
+
+
 #notes .single-button{
     height: 40px;
     width: 40px;
