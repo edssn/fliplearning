@@ -306,6 +306,7 @@ $string['tw_title_conditions'] = 'Condiciones de uso';
 
 $string['tw_time_frame'] = 'Período de Tiempo';
 $string['tw_estimated_time'] = 'Tiempo Estimado';
+$string['tw_draggable_title'] = 'Arrastre un elemento aquí para moverlo';
 $string['tw_activities_list_dialog_title'] = 'Actividades de la Sección';
 $string['tw_activities_list_dialog_description'] = 'Indique el tiempo para las distintas actividades';
 

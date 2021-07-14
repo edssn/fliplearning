@@ -20,140 +20,163 @@
 
         <v-container pa-8>
 
-            <v-layout v-if="course_finished()" column class="new-group-container pa-4 mb-8 justify-center text-center">
-                <span v-text="strings.new_group_title" class="fliplearning-sub-title mb-2"></span>
-                <span v-text="strings.new_group_text"></span>
-                <v-flex d-flex justify-center>
-                    <v-switch :label="strings.new_group_button_label" v-model="new_group"></v-switch>
-                </v-flex>
-            </v-layout>
+            <v-row v-if="course_finished()" class="new-group-container ma-0 pa-0 text-center">
+                <v-col cols="12" class="pb-0">
+                    <span v-text="strings.new_group_title" class="fliplearning-sub-title"></span>
+                </v-col>
+                <v-col cols="12">
+                    <span v-text="strings.new_group_text"></span>
+                </v-col>
+                <v-col cols="12">
+                    <v-switch :label="strings.new_group_button_label" class="justify-center" v-model="new_group"></v-switch>
+                </v-col>
+            </v-row>
 
-            <v-layout column justify-center>
-                <span v-text="strings.title_conditions" class="fliplearning-sub-title text-center"></span>
-                <ul class="ul-setting d-flex justify-center">
-                    <li class="li-setting">
-                        <span :class="['setting-icon',{'setting-valid' : settings.has_students}]"></span>
-                        <span v-text="strings.requirements_has_users"></span>
-                    </li>
-                    <li class="li-setting mr-2 ml-2">
-                        <span :class="['setting-icon',{'setting-valid' : settings.course_start}]"></span>
-                        <span v-text="strings.requirements_course_start"></span>
-                    </li>
-                    <li class="li-setting">
-                        <span :class="['setting-icon',{'setting-valid' : settings.weeks}]"></span>
-                        <span v-text="strings.requirements_has_sections"></span>
-                    </li>
-                </ul>
-            </v-layout>
+            <v-row class="text-center ma-0 pa-0 mt-3">
+                <v-col cols="12">
+                    <span v-text="strings.title_conditions" class="fliplearning-sub-title text-center"></span>
+                </v-col>
+
+                <v-col cols="12" class="pa-0">
+                    <ul class="ul-setting d-flex justify-center ma-0">
+                        <li class="li-setting">
+                            <span :class="['setting-icon',{'setting-valid' : settings.has_students}]"></span>
+                            <span v-text="strings.requirements_has_users"></span>
+                        </li>
+                        <li class="li-setting mr-2 ml-2">
+                            <span :class="['setting-icon',{'setting-valid' : settings.course_start}]"></span>
+                            <span v-text="strings.requirements_course_start"></span>
+                        </li>
+                        <li class="li-setting">
+                            <span :class="['setting-icon',{'setting-valid' : settings.weeks}]"></span>
+                            <span v-text="strings.requirements_has_sections"></span>
+                        </li>
+                    </ul>
+                </v-col>
+
+            </v-row>
 
             <v-divider></v-divider>
 
             <v-row>
-                <v-col cols="12" md="6" >
-                    <v-layout class="justify-space-between align-center mb-4">
-                        <span class="fliplearning-sub-title" v-text="strings.weeks_of_course"></span>
-                        <v-btn class="fml-btn-secondary ma-0" small @click="addWeek()" v-text="strings.add_new_week"></v-btn>
-                    </v-layout>
+                <v-col cols="12" md="6">
+
+                    <v-row class="ma-0 pa-0">
+                        <v-col cols="12" sm="8">
+                            <span class="fliplearning-sub-title" v-text="strings.weeks_of_course"></span>
+                        </v-col>
+                        <v-col cols="12" sm="4">
+                            <v-btn class="fml-btn-secondary ma-0" small @click="addWeek()" v-text="strings.add_new_week"></v-btn>
+                        </v-col>
+                    </v-row>
 
                     <v-container :class="[{scroll_box : scroll_mode}, 'weeks-container', 'pa-2']">
 
                         <v-layout v-for="(week, index, key) in raw_weeks" :key="key" class="week-container pa-2" column>
 
-                            <v-layout justify-space-between>
-                                <span @click="change_collapsabled(index)" class="single-button">
-                                    <v-icon v-if="week.collapsabled">keyboard_arrow_down</v-icon>
-                                    <v-icon v-else>keyboard_arrow_up</v-icon>
-                                </span>
-                                <span class="subtitle-1" v-text="format_name(week.name, index)"></span>
-                                <span
-                                        :class="['align-self-center', 'single-button', {'hidden-button' : index == 0}]"
-                                        @click="remove_week(week, index)">
-                                    <i class="material-icons">delete</i>
-                                </span>
-                            </v-layout>
+                            <v-row class="ma-0 text-center">
+                                <v-col cols="2" >
+                                    <v-btn @click="change_collapsabled(index)" fab small>
+                                        <v-icon v-if="week.collapsabled" v-text="'keyboard_arrow_down'"></v-icon>
+                                        <v-icon v-else v-text="'keyboard_arrow_up'"></v-icon>
+                                    </v-btn>
+                                </v-col>
 
+                                <v-col cols="8" >
+                                    <span class="subtitle-1" v-text="format_name(week.name, index)"></span>
+                                </v-col>
 
-                            <v-container v-if="!week.collapsabled">
+                                <v-col cols="2" >
+                                    <v-btn
+                                            :class="['align-self-center', {'hidden-button' : index == 0}]"
+                                            fab small
+                                            @click="remove_week(week, index)">
+                                        <i class="material-icons">delete</i>
+                                    </v-btn>
+                                </v-col>
+                            </v-row>
 
-                                        <v-row class="align-center text-center">
-                                            <v-col cols="12" md="4">
-                                                <strong v-text="strings.timeFrame"></strong>
-                                            </v-col>
+                            <v-container v-if="!week.collapsabled" class="ma-0 pt-0">
 
-                                            <v-col cols="12" md="8">
-                                                <v-dialog
-                                                        ref="dialog"
-                                                        v-model="week.modal"
-                                                        width="30%"
-                                                        @input="savePreviousRangeStart(index)"
-                                                >
-                                                    <template v-slot:activator="{ on, attrs }">
-                                                        <v-text-field
-                                                                v-model="dateRangeText(index)"
-                                                                prepend-icon="mdi-calendar"
-                                                                readonly
-                                                                v-bind="attrs"
-                                                                v-on="on">
-                                                        </v-text-field>
-                                                    </template>
-                                                    <v-date-picker
-                                                            scrollable
-                                                            v-model="week.dates"
-                                                            range
-                                                            no-title
-                                                            full-width
-                                                            show-adjacent-months
-                                                            :first-day-of-week="1"
-                                                            @click:date="saveWeek(week.dates, index)"
-                                                            :min="week.blockDate"
-                                                            color="#118AB2"
-                                                    >
-                                                    </v-date-picker>
-                                                </v-dialog>
-                                            </v-col>
-                                        </v-row>
+                                <v-row class="align-center text-center">
+                                    <v-col cols="12" md="4">
+                                        <strong v-text="strings.timeFrame"></strong>
+                                    </v-col>
 
-                                        <v-row class="align-center">
-                                            <v-col cols="12" md="10" class="ma-0 pa-0">
-                                                <span v-text="strings.time_dedication"></span>
-                                            </v-col>
-
-                                            <v-col cols="6" md="2" class="ma-0 pa-0">
+                                    <v-col cols="12" md="8">
+                                        <v-dialog
+                                                ref="dialog"
+                                                v-model="week.modal"
+                                                width="30%"
+                                                @input="savePreviousRangeStart(index)"
+                                        >
+                                            <template v-slot:activator="{ on, attrs }">
                                                 <v-text-field
-                                                        type="number"
-                                                        min="0"
-                                                        outlined
-                                                        v-model="week.minutes_dedication"
-                                                        class="custom_number_input"
+                                                        v-model="dateRangeText(index)"
+                                                        prepend-icon="mdi-calendar"
+                                                        readonly
+                                                        v-bind="attrs"
+                                                        v-on="on"
                                                         hide-details
-                                                ></v-text-field>
-                                            </v-col>
+                                                >
+                                                </v-text-field>
+                                            </template>
+                                            <v-date-picker
+                                                    scrollable
+                                                    v-model="week.dates"
+                                                    range
+                                                    no-title
+                                                    full-width
+                                                    show-adjacent-months
+                                                    :first-day-of-week="1"
+                                                    @click:date="saveWeek(week.dates, index)"
+                                                    :min="week.blockDate"
+                                                    color="#118AB2"
+                                            >
+                                            </v-date-picker>
+                                        </v-dialog>
+                                    </v-col>
+                                </v-row>
 
-                                        </v-row>
-                            </v-container>
+                                <v-row class="align-center">
+                                    <v-col cols="12" md="10" class="ma-0 pt-0">
+                                        <span v-text="strings.time_dedication"></span>
+                                    </v-col>
 
+                                    <v-col cols="6" md="2" class="ma-0 pt-0">
+                                        <v-text-field
+                                                type="number"
+                                                min="0"
+                                                outlined
+                                                v-model="week.minutes_dedication"
+                                                class="custom_number_input"
+                                                hide-details
+                                        ></v-text-field>
+                                    </v-col>
+                                </v-row>
 
-                            <div class="py-2 text-center grey lighten-3">
-                                <span class="">Arrastre un elemento aquí para moverlo</span>
-                            </div>
-                            <draggable
-                                    v-if="!week.collapsabled"
-                                    class="set-weeks-list"
-                                    tag="ul"
-                                    v-model="week.sections"
-                                    group="sections"
-                            >
-                                <li
-                                        class="set-weeks-list-item d-flex justify-space-between"
-                                        v-for="(section, fileIndex, key) in week.sections" :key="key">
+                                <v-row>
+                                    <v-col class="ma-0 pa-0">
+                                        <div class="py-2 text-center grey lighten-3">
+                                            <span v-text="strings.draggableTitle"></span>
+                                        </div>
+                                        <draggable
+                                                class="set-weeks-list"
+                                                tag="ul"
+                                                v-model="week.sections"
+                                                group="sections"
+                                        >
+                                            <li
+                                                    class="set-weeks-list-item d-flex justify-space-between"
+                                                    v-for="(section, fileIndex, key) in week.sections" :key="key">
 
-                                    <div>
-                                        <strong v-text="position(fileIndex)"></strong>
-                                        <span v-if="section_exist(section)">
+                                                <div>
+                                                    <strong v-text="position(fileIndex)"></strong>
+                                                    <span v-if="section_exist(section)">
                                             <v-icon left v-if="section.visible == 1" class="visibility">visibility</v-icon>
                                             <v-icon left v-else class="visibility">visibility_off</v-icon>
                                         </span>
-                                        <span v-else>
+                                                    <span v-else>
                                             <v-chip
                                                     small
                                                     class="ma-1"
@@ -162,155 +185,143 @@
                                                     v-text="strings.label_section_removed"
                                             ></v-chip>
                                         </span>
-                                        <span v-text="section_name(section)"></span>
-                                    </div>
+                                                    <span v-text="section_name(section)"></span>
+                                                </div>
 
-                                    <small
-                                            v-if="totalTime(index, fileIndex) > 0"
-                                            v-text="strings.minutes + ': ' + totalTime(index, fileIndex)">
-                                    </small>
+                                                <small
+                                                        v-if="totalTime(index, fileIndex) > 0"
+                                                        v-text="strings.minutes + ': ' + totalTime(index, fileIndex)">
+                                                </small>
 
 
-                                    <v-dialog
-                                            persistent
-                                            max-width="600"
+                                                <v-dialog
+                                                        persistent
+                                                        max-width="600"
 
-                                    >
-                                        <template v-slot:activator="{ on, attrs }">
-                                            <v-btn icon color="primary" v-bind="attrs" v-on="on">
-                                                <v-icon color="grey lighten-1" v-text="'mdi-collage'"></v-icon>
-                                            </v-btn>
-                                        </template>
-                                        <template v-slot:default="dialog">
-                                            <v-card>
+                                                >
+                                                    <template v-slot:activator="{ on, attrs }">
+                                                        <v-btn icon color="primary" v-bind="attrs" v-on="on">
+                                                            <v-icon color="grey lighten-1" v-text="'mdi-collage'"></v-icon>
+                                                        </v-btn>
+                                                    </template>
+                                                    <template v-slot:default="dialog">
+                                                        <v-card>
 
-                                                <v-card-title class="d-flex justify-center help-dialog-title">
-                                                    <span v-text="strings.activitiesListDialogTitle"></span>
-                                                </v-card-title>
+                                                            <v-card-title class="d-flex justify-center help-dialog-title">
+                                                                <span v-text="strings.activitiesListDialogTitle"></span>
+                                                            </v-card-title>
 
-                                                <v-list three-line subheader>
-                                                    <v-subheader v-text="strings.activitiesListDialogDescription">
-                                                    </v-subheader>
-                                                    <v-list-item
-                                                            v-for="cm in week.sections[fileIndex].cms"
-                                                            :key="cm.id"
-                                                    >
-
-                                                        <v-list-item-content class="py-0">
-                                                            <v-col cols="7">
-                                                                <img :src="getModuleIcon(cm.modname)" width="25" height="25">
-                                                                <a :href="getModuleUrl(cm)" target="_blank">
-                                                                    <span v-text="cm.name"></span>
-                                                                </a>
-                                                            </v-col>
-                                                            <v-col cols="5">
-                                                                <v-text-field
-                                                                        type="number"
-                                                                        v-model="cm.hoursDedication"
-                                                                        :label="strings.estimatedTime"
-                                                                        min="0"
-                                                                        value="0"
-                                                                        :suffix="strings.minutes"
-                                                                        class="custom_number_input"
+                                                            <v-list three-line subheader>
+                                                                <v-subheader v-text="strings.activitiesListDialogDescription">
+                                                                </v-subheader>
+                                                                <v-list-item
+                                                                        v-for="cm in week.sections[fileIndex].cms"
+                                                                        :key="cm.id"
                                                                 >
-                                                                </v-text-field>
-                                                            </v-col>
-                                                        </v-list-item-content>
-                                                    </v-list-item>
-                                                </v-list>
 
-                                                <v-divider class="ma-0"></v-divider>
+                                                                    <v-list-item-content class="py-0">
+                                                                        <v-col cols="7">
+                                                                            <img :src="getModuleIcon(cm.modname)" width="25" height="25">
+                                                                            <a :href="getModuleUrl(cm)" target="_blank">
+                                                                                <span v-text="cm.name"></span>
+                                                                            </a>
+                                                                        </v-col>
+                                                                        <v-col cols="5">
+                                                                            <v-text-field
+                                                                                    type="number"
+                                                                                    v-model="cm.hoursDedication"
+                                                                                    :label="strings.estimatedTime"
+                                                                                    min="0"
+                                                                                    value="0"
+                                                                                    :suffix="strings.minutes"
+                                                                                    class="custom_number_input"
+                                                                            >
+                                                                            </v-text-field>
+                                                                        </v-col>
+                                                                    </v-list-item-content>
+                                                                </v-list-item>
+                                                            </v-list>
 
-                                                <v-card-actions class="d-flex justify-center help-dialog-footer">
-                                                    <v-btn
-                                                            @click="saveCourseModulesTime(dialog, index)"
-                                                            v-text="strings.save"
-                                                            class="ma-0 fml-btn-secondary"
-                                                            text
-                                                    ></v-btn>
-                                                </v-card-actions>
+                                                            <v-divider class="ma-0"></v-divider>
 
-                                            </v-card>
-                                        </template>
-                                    </v-dialog>
+                                                            <v-card-actions class="d-flex justify-center help-dialog-footer">
+                                                                <v-btn
+                                                                        @click="saveCourseModulesTime(dialog, index)"
+                                                                        v-text="strings.save"
+                                                                        class="ma-0 fml-btn-secondary"
+                                                                        text
+                                                                ></v-btn>
+                                                            </v-card-actions>
 
-                                </li>
+                                                        </v-card>
+                                                    </template>
+                                                </v-dialog>
 
-                            </draggable>
+                                            </li>
+
+                                        </draggable>
+                                    </v-col>
+                                </v-row>
+
+                            </v-container>
 
                         </v-layout>
                     </v-container>
                 </v-col>
 
                 <v-col cols="12" md="6">
-
                     <v-row>
-                        <v-col cols="12">
+                        <v-col cols="12" class="pt-0">
                             <v-switch
                                     :label="strings.enable_scroll"
                                     v-model="scroll_mode"
-                                    class="d-flex justify-center ma-0 enabled-scroll-containers"
+                                    class="justify-center"
+                                    hide-details
                             ></v-switch>
                         </v-col>
 
-                        <v-col cols="12" class="d-flex justify-space-between align-center">
-                            <span class="fliplearning-sub-title">Seleccione la Unidad de Tiempo</span>
-                            <v-btn-toggle
-                                    color="#118AB2"
-                                    group
-                            >
-                                <v-btn>
-                                    <span class="text-lowercase">horas</span>
-                                </v-btn>
+<!--                        Codigo para escala de tiempo-->
+<!--                        <v-col cols="12" class="d-flex justify-space-between align-center">-->
+<!--                            <span class="fliplearning-sub-title">Seleccione la Unidad de Tiempo</span>-->
+<!--                            <v-btn-toggle-->
+<!--                                    color="#118AB2"-->
+<!--                                    group-->
+<!--                            >-->
+<!--                                <v-btn>-->
+<!--                                    <span class="text-lowercase">horas</span>-->
+<!--                                </v-btn>-->
+<!--                                <v-btn>-->
+<!--                                    <span class="text-lowercase">minutos</span>-->
+<!--                                </v-btn>-->
+<!--                            </v-btn-toggle>-->
+<!--                        </v-col>-->
 
-                                <v-btn>
-                                    <span class="text-lowercase">minutos</span>
-                                </v-btn>
-                            </v-btn-toggle>
-
-                        </v-col>
-
-                    </v-row>
-
-                    <v-row>
-
-                        <v-col cols="12">
+                        <v-col cols="12" class="py-0">
                             <span class="fliplearning-sub-title" v-text="strings.sections"></span>
                         </v-col>
 
-                    </v-row>
-
-
-                    <div class="py-2 text-center grey lighten-3">
-                        <span class="">Arrastre un elemento aquí para moverlo</span>
-                    </div>
-                    <v-layout :class="[{scroll_box : scroll_mode}]">
-                        <draggable class="set-weeks-list" tag="ul" v-model="sections" group="sections">
-                            <li class="set-weeks-list-item" v-for="section in sections" :key="section.section">
+                        <v-col>
+                            <div class="py-2 text-center grey lighten-3">
+                                <span v-text="strings.draggableTitle"></span>
+                            </div>
+                            <v-layout :class="[{scroll_box : scroll_mode}]">
+                                <draggable class="set-weeks-list" tag="ul" v-model="sections" group="sections">
+                                    <li class="set-weeks-list-item" v-for="section in sections" :key="section.section">
                                 <span v-if="section_exist(section)">
                                     <v-icon left v-if="section.visible == 1" class="visibility" color="#118AB2">visibility</v-icon>
                                     <v-icon left v-else class="visibility" color="#118AB2">visibility_off</v-icon>
                                 </span>
-                                <span v-else>
+                                        <span v-else>
                                     <v-chip small class="ma-1" color="red" text-color="white" v-text="strings.label_section_removed"></v-chip>
                                 </span>
-                                <span v-text="section_name(section)"></span>
-                            </li>
-                        </draggable>
-                    </v-layout>
-                </v-col>
-            </v-row>
+                                        <span v-text="section_name(section)"></span>
+                                    </li>
+                                </draggable>
+                            </v-layout>
+                        </v-col>
+                    </v-row>
 
-            <v-row v-if="exists_mistakes">
-                <v-alert v-for="(message, index, key) in error_messages"
-                         :key="key"
-                         type="error"
-                         border="left"
-                         dense
-                        dismissible
-                >
-                    <span v-text="message"></span>
-                </v-alert>
+                </v-col>
             </v-row>
 
             <v-row class="justify-center">
@@ -318,49 +329,52 @@
                 <v-progress-linear v-if="saving_loader" indeterminate color="cyan" ></v-progress-linear>
             </v-row>
 
-            <v-alert v-if="save_successful" type="success" dismissible dense text border="left">
-                <span v-text="strings.save_successful"></span>
-            </v-alert>
-
-
-            <v-row>
-                <v-col sm="1">
-                    <v-switch :label="``" :hint="'hint'" append-icon="mdi-theme-light-dark"></v-switch>
-                    <label class="toggle-label" for="disabled">
-                        <span v-text="'asxasx'"></span>
-                    </label>
+            <v-row class="justify-center">
+                <v-col cols="8" v-if="save_successful">
+                    <v-alert type="success" dismissible dense text border="left">
+                        <span v-text="strings.save_successful"></span>
+                    </v-alert>
+                </v-col>
+                <v-col cols="8" v-if="exists_mistakes">
+                    <v-alert v-for="(message, index, key) in error_messages" :key="key"
+                            type="error" dismissible dense text border="left">
+                        <span v-text="message"></span>
+                    </v-alert>
                 </v-col>
             </v-row>
 
 
-            <v-checkbox class="pt-3"
-                        color="purple"
-                        off-icon="mdi-timer-10"
-                        on-icon="mdi-theme-light-dark"
-            ></v-checkbox>
+<!--            Prueba de selector de minutos-->
+            <v-row>
+                <v-checkbox class="pt-3"
+                            color="purple"
+                            off-icon="mdi-timer-10"
+                            on-icon="mdi-theme-light-dark"
+                ></v-checkbox>
 
-            <v-col
-                    cols="12"
-                    class="py-2"
+                <v-col
+                        cols="12"
+                        class="py-2"
 
-            >
-                <p>Text Options</p>
-
-                <v-btn-toggle
-                        tile
-                        color="deep-purple accent-3"
-                        group
-                        rounded
                 >
-                    <v-btn value="left">
-                        <small class="text-lowercase">hours</small>
-                    </v-btn>
+                    <p>Text Options</p>
 
-                    <v-btn value="center">
-                        <small class="text-lowercase">minutes</small>
-                    </v-btn>
-                </v-btn-toggle>
-            </v-col>
+                    <v-btn-toggle
+                            tile
+                            color="deep-purple accent-3"
+                            group
+                            rounded
+                    >
+                        <v-btn value="left">
+                            <small class="text-lowercase">hours</small>
+                        </v-btn>
+
+                        <v-btn value="center">
+                            <small class="text-lowercase">minutes</small>
+                        </v-btn>
+                    </v-btn-toggle>
+                </v-col>
+            </v-row>
 
 
         </v-container>
